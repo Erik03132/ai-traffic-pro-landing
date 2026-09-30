@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://erik03132.github.io/ai-traffic-pro-landing/sitemap.xml
