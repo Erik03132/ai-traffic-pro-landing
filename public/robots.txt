@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Служебные страницы — черновики документов, в индексацию не идут.
+Disallow: /privacy/
+Disallow: /consent/
+
+Sitemap: https://ai-traffic-pro.ru/sitemap.xml

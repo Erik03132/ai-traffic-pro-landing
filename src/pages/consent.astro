@@ -1,0 +1,142 @@
+---
+/**
+ * Согласие на обработку персональных данных.
+ *
+ * Документ в статусе «шаблон» — как и политика: реквизиты оператора появятся
+ * после регистрации юридического лица (CONTENT_SPEC, TODO #1–2).
+ */
+import Base from '../layouts/Base.astro';
+import { SITE } from '../data/site';
+
+const updated = '26.10.2026';
+---
+
+<Base
+  meta={{
+    title: 'Согласие на обработку персональных данных | AI-Traffic PRO',
+    description:
+      'Согласие на обработку персональных данных, отправляемых через форму заявки на сайте AI-Traffic PRO.',
+    path: '/consent/',
+    noindex: true,
+  }}
+>
+  <article class="max-w-3xl mx-auto px-margin md:px-margin-desktop py-16 md:py-24">
+    <span class="font-mono-label text-mono-label uppercase text-primary-container tracking-widest font-semibold block mb-3">
+      [ПРАВОВАЯ ИНФОРМАЦИЯ]
+    </span>
+    <h1 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-on-surface mb-4">
+      Согласие на обработку персональных данных
+    </h1>
+    <p class="font-mono-index text-mono-index text-outline mb-10">Редакция от {updated}</p>
+
+    <div class="rounded-xl border border-[#BFDBFE] bg-[#EFF6FF] p-6 mb-10">
+      <div class="flex items-start gap-3">
+        <span class="material-symbols-outlined text-primary-container text-xl mt-0.5">info</span>
+        <div>
+          <p class="font-body-md text-body-md text-on-surface leading-relaxed">
+            Шаблон согласия. Реквизиты оператора и перечень его контактов появятся после регистрации
+            юридического лица. До этого форма заявки на сайте работает в техническом режиме: данные
+            собираются, но документ не является действующим согласием.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="space-y-8">
+      <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+        Отправляя заявку через формы на сайте {SITE.url}, я, как субъект персональных данных,
+        свободно, своей волей и в своём интересе даю согласие оператору —{' '}
+        <span class="text-on-surface">
+          [наименование юридического лица, ИНН, адрес — указывается после регистрации]
+        </span>{' '}
+        — на обработку моих персональных данных на следующих условиях.
+      </p>
+
+      <section>
+        <h2 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-3">
+          Перечень персональных данных
+        </h2>
+        <ul class="space-y-2">
+          {[
+            'фамилия, имя (имя, указанное в форме);',
+            'номер телефона и/или ник в мессенджере Telegram;',
+            'наименование организации, адрес сайта или иные сведения об организации;',
+            'сведения, добровольно указанные в тексте обращения о сфере деятельности, задачах и бюджете;',
+            'иные технические данные, получаемые автоматически при отправке формы.',
+          ].map((item) => (
+            <li class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-outline text-lg mt-0.5 shrink-0">
+                remove
+              </span>
+              <span class="font-body-sm text-body-sm text-on-surface-variant">{item}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-3">
+          Цели обработки
+        </h2>
+        <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+          Обработка данных осуществляется в следующих целях: связь с пользователем по его обращению,
+          подготовка коммерческого предложения и оценки стоимости работ, заключение и исполнение
+          договора, информирование о ходе работы по обращению.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-3">
+          Перечень действий с данными
+        </h2>
+        <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+          Оператор вправе: собирать, записывать, систематизировать, накапливать, хранить, уточнять
+          (обновлять, изменять), извлекать, использовать, блокировать, удалять и уничтожать данные
+          как с использованием средств автоматизации, так и без них.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-3">
+          Срок действия и порядок отзыва
+        </h2>
+        <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+          Согласие действует до достижения целей обработки, но не более{' '}
+          <span class="text-on-surface">[срок хранения устанавливается оператором]</span>. Согласие
+          может быть отозвано в любой момент путём направления письменного уведомления оператору на
+          контакты, указанные на сайте. После отзыва оператор прекращает обработку и удаляет данные
+          в срок, установленный законодательством, если иное не предусмотрено им.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-3">
+          Подтверждение
+        </h2>
+        <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+          Я подтверждаю, что ознакомлен(а) с{' '}
+          <a class="link-underline text-primary-container" href="/privacy/">
+            политикой конфиденциальности
+          </a>
+          , что указанные мной данные являются достоверными и принадлежат мне, и что я достиг(ла)
+          возраста, с которого вправе давать такое согласие.
+        </p>
+      </section>
+    </div>
+
+    <div class="mt-14 flex flex-wrap gap-4">
+      <a
+        href="/privacy/"
+        class="inline-flex items-center justify-center px-6 py-3 rounded-lg border border-line font-body-sm text-body-sm font-medium hover:border-primary-container hover:text-primary-container transition-colors"
+      >
+        Политика конфиденциальности
+      </a>
+      <a
+        href="/"
+        class="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-primary-container text-on-primary font-body-sm text-body-sm font-semibold hover:bg-primary transition-colors"
+      >
+        На главную
+      </a>
+    </div>
+  </article>
+</Base>

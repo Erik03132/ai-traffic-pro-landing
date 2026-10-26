@@ -1,0 +1,193 @@
+@import 'tailwindcss';
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Дизайн-система AI-Traffic PRO.
+
+   Токены перенесены 1:1 из `tailwind.config` макета Stitch
+   (Manrope / Inter / JetBrains Mono, primary #2563eb).
+   Tailwind 4: имена токенов задают namespace утилит:
+   --color- → bg-/text-/border-, --text- → text-, --font- → font-,
+   --spacing- → p-/m-/gap-, --radius- → rounded-.
+   ────────────────────────────────────────────────────────────────────────── */
+@theme {
+  /* Цвета */
+  --color-primary: #004ac6;
+  --color-primary-container: #2563eb;
+  --color-on-primary: #ffffff;
+  --color-primary-fixed: #dbe1ff;
+  --color-on-primary-fixed: #00174b;
+  --color-surface: #faf8ff;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f2f3ff;
+  --color-surface-container: #eaedff;
+  --color-surface-container-high: #e2e7ff;
+  --color-surface-dim: #d2d9f4;
+  --color-on-surface: #131b2e;
+  --color-on-surface-variant: #434655;
+  /* Контурный текст. У darkened-варианта Stitch (#737686) на подложке
+     surface-container-low контраст 4.08 — ниже порога WCAG AA 4.5 для мелких
+     моно-подписей. Слегка затемняем, сохраняя тот же нейтральный тон. */
+  --color-outline: #676b7a;
+  --color-outline-variant: #c3c6d7;
+  --color-error: #ba1a1a;
+  --color-line: #e2e8f0;
+
+  /* Шрифты */
+  --font-body-lg: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-body-md: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-body-sm: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-headline-sm: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+  --font-headline-md: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+  --font-headline-lg: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+  --font-headline-xl: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+  --font-display-hero: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+  --font-mono-index: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  --font-mono-label: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+
+  /* Размеры текста (адаптивные через clamp — мобильных макетов в Stitch нет) */
+  --text-display-hero: clamp(2.4rem, 5.6vw, 4.75rem);
+  --text-display-hero--line-height: 1.08;
+  --text-display-hero--letter-spacing: -0.04em;
+  --text-display-hero--font-weight: 800;
+
+  --text-headline-xl: clamp(2rem, 4.6vw, 3.25rem);
+  --text-headline-xl--line-height: 1.1;
+  --text-headline-xl--letter-spacing: -0.035em;
+  --text-headline-xl--font-weight: 700;
+
+  --text-headline-lg: clamp(1.6rem, 3.4vw, 2.25rem);
+  --text-headline-lg--line-height: 1.2;
+  --text-headline-lg--letter-spacing: -0.025em;
+  --text-headline-lg--font-weight: 700;
+
+  --text-headline-md: 1.5rem;
+  --text-headline-md--line-height: 1.3;
+  --text-headline-md--letter-spacing: -0.015em;
+  --text-headline-md--font-weight: 600;
+
+  --text-headline-sm: 1.25rem;
+  --text-headline-sm--line-height: 1.35;
+  --text-headline-sm--letter-spacing: -0.01em;
+  --text-headline-sm--font-weight: 600;
+
+  --text-body-lg: 1.125rem;
+  --text-body-lg--line-height: 1.6;
+  --text-body-lg--letter-spacing: -0.01em;
+
+  --text-body-md: 1rem;
+  --text-body-md--line-height: 1.6;
+
+  --text-body-sm: 0.875rem;
+  --text-body-sm--line-height: 1.5;
+
+  --text-mono-index: 0.8125rem;
+  --text-mono-index--line-height: 1.2;
+  --text-mono-index--letter-spacing: 0.04em;
+  --text-mono-index--font-weight: 500;
+
+  --text-mono-label: 0.6875rem;
+  --text-mono-label--line-height: 1.2;
+  --text-mono-label--letter-spacing: 0.08em;
+  --text-mono-label--font-weight: 600;
+
+  /* Отступы */
+  --spacing-margin: 1.25rem;
+  --spacing-margin-desktop: 2.5rem;
+  --spacing-space-xs: 0.25rem;
+  --spacing-space-sm: 0.5rem;
+  --spacing-space-md: 1rem;
+  --spacing-space-lg: 1.5rem;
+  --spacing-space-xl: 2.5rem;
+  --spacing-space-2xl: 4rem;
+  --spacing-gutter: 1.5rem;
+  --spacing-gutter-desktop: 2rem;
+
+  /* Радиусы */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* якоря не заезжают под фиксированный хедер */
+    scroll-padding-top: 6rem;
+  }
+
+  body {
+    font-family: var(--font-body-md);
+    background-color: var(--color-surface);
+    color: var(--color-on-surface);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: var(--color-primary-fixed);
+    color: var(--color-on-primary-fixed);
+  }
+}
+
+@layer components {
+  /* Иконочный шрифт Material Symbols */
+  .ms {
+    font-family: 'Material Symbols Outlined';
+    font-weight: normal;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    direction: ltr;
+    font-variation-settings:
+      'FILL' 0,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 24;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .ms-filled {
+    font-variation-settings:
+      'FILL' 1,
+      'wght' 500,
+      'GRAD' 0,
+      'opsz' 24;
+  }
+
+  /* Базовое состояние ссылок */
+  .link-underline {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+  }
+}
+
+@layer utilities {
+  /* Скрываем нативный маркер у <summary> в FAQ-аккордеоне */
+  .faq-summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq-summary {
+    list-style: none;
+  }
+  .faq-summary::marker {
+    content: '';
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}

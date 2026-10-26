@@ -1,0 +1,44 @@
+---
+/**
+ * Секция `[03 / ЭТАПЫ]` — процесс из 4 этапов.
+ */
+import { PROCESS } from '../data/site';
+import { HOME } from '../data/site';
+
+const { process } = HOME;
+---
+
+<section class="w-full border-b border-line bg-surface py-20 md:py-28" id="process">
+  <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+    <div class="mb-16">
+      <span class="font-mono-label text-mono-label uppercase text-primary-container tracking-widest font-semibold block mb-2">
+        {process.eyebrow}
+      </span>
+      <h2 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-on-surface">
+        {process.title}
+      </h2>
+    </div>
+
+    <div class="relative">
+      <div class="hidden lg:block absolute top-7 left-0 right-0 h-px bg-line z-0"></div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative z-10">
+        {PROCESS.map((p) => (
+          <div class="flex flex-col bg-surface">
+            <div class="flex items-center gap-3 mb-6">
+              <span class="w-14 h-14 rounded-lg bg-surface-container-lowest border border-line flex items-center justify-center font-mono-index text-mono-index font-semibold text-primary-container">
+                {p.num}
+              </span>
+              <span class="hidden lg:block w-3 h-px bg-primary-container"></span>
+            </div>
+            <h3 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-2">
+              {p.title}
+            </h3>
+            <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              {p.text}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

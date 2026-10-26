@@ -1,0 +1,68 @@
+---
+/**
+ * Секция `[01 / НАПРАВЛЕНИЯ]` — 6 карточек услуг.
+ *
+ * Карточка ведёт на страницу услуги (а не в якорь формы): на главной
+ * 6 услуг = 6 точек входа, и заявка должна уходить со страницы услуги.
+ */
+import { SERVICES } from '../data/site';
+import { HOME } from '../data/site';
+
+const { services } = HOME;
+---
+
+<section class="w-full border-b border-line bg-surface py-20 md:py-28" id="services">
+  <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 pb-6 border-b border-line">
+      <div class="max-w-2xl">
+        <span class="font-mono-label text-mono-label uppercase text-primary-container tracking-widest font-semibold block mb-2">
+          {services.eyebrow}
+        </span>
+        <h2 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-on-surface">
+          {services.title}
+        </h2>
+      </div>
+      <p class="font-body-md text-body-md text-on-surface-variant max-w-md mt-4 md:mt-0">
+        {services.lead}
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {SERVICES.map((s) => (
+        <a
+          href={`/services/${s.slug}/`}
+          class="group flex flex-col justify-between p-8 rounded-xl border border-line bg-surface-container-lowest hover:border-primary-container transition-all duration-200"
+        >
+          <div>
+            <div class="flex items-center justify-between mb-6">
+              <span class="font-mono-index text-mono-index text-outline group-hover:text-primary-container transition-colors">
+                {s.num}
+              </span>
+              {s.badge === 'ПОИСК + AI' ? (
+                <span class="px-2.5 py-0.5 rounded border border-[#BFDBFE] bg-[#EFF6FF] text-primary-container font-mono-label text-mono-label font-semibold tracking-wider uppercase">
+                  {s.badge}
+                </span>
+              ) : (
+                <span class="material-symbols-outlined text-outline group-hover:text-primary-container text-2xl transition-colors">
+                  {s.icon}
+                </span>
+              )}
+            </div>
+            <h3 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-3 group-hover:text-primary-container transition-colors">
+              {s.title}
+            </h3>
+            <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed mb-6">
+              {s.card}
+            </p>
+          </div>
+          <div class="pt-4 border-t border-line flex items-center font-mono-index text-mono-index text-on-surface group-hover:text-primary-container font-medium">
+            <span>{services.cta}</span>
+            <span class="inline-block transform group-hover:translate-x-1.5 transition-transform duration-150 ml-1">
+              →
+            </span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

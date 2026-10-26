@@ -1,0 +1,55 @@
+---
+/**
+ * Секция «Как мы работаем» — вместо «Кейсов».
+ *
+ * Публичного портфолио нет, поэтому показываем метод, а не чужие цифры.
+ * Рядом — блок границ работы: он же работает как отсев нецелевых заявок.
+ */
+import { METHOD, BOUNDARIES } from '../data/site';
+---
+
+<section class="w-full border-b border-line bg-surface-container-lowest py-20 md:py-28" id="method">
+  <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+      <div class="lg:col-span-5">
+        <span class="font-mono-label text-mono-label uppercase text-primary-container tracking-widest font-semibold block mb-3">
+          {METHOD.eyebrow}
+        </span>
+        <h2 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-on-surface mb-6">
+          {METHOD.title}
+        </h2>
+        <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+          {METHOD.lead}
+        </p>
+      </div>
+
+      <div class="lg:col-span-7 flex flex-col border-t border-line">
+        {METHOD.items.map((item) => (
+          <div class="py-8 md:py-10 border-b border-line">
+            <span class="font-mono-label text-mono-label uppercase text-outline tracking-widest block mb-2">
+              {item.tag}
+            </span>
+            <h3 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-2">
+              {item.title}
+            </h3>
+            <p class="font-body-md text-body-md text-on-surface-variant">{item.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="mt-16 rounded-xl border border-line bg-surface-container-low p-8">
+      <span class="font-mono-label text-mono-label uppercase text-on-surface-variant tracking-widest block mb-5">
+        [ЧЕГО МЫ НЕ ДЕЛАЕМ]
+      </span>
+      <ul class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-3">
+        {BOUNDARIES.map((b) => (
+          <li class="flex items-start gap-3">
+            <span class="material-symbols-outlined text-outline text-xl mt-0.5">remove</span>
+            <span class="font-body-sm text-body-sm text-on-surface-variant">{b}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>

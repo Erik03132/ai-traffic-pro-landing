@@ -1,0 +1,320 @@
+---
+/**
+ * Форма заявки — единая для главной и страниц услуг.
+ *
+ * Отправка: POST /api/lead (обрабатывает сервер на VPS). Если эндпоинт недоступен
+ * (сайт ещё на статике) — показываем fallback: ссылка в Telegram с уже
+ * подготовленным текстом заявки. Молча «успеха» не бывает: всегда есть
+ * видимый результат — либо отправлено, либо открыт чат.
+ */
+import { FORM_FIELDS, SERVICE_OPTIONS, HOME, API, SITE } from '../data/site';
+
+interface Props {
+  /** Заранее выбранная услуга (на странице услуги). */
+  service?: string;
+  /** Уникальный id формы — на странице может быть только одна. */
+  id?: string;
+}
+
+const { service = '', id = 'lead-form' } = Astro.props;
+const { contact } = HOME;
+---
+
+<form
+  class="space-y-6"
+  id={id}
+  method="post"
+  action={API.lead}
+  novalidate
+  data-tg-bot={SITE.bot.username}
+>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div>
+      <label
+        class="block font-mono-index text-mono-index uppercase tracking-wider text-on-surface mb-2 font-medium"
+        for={`${id}-name`}
+      >
+        {FORM_FIELDS.name.label} <span class="text-error">*</span>
+      </label>
+      <input
+        class="w-full h-12 px-4 rounded-lg border border-line bg-surface-container-lowest text-on-surface placeholder:text-outline font-body-sm text-body-sm focus:outline-none focus:border-primary-container transition-colors"
+        id={`${id}-name`}
+        name="name"
+        type="text"
+        placeholder={FORM_FIELDS.name.placeholder}
+        required
+        autocomplete="name"
+      />
+      <p class="hidden text-error text-xs mt-1" data-error-for={`${id}-name`}></p>
+    </div>
+
+    <div>
+      <label
+        class="block font-mono-index text-mono-index uppercase tracking-wider text-on-surface mb-2 font-medium"
+        for={`${id}-contact`}
+      >
+        {FORM_FIELDS.contact.label} <span class="text-error">*</span>
+      </label>
+      <input
+        class="w-full h-12 px-4 rounded-lg border border-line bg-surface-container-lowest text-on-surface placeholder:text-outline font-body-sm text-body-sm focus:outline-none focus:border-primary-container transition-colors"
+        id={`${id}-contact`}
+        name="contact"
+        type="text"
+        placeholder={FORM_FIELDS.contact.placeholder}
+        required
+        autocomplete="tel"
+      />
+      <p class="hidden text-error text-xs mt-1" data-error-for={`${id}-contact`}></p>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div>
+      <label
+        class="block font-mono-index text-mono-index uppercase tracking-wider text-on-surface mb-2 font-medium"
+        for={`${id}-business`}
+      >
+        {FORM_FIELDS.business.label}
+      </label>
+      <input
+        class="w-full h-12 px-4 rounded-lg border border-line bg-surface-container-lowest text-on-surface placeholder:text-outline font-body-sm text-body-sm focus:outline-none focus:border-primary-container transition-colors"
+        id={`${id}-business`}
+        name="business"
+        type="text"
+        placeholder={FORM_FIELDS.business.placeholder}
+      />
+    </div>
+
+    <div>
+      <label
+        class="block font-mono-index text-mono-index uppercase tracking-wider text-on-surface mb-2 font-medium"
+        for={`${id}-service`}
+      >
+        {FORM_FIELDS.service.label} <span class="text-error">*</span>
+      </label>
+      <select
+        class="w-full h-12 px-4 rounded-lg border border-line bg-surface-container-lowest text-on-surface font-body-sm text-body-sm focus:outline-none focus:border-primary-container transition-colors cursor-pointer"
+        id={`${id}-service`}
+        name="service"
+        required
+      >
+        {SERVICE_OPTIONS.map((opt) => (
+          <option value={opt.value} selected={opt.value === service}>
+            {opt.label}
+          </option>
+        ))}
+      </select>
+    </div>
+  </div>
+
+  <div>
+    <label
+      class="block font-mono-index text-mono-index uppercase tracking-wider text-on-surface mb-2 font-medium"
+      for={`${id}-comment`}
+    >
+      {FORM_FIELDS.comment.label}
+    </label>
+    <textarea
+      class="w-full p-4 rounded-lg border border-line bg-surface-container-lowest text-on-surface placeholder:text-outline font-body-sm text-body-sm focus:outline-none focus:border-primary-container transition-colors resize-none"
+      id={`${id}-comment`}
+      name="comment"
+      rows="3"
+      placeholder={FORM_FIELDS.comment.placeholder}
+    ></textarea>
+  </div>
+
+  <div class="flex items-start gap-3 pt-1">
+    <input
+      class="mt-1 w-4 h-4 rounded border-line text-primary-container focus:ring-0 cursor-pointer"
+      id={`${id}-consent`}
+      name="consent"
+      type="checkbox"
+      required
+    />
+    <label
+      class="font-body-sm text-body-sm text-on-surface-variant cursor-pointer select-none"
+      for={`${id}-consent`}
+    >
+      {FORM_FIELDS.consent}
+      <a class="link-underline hover:text-primary-container transition-colors" href="/consent/">
+        Подробнее
+      </a>
+    </label>
+  </div>
+
+  <p class="font-body-sm text-xs text-outline">{contact.consentNote}</p>
+
+  <!-- Honeypot: боты заполняют скрытое поле, humans — нет. -->
+  <div class="hidden" aria-hidden="true">
+    <label for={`${id}-website`}>Не заполняйте это поле</label>
+    <input id={`${id}-website`} name="website" type="text" tabindex="-1" autocomplete="off" />
+  </div>
+
+  <button
+    class="w-full h-12 rounded-lg bg-primary-container text-on-primary font-body-sm text-body-sm font-semibold hover:bg-primary transition-all duration-150 flex items-center justify-center active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed"
+    type="submit"
+    data-submit
+  >
+    {contact.submit}
+  </button>
+
+  <div
+    class="hidden p-4 rounded-lg bg-surface-container-low border border-primary-container/30 text-on-surface"
+    data-status="success"
+    role="status"
+    aria-live="polite"
+  >
+    <div class="flex items-center gap-3">
+      <span class="material-symbols-outlined text-primary-container text-2xl">task_alt</span>
+      <div>
+        <h4 class="font-headline-sm text-sm font-bold">{contact.successTitle}</h4>
+        <p class="font-body-sm text-xs text-on-surface-variant mt-0.5">{contact.successText}</p>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="hidden p-4 rounded-lg border border-error/40 bg-surface-container-low text-on-surface"
+    data-status="error"
+    role="alert"
+  >
+    <div class="flex items-start gap-3">
+      <span class="material-symbols-outlined text-error text-2xl">error</span>
+      <div>
+        <h4 class="font-headline-sm text-sm font-bold">Заявка не отправлена</h4>
+        <p class="font-body-sm text-xs text-on-surface-variant mt-0.5" data-error-text>
+          {contact.errorText}
+        </p>
+        <a
+          class="inline-flex items-center gap-1 mt-2 font-body-sm text-sm font-semibold text-primary-container hover:underline"
+          data-telegram-fallback
+          href="#"
+          target="_blank"
+          rel="noopener"
+        >
+          Отправить в Telegram <span>→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</form>
+
+<script>
+  /**
+   * Отправка формы. Логика:
+   * 1. Клиентская валидация (имя, контакт, согласие).
+   * 2. POST /api/lead.
+   * 3. Успех → баннер «Заявка отправлена».
+   * 4. Ошибка/нет API → баннер ошибки + ссылка в Telegram с готовым текстом.
+   */
+  const forms = document.querySelectorAll<HTMLFormElement>('form[id]');
+
+  for (const form of forms) {
+    const id = form.id;
+    const submitBtn = form.querySelector<HTMLButtonElement>('[data-submit]');
+    const success = form.querySelector<HTMLElement>('[data-status="success"]');
+    const errorBox = form.querySelector<HTMLElement>('[data-status="error"]');
+    const errorText = form.querySelector<HTMLElement>('[data-error-text]');
+    const tgFallback = form.querySelector<HTMLAnchorElement>('[data-telegram-fallback]');
+
+    const setError = (field: string, message: string) => {
+      const input = form.querySelector<HTMLElement>(`#${CSS.escape(id + '-' + field)}`);
+      const hint = form.querySelector<HTMLElement>(`[data-error-for="${id}-${field}"]`);
+      if (input) input.classList.add('border-error');
+      if (hint) {
+        hint.textContent = message;
+        hint.classList.remove('hidden');
+      }
+    };
+
+    const clearErrors = () => {
+      form
+        .querySelectorAll<HTMLElement>('.border-error')
+        .forEach((el) => el.classList.remove('border-error'));
+      form.querySelectorAll<HTMLElement>('[data-error-for]').forEach((el) => {
+        el.textContent = '';
+        el.classList.add('hidden');
+      });
+    };
+
+    const telegramLink = (data: Record<string, string>) => {
+      const bot = form.dataset.tgBot ?? 'aibureau_bot';
+      const lines = [
+        `Заявка с сайта ${window.location.host}`,
+        '',
+        `Имя: ${data.name}`,
+        `Контакт: ${data.contact}`,
+        `Услуга: ${data.service}`,
+        data.business ? `Компания / сайт: ${data.business}` : '',
+        data.comment ? `О проекте: ${data.comment}` : '',
+      ].filter(Boolean);
+      return `https://t.me/${bot}?text=${encodeURIComponent(lines.join('\n'))}`;
+    };
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      clearErrors();
+      success?.classList.add('hidden');
+      errorBox?.classList.add('hidden');
+
+      const data = Object.fromEntries(new FormData(form).entries()) as Record<string, string>;
+
+      // Honeypot: молча игнорируем, но показываем «успех», чтобы бот не подбирал ввод.
+      if (data.website) {
+        success?.classList.remove('hidden');
+        form.reset();
+        return;
+      }
+
+      let valid = true;
+      if (!data.name?.trim()) {
+        setError('name', 'Укажите имя — так проще ответить.');
+        valid = false;
+      }
+      if (!data.contact?.trim()) {
+        setError('contact', 'Укажите телефон или Telegram для связи.');
+        valid = false;
+      }
+      if (!form.querySelector<HTMLInputElement>(`#${CSS.escape(id + '-consent')}`)?.checked) {
+        valid = false;
+        errorText && (errorText.textContent = 'Нужно согласие на обработку персональных данных.');
+        errorBox?.classList.remove('hidden');
+      }
+      if (!valid) return;
+
+      const originalLabel = submitBtn?.textContent ?? '';
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Отправка…';
+      }
+
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...data, source: window.location.pathname }),
+        });
+
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+
+        form.reset();
+        success?.classList.remove('hidden');
+        success?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      } catch (err) {
+        console.error('Lead submit failed:', err);
+        if (tgFallback) tgFallback.href = telegramLink(data);
+        if (errorText) {
+          errorText.textContent =
+            'Не получилось отправить. Напишите нам в Telegram — ссылка справа внизу.';
+        }
+        errorBox?.classList.remove('hidden');
+        errorBox?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalLabel;
+        }
+      }
+    });
+  }
+</script>

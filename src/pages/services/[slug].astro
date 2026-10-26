@@ -1,0 +1,364 @@
+---
+/**
+ * Страница услуги. Один шаблон на все 7 страниц (6 основных + маркетплейс).
+ *
+ * Всё содержимое — из `src/data/site.ts`: тексты, мета, FAQ. Здесь нет ни одного
+ * захардкоженного заголовка. На странице есть рабочая форма (LeadForm).
+ */
+import type { GetStaticPaths } from 'astro';
+
+import Base from '../../layouts/Base.astro';
+import LeadForm from '../../components/LeadForm.astro';
+import Faq from '../../components/Faq.astro';
+
+import { ALL_SERVICES, SERVICES, type Service } from '../../data/site';
+import { organizationLd, serviceLd, faqLd } from '../../lib/seo';
+
+export const getStaticPaths = (() =>
+  ALL_SERVICES.map((service) => ({
+    params: { slug: service.slug },
+    props: { service },
+  }))) satisfies GetStaticPaths;
+
+interface Props {
+  service: Service;
+}
+
+const { service } = Astro.props;
+const path = `/services/${service.slug}/`;
+const isMain = service.inMain;
+
+// JSON-LD: организация + сайт (общие) + услуга + её FAQ.
+const ld = [
+  ...organizationLd().filter((o) => o['@type'] !== 'Service' && o['@type'] !== 'FAQPage'),
+  serviceLd(service.slug),
+  faqLd(service.faq),
+].filter(Boolean);
+
+const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
+---
+
+<Base
+  meta={{
+    title: service.seoTitle,
+    description: service.seoDescription,
+    path,
+    type: 'website',
+  }}
+  ld={ld as Record<string, unknown>[]}
+  localFaq
+  localContact
+>
+  <!-- Хлебные крошки -->
+  <nav aria-label="Хлебные крошки" class="bg-surface-container-lowest border-b border-line">
+    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop py-4">
+      <ol class="flex flex-wrap items-center gap-2 font-mono-index text-mono-index text-on-surface-variant">
+        <li>
+          <a href="/" class="hover:text-primary-container transition-colors">
+            Главная
+          </a>
+        </li>
+        <li aria-hidden="true" class="text-outline">
+          /
+        </li>
+        <li>
+          <a href="/#services" class="hover:text-primary-container transition-colors">
+            Услуги
+          </a>
+        </li>
+        <li aria-hidden="true" class="text-outline">
+          /
+        </li>
+        <li class="text-on-surface" aria-current="page">
+          {service.title}
+        </li>
+      </ol>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="w-full border-b border-line bg-surface-container-lowest">
+    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop py-16 md:py-24">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        <div class="lg:col-span-8">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="w-11 h-11 rounded-lg bg-surface-container-lowest border border-line flex items-center justify-center font-mono-index text-mono-index font-semibold text-primary-container">
+              {service.num}
+            </span>
+            <span class="px-2.5 py-0.5 rounded border border-[#BFDBFE] bg-[#EFF6FF] text-primary-container font-mono-label text-mono-label font-semibold tracking-wider uppercase">
+              {service.badge}
+            </span>
+          </div>
+
+          <h1 class="font-headline-xl text-headline-lg md:text-headline-xl font-extrabold tracking-tight text-on-surface mb-5">
+            {service.h1}
+          </h1>
+          <p class="font-body-lg text-body-lg text-on-surface-variant max-w-3xl leading-relaxed">
+            {service.subtitle}
+          </p>
+
+          <div class="mt-8 flex flex-col sm:flex-row gap-4">
+            <a
+              href="#lead"
+              class="inline-flex items-center justify-center px-7 py-3.5 rounded-lg bg-primary-container text-on-primary font-body-sm text-body-sm font-semibold hover:bg-primary transition-all duration-150 text-center active:scale-[0.99]"
+            >
+              Оставить заявку
+            </a>
+            <a
+              href="#what-included"
+              class="inline-flex items-center justify-center px-7 py-3.5 rounded-lg border border-line bg-surface-container-lowest text-on-surface font-body-sm text-body-sm font-medium hover:border-primary-container hover:text-primary-container transition-colors text-center"
+            >
+              Что входит
+            </a>
+          </div>
+        </div>
+
+        <div class="lg:col-span-4">
+          <div class="rounded-xl border border-line bg-surface-container-low p-6 space-y-4">
+            <div>
+              <span class="font-mono-label text-mono-label uppercase text-outline block">
+                Метрика
+              </span>
+              <span class="font-body-md text-body-md text-on-surface">{service.metric}</span>
+            </div>
+            <div class="border-t border-line pt-4">
+              <span class="font-mono-label text-mono-label uppercase text-outline block">
+                Кому подходит
+              </span>
+              <span class="font-body-md text-body-md text-on-surface">{service.forWhom}</span>
+            </div>
+            <div class="border-t border-line pt-4">
+              <span class="font-mono-label text-mono-label uppercase text-outline block">
+                Стоимость
+              </span>
+              <span class="font-body-md text-body-md text-on-surface">
+                По запросу — считаем после короткой вводной.
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Кому подходит -->
+  <section class="w-full border-b border-line bg-surface py-20 md:py-28">
+    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+      <div class="mb-14">
+        <span class="font-mono-label text-mono-label uppercase text-primary-container tracking-widest font-semibold block mb-2">
+          [01 / КОМУ ПОДХОДИТ]
+        </span>
+        <h2 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-on-surface">
+          Кому эта услуга решает задачу
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {service.audience.map((a) => (
+          <div class="rounded-xl border border-line bg-surface-container-lowest p-8">
+            <h3 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-2">
+              {a.title}
+            </h3>
+            <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              {a.text}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Как это работает -->
+  <section class="w-full border-b border-line bg-surface-container-lowest py-20 md:py-28">
+    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+      <div class="mb-14">
+        <span class="font-mono-label text-mono-label uppercase text-primary-container tracking-widest font-semibold block mb-2">
+          [02 / КАК ЭТО РАБОТАЕТ]
+        </span>
+        <h2 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-on-surface">
+          Четыре шага до результата
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {service.steps.map((s) => (
+          <div class="flex flex-col">
+            <div class="flex items-center gap-3 mb-6">
+              <span class="w-14 h-14 rounded-lg bg-surface-container-lowest border border-line flex items-center justify-center font-mono-index text-mono-index font-semibold text-primary-container">
+                {service.steps.indexOf(s) + 1}
+              </span>
+              <span class="hidden lg:block w-3 h-px bg-primary-container" />
+            </div>
+            <h3 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-2">
+              {s.title}
+            </h3>
+            <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              {s.text}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Что входит + что получите -->
+  <section class="w-full border-b border-line bg-surface py-20 md:py-28" id="what-included">
+    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+        <div class="lg:col-span-7">
+          <span class="font-mono-label text-mono-label uppercase text-primary-container tracking-widest font-semibold block mb-2">
+            [03 / ЧТО ВХОДИТ]
+          </span>
+          <h2 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-on-surface mb-8">
+            Что входит в работу
+          </h2>
+
+          <ul class="border-t border-line">
+            {service.includes.map((item) => (
+              <li class="flex items-start gap-3 py-5 border-b border-line">
+                <span class="material-symbols-outlined text-primary-container text-xl mt-0.5 shrink-0">
+                  check_circle
+                </span>
+                <span class="font-body-md text-body-md text-on-surface">{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="lg:col-span-5">
+          <div class="rounded-xl border border-line bg-surface-container-low p-8 lg:sticky lg:top-28">
+            <span class="font-mono-label text-mono-label uppercase text-outline tracking-widest block mb-6">
+              [ЧТО ВЫ ПОЛУЧИТЕ]
+            </span>
+            <ul class="space-y-5">
+              {service.outcomes.map((o) => (
+                <li class="flex items-start gap-3">
+                  <span class="material-symbols-outlined text-primary-container text-xl mt-0.5 shrink-0">
+                    arrow_forward
+                  </span>
+                  <span class="font-body-sm text-body-sm text-on-surface leading-relaxed">{o}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ услуги -->
+  <Faq
+    items={service.faq}
+    eyebrow="[04 / ВОПРОСЫ И ОТВЕТЫ]"
+    title={`Вопросы и ответы по услуге «${service.title}»`}
+    id="faq"
+  />
+
+  <!-- Форма заявки -->
+  <section class="w-full border-t border-line bg-surface-container-low py-20 md:py-28" id="lead">
+    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+      <div class="border border-line bg-surface-container-lowest rounded-2xl p-8 md:p-14">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+          <div class="lg:col-span-5">
+            <span class="font-mono-label text-mono-label uppercase text-primary-container tracking-widest font-semibold block mb-3">
+              [05 / ЗАЯВКА]
+            </span>
+            <h2 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-on-surface mb-6">
+              Оставьте заявку — свяжемся в течение рабочего дня
+            </h2>
+            <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-8">
+              Расскажите о задаче — вернёмся с конкретным планом и оценкой. Без обязательств.
+            </p>
+
+            <div class="p-6 rounded-lg border border-line bg-surface-container-low space-y-4">
+              <div class="flex items-start gap-3">
+                <span class="material-symbols-outlined text-primary-container text-xl mt-0.5">
+                  check_circle
+                </span>
+                <span class="font-body-sm text-body-sm text-on-surface">
+                  Отвечаем в течение рабочего дня
+                </span>
+              </div>
+              <div class="flex items-start gap-3">
+                <span class="material-symbols-outlined text-primary-container text-xl mt-0.5">
+                  check_circle
+                </span>
+                <span class="font-body-sm text-body-sm text-on-surface">
+                  План первоначальных гипотез на встрече
+                </span>
+              </div>
+              <div class="flex items-start gap-3">
+                <span class="material-symbols-outlined text-primary-container text-xl mt-0.5">
+                  check_circle
+                </span>
+                <span class="font-body-sm text-body-sm text-on-surface">
+                  Без навязывания лишних пакетов
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-7">
+            <LeadForm id="service-form" service={service.slug} />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Другие услуги -->
+  <section class="w-full bg-surface py-20 md:py-28">
+    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+      <div class="mb-12">
+        <span class="font-mono-label text-mono-label uppercase text-primary-container tracking-widest font-semibold block mb-2">
+          [06 / ДРУГИЕ НАПРАВЛЕНИЯ]
+        </span>
+        <h2 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-on-surface">
+          Что ещё мы делаем
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {otherServices.map((s) => (
+          <a
+            href={`/services/${s.slug}/`}
+            class="group flex flex-col justify-between p-8 rounded-xl border border-line bg-surface-container-lowest hover:border-primary-container transition-all duration-200"
+          >
+            <div>
+              <div class="flex items-center justify-between mb-6">
+                <span class="font-mono-index text-mono-index text-outline group-hover:text-primary-container transition-colors">
+                  {s.num}
+                </span>
+                <span class="material-symbols-outlined text-outline group-hover:text-primary-container text-2xl transition-colors">
+                  {s.icon}
+                </span>
+              </div>
+              <h3 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-3 group-hover:text-primary-container transition-colors">
+                {s.title}
+              </h3>
+              <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+                {s.card}
+              </p>
+            </div>
+            <div class="pt-4 mt-6 border-t border-line flex items-center font-mono-index text-mono-index text-on-surface group-hover:text-primary-container font-medium">
+              <span>Подробнее об услуге</span>
+              <span class="inline-block transform group-hover:translate-x-1.5 transition-transform duration-150 ml-1">
+                →
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      {!isMain && (
+        <p class="mt-10 font-body-sm text-body-sm text-on-surface-variant">
+          Нужно что-то из соседних направлений?{' '}
+          <a class="link-underline text-primary-container hover:underline" href="/#services">
+            Посмотрите все шесть услуг
+          </a>
+          .
+        </p>
+      )}
+    </div>
+  </section>
+</Base>

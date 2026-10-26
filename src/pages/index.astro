@@ -1,0 +1,41 @@
+---
+/**
+ * Главная страница. Порядок секций — как в макете Stitch:
+ * hero → [01] направления → [02] подход → [03] этапы →
+ * [04] как мы работаем → [05] обсуждение → [06] вопросы и ответы.
+ */
+import Base from '../layouts/Base.astro';
+
+import Hero from '../components/Hero.astro';
+import Services from '../components/Services.astro';
+import Approach from '../components/Approach.astro';
+import Process from '../components/Process.astro';
+import Method from '../components/Method.astro';
+import ContactSection from '../components/ContactSection.astro';
+import Faq from '../components/Faq.astro';
+
+import { HOME, FAQ } from '../data/site';
+import { organizationLd } from '../lib/seo';
+
+const { meta } = HOME;
+---
+
+<Base
+  meta={{ title: meta.title, description: meta.description, path: '/' }}
+  ld={organizationLd()}
+  isHome
+>
+  <Hero />
+  <Services />
+  <Approach />
+  <Process />
+  <Method />
+  <ContactSection />
+  <Faq
+    items={FAQ}
+    eyebrow={HOME.faq.eyebrow}
+    title={HOME.faq.title}
+    lead={HOME.faq.lead}
+    id="faq"
+  />
+</Base>

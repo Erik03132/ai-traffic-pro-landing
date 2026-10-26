@@ -1,0 +1,104 @@
+---
+/**
+ * Футер: логотип, 6 услуг (из единого источника), правовая информация, контакты.
+ *
+ * Всё, что ведёт в пустоту, на прод не выносим: ссылки без `href` до готовности.
+ */
+import { SITE, SERVICES } from '../data/site';
+
+const legalLinks = [
+  { label: 'Политика конфиденциальности', href: '/privacy/' },
+  { label: 'Согласие на обработку персональных данных', href: '/consent/' },
+];
+
+const contacts = [
+  { label: 'Telegram', value: `@${SITE.bot.username}`, href: SITE.bot.link },
+  {
+    label: 'Email',
+    value: SITE.legal.email,
+    href: SITE.legal.email ? `mailto:${SITE.legal.email}` : '',
+  },
+  {
+    label: 'Телефон',
+    value: SITE.legal.phone,
+    href: SITE.legal.phone ? `tel:${SITE.legal.phone}` : '',
+  },
+].filter((c) => c.value);
+---
+
+<footer class="w-full bg-surface-container-lowest border-t border-line py-space-xl">
+  <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop grid grid-cols-1 md:grid-cols-12 gap-gutter-desktop">
+    <div class="md:col-span-5 flex flex-col justify-between pr-space-md">
+      <div class="space-y-space-sm">
+        <div class="flex items-center gap-1">
+          <span class="font-headline-sm text-headline-sm text-on-surface tracking-tight">
+            AI-Traffic PRO
+          </span>
+          <span class="h-2 w-2 rounded-full bg-primary-container inline-block"></span>
+        </div>
+        <p class="font-body-md text-body-md text-on-surface-variant max-w-sm">{SITE.tagline}</p>
+      </div>
+      <div class="mt-space-lg">
+        <span class="font-mono-label text-mono-label uppercase text-outline">
+          AI-TRAFFIC PRO · 2026
+        </span>
+      </div>
+    </div>
+
+    <div class="md:col-span-4 flex flex-col space-y-space-sm">
+      <span class="font-mono-label text-mono-label uppercase text-outline tracking-wider">
+        [01 / УСЛУГИ]
+      </span>
+      <div class="flex flex-col space-y-space-xs">
+        {SERVICES.map((s) => (
+          <a
+            href={`/services/${s.slug}/`}
+            class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary-container transition-colors"
+          >
+            {s.title}
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <div class="md:col-span-3 flex flex-col space-y-space-sm">
+      <span class="font-mono-label text-mono-label uppercase text-outline tracking-wider">
+        [02 / ПРАВОВАЯ ИНФОРМАЦИЯ]
+      </span>
+      <div class="flex flex-col space-y-space-xs">
+        {legalLinks.map((l) => (
+          <a
+            href={l.href}
+            class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary-container transition-colors"
+          >
+            {l.label}
+          </a>
+        ))}
+      </div>
+
+      {contacts.length > 0 && (
+        <div class="mt-space-lg flex flex-col space-y-space-xs">
+          <span class="font-mono-label text-mono-label uppercase text-outline tracking-wider">
+            [03 / КОНТАКТЫ]
+          </span>
+          {contacts.map((c) =>
+            c.href ? (
+              <a
+                href={c.href}
+                target={c.href.startsWith('http') ? '_blank' : undefined}
+                rel={c.href.startsWith('http') ? 'noopener' : undefined}
+                class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary-container transition-colors"
+              >
+                {c.label}: {c.value}
+              </a>
+            ) : (
+              <span class="font-body-sm text-body-sm text-on-surface-variant">
+                {c.label}: {c.value}
+              </span>
+            ),
+          )}
+        </div>
+      )}
+    </div>
+  </div>
+</footer>

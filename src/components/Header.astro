@@ -1,0 +1,115 @@
+---
+/**
+ * Хедер: логотип, навигация, CTA.
+ *
+ * Якоря работают на главной (`/#services`), на остальных страницах — абсолютные,
+ * чтобы не попадать в несуществующий якорь текущей страницы.
+ */
+import { SITE, NAV } from '../data/site';
+
+interface Props {
+  /** На главной якоря локальные, на других страницах — абсолютные. */
+  isHome?: boolean;
+  /**
+   * На странице услуги FAQ и форма свои — ведём на локальные якоря,
+   * чтобы не выбрасывать посетителя на главную.
+   */
+  localFaq?: boolean;
+  localContact?: boolean;
+}
+
+const { isHome = false, localFaq = false, localContact = false } = Astro.props;
+
+const href = (h: string) => {
+  if (isHome || !h.startsWith('#')) return h;
+  if (h === '#faq' && localFaq) return '#faq';
+  if (h === '#contact' && localContact) return '#lead';
+  return `/${h}`;
+};
+---
+
+<header class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest border-b border-line">
+  <div class="h-[72px] max-w-[1280px] mx-auto px-margin md:px-margin-desktop flex items-center justify-between">
+    <a href="/" class="flex items-center gap-1 group">
+      <span class="font-headline-sm text-headline-sm text-on-surface tracking-tight">
+        AI-Traffic-Pro
+      </span>
+      <span class="h-2 w-2 rounded-full bg-primary-container inline-block transition-transform duration-200 group-hover:scale-125"></span>
+    </a>
+
+    <nav class="hidden md:flex items-center gap-space-lg" aria-label="Основная навигация">
+      {NAV.map((item) => (
+        <a
+          href={href(item.href)}
+          class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors"
+        >
+          {item.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="flex items-center gap-space-md">
+      <a
+        href={href('#contact')}
+        class="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-primary-container text-on-primary font-body-sm text-body-sm font-semibold hover:bg-primary transition-colors duration-150"
+      >
+        Обсудить проект
+      </a>
+
+      <button
+        type="button"
+        id="mobile-menu-toggle"
+        class="md:hidden w-10 h-10 rounded-lg border border-line flex items-center justify-center"
+        aria-label="Открыть меню"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <span class="ms text-[22px]">menu</span>
+      </button>
+    </div>
+  </div>
+
+  <div id="mobile-menu" class="md:hidden hidden border-t border-line bg-surface-container-lowest">
+    <nav
+      class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop py-4 flex flex-col"
+      aria-label="Мобильная навигация"
+    >
+      {NAV.map((item) => (
+        <a
+          href={href(item.href)}
+          class="py-3 font-body-md text-body-md text-on-surface-variant border-b border-line last:border-0"
+        >
+          {item.label}
+        </a>
+      ))}
+      <a
+        href={SITE.bot.askLink}
+        target="_blank"
+        rel="noopener"
+        class="mt-4 inline-flex items-center justify-center px-6 py-3 rounded-lg border border-line font-body-sm text-body-sm font-medium"
+      >
+        Задать вопрос в Telegram
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const toggle = document.getElementById('mobile-menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+
+  toggle?.addEventListener('click', () => {
+    const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!isOpen));
+    toggle.setAttribute('aria-label', isOpen ? 'Открыть меню' : 'Закрыть меню');
+    menu?.classList.toggle('hidden', isOpen);
+  });
+
+  // Закрываем меню при переходе по ссылке (мобильная навигация).
+  menu?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      toggle?.setAttribute('aria-expanded', 'false');
+      menu.classList.add('hidden');
+    });
+  });
+</script>

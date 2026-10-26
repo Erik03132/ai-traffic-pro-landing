@@ -1,0 +1,239 @@
+---
+/**
+ * Виджет агента в правом нижнем углу.
+ *
+ * Работает как чат на странице: сообщения уходят в `/api/chat` (на VPS там
+ * RAG + LLM). Если API недоступен — виджет не молчит, а предлагает написать
+ * в Telegram (живой человек), сохраняя текст вопроса.
+ */
+import { SITE, API } from '../data/site';
+---
+
+<div class="fixed bottom-5 right-5 z-[60] flex flex-col items-end gap-3 print:hidden">
+  <!-- Панель чата -->
+  <div
+    id="chat-panel"
+    class="hidden w-[calc(100vw-2.5rem)] max-w-[380px] h-[min(560px,calc(100vh-8rem))] bg-surface-container-lowest border border-line rounded-2xl shadow-[0_24px_60px_-20px_rgba(19,27,46,0.28)] flex flex-col overflow-hidden"
+    role="dialog"
+    aria-label="Чат с агентом"
+    aria-modal="false"
+  >
+    <div class="flex items-start justify-between gap-3 px-5 py-4 border-b border-line bg-surface-container-low">
+      <div>
+        <p class="font-headline-sm text-headline-sm font-bold text-on-surface">AI-Traffic PRO</p>
+        <p class="font-mono-index text-mono-index text-on-surface-variant mt-0.5">
+          Отвечает по услугам и ценам
+        </p>
+      </div>
+      <button
+        type="button"
+        id="chat-close"
+        class="w-8 h-8 rounded-lg border border-line flex items-center justify-center hover:border-primary-container transition-colors shrink-0"
+        aria-label="Закрыть чат"
+      >
+        <span class="material-symbols-outlined text-[18px]">close</span>
+      </button>
+    </div>
+
+    <div id="chat-log" class="flex-1 overflow-y-auto px-5 py-4 space-y-3" aria-live="polite">
+      <div class="chat-bubble-bot font-body-sm text-body-sm text-on-surface bg-surface-container-low border border-line rounded-xl rounded-tl-sm px-3.5 py-2.5 leading-relaxed">
+        Здравствуйте. Спросите про услуги, сроки или стоимость — отвечу по делу.
+      </div>
+    </div>
+
+    <div class="px-5 pb-3">
+      <div id="chat-chips" class="flex flex-wrap gap-2 mb-3">
+        {['Какие услуги вы делаете?', 'Сколько стоит работа?', 'С чего начать?'].map((q) => (
+          <button
+            type="button"
+            class="chat-chip font-body-sm text-xs px-3 py-1.5 rounded-full border border-line text-on-surface-variant hover:border-primary-container hover:text-primary-container transition-colors"
+            data-chip={q}
+          >
+            {q}
+          </button>
+        ))}
+      </div>
+
+      <form id="chat-form" class="flex items-center gap-2">
+        <input
+          id="chat-input"
+          type="text"
+          autocomplete="off"
+          placeholder="Ваш вопрос…"
+          aria-label="Ваш вопрос"
+          class="flex-1 h-11 px-3.5 rounded-lg border border-line bg-surface-container-lowest text-on-surface placeholder:text-outline font-body-sm text-body-sm focus:outline-none focus:border-primary-container transition-colors"
+        />
+        <button
+          type="submit"
+          aria-label="Отправить"
+          class="w-11 h-11 rounded-lg bg-primary-container text-on-primary flex items-center justify-center hover:bg-primary transition-colors shrink-0"
+        >
+          <span class="material-symbols-outlined text-[20px]">send</span>
+        </button>
+      </form>
+
+      <div
+        class="hidden mt-3 p-3 rounded-lg bg-surface-container-low border border-error/30"
+        id="chat-error"
+      >
+        <p class="font-body-sm text-xs text-on-surface-variant">
+          Не получилось ответить. Напишите в Telegram — живой человек на связи.
+        </p>
+        <a
+          id="chat-telegram"
+          href={SITE.bot.askLink}
+          target="_blank"
+          rel="noopener"
+          class="inline-flex items-center gap-1 mt-2 font-body-sm text-sm font-semibold text-primary-container hover:underline"
+        >
+          Открыть Telegram <span>→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Плавающая кнопка -->
+  <button
+    type="button"
+    id="chat-toggle"
+    class="w-14 h-14 rounded-full bg-primary-container text-on-primary flex items-center justify-center shadow-[0_12px_32px_-8px_rgba(37,99,235,0.55)] hover:bg-primary transition-colors"
+    aria-label="Задать вопрос"
+    aria-expanded="false"
+    aria-controls="chat-panel"
+    data-chat-api={API.chat}
+  >
+    <span class="material-symbols-outlined text-[26px]" id="chat-icon">
+      chat_bubble
+    </span>
+  </button>
+</div>
+
+<style>
+  .chat-bubble-bot {
+    max-width: 88%;
+  }
+  .chat-bubble-user {
+    max-width: 88%;
+    margin-left: auto;
+    background: var(--color-primary-container);
+    color: var(--color-on-primary);
+    border-radius: 0.75rem 0.75rem 0.25rem 0.75rem;
+  }
+  .chat-bubble-error {
+    max-width: 88%;
+    border: 1px solid var(--color-line);
+    background: var(--color-surface-container-low);
+    border-radius: 0.75rem 0.75rem 0.25rem 0.75rem;
+  }
+</style>
+
+<script>
+  const toggle = document.getElementById('chat-toggle');
+  const panel = document.getElementById('chat-panel');
+  const close = document.getElementById('chat-close');
+  const icon = document.getElementById('chat-icon');
+  const form = document.getElementById('chat-form') as HTMLFormElement | null;
+  const input = document.getElementById('chat-input') as HTMLInputElement | null;
+  const log = document.getElementById('chat-log');
+  const chips = document.getElementById('chat-chips');
+  const errorBox = document.getElementById('chat-error');
+
+  // Путь к API приходит из разметки: клиентский <script> в Astro не видит
+  // серверные импорты, поэтому конфигурация передаётся через data-атрибут.
+  const API_CHAT = toggle?.dataset.chatApi ?? '/api/chat/';
+  const TG_BOT = 'aibureau_bot';
+
+  let busy = false;
+
+  const setOpen = (open: boolean) => {
+    toggle?.setAttribute('aria-expanded', String(open));
+    panel?.classList.toggle('hidden', !open);
+    if (icon) icon.textContent = open ? 'close' : 'chat_bubble';
+    if (open) input?.focus();
+  };
+
+  toggle?.addEventListener('click', () => {
+    setOpen(panel?.classList.contains('hidden') ?? false);
+  });
+  close?.addEventListener('click', () => setOpen(false));
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && panel && !panel.classList.contains('hidden')) setOpen(false);
+  });
+
+  const scroll = () => {
+    if (log) log.scrollTop = log.scrollHeight;
+  };
+
+  const addBubble = (text: string, kind: 'bot' | 'user' | 'error') => {
+    const el = document.createElement('div');
+    el.className =
+      kind === 'bot'
+        ? 'chat-bubble-bot font-body-sm text-body-sm text-on-surface bg-surface-container-low border border-line rounded-xl rounded-tl-sm px-3.5 py-2.5 leading-relaxed'
+        : kind === 'user'
+          ? 'chat-bubble-user font-body-sm text-body-sm px-3.5 py-2.5 leading-relaxed'
+          : 'chat-bubble-error font-body-sm text-body-sm text-on-surface-variant px-3.5 py-2.5 leading-relaxed';
+    el.textContent = text;
+    log?.appendChild(el);
+    scroll();
+  };
+
+  const typing = () => {
+    const el = document.createElement('div');
+    el.className =
+      'chat-bubble-bot font-body-sm text-body-sm text-on-surface bg-surface-container-low border border-line rounded-xl rounded-tl-sm px-3.5 py-2.5';
+    el.textContent = 'Печатаю…';
+    log?.appendChild(el);
+    scroll();
+    return el;
+  };
+
+  const ask = async (question: string) => {
+    if (busy || !question.trim()) return;
+    busy = true;
+    errorBox?.classList.add('hidden');
+    addBubble(question, 'user');
+
+    const pending = typing();
+    try {
+      const response = await fetch(API_CHAT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: question,
+          context: { page: window.location.pathname, source: 'widget' },
+        }),
+      });
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+      const data = await response.json();
+      pending.remove();
+      addBubble(data.reply || 'Ответ пришёл пустым — уточните вопрос.', 'bot');
+    } catch (err) {
+      console.error('Chat request failed:', err);
+      pending.remove();
+      addBubble(
+        'Не получилось получить ответ. Напишите в Telegram — там ответит человек.',
+        'error',
+      );
+      errorBox?.classList.remove('hidden');
+      const tg = document.getElementById('chat-telegram') as HTMLAnchorElement | null;
+      if (tg) {
+        tg.href = `https://t.me/${TG_BOT}?text=${encodeURIComponent(question)}`;
+      }
+    } finally {
+      busy = false;
+    }
+  };
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const value = input?.value ?? '';
+    if (!value.trim() || !input) return;
+    input.value = '';
+    ask(value);
+  });
+
+  chips?.querySelectorAll<HTMLButtonElement>('[data-chip]').forEach((chip) => {
+    chip.addEventListener('click', () => ask(chip.dataset.chip ?? ''));
+  });
+</script>

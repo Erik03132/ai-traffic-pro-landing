@@ -1,0 +1,101 @@
+---
+/**
+ * Базовый layout. Мета, canonical, Open Graph, JSON-LD, общая обвязка.
+ *
+ * Всё, что зависит от страницы, передаётся пропсом `meta` и слотом `slot`.
+ */
+import '../styles/global.css';
+
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ChatWidget from '../components/ChatWidget.astro';
+
+import { SITE } from '../data/site';
+import { absoluteUrl, canonicalOf, type PageMeta } from '../lib/seo';
+
+interface Props {
+  meta: PageMeta;
+  /** Готовые JSON-LD-объекты. Если не переданы — базовые (организация + сайт). */
+  ld?: Record<string, unknown>[];
+  /** Дополнительный класс для <body> */
+  bodyClass?: string;
+  /** Главная: якоря хедера локальные. */
+  isHome?: boolean;
+  /** На странице есть свой FAQ — ведём на него, а не на главную. */
+  localFaq?: boolean;
+  /** На странице есть своя форма — ведём на неё. */
+  localContact?: boolean;
+}
+
+const {
+  meta,
+  ld = [],
+  bodyClass = '',
+  isHome = false,
+  localFaq = false,
+  localContact = false,
+} = Astro.props;
+
+const canonical = canonicalOf(meta.path);
+const ogUrl = absoluteUrl(meta.path);
+const ogType = meta.type ?? 'website';
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{meta.title}</title>
+    <meta name="description" content={meta.description} />
+    <link rel="canonical" href={canonical} />
+    {meta.noindex && <meta name="robots" content="noindex, follow" />}
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:locale" content={SITE.locale} />
+    <meta property="og:title" content={meta.title} />
+    <meta property="og:description" content={meta.description} />
+    <meta property="og:url" content={ogUrl} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={meta.title} />
+    <meta name="twitter:description" content={meta.description} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap.xml" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&family=Manrope:wght@600;700;800&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=block"
+    />
+
+    {ld.map((obj) => (
+      <script type="application/ld+json" set:html={JSON.stringify(obj)} />
+    ))}
+  </head>
+
+  <body class={`min-h-screen bg-surface font-body-md text-on-surface ${bodyClass}`}>
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-primary-container focus:px-4 focus:py-2 focus:text-on-primary"
+    >
+      Перейти к содержимому
+    </a>
+
+    <Header isHome={isHome} localFaq={localFaq} localContact={localContact} />
+    <main id="main" class="pt-[72px]">
+      <slot />
+    </main>
+    <Footer />
+    <ChatWidget />
+  </body>
+</html>

@@ -1,0 +1,74 @@
+---
+/**
+ * FAQ-аккордеон. Нативный <details> — работает без JS, доступен с клавиатуры.
+ * JSON-LD FAQPage собирается отдельно (см. lib/seo.ts).
+ */
+interface Props {
+  items: readonly { q: string; a: string }[];
+  /** Заголовок секции. На странице услуги — «Вопросы и ответы по услуге «…»». */
+  title?: string;
+  eyebrow?: string;
+  lead?: string;
+  /** Идентификатор для FAQPage JSON-LD (если на странице свой набор). */
+  id?: string;
+}
+
+const { items, title, eyebrow, lead, id = 'faq' } = Astro.props;
+---
+
+<section class="w-full bg-surface py-20 md:py-28" id={id}>
+  <div class="max-w-3xl mx-auto px-margin md:px-margin-desktop">
+    {(eyebrow || title) && (
+      <div class={title && eyebrow ? 'text-center mb-16' : 'mb-12'}>
+        {eyebrow && (
+          <span class="font-mono-label text-mono-label uppercase text-primary-container tracking-widest font-semibold block mb-2">
+            {eyebrow}
+          </span>
+        )}
+        {title && (
+          <h2 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-on-surface">
+            {title}
+          </h2>
+        )}
+        {lead && <p class="font-body-md text-body-md text-on-surface-variant mt-4">{lead}</p>}
+      </div>
+    )}
+
+    <div class="border-t border-line">
+      {items.map((item) => (
+        <details class="faq-item group border-b border-line">
+          <summary class="faq-summary w-full py-6 flex items-center justify-between text-left group cursor-pointer list-none">
+            <span class="font-headline-sm text-headline-sm font-semibold text-on-surface group-open:text-primary-container pr-4 transition-colors">
+              {item.q}
+            </span>
+            <span
+              class="faq-icon font-mono-index text-mono-index text-outline group-open:text-primary-container transition-transform duration-200 shrink-0"
+              aria-hidden="true"
+            >
+              [+]
+            </span>
+          </summary>
+          <div class="pb-6 text-on-surface-variant font-body-md text-body-md leading-relaxed pr-6">
+            {item.a}
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Плавное раскрытие без JS: modern browsers support the `::details-content` transition */
+  @supports selector(::details-content) {
+    .faq-item::details-content {
+      block-size: 0;
+      overflow: hidden;
+      transition:
+        block-size 0.25s ease,
+        content-visibility 0.25s allow-discrete;
+    }
+    .faq-item[open]::details-content {
+      block-size: auto;
+    }
+  }
+</style>

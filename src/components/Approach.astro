@@ -1,0 +1,47 @@
+---
+/**
+ * Секция `[02 / ПРИНЦИПЫ РАБОТЫ]` — подход агентства (4 принципа).
+ * Левая колонка липнет при скролле — как в макете.
+ */
+import { APPROACH } from '../data/site';
+import { HOME } from '../data/site';
+
+const { approach } = HOME;
+---
+
+<section
+  class="w-full border-b border-line bg-surface-container-lowest py-20 md:py-28"
+  id="approach"
+>
+  <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+      <div class="lg:col-span-5 lg:sticky lg:top-28">
+        <span class="font-mono-label text-mono-label uppercase text-primary-container tracking-widest font-semibold block mb-3">
+          {approach.eyebrow}
+        </span>
+        <h2 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-on-surface mb-6">
+          {approach.title}
+        </h2>
+        <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+          {approach.lead}
+        </p>
+      </div>
+
+      <div class="lg:col-span-7 flex flex-col border-t border-line">
+        {APPROACH.map((a) => (
+          <div class="py-8 md:py-10 border-b border-line flex flex-col sm:flex-row items-start gap-4 sm:gap-8">
+            <span class="font-mono-index text-mono-index font-semibold text-primary-container min-w-[70px]">
+              {a.num} /
+            </span>
+            <div>
+              <h3 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-2">
+                {a.title}
+              </h3>
+              <p class="font-body-md text-body-md text-on-surface-variant">{a.text}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

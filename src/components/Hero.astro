@@ -1,0 +1,113 @@
+---
+/**
+ * Hero: заголовок, CTA и схема «ядро системы» (SVG-узлы из макета Stitch).
+ */
+import { HOME } from '../data/site';
+
+const { hero } = HOME;
+
+const nodePositions: Record<string, string> = {
+  top: 'top-6 left-1/2 -translate-x-1/2',
+  tr: 'top-[22%] right-4',
+  br: 'bottom-[18%] right-5',
+  bl: 'bottom-[18%] left-5',
+  tl: 'top-[22%] left-4',
+};
+---
+
+<section class="w-full border-b border-line bg-surface-container-lowest">
+  <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop py-16 md:py-24">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+      <div class="lg:col-span-7 flex flex-col items-start pr-0 lg:pr-6">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-line bg-surface-container-low mb-6">
+          <span class="w-2 h-2 rounded-full bg-primary-container inline-block animate-pulse"></span>
+          <span class="font-mono-label text-mono-label uppercase tracking-widest text-on-surface-variant font-medium">
+            {hero.badge}
+          </span>
+        </div>
+
+        <h1 class="font-display-hero text-display-hero text-on-surface tracking-tight mb-6 font-extrabold leading-[1.08]">
+          {hero.h1Top}
+          <br />
+          {hero.h1Bottom}
+        </h1>
+
+        <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mb-8 leading-relaxed">
+          {hero.lead}
+        </p>
+
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto">
+          <a
+            href="#contact"
+            class="inline-flex items-center justify-center px-7 py-3.5 rounded-lg bg-primary-container text-on-primary font-body-sm text-body-sm font-semibold hover:bg-primary transition-all duration-150 text-center active:scale-[0.99]"
+          >
+            {hero.ctaPrimary}
+          </a>
+          <a
+            href="#services"
+            class="inline-flex items-center justify-center px-7 py-3.5 rounded-lg border border-line bg-surface-container-lowest text-on-surface font-body-sm text-body-sm font-medium hover:border-primary-container hover:text-primary-container hover:bg-surface-container-low transition-all duration-150 text-center"
+          >
+            {hero.ctaSecondary}
+          </a>
+        </div>
+
+        <span class="mt-4 font-mono-index text-mono-index text-outline">{hero.micro}</span>
+      </div>
+
+      <div class="lg:col-span-5 w-full">
+        <div class="relative w-full aspect-square max-w-[480px] mx-auto bg-surface border border-line rounded-xl p-6 flex items-center justify-center overflow-hidden">
+          <svg
+            class="absolute inset-0 w-full h-full pointer-events-none"
+            fill="none"
+            viewBox="0 0 400 400"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <circle
+              cx="200"
+              cy="200"
+              r="140"
+              stroke="#E2E8F0"
+              stroke-dasharray="2 4"
+              stroke-width="1"
+            ></circle>
+            <circle cx="200" cy="200" r="80" stroke="#E2E8F0" stroke-width="1"></circle>
+            <line stroke="#C3C6D7" stroke-width="1" x1="200" x2="200" y1="160" y2="76"></line>
+            <circle cx="200" cy="76" fill="#2563EB" r="2.5"></circle>
+            <line stroke="#C3C6D7" stroke-width="1" x1="230" x2="310" y1="175" y2="120"></line>
+            <circle cx="310" cy="120" fill="#2563EB" r="2.5"></circle>
+            <line stroke="#C3C6D7" stroke-width="1" x1="230" x2="305" y1="225" y2="285"></line>
+            <circle cx="305" cy="285" fill="#2563EB" r="2.5"></circle>
+            <line stroke="#C3C6D7" stroke-width="1" x1="170" x2="95" y1="225" y2="285"></line>
+            <circle cx="95" cy="285" fill="#2563EB" r="2.5"></circle>
+            <line stroke="#C3C6D7" stroke-width="1" x1="170" x2="90" y1="175" y2="120"></line>
+            <circle cx="90" cy="120" fill="#2563EB" r="2.5"></circle>
+          </svg>
+
+          {hero.nodes.map((n) => (
+            <div class={`absolute ${nodePositions[n.pos]} z-10`}>
+              <div class="bg-surface-container-lowest border border-line rounded-md px-3 py-1.5 flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+                <span class="font-mono-index text-mono-index font-medium text-on-surface">
+                  {n.label}
+                </span>
+              </div>
+            </div>
+          ))}
+
+          <div class="relative z-20 bg-surface-container-lowest border-2 border-primary-container rounded-lg p-5 w-44 text-center">
+            <div class="flex items-center justify-center gap-1.5 mb-1.5">
+              <span class="w-2 h-2 rounded-full bg-primary-container animate-ping"></span>
+              <span class="font-mono-label text-mono-label uppercase text-primary-container tracking-wider font-semibold">
+                {hero.coreLabel}
+              </span>
+            </div>
+            <span class="font-headline-sm text-headline-sm font-bold text-on-surface block">
+              {hero.core}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

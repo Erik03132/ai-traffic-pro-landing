@@ -1,0 +1,162 @@
+---
+/**
+ * Политика конфиденциальности.
+ *
+ * Реквизиты — TODO: заполняются после регистрации ИП/ООО (см. CONTENT_SPEC, TODO #1–2).
+ * Пока реквизитов нет, страница честно говорит об этом, а не притворяется
+ * опубликованным документом. Индексацию пока закрываем — документ не готов.
+ */
+import Base from '../layouts/Base.astro';
+import { SITE } from '../data/site';
+
+const updated = '26.10.2026';
+---
+
+<Base
+  meta={{
+    title: 'Политика конфиденциальности | AI-Traffic PRO',
+    description:
+      'Как AI-Traffic PRO обращается с персональными данными: какие данные собирает форма заявки, зачем и как их удалить.',
+    path: '/privacy/',
+    noindex: true,
+  }}
+>
+  <article class="max-w-3xl mx-auto px-margin md:px-margin-desktop py-16 md:py-24">
+    <span class="font-mono-label text-mono-label uppercase text-primary-container tracking-widest font-semibold block mb-3">
+      [ПРАВОВАЯ ИНФОРМАЦИЯ]
+    </span>
+    <h1 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-on-surface mb-4">
+      Политика конфиденциальности
+    </h1>
+    <p class="font-mono-index text-mono-index text-outline mb-10">Редакция от {updated}</p>
+
+    <div class="rounded-xl border border-[#BFDBFE] bg-[#EFF6FF] p-6 mb-10">
+      <div class="flex items-start gap-3">
+        <span class="material-symbols-outlined text-primary-container text-xl mt-0.5">info</span>
+        <div>
+          <p class="font-body-md text-body-md text-on-surface leading-relaxed">
+            Документ в статусе «шаблон». Реквизиты исполнителя и срок вступления в силу появятся
+            после регистрации юридического лица. До этого страница не индексируется и не
+            используется как основание для обработки данных.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="space-y-10">
+      <section>
+        <h2 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-3">
+          1. Общие положения
+        </h2>
+        <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+          Настоящая политика описывает порядок обработки персональных данных пользователей сайта
+          {SITE.url}. Политика разрабатывается в соответствии с Федеральным законом от 27.07.2006 №
+          152-ФЗ «О персональных данных». Оператором данных выступает{' '}
+          <span class="text-on-surface">
+            [наименование юридического лица — указывается после регистрации]
+          </span>
+          .
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-3">
+          2. Какие данные собираются
+        </h2>
+        <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-4">
+          Через форму заявки на сайте собираются:
+        </p>
+        <ul class="space-y-2">
+          {[
+            'имя, указанное пользователем;',
+            'контактный телефон или ник в мессенджере Telegram;',
+            'наименование компании или адрес сайта — если указаны;',
+            'текст обращения: описание задачи, бюджета или сроков;',
+            'служебные данные: IP-адрес, дата и время отправки, страница отправки.',
+          ].map((item) => (
+            <li class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-outline text-lg mt-0.5 shrink-0">
+                remove
+              </span>
+              <span class="font-body-sm text-body-sm text-on-surface-variant">{item}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-3">
+          3. Цели обработки
+        </h2>
+        <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+          Данные обрабатываются для обратной связи по заявке, подготовки предложения по услугам, а
+          также для исполнения договора, если он заключён. Данные не используются для целей, не
+          указанных в настоящей политике, и не передаются третьим лицам, за исключением случаев,
+          прямо предусмотренных законодательством РФ.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-3">
+          4. Сроки хранения
+        </h2>
+        <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+          Данные хранятся не дольше, чем этого требуют цели обработки, но не более{' '}
+          <span class="text-on-surface">[срок хранения устанавливается оператором]</span>. По
+          достижении целей обработки данные удаляются или обезличиваются.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-3">
+          5. Права пользователя
+        </h2>
+        <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+          Пользователь вправе получить сведения об обработке своих персональных данных, потребовать
+          их уточнения, блокирования или уничтожения, а также отозвать согласие на обработку. Для
+          этого нужно написать на{' '}
+          <a class="link-underline text-primary-container" href="/consent/">
+            странице согласия
+          </a>{' '}
+          или связаться с оператором по контактам, указанным на сайте.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-3">
+          6. Cookies и аналитика
+        </h2>
+        <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+          Сайт использует технические cookie для корректной работы форм. Счётчики посещаемости
+          подключаются с соблюдением требований законодательства о рекламе и персональных данных;
+          параметры подключения фиксируются в этом документе до запуска счётчиков.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-3">
+          7. Изменения политики
+        </h2>
+        <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+          Оператор вправе вносить изменения в настоящую политику. Актуальная редакция всегда
+          размещена на этой странице; дата редакции указана в её начале.
+        </p>
+      </section>
+    </div>
+
+    <div class="mt-14 flex flex-wrap gap-4">
+      <a
+        href="/consent/"
+        class="inline-flex items-center justify-center px-6 py-3 rounded-lg border border-line font-body-sm text-body-sm font-medium hover:border-primary-container hover:text-primary-container transition-colors"
+      >
+        Согласие на обработку ПДн
+      </a>
+      <a
+        href="/"
+        class="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-primary-container text-on-primary font-body-sm text-body-sm font-semibold hover:bg-primary transition-colors"
+      >
+        На главную
+      </a>
+    </div>
+  </article>
+</Base>
