@@ -1,6 +1,5 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
 /**
@@ -8,23 +7,18 @@ import tailwindcss from '@tailwindcss/vite';
  *
  * Единый источник истины по контенту — `src/data/site.ts` (SITE_URL, услуги, тексты).
  * Этот файл знает только про инфраструктуру: домен, интеграции, адаптер.
+ *
+ * Карта сайта — собственный endpoint `src/pages/sitemap.xml.ts`:
+ * он отдаёт ровно `/sitemap.xml`, на который ссылаются robots.txt и
+ * `<link rel="sitemap">`. Плагин @astrojs/sitemap давал `sitemap-index.xml`,
+ * на который эти ссылки вели в 404.
  */
 export default defineConfig({
   // Канон сайта. Используется для canonical, sitemap, robots, JSON-LD.
   site: 'https://ai-traffic-pro.ru',
   output: 'static',
   trailingSlash: 'always',
-  integrations: [
-    sitemap({
-      // В sitemap — только то, что должно индексироваться и продвигаться.
-      // Правовые документы — черновики (noindex), маркетплейс — доп. направление
-      // вне шести карточек, доступен по прямой ссылке.
-      filter: (page) => {
-        const excluded = ['/privacy/', '/consent/', '/services/marketplace/'];
-        return !excluded.some((path) => page.endsWith(path));
-      },
-    }),
-  ],
+  integrations: [],
   vite: {
     plugins: [tailwindcss()],
     server: {

@@ -12,7 +12,6 @@
     "dev:full": "astro dev & node server/server.js"
   },
   "dependencies": {
-    "@astrojs/sitemap": "^3.7.0",
     "astro": "^7.4.2"
   },
   "devDependencies": {
