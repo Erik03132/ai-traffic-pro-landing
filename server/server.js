@@ -52,6 +52,44 @@ const OPENROUTER_API_KEY = env.OPENROUTER_API_KEY || '';
 const OPENROUTER_MODEL = env.OPENROUTER_MODEL || 'openai/gpt-4o-mini';
 
 /* ──────────────────────────────────────────────────────────────────────────
+ * Прокси (ADR-002).
+ *
+ * Российские сервисы (Telegram) — только напрямую. Если в окружении
+ * остались переменные прокси, запрос ушёл бы через заблокированный или
+ * мёртвый туннель и молча потерял бы заявку. Поэтому перед обращением
+ * к Telegram переменные прокси сбрасываются на время запроса.
+ *
+ * Заблокированные в РФ сервисы (OpenRouter) — только через прокси,
+ * если он задан в HTTPS_PROXY.
+ * ────────────────────────────────────────────────────────────────────────── */
+const PROXY_ENV_KEYS = [
+  'HTTP_PROXY',
+  'HTTPS_PROXY',
+  'ALL_PROXY',
+  'http_proxy',
+  'https_proxy',
+  'all_proxy',
+];
+
+/** Выполняет fetch к российскому сервису, гарантированно без прокси. */
+async function fetchDirect(url, options = {}) {
+  const saved = {};
+  for (const key of PROXY_ENV_KEYS) {
+    if (key in process.env) {
+      saved[key] = process.env[key];
+      delete process.env[key];
+    }
+  }
+  try {
+    return await fetch(url, options);
+  } finally {
+    for (const [key, value] of Object.entries(saved)) {
+      process.env[key] = value;
+    }
+  }
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
  * База знаний агента: короткие честные ответы по услугам.
  * Цитируются в ответах бота — источник правды, а не выдумка модели.
  * ────────────────────────────────────────────────────────────────────────── */
@@ -201,16 +239,20 @@ async function sendLeadToTelegram(lead) {
   lines.push('', `🕐 ${new Date().toLocaleString('ru-RU', { timeZone: 'Europe/Moscow' })} (МСК)`);
 
   try {
-    const resp = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: TELEGRAM_CHAT_ID,
-        text: lines.join('\n'),
-        parse_mode: 'HTML',
-        disable_web_page_preview: true,
-      }),
-    });
+    // Telegram — российский сервис: строго напрямую, без прокси (ADR-002).
+    const resp = await fetchDirect(
+      `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: TELEGRAM_CHAT_ID,
+          text: lines.join('\n'),
+          parse_mode: 'HTML',
+          disable_web_page_preview: true,
+        }),
+      },
+    );
     const data = await resp.json();
     if (!data.ok) {
       console.error('❌ Telegram API отклонил сообщение:', data.description);
@@ -240,6 +282,8 @@ const SYSTEM_PROMPT = [
 async function callLLM(messages) {
   if (!OPENROUTER_API_KEY) throw new Error('OPENROUTER_API_KEY не задан');
 
+  // OpenRouter — заблокированный в РФ сервис: идём через прокси из HTTPS_PROXY
+  // (ADR-002). Если прокси не задан, обычный fetch уйдёт напрямую и не пройдёт.
   const resp = await fetch('https://openrouter.ai/api/v1/chat/completions', {
     method: 'POST',
     headers: {
