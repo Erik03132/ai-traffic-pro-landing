@@ -54,6 +54,37 @@ test('findKnowledge: ни один ответ не содержит конкре
   }
 });
 
+/**
+ * Регресс: 28.10.2026 бот на вопрос «Что такое GEO?» уходил в LLM и отвечал
+ * «GEO — это сокращение от Geographic или Geolocation» — то есть выдумывал
+ * определение вместо «Generative Engine Optimization». Правильный ответ был в
+ * FAQ сайта (`src/data/site.ts`), но не в базе знаний бота: запрос не
+ * находился по ключевым словам и уходил в модель.
+ */
+test('findKnowledge: GEO отвечает правильным определением, а не уходит в LLM', () => {
+  for (const question of ['Что такое GEO?', 'что такое geo', 'GEO', 'расскажи про GEO и AEO']) {
+    const answer = findKnowledge(question);
+    assert.ok(answer, `вопрос «${question}» должен находиться в базе знаний`);
+    assert.match(answer, /Generative Engine Optimization/, `ответ на «${question}» врёт про GEO`);
+    assert.doesNotMatch(answer, /Geographic|Geolocation/i, `ответ на «${question}» путает GEO с геолокацией`);
+  }
+});
+
+test('findKnowledge: SEO объясняется как поисковая оптимизация', () => {
+  const answer = findKnowledge('что такое SEO');
+  assert.ok(answer);
+  assert.match(answer, /технический аудит|микроразметка/i);
+});
+
+test('FACTS: системный промпт содержит верное определение GEO', () => {
+  // Промпт — страховка на тот случай, если вопрос не нашёлся в базе знаний
+  // и ушёл в модель: модель обязана знать, чем GEO отличается от геолокации.
+  const prompt = buildLlmMessages([], 'Что такое GEO?').find((m) => m.role === 'system');
+  assert.ok(prompt, 'системный промпт должен быть');
+  assert.match(prompt.content, /Generative Engine Optimization/);
+  assert.doesNotMatch(prompt.content, /Geographic|Geolocation/i);
+});
+
 /* ── Валидация заявки ────────────────────────────────────────────────── */
 
 test('validateLead: принимает корректную заявку', () => {
