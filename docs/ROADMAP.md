@@ -19,7 +19,7 @@
 | Schema.org                        | ✅     | ProfessionalService, **7×Service**, FAQPage (8 Q&A на главной, 5 на услуге), WebSite, ContactPoint                       |
 | Canonical                         | ✅     | корректный на каждой странице, включая `/privacy/`                                                                       |
 | Юридический блок                  | ✅     | privacy (+noindex), consent, requisites                                                                                  |
-| Приём заявок                      | ✅     | форма → API на VPS → Telegram (`/api/health` → `{"ok":true,"telegram":true}`)                                            |
+| Приём заявок                      | ✅     | форма → API на Cloudflare Worker → Telegram (`/api/health` → `{"ok":true,"telegram":true,"ai":true}`), резерв — Node на VPS |
 | Редирект marketplace → e-commerce | ✅     | `/services/marketplace/` → meta-refresh на `/services/ecommerce/` (живёт в проде)                                        |
 | SSoT контента                     | ⚠️     | `docs/CONTENT_SPEC.md` объявлен SSoT, но фактически тексты лежат в `src/data/site.ts` — см. дырку «два источника правды» |
 

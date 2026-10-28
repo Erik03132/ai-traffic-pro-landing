@@ -1,6 +1,6 @@
 # AI-Traffic PRO — сайт маркетингового агентства
 
-Домен: `https://ai-traffic-pro.ru` · Стек: Astro 5+ (static) + Tailwind 4 · Сервер заявок: Node (без зависимостей)
+Домен: `https://ai-traffic-pro.ru` · Стек: Astro 5+ (static) + Tailwind 4 · API: Cloudflare Worker (резерв — Node на VPS)
 
 ## Что здесь
 
@@ -19,8 +19,16 @@ src/
     privacy.astro         политика конфиденциальности
     consent.astro         согласие на обработку ПДн
   styles/global.css   ← дизайн-токены из Stitch (Manrope / Inter / JetBrains Mono)
-server/server.js      ← приём заявок (/api/lead) и чат-бот (/api/chat)
+server/
+  agent-core.js     ← ОБЩАЯ ЛОГИКА API: база знаний, валидация заявки, формат
+                      сообщения Telegram. Один источник истины для Worker и VPS
+  server.js         ← Node-сервер на VPS (резерв): /api/lead, /api/chat
+worker/
+  src/index.js      ← Cloudflare Worker (основной API): /api/lead, /api/chat
+  wrangler.jsonc    ← биндинги: KV лидов, Workers AI, rate limit, секреты
+src/lib/api-post.ts ← POST с резервным адресом: повтор только при сетевой ошибке
 docs/CONTENT_SPEC.md  ← спека контента с обоснованиями
+docs/adr/            ← архитектурные решения (ADR-001: API на Worker)
 ```
 
 > **Правило:** тексты живут только в `src/data/site.ts`. В разметке страниц текстов
@@ -39,7 +47,8 @@ npm run dev:full   # оба сразу
 
 ## Приём заявок
 
-Сайт — статика, поэтому заявки принимает отдельный Node-сервер:
+Сайт — статика, поэтому заявки принимает отдельный API. Основной — Cloudflare
+Worker, резервный — Node-сервер на VPS (см. ADR-001):
 
 | Эндпоинт           | Назначение                                       |
 | ------------------ | ------------------------------------------------ |
@@ -48,34 +57,78 @@ npm run dev:full   # оба сразу
 | `GET /api/health/` | Проверка живости (`{"ok":true,"telegram":true}`) |
 
 Telegram настроен: бот `@ai_bureau_new_bot`, заявки приходят в чат владельца.
-Если токен недоступен или Telegram вернул ошибку — заявка не теряется: сервер
-пишет её в `server/leads/YYYY-MM-DD.jsonl` и отвечает успехом.
+Если токен недоступен или Telegram вернул ошибку — заявка не теряется: Worker
+пишет её в Workers KV (binding `LEADS`) **до** отправки в Telegram, Node-сервер
+на VPS — в `server/leads/YYYY-MM-DD.jsonl`, и оба отвечают успехом.
 
-LLM отвечает на вопросы вне базы знаний. Провайдер — любой OpenAI-совместимый
-эндпоинт (`LLM_BASE_URL` + `LLM_MODEL`), запасной — `LLM_FALLBACK_*`. Внешние
-провайдеры из РФ идут через SOCKS5 (`LLM_PROXY`) — свой клиент `server/socks.js`,
-без npm-зависимостей. Если LLM недоступен — виджет отвечает по базе знаний,
-а не «пустым» сообщением.
+LLM отвечает на вопросы вне базы знаний. На Worker это **Workers AI**
+(`@cf/meta/llama-3.1-8b-instruct-fp8-fast`) — внешние провайдеры с российского IP
+отдают 403, а из edge-исполнения Cloudflare работают. На Node-сервере (резерв)
+провайдер — любой OpenAI-совместимый эндпоинт (`LLM_BASE_URL` + `LLM_MODEL`),
+запасной — `LLM_FALLBACK_*`; внешние провайдеры из РФ идут через SOCKS5
+(`LLM_PROXY`) — свой клиент `server/socks.js`, без npm-зависимостей. Если LLM
+недоступен — виджет отвечает по базе знаний, а не «пустым» сообщением.
+
+Общая логика (база знаний, валидация заявки, формат сообщения Telegram) лежит в
+`server/agent-core.js` — это один источник истины для Worker и Node-сервера,
+чтобы резерв не отвечал иначе, чем основной путь.
 
 ## Деплой
 
-Схема размещения: **статика на GitHub Pages, API на VPS**.
+Схема размещения: **статика на GitHub Pages, API на Cloudflare Worker, VPS в резерве**.
+Решение зафиксировано в [ADR-001](docs/adr/ADR-001-api-on-cloudflare-worker.md).
 
-| Что                       | Где                               | Адрес                           |
-| ------------------------- | --------------------------------- | ------------------------------- |
-| Статика (Astro → `dist/`) | GitHub Pages                      | `https://ai-traffic-pro.ru`     |
-| API (заявки, чат)         | VPS `217.149.23.113`, nginx + pm2 | `https://api.ai-traffic-pro.ru` |
+| Что                       | Где                                    | Адрес                                                        |
+| ------------------------- | -------------------------------------- | ------------------------------------------------------------ |
+| Статика (Astro → `dist/`) | GitHub Pages                           | `https://ai-traffic-pro.ru`                                  |
+| API (заявки, чат)         | Cloudflare Worker (основной)           | `https://ai-traffic-pro-api.erik03132.workers.dev`           |
+| API (заявки, чат)         | Node-сервер на VPS `217.149.23.113`    | `https://api.ai-traffic-pro.ru` (резерв, другая инфраструктура)|
 
 DNS: A-записи `ai-traffic-pro.ru` и `www.ai-traffic-pro.ru` → `185.199.108.153`
-(IP GitHub Pages), `api.ai-traffic-pro.ru` → `217.149.23.113`. TLS-сертификат
-выпускает GitHub (Let's Encrypt, до 2027-01-04), автообновление — на стороне GitHub.
+(IP GitHub Pages), `api.ai-traffic-pro.ru` → `217.149.23.113` (резервный API).
+TLS-сертификат выпускает GitHub (Let's Encrypt, до 2027-01-04), автообновление —
+на стороне GitHub.
+
+Адреса API приходят из окружения сборки, а не из репозитория:
+
+| Переменная                | Где задана                              | Значение                                       |
+| ------------------------- | ---------------------------------------- | ---------------------------------------------- |
+| `PUBLIC_API_BASE_URL`     | GitHub Actions → variable                | `https://ai-traffic-pro-api.erik03132.workers.dev` |
+| `PUBLIC_API_FALLBACK_URL` | GitHub Actions → variable                | `https://api.ai-traffic-pro.ru`                |
+
+**Резерв срабатывает только при сетевой ошибке.** Если Worker недоступен по сети
+(троттлинг трафика из РФ, обрыв), запрос уходит на VPS. На 5xx повтора нет:
+сервер ответил — значит заявка могла уйти, повтор дал бы клиенту две заявки.
+Если не сработало ни то, ни другое, форма показывает ссылку в Telegram с уже
+готовым текстом заявки.
 
 Статика собирается в CI: пуш в `main` → `.github/workflows/deploy.yml` → Astro build →
-артефакт `dist` → Pages. Адрес API подставляется на этапе сборки через
-GitHub Actions variable `PUBLIC_API_BASE_URL` (`https://api.ai-traffic-pro.ru`).
-Пустая переменная = API на том же домене (локальная сборка, nginx-проксирование).
+артефакт `dist` → Pages. Адреса API подставляются на этапе сборки через GitHub
+Actions variables `PUBLIC_API_BASE_URL` и `PUBLIC_API_FALLBACK_URL`. Пустая
+переменная = API на том же домене (локальная сборка, nginx-проксирование).
 
-VPS-часть:
+### Worker (основной API)
+
+Деплой: `npm run worker:deploy` (wrangler, конфиг `worker/wrangler.jsonc`).
+Логи в реальном времени: `npm run worker:tail`.
+
+Секреты — только через `wrangler secret put` (в репозитории их нет):
+
+| Секрет             | Назначение                                      |
+| ------------------ | ----------------------------------------------- |
+| `TELEGRAM_BOT_TOKEN` | отправка заявок в чат владельца               |
+| `TELEGRAM_CHAT_ID` | чат-владелец                                    |
+| `ALLOWED_ORIGINS`  | белый список origin'ов (CORS)                  |
+
+Биндинги (в `wrangler.jsonc`): `LEADS` (Workers KV — бэкап заявок), `AI`
+(Workers AI — LLM), `CHAT_LIMITER` и `LEAD_LIMITER` (rate limit, раздельные баки).
+
+> `preview_urls: false` — лишние публичные точки входа с тем же кодом отключены.
+> Кастомный домен `api.ai-traffic-pro.ru` требует переноса NS зоны на Cloudflare
+> (CNAME-setup и subdomain-setup доступны только на Business/Enterprise) — пока
+> основной адрес `workers.dev`, сайт от этого не зависит.
+
+### VPS (резервный API)
 
 1. `scp`/`rsync` `server/` в `/opt/freelance/projects/ai-traffic-pro/server/`
 2. `.env` с секретами (chmod 600): Telegram-токен, `chat_id`, `LLM_*`, `LLM_PROXY`, `ALLOWED_ORIGINS`
@@ -86,6 +139,7 @@ VPS-часть:
 
 CORS: `ALLOWED_ORIGINS` в `.env` — белый список origin'ов статики. Открытый `*` не
 используется: иначе любой сторонний сайт слал бы заявки от имени нашего домена.
+На Worker то же самое — `ALLOWED_ORIGINS` в секретах.
 
 > Apex-сертификат на VPS (`ai-traffic-pro.ru`) оставлен для возможного отката,
 > но его автообновление **отключено** (`/etc/letsencrypt/renewal/ai-traffic-pro.ru.conf.disabled`):

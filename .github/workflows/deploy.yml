@@ -3,8 +3,9 @@
 # Почему workflow, а не legacy-сборка: legacy брала корень ветки (там исходники
 # Astro), и Pages отдавал 404. Workflow собирает `dist/` и отдаёт его как есть.
 #
-# API (заявки в Telegram + чат-виджет) живёт на VPS и не входит в статику:
-# адрес подставляется через PUBLIC_API_BASE_URL на этапе сборки.
+# API (заявки в Telegram + чат-виджет) живёт на Cloudflare Worker и не входит
+# в статику: адрес подставляется через PUBLIC_API_BASE_URL на этапе сборки,
+# резервный адрес — через PUBLIC_API_FALLBACK_URL (Node-сервер на VPS).
 name: Deploy to GitHub Pages
 
 on:
