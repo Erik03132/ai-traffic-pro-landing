@@ -121,5 +121,6 @@ urllib3, и старый `requests_toolbelt` падает с `ImportError`. Из
 - [x] токен Telegram-бота для приёма заявок
 - [x] решение по 6-й услуге (CRM подтверждена, маркетплейс — вне списка)
 - [x] HTTPS на домене (сертификат GitHub Pages, `https_enforced`), API — на поддомене
-- [ ] email на домен (`SITE.legal.email` — пусто, футер не выводит пустую ссылку)
+- [x] email для связи: `erik03132@gmail.com` (`SITE.legal.email`) — пока личная
+      почта, не доменная; при заведении `@ai-traffic-pro.ru` обновить `src/data/site.ts`
 - [ ] мобильные экраны в Stitch (адаптив сейчас сделан на глаз)
