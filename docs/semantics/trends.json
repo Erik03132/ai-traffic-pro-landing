@@ -1,0 +1,461 @@
+{
+  "source": "Google Trends",
+  "url": "https://trends.google.com/trends/explore",
+  "metric": "индекс интереса 0-100; avg — среднее за 12 мес., max — пиковое значение",
+  "geo": "RU",
+  "period": "12 месяцев (today 12-m)",
+  "measuredAt": "2026-10-28",
+  "note": "Индекс нормализован внутри батча сравнения (не более 5 запросов за раз, макс. 100 у лидера батча) — сопоставим только внутри батча, не между кластерами. Абсолютных показов Google Trends не отдаёт.",
+  "items": [
+    {
+      "cluster": "ecommerce",
+      "query": "управление продажами",
+      "avg": 0,
+      "max": 0
+    },
+    {
+      "cluster": "ecommerce",
+      "query": "интернет-магазин",
+      "avg": 9,
+      "max": 12
+    },
+    {
+      "cluster": "ecommerce",
+      "query": "маркетплейс",
+      "avg": 17.9,
+      "max": 100
+    },
+    {
+      "cluster": "ecommerce",
+      "query": "загрузка товаров",
+      "avg": 0,
+      "max": 0
+    },
+    {
+      "cluster": "ecommerce",
+      "query": "продажи на маркетплейсах",
+      "avg": 0,
+      "max": 0
+    },
+    {
+      "cluster": "ecommerce",
+      "query": "выгрузка товаров",
+      "avg": 0,
+      "max": 1
+    },
+    {
+      "cluster": "ecommerce",
+      "query": "продвижение товаров",
+      "avg": 5.1,
+      "max": 29
+    },
+    {
+      "cluster": "ecommerce",
+      "query": "e-commerce",
+      "avg": 37.7,
+      "max": 100
+    },
+    {
+      "cluster": "ecommerce",
+      "query": "аналитика маркетплейсов",
+      "avg": 0.1,
+      "max": 2
+    },
+    {
+      "cluster": "ecommerce",
+      "query": "продвижение на маркетплейсах",
+      "avg": 4,
+      "max": 24
+    },
+    {
+      "cluster": "seo",
+      "query": "продвижение сайта",
+      "avg": 60.5,
+      "max": 100
+    },
+    {
+      "cluster": "seo",
+      "query": "продвижение в яндексе",
+      "avg": 3.8,
+      "max": 7
+    },
+    {
+      "cluster": "seo",
+      "query": "seo продвижение",
+      "avg": 33.3,
+      "max": 57
+    },
+    {
+      "cluster": "seo",
+      "query": "продвижение в google",
+      "avg": 2.2,
+      "max": 5
+    },
+    {
+      "cluster": "seo",
+      "query": "оптимизация сайта",
+      "avg": 8.9,
+      "max": 15
+    },
+    {
+      "cluster": "seo",
+      "query": "seo услуги",
+      "avg": 29.3,
+      "max": 52
+    },
+    {
+      "cluster": "seo",
+      "query": "seo продвижение сайтов",
+      "avg": 53.6,
+      "max": 100
+    },
+    {
+      "cluster": "seo",
+      "query": "аудит сайта",
+      "avg": 51.7,
+      "max": 88
+    },
+    {
+      "cluster": "seo",
+      "query": "продвижение в нейросетях",
+      "avg": 0.6,
+      "max": 12
+    },
+    {
+      "cluster": "seo",
+      "query": "оптимизация сайта под нейросети",
+      "avg": 0,
+      "max": 0
+    },
+    {
+      "cluster": "leadgen",
+      "query": "привлечение клиентов",
+      "avg": 16.3,
+      "max": 45
+    },
+    {
+      "cluster": "leadgen",
+      "query": "холодные звонки",
+      "avg": 21.4,
+      "max": 57
+    },
+    {
+      "cluster": "leadgen",
+      "query": "воронка продаж",
+      "avg": 59.4,
+      "max": 100
+    },
+    {
+      "cluster": "leadgen",
+      "query": "обработка заявок",
+      "avg": 0.1,
+      "max": 4
+    },
+    {
+      "cluster": "leadgen",
+      "query": "продвижение бизнеса",
+      "avg": 22.8,
+      "max": 73
+    },
+    {
+      "cluster": "leadgen",
+      "query": "скрипты продаж",
+      "avg": 0.1,
+      "max": 3
+    },
+    {
+      "cluster": "leadgen",
+      "query": "автоматизация продаж",
+      "avg": 0.4,
+      "max": 11
+    },
+    {
+      "cluster": "leadgen",
+      "query": "привлечение клиентов в интернет",
+      "avg": 0.2,
+      "max": 12
+    },
+    {
+      "cluster": "leadgen",
+      "query": "лиды",
+      "avg": 70.8,
+      "max": 100
+    },
+    {
+      "cluster": "leadgen",
+      "query": "лидогенерация",
+      "avg": 16.1,
+      "max": 32
+    },
+    {
+      "cluster": "smm",
+      "query": "контент план",
+      "avg": 6.2,
+      "max": 12
+    },
+    {
+      "cluster": "smm",
+      "query": "smm",
+      "avg": 62.9,
+      "max": 100
+    },
+    {
+      "cluster": "smm",
+      "query": "контент для соцсетей",
+      "avg": 0,
+      "max": 0
+    },
+    {
+      "cluster": "smm",
+      "query": "ведение соцсетей",
+      "avg": 0.1,
+      "max": 2
+    },
+    {
+      "cluster": "smm",
+      "query": "продвижение в соцсетях",
+      "avg": 0.2,
+      "max": 7
+    },
+    {
+      "cluster": "smm",
+      "query": "smm продвижение",
+      "avg": 27.4,
+      "max": 100
+    },
+    {
+      "cluster": "smm",
+      "query": "съёмка контента",
+      "avg": 0,
+      "max": 0
+    },
+    {
+      "cluster": "smm",
+      "query": "smm услуги",
+      "avg": 4.3,
+      "max": 51
+    },
+    {
+      "cluster": "smm",
+      "query": "дизайн для соцсетей",
+      "avg": 0,
+      "max": 0
+    },
+    {
+      "cluster": "smm",
+      "query": "ведение telegram канала",
+      "avg": 0,
+      "max": 0
+    },
+    {
+      "cluster": "advertising",
+      "query": "ведение рекламы",
+      "avg": 2.7,
+      "max": 6
+    },
+    {
+      "cluster": "advertising",
+      "query": "реклама в интернете",
+      "avg": 3.4,
+      "max": 9
+    },
+    {
+      "cluster": "advertising",
+      "query": "контекстная реклама",
+      "avg": 21.1,
+      "max": 36
+    },
+    {
+      "cluster": "advertising",
+      "query": "яндекс директ",
+      "avg": 79.6,
+      "max": 100
+    },
+    {
+      "cluster": "advertising",
+      "query": "настройка рекламы",
+      "avg": 7.2,
+      "max": 14
+    },
+    {
+      "cluster": "advertising",
+      "query": "реклама в telegram",
+      "avg": 4.6,
+      "max": 41
+    },
+    {
+      "cluster": "advertising",
+      "query": "таргетированная реклама",
+      "avg": 62.6,
+      "max": 97
+    },
+    {
+      "cluster": "advertising",
+      "query": "аудит рекламы",
+      "avg": 2.2,
+      "max": 29
+    },
+    {
+      "cluster": "advertising",
+      "query": "медиаплан",
+      "avg": 2.7,
+      "max": 38
+    },
+    {
+      "cluster": "advertising",
+      "query": "настройка яндекс директ",
+      "avg": 40,
+      "max": 100
+    },
+    {
+      "cluster": "landing",
+      "query": "корпоративный сайт",
+      "avg": 5,
+      "max": 12
+    },
+    {
+      "cluster": "landing",
+      "query": "разработка сайта",
+      "avg": 48.2,
+      "max": 88
+    },
+    {
+      "cluster": "landing",
+      "query": "сайт для бизнеса",
+      "avg": 6.5,
+      "max": 13
+    },
+    {
+      "cluster": "landing",
+      "query": "создание сайта",
+      "avg": 59,
+      "max": 100
+    },
+    {
+      "cluster": "landing",
+      "query": "дизайн сайта",
+      "avg": 17.2,
+      "max": 33
+    },
+    {
+      "cluster": "landing",
+      "query": "интернет-магазин сайт",
+      "avg": 63.5,
+      "max": 100
+    },
+    {
+      "cluster": "landing",
+      "query": "разработка лендинга",
+      "avg": 1.2,
+      "max": 50
+    },
+    {
+      "cluster": "landing",
+      "query": "вёрстка сайта",
+      "avg": 0,
+      "max": 0
+    },
+    {
+      "cluster": "landing",
+      "query": "прототип сайта",
+      "avg": 0.3,
+      "max": 6
+    },
+    {
+      "cluster": "landing",
+      "query": "лендинг под ключ",
+      "avg": 6.3,
+      "max": 68
+    },
+    {
+      "cluster": "crm",
+      "query": "crm",
+      "avg": 77.1,
+      "max": 100
+    },
+    {
+      "cluster": "crm",
+      "query": "crm система",
+      "avg": 9.3,
+      "max": 14
+    },
+    {
+      "cluster": "crm",
+      "query": "внедрение crm",
+      "avg": 1.2,
+      "max": 4
+    },
+    {
+      "cluster": "crm",
+      "query": "настройка crm",
+      "avg": 0.1,
+      "max": 3
+    },
+    {
+      "cluster": "crm",
+      "query": "bitrix24",
+      "avg": 24.1,
+      "max": 34
+    },
+    {
+      "cluster": "crm",
+      "query": "amo crm",
+      "avg": 45.8,
+      "max": 100
+    },
+    {
+      "cluster": "crm",
+      "query": "автоматизация продаж crm",
+      "avg": 1,
+      "max": 51
+    },
+    {
+      "cluster": "crm",
+      "query": "crm для продаж",
+      "avg": 2.4,
+      "max": 50
+    },
+    {
+      "cluster": "crm",
+      "query": "интеграция crm",
+      "avg": 21.4,
+      "max": 72
+    },
+    {
+      "cluster": "crm",
+      "query": "crm для маркетинга",
+      "avg": 0,
+      "max": 0
+    },
+    {
+      "cluster": "crm",
+      "query": "bitrix24 настройка",
+      "avg": 2,
+      "max": 100
+    },
+    {
+      "cluster": "crm",
+      "query": "внедрение bitrix24",
+      "avg": 1.8,
+      "max": 94
+    },
+    {
+      "cluster": "crm",
+      "query": "crm для отдела продаж",
+      "avg": 0.2,
+      "max": 11
+    },
+    {
+      "cluster": "crm",
+      "query": "аналитика в crm",
+      "avg": 0.1,
+      "max": 5
+    },
+    {
+      "cluster": "crm",
+      "query": "настройка amo crm",
+      "avg": 1.9,
+      "max": 99
+    }
+  ]
+}

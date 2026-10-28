@@ -1,0 +1,8 @@
+# Сгенерированные артефакты: формат задаёт сборщик, а не prettier.
+# Правки вносятся в tools/collect_semantics.mjs → build_semantics.mjs,
+# после чего файлы перегенерируются.
+docs/semantics/keywords.json
+docs/semantics/semantics.json
+docs/semantics/to_measure.json
+docs/semantics/hh_vacancies.json
+docs/semantics/trends.json

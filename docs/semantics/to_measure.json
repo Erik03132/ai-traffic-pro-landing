@@ -1,0 +1,2837 @@
+{
+  "generatedAt": "2026-10-28",
+  "targets": [
+    {
+      "query": "интернет-магазин",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "root",
+      "roots": [
+        "интернет-магазин"
+      ],
+      "engines": []
+    },
+    {
+      "query": "e-commerce",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "root",
+      "roots": [
+        "e-commerce"
+      ],
+      "engines": []
+    },
+    {
+      "query": "маркетплейс",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "root",
+      "roots": [
+        "маркетплейс"
+      ],
+      "engines": []
+    },
+    {
+      "query": "карточки товаров",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "root",
+      "roots": [
+        "карточки товаров"
+      ],
+      "engines": []
+    },
+    {
+      "query": "каталог товаров",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "root",
+      "roots": [
+        "каталог товаров"
+      ],
+      "engines": []
+    },
+    {
+      "query": "продвижение на маркетплейсах",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "root",
+      "roots": [
+        "продвижение на маркетплейсах"
+      ],
+      "engines": []
+    },
+    {
+      "query": "разработка интернет-магазина",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "root",
+      "roots": [
+        "разработка интернет-магазина"
+      ],
+      "engines": []
+    },
+    {
+      "query": "создание интернет-магазина",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "root",
+      "roots": [
+        "создание интернет-магазина"
+      ],
+      "engines": []
+    },
+    {
+      "query": "интернет-магазин под ключ",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "root",
+      "roots": [
+        "интернет-магазин под ключ"
+      ],
+      "engines": []
+    },
+    {
+      "query": "оформление карточек",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "root",
+      "roots": [
+        "оформление карточек"
+      ],
+      "engines": []
+    },
+    {
+      "query": "выгрузка товаров",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "root",
+      "roots": [
+        "выгрузка товаров"
+      ],
+      "engines": []
+    },
+    {
+      "query": "продажи на маркетплейсах",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "root",
+      "roots": [
+        "продажи на маркетплейсах"
+      ],
+      "engines": []
+    },
+    {
+      "query": "выход на маркетплейс",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "root",
+      "roots": [
+        "выход на маркетплейс"
+      ],
+      "engines": []
+    },
+    {
+      "query": "продвижение товаров",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "root",
+      "roots": [
+        "продвижение товаров"
+      ],
+      "engines": []
+    },
+    {
+      "query": "инфографика для маркетплейсов",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "root",
+      "roots": [
+        "инфографика для маркетплейсов"
+      ],
+      "engines": []
+    },
+    {
+      "query": "аналитика маркетплейсов",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "root",
+      "roots": [
+        "аналитика маркетплейсов"
+      ],
+      "engines": []
+    },
+    {
+      "query": "управление продажами",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "root",
+      "roots": [
+        "управление продажами"
+      ],
+      "engines": []
+    },
+    {
+      "query": "продвижение вб",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "root",
+      "roots": [
+        "продвижение вб"
+      ],
+      "engines": []
+    },
+    {
+      "query": "продвижение озона",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "root",
+      "roots": [
+        "продвижение озона"
+      ],
+      "engines": []
+    },
+    {
+      "query": "сопровождение маркетплейсов",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "root",
+      "roots": [
+        "сопровождение маркетплейсов"
+      ],
+      "engines": []
+    },
+    {
+      "query": "оформление карточек товаров",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "root",
+      "roots": [
+        "оформление карточек товаров"
+      ],
+      "engines": []
+    },
+    {
+      "query": "загрузка товаров",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "root",
+      "roots": [
+        "загрузка товаров"
+      ],
+      "engines": []
+    },
+    {
+      "query": "карточки для маркетплейсов",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "root",
+      "roots": [
+        "карточки для маркетплейсов"
+      ],
+      "engines": []
+    },
+    {
+      "query": "наполнение карточек товаров",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "root",
+      "roots": [
+        "наполнение карточек товаров"
+      ],
+      "engines": []
+    },
+    {
+      "query": "каталог для маркетплейса",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "root",
+      "roots": [
+        "каталог для маркетплейса"
+      ],
+      "engines": []
+    },
+    {
+      "query": "продавцу на маркетплейсе",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "root",
+      "roots": [
+        "продавцу на маркетплейсе"
+      ],
+      "engines": []
+    },
+    {
+      "query": "как продавать на маркетплейсе",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "root",
+      "roots": [
+        "как продавать на маркетплейсе"
+      ],
+      "engines": []
+    },
+    {
+      "query": "как выбрать маркетплейс",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "root",
+      "roots": [
+        "как выбрать маркетплейс"
+      ],
+      "engines": []
+    },
+    {
+      "query": "старт продаж на маркетплейсе",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "root",
+      "roots": [
+        "старт продаж на маркетплейсе"
+      ],
+      "engines": []
+    },
+    {
+      "query": "e-commerce услуги",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "root",
+      "roots": [
+        "e-commerce услуги"
+      ],
+      "engines": []
+    },
+    {
+      "query": "помощь с маркетплейсом",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "root",
+      "roots": [
+        "помощь с маркетплейсом"
+      ],
+      "engines": []
+    },
+    {
+      "query": "инфографика для маркетплейсов заказать",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "transactional",
+      "roots": [
+        "инфографика для маркетплейсов"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "карточки для маркетплейсов заказать",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "transactional",
+      "roots": [
+        "карточки для маркетплейсов"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "карточки товаров заказать",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "transactional",
+      "roots": [
+        "карточки товаров"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "маркетплейс где все дешево",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "transactional",
+      "roots": [
+        "маркетплейс"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "маркетплейс заказать товар",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "transactional",
+      "roots": [
+        "маркетплейс"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "продвижение на маркетплейсах заказать",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "transactional",
+      "roots": [
+        "продвижение на маркетплейсах"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "аналитика маркетплейсов бесплатная",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "commercial",
+      "roots": [
+        "аналитика маркетплейсов"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "аналитика маркетплейсов маяк",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "commercial",
+      "roots": [
+        "аналитика маркетплейсов"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "аналитика маркетплейсов сервис",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "commercial",
+      "roots": [
+        "аналитика маркетплейсов"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "аналитика маркетплейсов это",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "commercial",
+      "roots": [
+        "аналитика маркетплейсов"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "выгрузка товаров в вк",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "commercial",
+      "roots": [
+        "выгрузка товаров"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "выгрузка товаров в тсд",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "commercial",
+      "roots": [
+        "выгрузка товаров"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "выход на маркетплейс под ключ",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "commercial",
+      "roots": [
+        "выход на маркетплейс"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "выход на маркетплейсы под ключ",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "commercial",
+      "roots": [
+        "выход на маркетплейс"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "инфографика для маркетплейсов где",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "commercial",
+      "roots": [
+        "инфографика для маркетплейсов"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "инфографика для маркетплейсов где найти",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "commercial",
+      "roots": [
+        "инфографика для маркетплейсов"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "инфографика для маркетплейсов где найти заказчиков",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "commercial",
+      "roots": [
+        "инфографика для маркетплейсов"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "инфографика для маркетплейсов где найти клиентов",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "commercial",
+      "roots": [
+        "инфографика для маркетплейсов"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "инфографика для маркетплейсов заказы",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "commercial",
+      "roots": [
+        "инфографика для маркетплейсов"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "инфографика для маркетплейсов заказы где брать",
+      "cluster": "ecommerce",
+      "clusterNum": "06",
+      "intent": "commercial",
+      "roots": [
+        "инфографика для маркетплейсов"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "seo продвижение",
+      "cluster": "seo",
+      "clusterNum": "02",
+      "intent": "root",
+      "roots": [
+        "seo продвижение"
+      ],
+      "engines": []
+    },
+    {
+      "query": "продвижение в нейросетях",
+      "cluster": "seo",
+      "clusterNum": "02",
+      "intent": "root",
+      "roots": [
+        "продвижение в нейросетях"
+      ],
+      "engines": []
+    },
+    {
+      "query": "оптимизация сайта",
+      "cluster": "seo",
+      "clusterNum": "02",
+      "intent": "root",
+      "roots": [
+        "оптимизация сайта"
+      ],
+      "engines": []
+    },
+    {
+      "query": "продвижение сайта",
+      "cluster": "seo",
+      "clusterNum": "02",
+      "intent": "root",
+      "roots": [
+        "продвижение сайта"
+      ],
+      "engines": []
+    },
+    {
+      "query": "техническое сео",
+      "cluster": "seo",
+      "clusterNum": "02",
+      "intent": "root",
+      "roots": [
+        "техническое сео"
+      ],
+      "engines": []
+    },
+    {
+      "query": "geo оптимизация",
+      "cluster": "seo",
+      "clusterNum": "02",
+      "intent": "root",
+      "roots": [
+        "geo оптимизация"
+      ],
+      "engines": []
+    },
+    {
+      "query": "seo услуги",
+      "cluster": "seo",
+      "clusterNum": "02",
+      "intent": "root",
+      "roots": [
+        "seo услуги"
+      ],
+      "engines": []
+    },
+    {
+      "query": "seo продвижение сайтов",
+      "cluster": "seo",
+      "clusterNum": "02",
+      "intent": "root",
+      "roots": [
+        "seo продвижение сайтов"
+      ],
+      "engines": []
+    },
+    {
+      "query": "аудит сайта",
+      "cluster": "seo",
+      "clusterNum": "02",
+      "intent": "root",
+      "roots": [
+        "аудит сайта"
+      ],
+      "engines": []
+    },
+    {
+      "query": "продвижение в google",
+      "cluster": "seo",
+      "clusterNum": "02",
+      "intent": "root",
+      "roots": [
+        "продвижение в google"
+      ],
+      "engines": []
+    },
+    {
+      "query": "продвижение в яндексе",
+      "cluster": "seo",
+      "clusterNum": "02",
+      "intent": "root",
+      "roots": [
+        "продвижение в яндексе"
+      ],
+      "engines": []
+    },
+    {
+      "query": "оптимизация сайта под нейросети",
+      "cluster": "seo",
+      "clusterNum": "02",
+      "intent": "root",
+      "roots": [
+        "оптимизация сайта под нейросети"
+      ],
+      "engines": []
+    },
+    {
+      "query": "попасть в ответы нейросети",
+      "cluster": "seo",
+      "clusterNum": "02",
+      "intent": "root",
+      "roots": [
+        "попасть в ответы нейросети"
+      ],
+      "engines": []
+    },
+    {
+      "query": "аудит сайта заказать",
+      "cluster": "seo",
+      "clusterNum": "02",
+      "intent": "transactional",
+      "roots": [
+        "аудит сайта"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "оптимизация сайта заказать",
+      "cluster": "seo",
+      "clusterNum": "02",
+      "intent": "transactional",
+      "roots": [
+        "оптимизация сайта"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "оптимизация сайта недорого",
+      "cluster": "seo",
+      "clusterNum": "02",
+      "intent": "transactional",
+      "roots": [
+        "оптимизация сайта"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "продвижение в нейросетях заказать",
+      "cluster": "seo",
+      "clusterNum": "02",
+      "intent": "transactional",
+      "roots": [
+        "продвижение в нейросетях"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "продвижение сайта дешево",
+      "cluster": "seo",
+      "clusterNum": "02",
+      "intent": "transactional",
+      "roots": [
+        "продвижение сайта"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "продвижение сайта дешево заказать",
+      "cluster": "seo",
+      "clusterNum": "02",
+      "intent": "transactional",
+      "roots": [
+        "продвижение сайта"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "продвижение сайта дешево и качественно",
+      "cluster": "seo",
+      "clusterNum": "02",
+      "intent": "transactional",
+      "roots": [
+        "продвижение сайта"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "продвижение сайта дешево цена",
+      "cluster": "seo",
+      "clusterNum": "02",
+      "intent": "transactional",
+      "roots": [
+        "продвижение сайта"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "продвижение сайта дешевое",
+      "cluster": "seo",
+      "clusterNum": "02",
+      "intent": "transactional",
+      "roots": [
+        "продвижение сайта"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "продвижение сайта заказать говтоп ру",
+      "cluster": "seo",
+      "clusterNum": "02",
+      "intent": "transactional",
+      "roots": [
+        "продвижение сайта"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "продвижение сайта заказать раскрутку бюджет ограничен",
+      "cluster": "seo",
+      "clusterNum": "02",
+      "intent": "transactional",
+      "roots": [
+        "продвижение сайта"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "продвижение сайта недорого",
+      "cluster": "seo",
+      "clusterNum": "02",
+      "intent": "transactional",
+      "roots": [
+        "продвижение сайта"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "продвижение сайта недорого частник",
+      "cluster": "seo",
+      "clusterNum": "02",
+      "intent": "transactional",
+      "roots": [
+        "продвижение сайта"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "geo оптимизация заказать",
+      "cluster": "seo",
+      "clusterNum": "02",
+      "intent": "transactional",
+      "roots": [
+        "geo оптимизация"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "geo продвижение в нейросетях заказать",
+      "cluster": "seo",
+      "clusterNum": "02",
+      "intent": "transactional",
+      "roots": [
+        "продвижение в нейросетях"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "seo продвижение дешево",
+      "cluster": "seo",
+      "clusterNum": "02",
+      "intent": "transactional",
+      "roots": [
+        "seo продвижение"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "seo продвижение заказать",
+      "cluster": "seo",
+      "clusterNum": "02",
+      "intent": "transactional",
+      "roots": [
+        "seo продвижение"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "seo продвижение заказать ооо новелит",
+      "cluster": "seo",
+      "clusterNum": "02",
+      "intent": "transactional",
+      "roots": [
+        "seo продвижение"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "seo продвижение заказать сайта",
+      "cluster": "seo",
+      "clusterNum": "02",
+      "intent": "transactional",
+      "roots": [
+        "seo продвижение"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "seo продвижение интернет портала недорого",
+      "cluster": "seo",
+      "clusterNum": "02",
+      "intent": "transactional",
+      "roots": [
+        "seo продвижение"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "seo продвижение недорого",
+      "cluster": "seo",
+      "clusterNum": "02",
+      "intent": "transactional",
+      "roots": [
+        "seo продвижение"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "seo продвижение оптом",
+      "cluster": "seo",
+      "clusterNum": "02",
+      "intent": "transactional",
+      "roots": [
+        "seo продвижение"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "привлечение клиентов",
+      "cluster": "leadgen",
+      "clusterNum": "01",
+      "intent": "root",
+      "roots": [
+        "привлечение клиентов"
+      ],
+      "engines": []
+    },
+    {
+      "query": "воронка продаж",
+      "cluster": "leadgen",
+      "clusterNum": "01",
+      "intent": "root",
+      "roots": [
+        "воронка продаж"
+      ],
+      "engines": []
+    },
+    {
+      "query": "лидогенерация",
+      "cluster": "leadgen",
+      "clusterNum": "01",
+      "intent": "root",
+      "roots": [
+        "лидогенерация"
+      ],
+      "engines": []
+    },
+    {
+      "query": "генерация заявок",
+      "cluster": "leadgen",
+      "clusterNum": "01",
+      "intent": "root",
+      "roots": [
+        "генерация заявок"
+      ],
+      "engines": []
+    },
+    {
+      "query": "привлечение целевой аудитории",
+      "cluster": "leadgen",
+      "clusterNum": "01",
+      "intent": "root",
+      "roots": [
+        "привлечение целевой аудитории"
+      ],
+      "engines": []
+    },
+    {
+      "query": "привлечение клиентов в интернет",
+      "cluster": "leadgen",
+      "clusterNum": "01",
+      "intent": "root",
+      "roots": [
+        "привлечение клиентов в интернет"
+      ],
+      "engines": []
+    },
+    {
+      "query": "как привлекать клиентов",
+      "cluster": "leadgen",
+      "clusterNum": "01",
+      "intent": "root",
+      "roots": [
+        "как привлекать клиентов"
+      ],
+      "engines": []
+    },
+    {
+      "query": "заявки с сайта",
+      "cluster": "leadgen",
+      "clusterNum": "01",
+      "intent": "root",
+      "roots": [
+        "заявки с сайта"
+      ],
+      "engines": []
+    },
+    {
+      "query": "обработка заявок",
+      "cluster": "leadgen",
+      "clusterNum": "01",
+      "intent": "root",
+      "roots": [
+        "обработка заявок"
+      ],
+      "engines": []
+    },
+    {
+      "query": "лид менеджер",
+      "cluster": "leadgen",
+      "clusterNum": "01",
+      "intent": "root",
+      "roots": [
+        "лид менеджер"
+      ],
+      "engines": []
+    },
+    {
+      "query": "конверсия в заявку",
+      "cluster": "leadgen",
+      "clusterNum": "01",
+      "intent": "root",
+      "roots": [
+        "конверсия в заявку"
+      ],
+      "engines": []
+    },
+    {
+      "query": "лиды",
+      "cluster": "leadgen",
+      "clusterNum": "01",
+      "intent": "root",
+      "roots": [
+        "лиды"
+      ],
+      "engines": []
+    },
+    {
+      "query": "скрипты продаж",
+      "cluster": "leadgen",
+      "clusterNum": "01",
+      "intent": "root",
+      "roots": [
+        "скрипты продаж"
+      ],
+      "engines": []
+    },
+    {
+      "query": "холодные звонки",
+      "cluster": "leadgen",
+      "clusterNum": "01",
+      "intent": "root",
+      "roots": [
+        "холодные звонки"
+      ],
+      "engines": []
+    },
+    {
+      "query": "перфоманс маркетинг",
+      "cluster": "leadgen",
+      "clusterNum": "01",
+      "intent": "root",
+      "roots": [
+        "перфоманс маркетинг"
+      ],
+      "engines": []
+    },
+    {
+      "query": "продвижение бизнеса",
+      "cluster": "leadgen",
+      "clusterNum": "01",
+      "intent": "root",
+      "roots": [
+        "продвижение бизнеса"
+      ],
+      "engines": []
+    },
+    {
+      "query": "воронка продаж в интернете",
+      "cluster": "leadgen",
+      "clusterNum": "01",
+      "intent": "root",
+      "roots": [
+        "воронка продаж в интернете"
+      ],
+      "engines": []
+    },
+    {
+      "query": "автоматизация продаж",
+      "cluster": "leadgen",
+      "clusterNum": "01",
+      "intent": "root",
+      "roots": [
+        "автоматизация продаж"
+      ],
+      "engines": []
+    },
+    {
+      "query": "воронка продаж аида",
+      "cluster": "leadgen",
+      "clusterNum": "01",
+      "intent": "commercial",
+      "roots": [
+        "воронка продаж"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "воронка продаж б2б",
+      "cluster": "leadgen",
+      "clusterNum": "01",
+      "intent": "commercial",
+      "roots": [
+        "воронка продаж"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "воронка продаж битрикс",
+      "cluster": "leadgen",
+      "clusterNum": "01",
+      "intent": "commercial",
+      "roots": [
+        "воронка продаж"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "воронка продаж битрикс 24",
+      "cluster": "leadgen",
+      "clusterNum": "01",
+      "intent": "commercial",
+      "roots": [
+        "воронка продаж"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "воронка продаж битрикс24",
+      "cluster": "leadgen",
+      "clusterNum": "01",
+      "intent": "commercial",
+      "roots": [
+        "воронка продаж"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "воронка продаж в амо срм",
+      "cluster": "leadgen",
+      "clusterNum": "01",
+      "intent": "commercial",
+      "roots": [
+        "воронка продаж"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "воронка продаж в амо срм пример",
+      "cluster": "leadgen",
+      "clusterNum": "01",
+      "intent": "commercial",
+      "roots": [
+        "воронка продаж"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "воронка продаж в битрикс",
+      "cluster": "leadgen",
+      "clusterNum": "01",
+      "intent": "commercial",
+      "roots": [
+        "воронка продаж"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "воронка продаж в битрикс 24",
+      "cluster": "leadgen",
+      "clusterNum": "01",
+      "intent": "commercial",
+      "roots": [
+        "воронка продаж"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "воронка продаж в битриксе",
+      "cluster": "leadgen",
+      "clusterNum": "01",
+      "intent": "commercial",
+      "roots": [
+        "воронка продаж"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "воронка продаж в инстаграм",
+      "cluster": "leadgen",
+      "clusterNum": "01",
+      "intent": "commercial",
+      "roots": [
+        "воронка продаж"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "воронка продаж в интернете мария солодар",
+      "cluster": "leadgen",
+      "clusterNum": "01",
+      "intent": "commercial",
+      "roots": [
+        "воронка продаж в интернете"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "воронка продаж в логистике",
+      "cluster": "leadgen",
+      "clusterNum": "01",
+      "intent": "commercial",
+      "roots": [
+        "воронка продаж"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "воронка продаж в маркетинге",
+      "cluster": "leadgen",
+      "clusterNum": "01",
+      "intent": "commercial",
+      "roots": [
+        "воронка продаж"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "воронка продаж в недвижимости",
+      "cluster": "leadgen",
+      "clusterNum": "01",
+      "intent": "commercial",
+      "roots": [
+        "воронка продаж"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "воронка продаж в недвижимости примеры",
+      "cluster": "leadgen",
+      "clusterNum": "01",
+      "intent": "commercial",
+      "roots": [
+        "воронка продаж"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "воронка продаж в проектной работе",
+      "cluster": "leadgen",
+      "clusterNum": "01",
+      "intent": "commercial",
+      "roots": [
+        "воронка продаж"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "воронка продаж в ресторане",
+      "cluster": "leadgen",
+      "clusterNum": "01",
+      "intent": "commercial",
+      "roots": [
+        "воронка продаж"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "воронка продаж в ресторане для официантов",
+      "cluster": "leadgen",
+      "clusterNum": "01",
+      "intent": "commercial",
+      "roots": [
+        "воронка продаж"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "воронка продаж в2в",
+      "cluster": "leadgen",
+      "clusterNum": "01",
+      "intent": "commercial",
+      "roots": [
+        "воронка продаж"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "smm",
+      "cluster": "smm",
+      "clusterNum": "03",
+      "intent": "root",
+      "roots": [
+        "smm"
+      ],
+      "engines": []
+    },
+    {
+      "query": "ведение соцсетей",
+      "cluster": "smm",
+      "clusterNum": "03",
+      "intent": "root",
+      "roots": [
+        "ведение соцсетей"
+      ],
+      "engines": []
+    },
+    {
+      "query": "продвижение в соцсетях",
+      "cluster": "smm",
+      "clusterNum": "03",
+      "intent": "root",
+      "roots": [
+        "продвижение в соцсетях"
+      ],
+      "engines": []
+    },
+    {
+      "query": "контент для соцсетей",
+      "cluster": "smm",
+      "clusterNum": "03",
+      "intent": "root",
+      "roots": [
+        "контент для соцсетей"
+      ],
+      "engines": []
+    },
+    {
+      "query": "smm продвижение",
+      "cluster": "smm",
+      "clusterNum": "03",
+      "intent": "root",
+      "roots": [
+        "smm продвижение"
+      ],
+      "engines": []
+    },
+    {
+      "query": "smm услуги",
+      "cluster": "smm",
+      "clusterNum": "03",
+      "intent": "root",
+      "roots": [
+        "smm услуги"
+      ],
+      "engines": []
+    },
+    {
+      "query": "контент план",
+      "cluster": "smm",
+      "clusterNum": "03",
+      "intent": "root",
+      "roots": [
+        "контент план"
+      ],
+      "engines": []
+    },
+    {
+      "query": "дизайн для соцсетей",
+      "cluster": "smm",
+      "clusterNum": "03",
+      "intent": "root",
+      "roots": [
+        "дизайн для соцсетей"
+      ],
+      "engines": []
+    },
+    {
+      "query": "таргет в инстаграм",
+      "cluster": "smm",
+      "clusterNum": "03",
+      "intent": "root",
+      "roots": [
+        "таргет в инстаграм"
+      ],
+      "engines": []
+    },
+    {
+      "query": "ведение инстаграм",
+      "cluster": "smm",
+      "clusterNum": "03",
+      "intent": "root",
+      "roots": [
+        "ведение инстаграм"
+      ],
+      "engines": []
+    },
+    {
+      "query": "ведение telegram канала",
+      "cluster": "smm",
+      "clusterNum": "03",
+      "intent": "root",
+      "roots": [
+        "ведение telegram канала"
+      ],
+      "engines": []
+    },
+    {
+      "query": "съёмка контента",
+      "cluster": "smm",
+      "clusterNum": "03",
+      "intent": "root",
+      "roots": [
+        "съёмка контента"
+      ],
+      "engines": []
+    },
+    {
+      "query": "заказать услуги smm",
+      "cluster": "smm",
+      "clusterNum": "03",
+      "intent": "transactional",
+      "roots": [
+        "smm услуги"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "smm продвижение заказать",
+      "cluster": "smm",
+      "clusterNum": "03",
+      "intent": "transactional",
+      "roots": [
+        "smm продвижение"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "ведение блога в инстаграм",
+      "cluster": "smm",
+      "clusterNum": "03",
+      "intent": "commercial",
+      "roots": [
+        "ведение инстаграм"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "ведение инстаграм аккаунта",
+      "cluster": "smm",
+      "clusterNum": "03",
+      "intent": "commercial",
+      "roots": [
+        "ведение инстаграм"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "ведение инстаграм аккаунта цена",
+      "cluster": "smm",
+      "clusterNum": "03",
+      "intent": "commercial",
+      "roots": [
+        "ведение инстаграм"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "ведение инстаграм аккаунта цена в месяц",
+      "cluster": "smm",
+      "clusterNum": "03",
+      "intent": "commercial",
+      "roots": [
+        "ведение инстаграм"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "ведение инстаграма",
+      "cluster": "smm",
+      "clusterNum": "03",
+      "intent": "commercial",
+      "roots": [
+        "ведение инстаграм"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "ведение инстаграма кафе",
+      "cluster": "smm",
+      "clusterNum": "03",
+      "intent": "commercial",
+      "roots": [
+        "ведение инстаграм"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "ведение инстаграмм",
+      "cluster": "smm",
+      "clusterNum": "03",
+      "intent": "commercial",
+      "roots": [
+        "ведение инстаграм"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "ведение инстаграмма",
+      "cluster": "smm",
+      "clusterNum": "03",
+      "intent": "commercial",
+      "roots": [
+        "ведение инстаграм"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "ведение инстаграмма для бизнеса",
+      "cluster": "smm",
+      "clusterNum": "03",
+      "intent": "commercial",
+      "roots": [
+        "ведение инстаграм"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "ведение соцсетей оквэд",
+      "cluster": "smm",
+      "clusterNum": "03",
+      "intent": "commercial",
+      "roots": [
+        "ведение соцсетей"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "ведение соцсетей под ключ",
+      "cluster": "smm",
+      "clusterNum": "03",
+      "intent": "commercial",
+      "roots": [
+        "ведение соцсетей"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "ведение соцсетей с помощью ии",
+      "cluster": "smm",
+      "clusterNum": "03",
+      "intent": "commercial",
+      "roots": [
+        "ведение соцсетей"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "ведение соцсетей стоимость",
+      "cluster": "smm",
+      "clusterNum": "03",
+      "intent": "commercial",
+      "roots": [
+        "ведение соцсетей"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "ведение соцсетей цена",
+      "cluster": "smm",
+      "clusterNum": "03",
+      "intent": "commercial",
+      "roots": [
+        "ведение соцсетей"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "контент план в гугл таблице",
+      "cluster": "smm",
+      "clusterNum": "03",
+      "intent": "commercial",
+      "roots": [
+        "контент план"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "контент план в гугл таблице шаблон",
+      "cluster": "smm",
+      "clusterNum": "03",
+      "intent": "commercial",
+      "roots": [
+        "контент план"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "контент план в таблице",
+      "cluster": "smm",
+      "clusterNum": "03",
+      "intent": "commercial",
+      "roots": [
+        "контент план"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "настройка рекламы",
+      "cluster": "advertising",
+      "clusterNum": "04",
+      "intent": "root",
+      "roots": [
+        "настройка рекламы"
+      ],
+      "engines": []
+    },
+    {
+      "query": "яндекс директ",
+      "cluster": "advertising",
+      "clusterNum": "04",
+      "intent": "root",
+      "roots": [
+        "яндекс директ"
+      ],
+      "engines": []
+    },
+    {
+      "query": "таргетированная реклама",
+      "cluster": "advertising",
+      "clusterNum": "04",
+      "intent": "root",
+      "roots": [
+        "таргетированная реклама"
+      ],
+      "engines": []
+    },
+    {
+      "query": "контекстная реклама",
+      "cluster": "advertising",
+      "clusterNum": "04",
+      "intent": "root",
+      "roots": [
+        "контекстная реклама"
+      ],
+      "engines": []
+    },
+    {
+      "query": "реклама в интернете",
+      "cluster": "advertising",
+      "clusterNum": "04",
+      "intent": "root",
+      "roots": [
+        "реклама в интернете"
+      ],
+      "engines": []
+    },
+    {
+      "query": "настройка яндекс директ",
+      "cluster": "advertising",
+      "clusterNum": "04",
+      "intent": "root",
+      "roots": [
+        "настройка яндекс директ"
+      ],
+      "engines": []
+    },
+    {
+      "query": "реклама в telegram",
+      "cluster": "advertising",
+      "clusterNum": "04",
+      "intent": "root",
+      "roots": [
+        "реклама в telegram"
+      ],
+      "engines": []
+    },
+    {
+      "query": "реклама в вк",
+      "cluster": "advertising",
+      "clusterNum": "04",
+      "intent": "root",
+      "roots": [
+        "реклама в вк"
+      ],
+      "engines": []
+    },
+    {
+      "query": "ведение рекламы",
+      "cluster": "advertising",
+      "clusterNum": "04",
+      "intent": "root",
+      "roots": [
+        "ведение рекламы"
+      ],
+      "engines": []
+    },
+    {
+      "query": "аудит рекламы",
+      "cluster": "advertising",
+      "clusterNum": "04",
+      "intent": "root",
+      "roots": [
+        "аудит рекламы"
+      ],
+      "engines": []
+    },
+    {
+      "query": "медиаплан",
+      "cluster": "advertising",
+      "clusterNum": "04",
+      "intent": "root",
+      "roots": [
+        "медиаплан"
+      ],
+      "engines": []
+    },
+    {
+      "query": "ведение рекламы в директе заказать",
+      "cluster": "advertising",
+      "clusterNum": "04",
+      "intent": "transactional",
+      "roots": [
+        "ведение рекламы"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "контекстная реклама в директе заказать",
+      "cluster": "advertising",
+      "clusterNum": "04",
+      "intent": "transactional",
+      "roots": [
+        "контекстная реклама"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "контекстная реклама в интернете заказать",
+      "cluster": "advertising",
+      "clusterNum": "04",
+      "intent": "transactional",
+      "roots": [
+        "контекстная реклама"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "контекстная реклама дешево",
+      "cluster": "advertising",
+      "clusterNum": "04",
+      "intent": "transactional",
+      "roots": [
+        "контекстная реклама"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "контекстная реклама заказать",
+      "cluster": "advertising",
+      "clusterNum": "04",
+      "intent": "transactional",
+      "roots": [
+        "контекстная реклама"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "контекстная реклама заказать агентство",
+      "cluster": "advertising",
+      "clusterNum": "04",
+      "intent": "transactional",
+      "roots": [
+        "контекстная реклама"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "контекстная реклама заказать стоимость",
+      "cluster": "advertising",
+      "clusterNum": "04",
+      "intent": "transactional",
+      "roots": [
+        "контекстная реклама"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "контекстная реклама интернете заказать",
+      "cluster": "advertising",
+      "clusterNum": "04",
+      "intent": "transactional",
+      "roots": [
+        "контекстная реклама"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "настройка рекламы в яндекс заказать",
+      "cluster": "advertising",
+      "clusterNum": "04",
+      "intent": "transactional",
+      "roots": [
+        "настройка рекламы"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "настройка яндекс директ заказать",
+      "cluster": "advertising",
+      "clusterNum": "04",
+      "intent": "transactional",
+      "roots": [
+        "настройка яндекс директ"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "реклама в интернете заказать",
+      "cluster": "advertising",
+      "clusterNum": "04",
+      "intent": "transactional",
+      "roots": [
+        "реклама в интернете"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "таргетированная реклама заказать",
+      "cluster": "advertising",
+      "clusterNum": "04",
+      "intent": "transactional",
+      "roots": [
+        "таргетированная реклама"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "таргетированная реклама заказать цена",
+      "cluster": "advertising",
+      "clusterNum": "04",
+      "intent": "transactional",
+      "roots": [
+        "таргетированная реклама"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "агентство ведение контекстной рекламы",
+      "cluster": "advertising",
+      "clusterNum": "04",
+      "intent": "commercial",
+      "roots": [
+        "ведение рекламы"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "аудит контекстной рекламы",
+      "cluster": "advertising",
+      "clusterNum": "04",
+      "intent": "commercial",
+      "roots": [
+        "аудит рекламы"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "аудит рекламы яндекс директ",
+      "cluster": "advertising",
+      "clusterNum": "04",
+      "intent": "commercial",
+      "roots": [
+        "аудит рекламы"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "ведение контекстной рекламы",
+      "cluster": "advertising",
+      "clusterNum": "04",
+      "intent": "commercial",
+      "roots": [
+        "ведение рекламы"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "ведение контекстной рекламы цена",
+      "cluster": "advertising",
+      "clusterNum": "04",
+      "intent": "commercial",
+      "roots": [
+        "ведение рекламы"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "ведение рекламы в директе стоимость",
+      "cluster": "advertising",
+      "clusterNum": "04",
+      "intent": "commercial",
+      "roots": [
+        "ведение рекламы"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "ведение рекламы в яндекс директ",
+      "cluster": "advertising",
+      "clusterNum": "04",
+      "intent": "commercial",
+      "roots": [
+        "ведение рекламы"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "разработка сайта",
+      "cluster": "landing",
+      "clusterNum": "05",
+      "intent": "root",
+      "roots": [
+        "разработка сайта"
+      ],
+      "engines": []
+    },
+    {
+      "query": "лендинг под ключ",
+      "cluster": "landing",
+      "clusterNum": "05",
+      "intent": "root",
+      "roots": [
+        "лендинг под ключ"
+      ],
+      "engines": []
+    },
+    {
+      "query": "создание сайта",
+      "cluster": "landing",
+      "clusterNum": "05",
+      "intent": "root",
+      "roots": [
+        "создание сайта"
+      ],
+      "engines": []
+    },
+    {
+      "query": "дизайн сайта",
+      "cluster": "landing",
+      "clusterNum": "05",
+      "intent": "root",
+      "roots": [
+        "дизайн сайта"
+      ],
+      "engines": []
+    },
+    {
+      "query": "разработка лендинга",
+      "cluster": "landing",
+      "clusterNum": "05",
+      "intent": "root",
+      "roots": [
+        "разработка лендинга"
+      ],
+      "engines": []
+    },
+    {
+      "query": "сайт для бизнеса",
+      "cluster": "landing",
+      "clusterNum": "05",
+      "intent": "root",
+      "roots": [
+        "сайт для бизнеса"
+      ],
+      "engines": []
+    },
+    {
+      "query": "корпоративный сайт",
+      "cluster": "landing",
+      "clusterNum": "05",
+      "intent": "root",
+      "roots": [
+        "корпоративный сайт"
+      ],
+      "engines": []
+    },
+    {
+      "query": "интернет-магазин сайт",
+      "cluster": "landing",
+      "clusterNum": "05",
+      "intent": "root",
+      "roots": [
+        "интернет-магазин сайт"
+      ],
+      "engines": []
+    },
+    {
+      "query": "вёрстка сайта",
+      "cluster": "landing",
+      "clusterNum": "05",
+      "intent": "root",
+      "roots": [
+        "вёрстка сайта"
+      ],
+      "engines": []
+    },
+    {
+      "query": "прототип сайта",
+      "cluster": "landing",
+      "clusterNum": "05",
+      "intent": "root",
+      "roots": [
+        "прототип сайта"
+      ],
+      "engines": []
+    },
+    {
+      "query": "дизайн сайта заказать",
+      "cluster": "landing",
+      "clusterNum": "05",
+      "intent": "transactional",
+      "roots": [
+        "дизайн сайта"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "заказать лендинг под ключ",
+      "cluster": "landing",
+      "clusterNum": "05",
+      "intent": "transactional",
+      "roots": [
+        "лендинг под ключ"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "корпоративный сайт заказать",
+      "cluster": "landing",
+      "clusterNum": "05",
+      "intent": "transactional",
+      "roots": [
+        "корпоративный сайт"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "разработка сайта заказать",
+      "cluster": "landing",
+      "clusterNum": "05",
+      "intent": "transactional",
+      "roots": [
+        "разработка сайта"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "разработка сайта продвижение заказать",
+      "cluster": "landing",
+      "clusterNum": "05",
+      "intent": "transactional",
+      "roots": [
+        "разработка сайта"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "сайт для бизнеса заказать",
+      "cluster": "landing",
+      "clusterNum": "05",
+      "intent": "transactional",
+      "roots": [
+        "сайт для бизнеса"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "создание сайта заказать",
+      "cluster": "landing",
+      "clusterNum": "05",
+      "intent": "transactional",
+      "roots": [
+        "создание сайта"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "дизайн сайта в фигме примеры",
+      "cluster": "landing",
+      "clusterNum": "05",
+      "intent": "commercial",
+      "roots": [
+        "дизайн сайта"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "дизайн сайта на заказ",
+      "cluster": "landing",
+      "clusterNum": "05",
+      "intent": "commercial",
+      "roots": [
+        "дизайн сайта"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "дизайн сайта под ключ",
+      "cluster": "landing",
+      "clusterNum": "05",
+      "intent": "commercial",
+      "roots": [
+        "дизайн сайта"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "дизайн сайта пример",
+      "cluster": "landing",
+      "clusterNum": "05",
+      "intent": "commercial",
+      "roots": [
+        "дизайн сайта"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "дизайн сайта примеры",
+      "cluster": "landing",
+      "clusterNum": "05",
+      "intent": "commercial",
+      "roots": [
+        "дизайн сайта"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "дизайн сайта разработка корпоративного",
+      "cluster": "landing",
+      "clusterNum": "05",
+      "intent": "commercial",
+      "roots": [
+        "дизайн сайта"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "дизайн сайта с помощью ии",
+      "cluster": "landing",
+      "clusterNum": "05",
+      "intent": "commercial",
+      "roots": [
+        "дизайн сайта"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "дизайн сайта с помощью нейросети",
+      "cluster": "landing",
+      "clusterNum": "05",
+      "intent": "commercial",
+      "roots": [
+        "дизайн сайта"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "дизайн сайта стоимость",
+      "cluster": "landing",
+      "clusterNum": "05",
+      "intent": "commercial",
+      "roots": [
+        "дизайн сайта"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "дизайн сайта строительной компании",
+      "cluster": "landing",
+      "clusterNum": "05",
+      "intent": "commercial",
+      "roots": [
+        "дизайн сайта"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "дизайн сайта цена",
+      "cluster": "landing",
+      "clusterNum": "05",
+      "intent": "commercial",
+      "roots": [
+        "дизайн сайта"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "корпоративный сайт компании",
+      "cluster": "landing",
+      "clusterNum": "05",
+      "intent": "commercial",
+      "roots": [
+        "корпоративный сайт"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "корпоративный сайт под ключ",
+      "cluster": "landing",
+      "clusterNum": "05",
+      "intent": "commercial",
+      "roots": [
+        "корпоративный сайт"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "корпоративный сайт пример",
+      "cluster": "landing",
+      "clusterNum": "05",
+      "intent": "commercial",
+      "roots": [
+        "корпоративный сайт"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "корпоративный сайт примеры",
+      "cluster": "landing",
+      "clusterNum": "05",
+      "intent": "commercial",
+      "roots": [
+        "корпоративный сайт"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "crm",
+      "cluster": "crm",
+      "clusterNum": "07",
+      "intent": "root",
+      "roots": [
+        "crm"
+      ],
+      "engines": []
+    },
+    {
+      "query": "crm система",
+      "cluster": "crm",
+      "clusterNum": "07",
+      "intent": "root",
+      "roots": [
+        "crm система"
+      ],
+      "engines": []
+    },
+    {
+      "query": "внедрение crm",
+      "cluster": "crm",
+      "clusterNum": "07",
+      "intent": "root",
+      "roots": [
+        "внедрение crm"
+      ],
+      "engines": []
+    },
+    {
+      "query": "настройка crm",
+      "cluster": "crm",
+      "clusterNum": "07",
+      "intent": "root",
+      "roots": [
+        "настройка crm"
+      ],
+      "engines": []
+    },
+    {
+      "query": "bitrix24",
+      "cluster": "crm",
+      "clusterNum": "07",
+      "intent": "root",
+      "roots": [
+        "bitrix24"
+      ],
+      "engines": []
+    },
+    {
+      "query": "amo crm",
+      "cluster": "crm",
+      "clusterNum": "07",
+      "intent": "root",
+      "roots": [
+        "amo crm"
+      ],
+      "engines": []
+    },
+    {
+      "query": "автоматизация продаж crm",
+      "cluster": "crm",
+      "clusterNum": "07",
+      "intent": "root",
+      "roots": [
+        "автоматизация продаж crm"
+      ],
+      "engines": []
+    },
+    {
+      "query": "crm для продаж",
+      "cluster": "crm",
+      "clusterNum": "07",
+      "intent": "root",
+      "roots": [
+        "crm для продаж"
+      ],
+      "engines": []
+    },
+    {
+      "query": "интеграция crm",
+      "cluster": "crm",
+      "clusterNum": "07",
+      "intent": "root",
+      "roots": [
+        "интеграция crm"
+      ],
+      "engines": []
+    },
+    {
+      "query": "настройка amo crm",
+      "cluster": "crm",
+      "clusterNum": "07",
+      "intent": "root",
+      "roots": [
+        "настройка amo crm"
+      ],
+      "engines": []
+    },
+    {
+      "query": "amo crm настройка",
+      "cluster": "crm",
+      "clusterNum": "07",
+      "intent": "root",
+      "roots": [
+        "amo crm настройка"
+      ],
+      "engines": []
+    },
+    {
+      "query": "внедрение amo crm",
+      "cluster": "crm",
+      "clusterNum": "07",
+      "intent": "root",
+      "roots": [
+        "внедрение amo crm"
+      ],
+      "engines": []
+    },
+    {
+      "query": "crm система для бизнеса",
+      "cluster": "crm",
+      "clusterNum": "07",
+      "intent": "root",
+      "roots": [
+        "crm система для бизнеса"
+      ],
+      "engines": []
+    },
+    {
+      "query": "crm для маркетинга",
+      "cluster": "crm",
+      "clusterNum": "07",
+      "intent": "root",
+      "roots": [
+        "crm для маркетинга"
+      ],
+      "engines": []
+    },
+    {
+      "query": "bitrix24 настройка",
+      "cluster": "crm",
+      "clusterNum": "07",
+      "intent": "root",
+      "roots": [
+        "bitrix24 настройка"
+      ],
+      "engines": []
+    },
+    {
+      "query": "внедрение bitrix24",
+      "cluster": "crm",
+      "clusterNum": "07",
+      "intent": "root",
+      "roots": [
+        "внедрение bitrix24"
+      ],
+      "engines": []
+    },
+    {
+      "query": "автоматизация продаж в crm",
+      "cluster": "crm",
+      "clusterNum": "07",
+      "intent": "root",
+      "roots": [
+        "автоматизация продаж в crm"
+      ],
+      "engines": []
+    },
+    {
+      "query": "crm для отдела продаж",
+      "cluster": "crm",
+      "clusterNum": "07",
+      "intent": "root",
+      "roots": [
+        "crm для отдела продаж"
+      ],
+      "engines": []
+    },
+    {
+      "query": "аналитика в crm",
+      "cluster": "crm",
+      "clusterNum": "07",
+      "intent": "root",
+      "roots": [
+        "аналитика в crm"
+      ],
+      "engines": []
+    },
+    {
+      "query": "внедрение и настройка crm",
+      "cluster": "crm",
+      "clusterNum": "07",
+      "intent": "commercial",
+      "roots": [
+        "настройка crm"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "внедрение crm битрикс 24",
+      "cluster": "crm",
+      "clusterNum": "07",
+      "intent": "commercial",
+      "roots": [
+        "внедрение crm"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "внедрение crm битрикс24",
+      "cluster": "crm",
+      "clusterNum": "07",
+      "intent": "commercial",
+      "roots": [
+        "внедрение crm"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "внедрение crm под ключ",
+      "cluster": "crm",
+      "clusterNum": "07",
+      "intent": "commercial",
+      "roots": [
+        "внедрение crm"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "внедрение crm систем",
+      "cluster": "crm",
+      "clusterNum": "07",
+      "intent": "commercial",
+      "roots": [
+        "внедрение crm"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "внедрение crm систем битрикс24",
+      "cluster": "crm",
+      "clusterNum": "07",
+      "intent": "commercial",
+      "roots": [
+        "внедрение crm"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "внедрение crm системы",
+      "cluster": "crm",
+      "clusterNum": "07",
+      "intent": "commercial",
+      "roots": [
+        "внедрение crm"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "внедрение crm системы на предприятии",
+      "cluster": "crm",
+      "clusterNum": "07",
+      "intent": "commercial",
+      "roots": [
+        "внедрение crm"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "внедрение crm услуга",
+      "cluster": "crm",
+      "clusterNum": "07",
+      "intent": "commercial",
+      "roots": [
+        "внедрение crm"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "внедрение crm цена",
+      "cluster": "crm",
+      "clusterNum": "07",
+      "intent": "commercial",
+      "roots": [
+        "внедрение crm"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "внедрение crm это",
+      "cluster": "crm",
+      "clusterNum": "07",
+      "intent": "commercial",
+      "roots": [
+        "внедрение crm"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "интеграция с crm",
+      "cluster": "crm",
+      "clusterNum": "07",
+      "intent": "commercial",
+      "roots": [
+        "интеграция crm"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "интеграция crm с сайтом",
+      "cluster": "crm",
+      "clusterNum": "07",
+      "intent": "commercial",
+      "roots": [
+        "интеграция crm"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "настройка crm битрикс",
+      "cluster": "crm",
+      "clusterNum": "07",
+      "intent": "commercial",
+      "roots": [
+        "настройка crm"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "настройка crm битрикс 24",
+      "cluster": "crm",
+      "clusterNum": "07",
+      "intent": "commercial",
+      "roots": [
+        "настройка crm"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "настройка crm битрикс 24 стоимость",
+      "cluster": "crm",
+      "clusterNum": "07",
+      "intent": "commercial",
+      "roots": [
+        "настройка crm"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "настройка crm системы",
+      "cluster": "crm",
+      "clusterNum": "07",
+      "intent": "commercial",
+      "roots": [
+        "настройка crm"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    },
+    {
+      "query": "настройка crm это",
+      "cluster": "crm",
+      "clusterNum": "07",
+      "intent": "commercial",
+      "roots": [
+        "настройка crm"
+      ],
+      "engines": [
+        "yandex"
+      ]
+    }
+  ]
+}

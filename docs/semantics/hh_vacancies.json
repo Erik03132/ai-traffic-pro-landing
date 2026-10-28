@@ -1,0 +1,1819 @@
+{
+  "source": "hh.ru",
+  "url": "https://hh.ru/search/vacancy?text=<query>&area=113&per_page=1",
+  "metric": "число вакансий по запросу, вся Россия (area=113)",
+  "measuredAt": "2026-10-28",
+  "note": "Отражает объём спроса рынка труда на навык/услугу, а не поисковые показы. Плановые счётчики Wordstat/Keys.so недоступны (требуют оплаченного доступа).",
+  "items": [
+    {
+      "query": "интернет-магазин",
+      "vacancies": 12945,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "e-commerce",
+      "vacancies": 4110,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "маркетплейс",
+      "vacancies": 12173,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "карточки товаров",
+      "vacancies": 1578,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "каталог товаров",
+      "vacancies": 1310,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "продвижение на маркетплейсах",
+      "vacancies": 1993,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "разработка интернет-магазина",
+      "vacancies": 640,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "создание интернет-магазина",
+      "vacancies": 680,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "интернет-магазин под ключ",
+      "vacancies": 37,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "оформление карточек",
+      "vacancies": 0,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "выгрузка товаров",
+      "vacancies": 4179,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "продажи на маркетплейсах",
+      "vacancies": 5639,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "выход на маркетплейс",
+      "vacancies": 1085,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "продвижение товаров",
+      "vacancies": 4148,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "инфографика для маркетплейсов",
+      "vacancies": 484,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "аналитика маркетплейсов",
+      "vacancies": 2728,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "управление продажами",
+      "vacancies": 37068,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "продвижение вб",
+      "vacancies": 1373,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "продвижение озона",
+      "vacancies": 1430,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "сопровождение маркетплейсов",
+      "vacancies": 1728,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "оформление карточек товаров",
+      "vacancies": 978,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "загрузка товаров",
+      "vacancies": 8024,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "карточки для маркетплейсов",
+      "vacancies": 1177,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "наполнение карточек товаров",
+      "vacancies": 198,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "каталог для маркетплейса",
+      "vacancies": 300,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "продавцу на маркетплейсе",
+      "vacancies": 645,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "как продавать на маркетплейсе",
+      "vacancies": 193,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "как выбрать маркетплейс",
+      "vacancies": 0,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "старт продаж на маркетплейсе",
+      "vacancies": 525,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "e-commerce услуги",
+      "vacancies": 1760,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "помощь с маркетплейсом",
+      "vacancies": 1950,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "инфографика для маркетплейсов заказать",
+      "vacancies": 0,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "карточки для маркетплейсов заказать",
+      "vacancies": 5,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "карточки товаров заказать",
+      "vacancies": 6,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "маркетплейс где все дешево",
+      "vacancies": 2,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "маркетплейс заказать товар",
+      "vacancies": 24,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "продвижение на маркетплейсах заказать",
+      "vacancies": 5,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "аналитика маркетплейсов бесплатная",
+      "vacancies": 227,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "аналитика маркетплейсов маяк",
+      "vacancies": 16,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "аналитика маркетплейсов сервис",
+      "vacancies": 1133,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "аналитика маркетплейсов это",
+      "vacancies": 795,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "выгрузка товаров в вк",
+      "vacancies": 2,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "выгрузка товаров в тсд",
+      "vacancies": 300,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "выгрузка товаров в тсд что это",
+      "vacancies": 15,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "выход на маркетплейс под ключ",
+      "vacancies": 26,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "выход на маркетплейсы под ключ",
+      "vacancies": 26,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "инфографика для маркетплейсов где",
+      "vacancies": 72,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "инфографика для маркетплейсов где найти",
+      "vacancies": 5,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "инфографика для маркетплейсов где найти заказчиков",
+      "vacancies": 4,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "инфографика для маркетплейсов где найти клиентов",
+      "vacancies": 4,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "инфографика для маркетплейсов заказы",
+      "vacancies": 117,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "seo продвижение",
+      "vacancies": 1844,
+      "cluster": "seo"
+    },
+    {
+      "query": "продвижение в нейросетях",
+      "vacancies": 618,
+      "cluster": "seo"
+    },
+    {
+      "query": "оптимизация сайта",
+      "vacancies": 1456,
+      "cluster": "seo"
+    },
+    {
+      "query": "продвижение сайта",
+      "vacancies": 2447,
+      "cluster": "seo"
+    },
+    {
+      "query": "техническое сео",
+      "vacancies": 33,
+      "cluster": "seo"
+    },
+    {
+      "query": "geo оптимизация",
+      "vacancies": 0,
+      "cluster": "seo"
+    },
+    {
+      "query": "seo услуги",
+      "vacancies": 1400,
+      "cluster": "seo"
+    },
+    {
+      "query": "seo продвижение сайтов",
+      "vacancies": 942,
+      "cluster": "seo"
+    },
+    {
+      "query": "аудит сайта",
+      "vacancies": 620,
+      "cluster": "seo"
+    },
+    {
+      "query": "продвижение в google",
+      "vacancies": 1528,
+      "cluster": "seo"
+    },
+    {
+      "query": "продвижение в яндексе",
+      "vacancies": 2030,
+      "cluster": "seo"
+    },
+    {
+      "query": "оптимизация сайта под нейросети",
+      "vacancies": 60,
+      "cluster": "seo"
+    },
+    {
+      "query": "попасть в ответы нейросети",
+      "vacancies": 5,
+      "cluster": "seo"
+    },
+    {
+      "query": "seo продвижение цена",
+      "vacancies": 18,
+      "cluster": "seo"
+    },
+    {
+      "query": "seo продвижение стоимость",
+      "vacancies": 265,
+      "cluster": "seo"
+    },
+    {
+      "query": "seo продвижение что входит",
+      "vacancies": 107,
+      "cluster": "seo"
+    },
+    {
+      "query": "seo продвижение как выбрать",
+      "vacancies": 36,
+      "cluster": "seo"
+    },
+    {
+      "query": "seo продвижение примеры",
+      "vacancies": 148,
+      "cluster": "seo"
+    },
+    {
+      "query": "seo продвижение для бизнеса",
+      "vacancies": 824,
+      "cluster": "seo"
+    },
+    {
+      "query": "seo продвижение заказать",
+      "vacancies": 3,
+      "cluster": "seo"
+    },
+    {
+      "query": "seo аудит сайта цена",
+      "vacancies": 0,
+      "cluster": "seo"
+    },
+    {
+      "query": "seo продвижение гарантии",
+      "vacancies": 0,
+      "cluster": "seo"
+    },
+    {
+      "query": "продвижение сайта в яндексе цена",
+      "vacancies": 6,
+      "cluster": "seo"
+    },
+    {
+      "query": "продвижение сайта в google цена",
+      "vacancies": 7,
+      "cluster": "seo"
+    },
+    {
+      "query": "продвижение сайта аудит цена",
+      "vacancies": 3,
+      "cluster": "seo"
+    },
+    {
+      "query": "продвижение в нейросетях цена",
+      "vacancies": 7,
+      "cluster": "seo"
+    },
+    {
+      "query": "оптимизация сайта цена",
+      "vacancies": 11,
+      "cluster": "seo"
+    },
+    {
+      "query": "продвижение сайта простыми словами",
+      "vacancies": 50,
+      "cluster": "seo"
+    },
+    {
+      "query": "продвижение в нейросетях что это",
+      "vacancies": 193,
+      "cluster": "seo"
+    },
+    {
+      "query": "продвижение в нейросетях примеры",
+      "vacancies": 125,
+      "cluster": "seo"
+    },
+    {
+      "query": "оптимизация сайта под нейросети что это",
+      "vacancies": 23,
+      "cluster": "seo"
+    },
+    {
+      "query": "geo оптимизация что это",
+      "vacancies": 45,
+      "cluster": "seo"
+    },
+    {
+      "query": "geo оптимизация цена",
+      "vacancies": 2,
+      "cluster": "seo"
+    },
+    {
+      "query": "продвижение в google цена",
+      "vacancies": 35,
+      "cluster": "seo"
+    },
+    {
+      "query": "продвижение в яндексе цена",
+      "vacancies": 25,
+      "cluster": "seo"
+    },
+    {
+      "query": "аудит сайта цена",
+      "vacancies": 4,
+      "cluster": "seo"
+    },
+    {
+      "query": "аудит сайта что входит",
+      "vacancies": 29,
+      "cluster": "seo"
+    },
+    {
+      "query": "seo услуги цена",
+      "vacancies": 13,
+      "cluster": "seo"
+    },
+    {
+      "query": "seo продвижение сайтов цена",
+      "vacancies": 8,
+      "cluster": "seo"
+    },
+    {
+      "query": "привлечение клиентов",
+      "vacancies": 31458,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "воронка продаж",
+      "vacancies": 8693,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "лидогенерация",
+      "vacancies": 1479,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "генерация заявок",
+      "vacancies": 139,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "привлечение целевой аудитории",
+      "vacancies": 878,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "привлечение клиентов в интернет",
+      "vacancies": 3732,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "как привлекать клиентов",
+      "vacancies": 2105,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "заявки с сайта",
+      "vacancies": 2252,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "обработка заявок",
+      "vacancies": 7945,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "лид менеджер",
+      "vacancies": 563,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "конверсия в заявку",
+      "vacancies": 975,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "лиды",
+      "vacancies": 2568,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "скрипты продаж",
+      "vacancies": 5809,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "холодные звонки",
+      "vacancies": 12668,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "перфоманс маркетинг",
+      "vacancies": 38,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "продвижение бизнеса",
+      "vacancies": 6140,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "привлечение клиентов в интернет цена",
+      "vacancies": 15,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "воронка продаж в интернете",
+      "vacancies": 1063,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "автоматизация продаж",
+      "vacancies": 5227,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "воронка продаж цена",
+      "vacancies": 74,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "воронка продаж примеры",
+      "vacancies": 420,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "воронка продаж схема",
+      "vacancies": 160,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "лидогенерация цена",
+      "vacancies": 7,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "лидогенерация услуги",
+      "vacancies": 711,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "генерация заявок цена",
+      "vacancies": 0,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "привлечение клиентов цена",
+      "vacancies": 0,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "привлечение клиентов что входит",
+      "vacancies": 1327,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "как привлекать клиентов примеры",
+      "vacancies": 200,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "заявки с сайта цена",
+      "vacancies": 12,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "обработка заявок цена",
+      "vacancies": 43,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "лид менеджер цена",
+      "vacancies": 6,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "конверсия в заявку как повысить",
+      "vacancies": 12,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "лидогенерация что это",
+      "vacancies": 442,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "воронка продаж что это",
+      "vacancies": 2512,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "скрипты продаж цена",
+      "vacancies": 32,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "автоматизация продаж цена",
+      "vacancies": 39,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "перфоманс маркетинг цена",
+      "vacancies": 0,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "smm",
+      "vacancies": 3896,
+      "cluster": "smm"
+    },
+    {
+      "query": "ведение соцсетей",
+      "vacancies": 3090,
+      "cluster": "smm"
+    },
+    {
+      "query": "продвижение в соцсетях",
+      "vacancies": 2200,
+      "cluster": "smm"
+    },
+    {
+      "query": "контент для соцсетей",
+      "vacancies": 3117,
+      "cluster": "smm"
+    },
+    {
+      "query": "smm продвижение",
+      "vacancies": 2176,
+      "cluster": "smm"
+    },
+    {
+      "query": "smm услуги",
+      "vacancies": 1266,
+      "cluster": "smm"
+    },
+    {
+      "query": "контент план",
+      "vacancies": 3959,
+      "cluster": "smm"
+    },
+    {
+      "query": "дизайн для соцсетей",
+      "vacancies": 828,
+      "cluster": "smm"
+    },
+    {
+      "query": "таргет в инстаграм",
+      "vacancies": 0,
+      "cluster": "smm"
+    },
+    {
+      "query": "ведение инстаграм",
+      "vacancies": 69,
+      "cluster": "smm"
+    },
+    {
+      "query": "ведение telegram канала",
+      "vacancies": 188,
+      "cluster": "smm"
+    },
+    {
+      "query": "съёмка контента",
+      "vacancies": 1733,
+      "cluster": "smm"
+    },
+    {
+      "query": "smm цена",
+      "vacancies": 23,
+      "cluster": "smm"
+    },
+    {
+      "query": "smm услуги цена",
+      "vacancies": 11,
+      "cluster": "smm"
+    },
+    {
+      "query": "ведение соцсетей цена",
+      "vacancies": 7,
+      "cluster": "smm"
+    },
+    {
+      "query": "продвижение в соцсетях цена",
+      "vacancies": 16,
+      "cluster": "smm"
+    },
+    {
+      "query": "контент для соцсетей цена",
+      "vacancies": 13,
+      "cluster": "smm"
+    },
+    {
+      "query": "контент план цена",
+      "vacancies": 42,
+      "cluster": "smm"
+    },
+    {
+      "query": "smm продвижение цена",
+      "vacancies": 10,
+      "cluster": "smm"
+    },
+    {
+      "query": "smm что входит",
+      "vacancies": 170,
+      "cluster": "smm"
+    },
+    {
+      "query": "smm продвижение примеры",
+      "vacancies": 382,
+      "cluster": "smm"
+    },
+    {
+      "query": "ведение соцсетей что входит",
+      "vacancies": 126,
+      "cluster": "smm"
+    },
+    {
+      "query": "настройка рекламы",
+      "vacancies": 1110,
+      "cluster": "advertising"
+    },
+    {
+      "query": "яндекс директ",
+      "vacancies": 1157,
+      "cluster": "advertising"
+    },
+    {
+      "query": "таргетированная реклама",
+      "vacancies": 646,
+      "cluster": "advertising"
+    },
+    {
+      "query": "контекстная реклама",
+      "vacancies": 1159,
+      "cluster": "advertising"
+    },
+    {
+      "query": "реклама в интернете",
+      "vacancies": 3309,
+      "cluster": "advertising"
+    },
+    {
+      "query": "настройка яндекс директ",
+      "vacancies": 393,
+      "cluster": "advertising"
+    },
+    {
+      "query": "реклама в telegram",
+      "vacancies": 836,
+      "cluster": "advertising"
+    },
+    {
+      "query": "реклама в вк",
+      "vacancies": 218,
+      "cluster": "advertising"
+    },
+    {
+      "query": "ведение рекламы",
+      "vacancies": 3918,
+      "cluster": "advertising"
+    },
+    {
+      "query": "аудит рекламы",
+      "vacancies": 427,
+      "cluster": "advertising"
+    },
+    {
+      "query": "медиаплан",
+      "vacancies": 426,
+      "cluster": "advertising"
+    },
+    {
+      "query": "яндекс директ цена",
+      "vacancies": 18,
+      "cluster": "advertising"
+    },
+    {
+      "query": "таргетированная реклама цена",
+      "vacancies": 8,
+      "cluster": "advertising"
+    },
+    {
+      "query": "контекстная реклама цена",
+      "vacancies": 17,
+      "cluster": "advertising"
+    },
+    {
+      "query": "реклама в интернете цена",
+      "vacancies": 33,
+      "cluster": "advertising"
+    },
+    {
+      "query": "настройка рекламы цена",
+      "vacancies": 20,
+      "cluster": "advertising"
+    },
+    {
+      "query": "настройка яндекс директ цена",
+      "vacancies": 11,
+      "cluster": "advertising"
+    },
+    {
+      "query": "реклама в telegram цена",
+      "vacancies": 16,
+      "cluster": "advertising"
+    },
+    {
+      "query": "реклама в вк цена",
+      "vacancies": 3,
+      "cluster": "advertising"
+    },
+    {
+      "query": "ведение рекламы цена",
+      "vacancies": 38,
+      "cluster": "advertising"
+    },
+    {
+      "query": "аудит рекламы цена",
+      "vacancies": 7,
+      "cluster": "advertising"
+    },
+    {
+      "query": "медиаплан цена",
+      "vacancies": 0,
+      "cluster": "advertising"
+    },
+    {
+      "query": "яндекс директ что входит",
+      "vacancies": 73,
+      "cluster": "advertising"
+    },
+    {
+      "query": "таргетированная реклама что входит",
+      "vacancies": 25,
+      "cluster": "advertising"
+    },
+    {
+      "query": "контекстная реклама примеры",
+      "vacancies": 73,
+      "cluster": "advertising"
+    },
+    {
+      "query": "медиаплан что это",
+      "vacancies": 82,
+      "cluster": "advertising"
+    },
+    {
+      "query": "аудит рекламы что входит",
+      "vacancies": 25,
+      "cluster": "advertising"
+    },
+    {
+      "query": "настройка рекламы что входит",
+      "vacancies": 54,
+      "cluster": "advertising"
+    },
+    {
+      "query": "разработка сайта",
+      "vacancies": 3683,
+      "cluster": "landing"
+    },
+    {
+      "query": "лендинг под ключ",
+      "vacancies": 19,
+      "cluster": "landing"
+    },
+    {
+      "query": "создание сайта",
+      "vacancies": 2648,
+      "cluster": "landing"
+    },
+    {
+      "query": "дизайн сайта",
+      "vacancies": 1304,
+      "cluster": "landing"
+    },
+    {
+      "query": "разработка лендинга",
+      "vacancies": 394,
+      "cluster": "landing"
+    },
+    {
+      "query": "сайт для бизнеса",
+      "vacancies": 3027,
+      "cluster": "landing"
+    },
+    {
+      "query": "корпоративный сайт",
+      "vacancies": 4550,
+      "cluster": "landing"
+    },
+    {
+      "query": "интернет-магазин сайт",
+      "vacancies": 697,
+      "cluster": "landing"
+    },
+    {
+      "query": "вёрстка сайта",
+      "vacancies": 315,
+      "cluster": "landing"
+    },
+    {
+      "query": "прототип сайта",
+      "vacancies": 120,
+      "cluster": "landing"
+    },
+    {
+      "query": "разработка сайта цена",
+      "vacancies": 22,
+      "cluster": "landing"
+    },
+    {
+      "query": "создание сайта цена",
+      "vacancies": 15,
+      "cluster": "landing"
+    },
+    {
+      "query": "дизайн сайта цена",
+      "vacancies": 10,
+      "cluster": "landing"
+    },
+    {
+      "query": "разработка лендинга цена",
+      "vacancies": 7,
+      "cluster": "landing"
+    },
+    {
+      "query": "корпоративный сайт цена",
+      "vacancies": 13,
+      "cluster": "landing"
+    },
+    {
+      "query": "сайт для бизнеса цена",
+      "vacancies": 17,
+      "cluster": "landing"
+    },
+    {
+      "query": "интернет-магазин сайт цена",
+      "vacancies": 4,
+      "cluster": "landing"
+    },
+    {
+      "query": "вёрстка сайта цена",
+      "vacancies": 0,
+      "cluster": "landing"
+    },
+    {
+      "query": "прототип сайта цена",
+      "vacancies": 2,
+      "cluster": "landing"
+    },
+    {
+      "query": "разработка сайта что входит",
+      "vacancies": 182,
+      "cluster": "landing"
+    },
+    {
+      "query": "создание сайта что входит",
+      "vacancies": 99,
+      "cluster": "landing"
+    },
+    {
+      "query": "разработка сайта сроки",
+      "vacancies": 1387,
+      "cluster": "landing"
+    },
+    {
+      "query": "дизайн сайта что входит",
+      "vacancies": 72,
+      "cluster": "landing"
+    },
+    {
+      "query": "разработка сайта примеры",
+      "vacancies": 254,
+      "cluster": "landing"
+    },
+    {
+      "query": "лендинг под ключ цена",
+      "vacancies": 0,
+      "cluster": "landing"
+    },
+    {
+      "query": "лендинг под ключ сроки",
+      "vacancies": 11,
+      "cluster": "landing"
+    },
+    {
+      "query": "лендинг под ключ что входит",
+      "vacancies": 2,
+      "cluster": "landing"
+    },
+    {
+      "query": "стоимость разработки сайта",
+      "vacancies": 318,
+      "cluster": "landing"
+    },
+    {
+      "query": "разработка сайта примеры цена",
+      "vacancies": 4,
+      "cluster": "landing"
+    },
+    {
+      "query": "дизайн сайта примеры",
+      "vacancies": 154,
+      "cluster": "landing"
+    },
+    {
+      "query": "разработка сайта для бизнеса",
+      "vacancies": 1416,
+      "cluster": "landing"
+    },
+    {
+      "query": "сколько стоит разработка сайта",
+      "vacancies": 9,
+      "cluster": "landing"
+    },
+    {
+      "query": "как выбрать разработчика сайта",
+      "vacancies": 25,
+      "cluster": "landing"
+    },
+    {
+      "query": "вёрстка сайта что входит",
+      "vacancies": 13,
+      "cluster": "landing"
+    },
+    {
+      "query": "прототип сайта что это",
+      "vacancies": 40,
+      "cluster": "landing"
+    },
+    {
+      "query": "аудит сайта заказать",
+      "vacancies": 0,
+      "cluster": "seo"
+    },
+    {
+      "query": "оптимизация сайта заказать",
+      "vacancies": 2,
+      "cluster": "seo"
+    },
+    {
+      "query": "оптимизация сайта недорого",
+      "vacancies": 0,
+      "cluster": "seo"
+    },
+    {
+      "query": "продвижение в нейросетях заказать",
+      "vacancies": 4,
+      "cluster": "seo"
+    },
+    {
+      "query": "продвижение сайта дешево",
+      "vacancies": 9,
+      "cluster": "seo"
+    },
+    {
+      "query": "продвижение сайта дешево заказать",
+      "vacancies": 0,
+      "cluster": "seo"
+    },
+    {
+      "query": "продвижение сайта дешево и качественно",
+      "vacancies": 2,
+      "cluster": "seo"
+    },
+    {
+      "query": "продвижение сайта дешево цена",
+      "vacancies": 0,
+      "cluster": "seo"
+    },
+    {
+      "query": "продвижение сайта дешевое",
+      "vacancies": 9,
+      "cluster": "seo"
+    },
+    {
+      "query": "продвижение сайта заказать говтоп ру",
+      "vacancies": 0,
+      "cluster": "seo"
+    },
+    {
+      "query": "продвижение сайта заказать раскрутку бюджет ограничен",
+      "vacancies": 0,
+      "cluster": "seo"
+    },
+    {
+      "query": "продвижение сайта недорого",
+      "vacancies": 0,
+      "cluster": "seo"
+    },
+    {
+      "query": "продвижение сайта недорого частник",
+      "vacancies": 0,
+      "cluster": "seo"
+    },
+    {
+      "query": "geo оптимизация заказать",
+      "vacancies": 0,
+      "cluster": "seo"
+    },
+    {
+      "query": "geo продвижение в нейросетях заказать",
+      "vacancies": 0,
+      "cluster": "seo"
+    },
+    {
+      "query": "seo продвижение дешево",
+      "vacancies": 6,
+      "cluster": "seo"
+    },
+    {
+      "query": "seo продвижение заказать ооо новелит",
+      "vacancies": 0,
+      "cluster": "seo"
+    },
+    {
+      "query": "seo продвижение заказать сайта",
+      "vacancies": 2,
+      "cluster": "seo"
+    },
+    {
+      "query": "seo продвижение интернет портала недорого",
+      "vacancies": 0,
+      "cluster": "seo"
+    },
+    {
+      "query": "seo продвижение недорого",
+      "vacancies": 0,
+      "cluster": "seo"
+    },
+    {
+      "query": "seo продвижение оптом",
+      "vacancies": 5,
+      "cluster": "seo"
+    },
+    {
+      "query": "воронка продаж аида",
+      "vacancies": 12,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "воронка продаж б2б",
+      "vacancies": 4,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "воронка продаж битрикс",
+      "vacancies": 1627,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "воронка продаж битрикс 24",
+      "vacancies": 1474,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "воронка продаж битрикс24",
+      "vacancies": 1474,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "воронка продаж в амо срм",
+      "vacancies": 7,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "воронка продаж в амо срм пример",
+      "vacancies": 0,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "воронка продаж в битрикс",
+      "vacancies": 1627,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "воронка продаж в битрикс 24",
+      "vacancies": 1474,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "воронка продаж в битриксе",
+      "vacancies": 1627,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "воронка продаж в инстаграм",
+      "vacancies": 4,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "воронка продаж в интернете мария солодар",
+      "vacancies": 0,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "воронка продаж в логистике",
+      "vacancies": 884,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "воронка продаж в маркетинге",
+      "vacancies": 2702,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "воронка продаж в недвижимости",
+      "vacancies": 1169,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "воронка продаж в недвижимости примеры",
+      "vacancies": 0,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "воронка продаж в проектной работе",
+      "vacancies": 685,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "воронка продаж в ресторане",
+      "vacancies": 125,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "воронка продаж в ресторане для официантов",
+      "vacancies": 0,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "воронка продаж в2в",
+      "vacancies": 4011,
+      "cluster": "leadgen"
+    },
+    {
+      "query": "заказать услуги smm",
+      "vacancies": 2,
+      "cluster": "smm"
+    },
+    {
+      "query": "smm продвижение заказать",
+      "vacancies": 3,
+      "cluster": "smm"
+    },
+    {
+      "query": "ведение блога в инстаграм",
+      "vacancies": 0,
+      "cluster": "smm"
+    },
+    {
+      "query": "ведение инстаграм аккаунта",
+      "vacancies": 33,
+      "cluster": "smm"
+    },
+    {
+      "query": "ведение инстаграм аккаунта цена",
+      "vacancies": 0,
+      "cluster": "smm"
+    },
+    {
+      "query": "ведение инстаграм аккаунта цена в месяц",
+      "vacancies": 0,
+      "cluster": "smm"
+    },
+    {
+      "query": "ведение инстаграма",
+      "vacancies": 4,
+      "cluster": "smm"
+    },
+    {
+      "query": "ведение инстаграма кафе",
+      "vacancies": 0,
+      "cluster": "smm"
+    },
+    {
+      "query": "ведение инстаграмм",
+      "vacancies": 8,
+      "cluster": "smm"
+    },
+    {
+      "query": "ведение инстаграмма",
+      "vacancies": 8,
+      "cluster": "smm"
+    },
+    {
+      "query": "ведение инстаграмма для бизнеса",
+      "vacancies": 0,
+      "cluster": "smm"
+    },
+    {
+      "query": "ведение соцсетей оквэд",
+      "vacancies": 0,
+      "cluster": "smm"
+    },
+    {
+      "query": "ведение соцсетей под ключ",
+      "vacancies": 94,
+      "cluster": "smm"
+    },
+    {
+      "query": "ведение соцсетей с помощью ии",
+      "vacancies": 87,
+      "cluster": "smm"
+    },
+    {
+      "query": "ведение соцсетей стоимость",
+      "vacancies": 329,
+      "cluster": "smm"
+    },
+    {
+      "query": "контент план в гугл таблице",
+      "vacancies": 0,
+      "cluster": "smm"
+    },
+    {
+      "query": "контент план в гугл таблице шаблон",
+      "vacancies": 18,
+      "cluster": "smm"
+    },
+    {
+      "query": "контент план в таблице",
+      "vacancies": 446,
+      "cluster": "smm"
+    },
+    {
+      "query": "ведение рекламы в директе заказать",
+      "vacancies": 2,
+      "cluster": "advertising"
+    },
+    {
+      "query": "контекстная реклама в директе заказать",
+      "vacancies": 0,
+      "cluster": "advertising"
+    },
+    {
+      "query": "контекстная реклама в интернете заказать",
+      "vacancies": 0,
+      "cluster": "advertising"
+    },
+    {
+      "query": "контекстная реклама дешево",
+      "vacancies": 8,
+      "cluster": "advertising"
+    },
+    {
+      "query": "контекстная реклама заказать",
+      "vacancies": 0,
+      "cluster": "advertising"
+    },
+    {
+      "query": "контекстная реклама заказать агентство",
+      "vacancies": 0,
+      "cluster": "advertising"
+    },
+    {
+      "query": "контекстная реклама заказать стоимость",
+      "vacancies": 0,
+      "cluster": "advertising"
+    },
+    {
+      "query": "контекстная реклама интернете заказать",
+      "vacancies": 0,
+      "cluster": "advertising"
+    },
+    {
+      "query": "настройка рекламы в яндекс заказать",
+      "vacancies": 2,
+      "cluster": "advertising"
+    },
+    {
+      "query": "настройка яндекс директ заказать",
+      "vacancies": 0,
+      "cluster": "advertising"
+    },
+    {
+      "query": "реклама в интернете заказать",
+      "vacancies": 4,
+      "cluster": "advertising"
+    },
+    {
+      "query": "таргетированная реклама заказать",
+      "vacancies": 2,
+      "cluster": "advertising"
+    },
+    {
+      "query": "таргетированная реклама заказать цена",
+      "vacancies": 0,
+      "cluster": "advertising"
+    },
+    {
+      "query": "агентство ведение контекстной рекламы",
+      "vacancies": 205,
+      "cluster": "advertising"
+    },
+    {
+      "query": "аудит контекстной рекламы",
+      "vacancies": 144,
+      "cluster": "advertising"
+    },
+    {
+      "query": "аудит рекламы яндекс директ",
+      "vacancies": 138,
+      "cluster": "advertising"
+    },
+    {
+      "query": "ведение контекстной рекламы",
+      "vacancies": 552,
+      "cluster": "advertising"
+    },
+    {
+      "query": "ведение контекстной рекламы цена",
+      "vacancies": 9,
+      "cluster": "advertising"
+    },
+    {
+      "query": "ведение рекламы в директе стоимость",
+      "vacancies": 0,
+      "cluster": "advertising"
+    },
+    {
+      "query": "ведение рекламы в яндекс директ",
+      "vacancies": 462,
+      "cluster": "advertising"
+    },
+    {
+      "query": "дизайн сайта заказать",
+      "vacancies": 2,
+      "cluster": "landing"
+    },
+    {
+      "query": "заказать лендинг под ключ",
+      "vacancies": 0,
+      "cluster": "landing"
+    },
+    {
+      "query": "корпоративный сайт заказать",
+      "vacancies": 12,
+      "cluster": "landing"
+    },
+    {
+      "query": "разработка сайта заказать",
+      "vacancies": 10,
+      "cluster": "landing"
+    },
+    {
+      "query": "разработка сайта продвижение заказать",
+      "vacancies": 5,
+      "cluster": "landing"
+    },
+    {
+      "query": "сайт для бизнеса заказать",
+      "vacancies": 13,
+      "cluster": "landing"
+    },
+    {
+      "query": "создание сайта заказать",
+      "vacancies": 6,
+      "cluster": "landing"
+    },
+    {
+      "query": "вёрстка сайта что это",
+      "vacancies": 57,
+      "cluster": "landing"
+    },
+    {
+      "query": "вёрстка сайта что это простыми словами",
+      "vacancies": 0,
+      "cluster": "landing"
+    },
+    {
+      "query": "дизайн сайта в фигме примеры",
+      "vacancies": 0,
+      "cluster": "landing"
+    },
+    {
+      "query": "дизайн сайта на заказ",
+      "vacancies": 172,
+      "cluster": "landing"
+    },
+    {
+      "query": "дизайн сайта под ключ",
+      "vacancies": 37,
+      "cluster": "landing"
+    },
+    {
+      "query": "дизайн сайта пример",
+      "vacancies": 154,
+      "cluster": "landing"
+    },
+    {
+      "query": "дизайн сайта разработка корпоративного",
+      "vacancies": 314,
+      "cluster": "landing"
+    },
+    {
+      "query": "дизайн сайта с помощью ии",
+      "vacancies": 47,
+      "cluster": "landing"
+    },
+    {
+      "query": "дизайн сайта с помощью нейросети",
+      "vacancies": 55,
+      "cluster": "landing"
+    },
+    {
+      "query": "дизайн сайта стоимость",
+      "vacancies": 173,
+      "cluster": "landing"
+    },
+    {
+      "query": "дизайн сайта строительной компании",
+      "vacancies": 50,
+      "cluster": "landing"
+    },
+    {
+      "query": "корпоративный сайт компании",
+      "vacancies": 4043,
+      "cluster": "landing"
+    },
+    {
+      "query": "корпоративный сайт под ключ",
+      "vacancies": 84,
+      "cluster": "landing"
+    },
+    {
+      "query": "crm",
+      "vacancies": 0,
+      "cluster": "crm"
+    },
+    {
+      "query": "crm система",
+      "vacancies": 17904,
+      "cluster": "crm"
+    },
+    {
+      "query": "внедрение crm",
+      "vacancies": 2552,
+      "cluster": "crm"
+    },
+    {
+      "query": "настройка crm",
+      "vacancies": 1322,
+      "cluster": "crm"
+    },
+    {
+      "query": "bitrix24",
+      "vacancies": 10474,
+      "cluster": "crm"
+    },
+    {
+      "query": "amo crm",
+      "vacancies": 480,
+      "cluster": "crm"
+    },
+    {
+      "query": "автоматизация продаж crm",
+      "vacancies": 1872,
+      "cluster": "crm"
+    },
+    {
+      "query": "crm для продаж",
+      "vacancies": 26788,
+      "cluster": "crm"
+    },
+    {
+      "query": "интеграция crm",
+      "vacancies": 1536,
+      "cluster": "crm"
+    },
+    {
+      "query": "настройка amo crm",
+      "vacancies": 32,
+      "cluster": "crm"
+    },
+    {
+      "query": "amo crm настройка",
+      "vacancies": 32,
+      "cluster": "crm"
+    },
+    {
+      "query": "внедрение amo crm",
+      "vacancies": 22,
+      "cluster": "crm"
+    },
+    {
+      "query": "crm система для бизнеса",
+      "vacancies": 0,
+      "cluster": "crm"
+    },
+    {
+      "query": "crm для маркетинга",
+      "vacancies": 4485,
+      "cluster": "crm"
+    },
+    {
+      "query": "bitrix24 настройка",
+      "vacancies": 756,
+      "cluster": "crm"
+    },
+    {
+      "query": "внедрение bitrix24",
+      "vacancies": 1066,
+      "cluster": "crm"
+    },
+    {
+      "query": "автоматизация продаж в crm",
+      "vacancies": 1872,
+      "cluster": "crm"
+    },
+    {
+      "query": "crm для отдела продаж",
+      "vacancies": 9788,
+      "cluster": "crm"
+    },
+    {
+      "query": "аналитика в crm",
+      "vacancies": 4823,
+      "cluster": "crm"
+    },
+    {
+      "query": "crm цена",
+      "vacancies": 186,
+      "cluster": "crm"
+    },
+    {
+      "query": "внедрение crm цена",
+      "vacancies": 16,
+      "cluster": "crm"
+    },
+    {
+      "query": "настройка crm цена",
+      "vacancies": 12,
+      "cluster": "crm"
+    },
+    {
+      "query": "bitrix24 цена",
+      "vacancies": 69,
+      "cluster": "crm"
+    },
+    {
+      "query": "amo crm цена",
+      "vacancies": 10,
+      "cluster": "crm"
+    },
+    {
+      "query": "crm для бизнеса цена",
+      "vacancies": 56,
+      "cluster": "crm"
+    },
+    {
+      "query": "интеграция crm цена",
+      "vacancies": 16,
+      "cluster": "crm"
+    },
+    {
+      "query": "crm система что это",
+      "vacancies": 0,
+      "cluster": "crm"
+    },
+    {
+      "query": "внедрение crm что входит",
+      "vacancies": 178,
+      "cluster": "crm"
+    },
+    {
+      "query": "crm для маркетинга что это",
+      "vacancies": 1372,
+      "cluster": "crm"
+    },
+    {
+      "query": "amo crm что это",
+      "vacancies": 0,
+      "cluster": "crm"
+    },
+    {
+      "query": "bitrix24 что это",
+      "vacancies": 2154,
+      "cluster": "crm"
+    },
+    {
+      "query": "инфографика для маркетплейсов заказы где брать",
+      "vacancies": 0,
+      "cluster": "ecommerce"
+    },
+    {
+      "query": "корпоративный сайт пример",
+      "vacancies": 0,
+      "cluster": "landing"
+    },
+    {
+      "query": "корпоративный сайт примеры",
+      "vacancies": 0,
+      "cluster": "landing"
+    },
+    {
+      "query": "внедрение и настройка crm",
+      "vacancies": 0,
+      "cluster": "crm"
+    },
+    {
+      "query": "внедрение crm битрикс 24",
+      "vacancies": 597,
+      "cluster": "crm"
+    },
+    {
+      "query": "внедрение crm битрикс24",
+      "vacancies": 594,
+      "cluster": "crm"
+    },
+    {
+      "query": "внедрение crm под ключ",
+      "vacancies": 63,
+      "cluster": "crm"
+    },
+    {
+      "query": "внедрение crm систем",
+      "vacancies": 1016,
+      "cluster": "crm"
+    },
+    {
+      "query": "внедрение crm систем битрикс24",
+      "vacancies": 285,
+      "cluster": "crm"
+    },
+    {
+      "query": "внедрение crm системы",
+      "vacancies": 1665,
+      "cluster": "crm"
+    },
+    {
+      "query": "внедрение crm системы на предприятии",
+      "vacancies": 1536,
+      "cluster": "crm"
+    },
+    {
+      "query": "внедрение crm услуга",
+      "vacancies": 1414,
+      "cluster": "crm"
+    },
+    {
+      "query": "внедрение crm это",
+      "vacancies": 772,
+      "cluster": "crm"
+    },
+    {
+      "query": "интеграция с crm",
+      "vacancies": 1536,
+      "cluster": "crm"
+    },
+    {
+      "query": "интеграция crm с сайтом",
+      "vacancies": 367,
+      "cluster": "crm"
+    },
+    {
+      "query": "настройка crm битрикс",
+      "vacancies": 470,
+      "cluster": "crm"
+    },
+    {
+      "query": "настройка crm битрикс 24",
+      "vacancies": 427,
+      "cluster": "crm"
+    },
+    {
+      "query": "настройка crm битрикс 24 стоимость",
+      "vacancies": 48,
+      "cluster": "crm"
+    },
+    {
+      "query": "настройка crm системы",
+      "vacancies": 856,
+      "cluster": "crm"
+    },
+    {
+      "query": "настройка crm это",
+      "vacancies": 377,
+      "cluster": "crm"
+    }
+  ]
+}
