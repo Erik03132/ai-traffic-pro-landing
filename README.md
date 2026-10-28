@@ -41,32 +41,39 @@ npm run dev:full   # оба сразу
 
 Сайт — статика, поэтому заявки принимает отдельный Node-сервер:
 
-| Эндпоинт | Назначение |
-|---|---|
-| `POST /api/lead/` | Заявка с формы → Telegram + резервный JSONL-файл |
-| `POST /api/chat/` | Вопрос из виджета → база знаний, иначе LLM (OpenRouter) |
-| `GET /api/health/` | Проверка живости |
+| Эндпоинт           | Назначение                                       |
+| ------------------ | ------------------------------------------------ |
+| `POST /api/lead/`  | Заявка с формы → Telegram + резервный JSONL-файл |
+| `POST /api/chat/`  | Вопрос из виджета → база знаний, иначе LLM       |
+| `GET /api/health/` | Проверка живости (`{"ok":true,"telegram":true}`) |
 
-Токен Telegram сейчас **не настроен** (`@aibureau_bot` отдаёт 401). Пока токена нет,
-заявки не теряются: сервер пишет их в `server/leads/YYYY-MM-DD.jsonl`. Как только
-появится токен — заполните `.env` (образец в `.env.example`), и заявки пойдут в Telegram.
+Telegram настроен: бот `@ai_bureau_new_bot`, заявки приходят в чат владельца.
+Если токен недоступен или Telegram вернул ошибку — заявка не теряется: сервер
+пишет её в `server/leads/YYYY-MM-DD.jsonl` и отвечает успехом.
+
+LLM отвечает на вопросы вне базы знаний. Провайдер — любой OpenAI-совместимый
+эндпоинт (`LLM_BASE_URL` + `LLM_MODEL`), запасной — `LLM_FALLBACK_*`. Внешние
+провайдеры из РФ идут через SOCKS5 (`LLM_PROXY`) — свой клиент `server/socks.js`,
+без npm-зависимостей. Если LLM недоступен — виджет отвечает по базе знаний,
+а не «пустым» сообщением.
 
 ## Деплой
 
-Сайт сейчас на GitHub Pages — статика, POST не примет. Нужен перенос на VPS
-`217.149.23.113` (nginx, те же NS, что у домена):
+Прод — VPS `217.149.23.113` (nginx + pm2), DNS домена уже указывает на него,
+сертификат Let's Encrypt выпущен и обновляется автоматически.
 
-1. `npm run build` → скопировать `dist/` в `/opt/freelance/ai-traffic-pro/dist`
+1. `npm run build` → скопировать `dist/` в `/opt/freelance/projects/ai-traffic-pro/dist`
 2. nginx: `server_name ai-traffic-pro.ru`, `root` → dist, `location /api/` → `127.0.0.1:3001`
-3. `pm2 start server/server.js`, `.env` с секретами
-4. DNS: A-записи домена → `217.149.23.113` (вместо GitHub Pages)
+3. `pm2 startOrRestart ecosystem.config.cjs`, `.env` с секретами (chmod 600)
+4. Сертификат: `/opt/certbot-venv/bin/certbot certonly --webroot -w <dist> -d ai-traffic-pro.ru -d www.ai-traffic-pro.ru`
 
 ## Перед продакшеном
 
 Осталось от Игоря (полный список — `docs/CONTENT_SPEC.md`, раздел 8):
 
-- [ ] контакты: телефон, email, юрлицо/ИП, адрес → `SITE.legal` в `src/data/site.ts`
-- [ ] тексты политики и согласия (шаблоны лежат в `src/pages/`)
-- [ ] токен Telegram-бота для приёма заявок
-- [ ] решение по 6-й услуге (CRM подтверждена, маркетплейс — вне списка)
+- [x] контакты: телефон, ИП, адрес, реквизиты → `SITE.legal` в `src/data/site.ts`
+- [x] тексты политики и согласия
+- [x] токен Telegram-бота для приёма заявок
+- [x] решение по 6-й услуге (CRM подтверждена, маркетплейс — вне списка)
+- [ ] email на домен (`SITE.legal.email` — пусто, футер не выводит пустую ссылку)
 - [ ] мобильные экраны в Stitch (адаптив сейчас сделан на глаз)

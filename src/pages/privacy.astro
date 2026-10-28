@@ -2,14 +2,15 @@
 /**
  * Политика конфиденциальности.
  *
- * Реквизиты — TODO: заполняются после регистрации ИП/ООО (см. CONTENT_SPEC, TODO #1–2).
- * Пока реквизитов нет, страница честно говорит об этом, а не притворяется
- * опубликованным документом. Индексацию пока закрываем — документ не готов.
+ * Оператор — ИП Марченко Дмитрий Николаевич (ОГРНИП 326508100653064).
+ * Реквизиты лежат в `src/data/site.ts` → `SITE.legal`: страница собирает
+ * их из единого источника истины, дублировать в разметке нельзя.
  */
 import Base from '../layouts/Base.astro';
 import { SITE } from '../data/site';
 
-const updated = '26.10.2026';
+const updated = '28.10.2026';
+const L = SITE.legal;
 ---
 
 <Base
@@ -30,14 +31,15 @@ const updated = '26.10.2026';
     </h1>
     <p class="font-mono-index text-mono-index text-outline mb-10">Редакция от {updated}</p>
 
-    <div class="rounded-xl border border-[#BFDBFE] bg-[#EFF6FF] p-6 mb-10">
+    <div class="rounded-xl border border-line bg-surface-container-low p-6 mb-10">
       <div class="flex items-start gap-3">
-        <span class="material-symbols-outlined text-primary-container text-xl mt-0.5">info</span>
+        <span class="material-symbols-outlined text-primary-container text-xl mt-0.5">
+          verified_user
+        </span>
         <div>
           <p class="font-body-md text-body-md text-on-surface leading-relaxed">
-            Документ в статусе «шаблон». Реквизиты исполнителя и срок вступления в силу появятся
-            после регистрации юридического лица. До этого страница не индексируется и не
-            используется как основание для обработки данных.
+            Документ действует с {updated} и относится к оператору персональных данных —
+            {L.entityShort}, ИНН {L.inn}. Реквизиты оператора приведены в разделе 8.
           </p>
         </div>
       </div>
@@ -53,7 +55,7 @@ const updated = '26.10.2026';
           {SITE.url}. Политика разрабатывается в соответствии с Федеральным законом от 27.07.2006 №
           152-ФЗ «О персональных данных». Оператором данных выступает{' '}
           <span class="text-on-surface">
-            [наименование юридического лица — указывается после регистрации]
+            {L.entity} (ИНН {L.inn}, ОГРНИП {L.ogrnip})
           </span>
           .
         </p>
@@ -101,9 +103,9 @@ const updated = '26.10.2026';
           4. Сроки хранения
         </h2>
         <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
-          Данные хранятся не дольше, чем этого требуют цели обработки, но не более{' '}
-          <span class="text-on-surface">[срок хранения устанавливается оператором]</span>. По
-          достижении целей обработки данные удаляются или обезличиваются.
+          Данные хранятся не дольше, чем этого требуют цели обработки, но не более 3 лет с момента
+          последнего обращения пользователя. По достижении целей обработки данные удаляются или
+          обезличиваются.
         </p>
       </section>
 
@@ -141,6 +143,29 @@ const updated = '26.10.2026';
           Оператор вправе вносить изменения в настоящую политику. Актуальная редакция всегда
           размещена на этой странице; дата редакции указана в её начале.
         </p>
+      </section>
+
+      <section>
+        <h2 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-3">
+          8. Реквизиты оператора
+        </h2>
+        <dl class="space-y-2 font-body-sm text-body-sm text-on-surface-variant">
+          {[
+            ['Наименование', L.entity],
+            ['ИНН', L.inn],
+            ['ОГРНИП', L.ogrnip],
+            ['ОКПО', L.okpo],
+            ['Адрес регистрации', L.address],
+            ['Основной ОКВЭД', L.okved],
+            ['Дата регистрации', L.registeredAt],
+            ['Связь', `@${SITE.bot.username} — ${SITE.bot.link}`],
+          ].map(([k, v]) => (
+            <div class="flex flex-wrap gap-x-3">
+              <dt class="min-w-[200px] text-outline">{k}:</dt>
+              <dd class="text-on-surface">{v}</dd>
+            </div>
+          ))}
+        </dl>
       </section>
     </div>
 

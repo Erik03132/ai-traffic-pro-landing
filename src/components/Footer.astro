@@ -9,6 +9,7 @@ import { SITE, SERVICES } from '../data/site';
 const legalLinks = [
   { label: 'Политика конфиденциальности', href: '/privacy/' },
   { label: 'Согласие на обработку персональных данных', href: '/consent/' },
+  { label: 'Реквизиты для оплаты', href: '/requisites/' },
 ];
 
 const contacts = [
@@ -99,6 +100,20 @@ const contacts = [
           )}
         </div>
       )}
+
+      <!-- Реквизиты исполнителя: обязательны для сайта услуг в РФ. -->
+      <div class="mt-space-lg flex flex-col space-y-space-xs">
+        <span class="font-mono-label text-mono-label uppercase text-outline tracking-wider">
+          [04 / РЕКВИЗИТЫ]
+        </span>
+        <span class="font-body-sm text-body-sm text-on-surface-variant">
+          {SITE.legal.entityShort}
+        </span>
+        <span class="font-body-sm text-body-sm text-on-surface-variant">
+          ИНН {SITE.legal.inn} · ОГРНИП {SITE.legal.ogrnip}
+        </span>
+        <span class="font-body-sm text-body-sm text-on-surface-variant">{SITE.legal.address}</span>
+      </div>
     </div>
   </div>
 </footer>

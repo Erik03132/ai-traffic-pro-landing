@@ -1,0 +1,101 @@
+---
+/**
+ * Реквизиты для оплаты по счёту.
+ *
+ * Нужны, когда клиент — юрлицо или ИП и оплата проходит безналом.
+ * Все данные — из `src/data/site.ts` → `SITE.legal` / `SITE.legal.bank`.
+ */
+import Base from '../layouts/Base.astro';
+import { SITE } from '../data/site';
+
+const L = SITE.legal;
+const B = L.bank;
+
+const rows: [string, string][] = [
+  ['Наименование', L.entity],
+  ['ИНН', L.inn],
+  ['ОГРНИП', L.ogrnip],
+  ['КПП', B.kpp],
+  ['Адрес', L.address],
+  ['Банк', B.name],
+  ['БИК', B.bik],
+  ['Расчётный счёт', B.account],
+  ['Корреспондентский счёт', B.corrAccount],
+  ['ИНН банка', B.inn],
+];
+---
+
+<Base
+  meta={{
+    title: 'Реквизиты для оплаты | AI-Traffic PRO',
+    description:
+      'Банковские реквизиты ИП для оплаты по счёту: расчётный счёт, корсчёт, БИК, ИНН и КПП получателя.',
+    path: '/requisites/',
+  }}
+>
+  <article class="max-w-3xl mx-auto px-margin md:px-margin-desktop py-16 md:py-24">
+    <span class="font-mono-label text-mono-label uppercase text-primary-container tracking-widest font-semibold block mb-3">
+      [ОПЛАТА]
+    </span>
+    <h1 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-on-surface mb-4">
+      Реквизиты для оплаты
+    </h1>
+    <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-10">
+      Реквизиты для безналичного перевода. Счёт выставляется по договору — состав работ и сумму
+      согласовываем до оплаты. Если нужно оплатить по реквизитам без договора, напишите в Telegram:
+      <a class="link-underline text-primary-container" href={SITE.bot.link}>
+        @{SITE.bot.username}
+      </a>
+    </p>
+
+    <dl class="space-y-3 font-body-sm text-body-sm">
+      {rows.map(([k, v]) => (
+        <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-line pb-3">
+          <dt class="min-w-[220px] text-outline">{k}</dt>
+          <dd class="font-mono-index text-mono-index text-on-surface break-all">{v}</dd>
+        </div>
+      ))}
+    </dl>
+
+    <div class="mt-8 flex flex-wrap gap-4">
+      <button
+        type="button"
+        data-copy={B.account}
+        class="inline-flex items-center justify-center px-6 py-3 rounded-lg border border-line font-body-sm text-body-sm font-medium hover:border-primary-container hover:text-primary-container transition-colors"
+      >
+        Скопировать расчётный счёт
+      </button>
+      <a
+        href={SITE.bot.link}
+        target="_blank"
+        rel="noopener"
+        class="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-primary-container text-on-primary font-body-sm text-body-sm font-semibold hover:bg-primary transition-colors"
+      >
+        Написать в Telegram
+      </a>
+    </div>
+
+    <p class="mt-6 font-body-sm text-body-sm text-outline">
+      В назначении платежа укажите номер договора или счёта, если он указан в вашем письме. По всем
+      вопросам — @{SITE.bot.username}.
+    </p>
+  </article>
+</Base>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const value = btn.dataset.copy ?? '';
+      const original = btn.textContent;
+      try {
+        await navigator.clipboard.writeText(value);
+        btn.textContent = 'Скопировано';
+      } catch {
+        btn.textContent = value;
+      }
+      setTimeout(() => {
+        btn.textContent = original;
+      }, 2000);
+    });
+  });
+</script>

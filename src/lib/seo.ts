@@ -38,10 +38,18 @@ export function organizationLd() {
     knowsLanguage: 'ru-RU',
   };
 
-  // Реквизиты добавляются после регистрации — пустые поля в разметку не выносим.
+  // Реквизиты исполнителя (ИП). Пустые поля в разметку не выносим.
   if (SITE.legal.entity) {
     org.legalName = SITE.legal.entity;
     org.taxID = SITE.legal.inn;
+  }
+  if (SITE.legal.ogrnip) org.identifier = SITE.legal.ogrnip;
+  if (SITE.legal.address) {
+    org.address = {
+      '@type': 'PostalAddress',
+      addressLocality: SITE.legal.address,
+      addressCountry: 'RU',
+    };
   }
   if (SITE.legal.email) org.email = SITE.legal.email;
   if (SITE.legal.phone) org.telephone = SITE.legal.phone;

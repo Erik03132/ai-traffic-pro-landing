@@ -101,6 +101,7 @@ import { SITE, API } from '../data/site';
     aria-expanded="false"
     aria-controls="chat-panel"
     data-chat-api={API.chat}
+    data-tg-bot={SITE.bot.username}
   >
     <span class="material-symbols-outlined text-[26px]" id="chat-icon">
       chat_bubble
@@ -141,7 +142,9 @@ import { SITE, API } from '../data/site';
   // Путь к API приходит из разметки: клиентский <script> в Astro не видит
   // серверные импорты, поэтому конфигурация передаётся через data-атрибут.
   const API_CHAT = toggle?.dataset.chatApi ?? '/api/chat/';
-  const TG_BOT = 'aibureau_bot';
+  // Username бота приходит из разметки: клиентский <script> не видит серверные
+  // импорты, поэтому конфигурация передаётся через data-атрибут.
+  const TG_BOT = toggle?.dataset.tgBot ?? '';
 
   let busy = false;
 

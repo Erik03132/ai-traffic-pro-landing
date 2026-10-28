@@ -9,9 +9,12 @@
  * Переменные окружения — см. `.env.example`.
  */
 import http from 'node:http';
+import https from 'node:https';
+import tls from 'node:tls';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { parseProxyUrl, socks5Connect } from './socks.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -48,8 +51,24 @@ const env = {
 const PORT = Number(env.PORT || 3001);
 const TELEGRAM_BOT_TOKEN = env.TELEGRAM_BOT_TOKEN || '';
 const TELEGRAM_CHAT_ID = env.TELEGRAM_CHAT_ID || '';
-const OPENROUTER_API_KEY = env.OPENROUTER_API_KEY || '';
-const OPENROUTER_MODEL = env.OPENROUTER_MODEL || 'openai/gpt-4o-mini';
+
+/* LLM: OpenAI-совместимый эндпоинт. Основной — локальный Ollama на VPS,
+ * запасной — внешний провайдер. Оба опциональны: если не настроен ни один,
+ * виджет отвечает по базе знаний (это рабочий режим, не авария). */
+const LLM_BASE_URL = env.LLM_BASE_URL || '';
+const LLM_MODEL = env.LLM_MODEL || '';
+const LLM_API_KEY = env.LLM_API_KEY || '';
+const LLM_FALLBACK_BASE_URL = env.LLM_FALLBACK_BASE_URL || '';
+const LLM_FALLBACK_MODEL = env.LLM_FALLBACK_MODEL || '';
+const LLM_FALLBACK_API_KEY = env.LLM_FALLBACK_API_KEY || '';
+const LLM_TIMEOUT_MS = Number(env.LLM_TIMEOUT_MS || 25000);
+
+/**
+ * Прокси для LLM (ADR-002): заблокированные в РФ провайдеры — только через прокси.
+ * Формат: `socks5h://user:pass@host:port`. Схема именно `socks5h`, а не `socks5`:
+ * при `socks5` DNS резолвится локально, и заблокированные домены не проходят.
+ */
+const LLM_PROXY = env.LLM_PROXY || '';
 
 /* ──────────────────────────────────────────────────────────────────────────
  * Прокси (ADR-002).
@@ -279,32 +298,187 @@ const SYSTEM_PROMPT = [
   'Не выдумывай цены, сроки, клиентов, кейсы и цифры. Стоимость — по запросу.',
 ].join(' ');
 
-async function callLLM(messages) {
-  if (!OPENROUTER_API_KEY) throw new Error('OPENROUTER_API_KEY не задан');
+/* Факты о компании для подсказки. Единственный источник истины по контенту —
+ * `src/data/site.ts`; здесь — выжимка для LLM, чтобы модель не фантазировала. */
+const FACTS = [
+  'AI-Traffic PRO — маркетинговое агентство полного цикла: реклама, SEO, SMM, сайты, CRM.',
+  'Шесть услуг: лидогенерация и продвижение; SMM и ведение соцсетей; SEO и видимость в ИИ;',
+  'контекстная и таргетированная реклама; сайт или лендинг под ключ; CRM и автоматизация маркетинга.',
+  'Стоимость — по запросу: смета после короткой вводной, фиксируется в договоре. Прайса на сайте нет.',
+  'Работаем по договору, ведём отчётность: обращения, стоимость лида, расходы, выводы.',
+  'Публичного портфолио и публичных кейсов нет — показатели клиентов не публикуем без согласования.',
+  'Метод работы: диагностика → гипотеза → замер → решение.',
+].join(' ');
 
-  // OpenRouter — заблокированный в РФ сервис: идём через прокси из HTTPS_PROXY
-  // (ADR-002). Если прокси не задан, обычный fetch уйдёт напрямую и не пройдёт.
-  const resp = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${OPENROUTER_API_KEY}`,
-      'HTTP-Referer': 'https://ai-traffic-pro.ru',
-      'X-Title': 'AI-Traffic PRO',
-    },
-    body: JSON.stringify({
-      model: OPENROUTER_MODEL,
-      messages,
-      temperature: 0.3,
-      max_tokens: 400,
-    }),
-  });
-
-  const data = await resp.json();
-  if (data.error || !data.choices?.[0]?.message?.content) {
-    throw new Error(data.error?.message || 'неизвестная ошибка LLM');
+/**
+ * HTTP-агент, который открывает соединение через SOCKS5-прокси.
+ * `fetch` в Node прокси не поддерживает, поэтому для внешних провайдеров
+ * используем `https.Agent` с собственным `createConnection`.
+ */
+class SocksHttpsAgent extends https.Agent {
+  constructor(proxy) {
+    super({ keepAlive: false, maxSockets: 8 });
+    this.proxy = proxy;
   }
-  return data.choices[0].message.content;
+
+  createConnection(options, callback) {
+    const target = {
+      host: options.host || options.hostname,
+      port: Number(options.port || 443),
+    };
+    socks5Connect({ proxy: this.proxy, targetHost: target.host, targetPort: target.port })
+      .then((rawSocket) => {
+        const secure = tls.connect({
+          socket: rawSocket,
+          servername: target.host,
+          rejectUnauthorized: true,
+        });
+        secure.once('secureConnect', () => callback(null, secure));
+        secure.once('error', (e) => callback(e));
+      })
+      .catch((e) => callback(e));
+  }
+}
+
+/**
+ * POST с JSON-ответом. Если задан `proxyUrl` — идём через SOCKS5.
+ * Таймаут общий на всю операцию (соединение + ответ).
+ */
+function postJson(url, { body, headers = {}, timeoutMs = 25000, proxyUrl = '' }) {
+  return new Promise((resolve, reject) => {
+    const target = new URL(url);
+    const payload = Buffer.from(body, 'utf-8');
+    const agent = proxyUrl ? new SocksHttpsAgent(parseProxyUrl(proxyUrl)) : undefined;
+
+    const req = https.request(
+      {
+        hostname: target.hostname,
+        port: target.port || 443,
+        path: `${target.pathname}${target.search}`,
+        method: 'POST',
+        agent,
+        servername: target.hostname,
+        headers: {
+          'Content-Type': 'application/json',
+          'Content-Length': payload.length,
+          // Без User-Agent внешние провайдеры за Cloudflare отвечают 403.
+          'User-Agent': 'AI-Traffic-PRO/1.0 (+https://ai-traffic-pro.ru)',
+          ...headers,
+        },
+      },
+      (res) => {
+        const chunks = [];
+        res.on('data', (c) => chunks.push(c));
+        res.on('end', () => {
+          const text = Buffer.concat(chunks).toString('utf-8');
+          let data;
+          try {
+            data = JSON.parse(text);
+          } catch {
+            reject(new Error(`LLM вернул не-JSON (${res.statusCode}): ${text.slice(0, 120)}`));
+            return;
+          }
+          resolve({ status: res.statusCode, data });
+        });
+      },
+    );
+
+    req.setTimeout(timeoutMs, () => {
+      req.destroy(new Error(`таймаут ${timeoutMs} мс`));
+    });
+    req.on('error', reject);
+    req.end(payload);
+  });
+}
+
+/**
+ * Один вызов OpenAI-совместимого эндпоинта.
+ * Провайдеры: локальный Ollama (`http://127.0.0.1:11434/v1`) и внешний.
+ */
+async function chatCompletion({ baseUrl, model, apiKey, messages, timeoutMs, proxyUrl = '' }) {
+  const url = `${baseUrl.replace(/\/+$/, '')}/chat/completions`;
+  const body = JSON.stringify({
+    model,
+    messages,
+    temperature: 0.3,
+    max_tokens: 400,
+  });
+  const headers = apiKey ? { Authorization: `Bearer ${apiKey}` } : {};
+
+  // Прокси имеет смысл только для https: локальный Ollama — на 127.0.0.1.
+  if (proxyUrl && url.startsWith('https://')) {
+    const { status, data } = await postJson(url, { body, headers, timeoutMs, proxyUrl });
+    if (data.error || !data.choices?.[0]?.message?.content) {
+      throw new Error(data.error?.message || data.message || `LLM ответил ${status}`);
+    }
+    return String(data.choices[0].message.content).trim();
+  }
+
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const resp = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...headers },
+      body,
+      signal: controller.signal,
+    });
+    const data = await resp.json();
+    if (data.error || !data.choices?.[0]?.message?.content) {
+      throw new Error(data.error?.message || `LLM ответил ${resp.status}`);
+    }
+    return String(data.choices[0].message.content).trim();
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+/** Список настроенных провайдеров: основной, затем запасной. */
+function llmProviders() {
+  const list = [];
+  if (LLM_BASE_URL && LLM_MODEL) {
+    list.push({ baseUrl: LLM_BASE_URL, model: LLM_MODEL, apiKey: LLM_API_KEY });
+  }
+  if (LLM_FALLBACK_BASE_URL && LLM_FALLBACK_MODEL) {
+    list.push({
+      baseUrl: LLM_FALLBACK_BASE_URL,
+      model: LLM_FALLBACK_MODEL,
+      apiKey: LLM_FALLBACK_API_KEY,
+    });
+  }
+  return list;
+}
+
+/** Провайдер для внешнего LLM: свой прокси, если задан, иначе общий LLM_PROXY. */
+const llmProvidersWithProxy = () =>
+  llmProviders().map((p) => ({
+    ...p,
+    proxyUrl: p.baseUrl.startsWith('https://') ? LLM_PROXY : '',
+  }));
+
+/**
+ * Вызов LLM с чередованием провайдеров.
+ * Ни один провайдер не ответил → бросаем: вызывающий отдаёт базу знаний.
+ */
+async function callLLM(messages) {
+  const providers = llmProvidersWithProxy();
+  if (providers.length === 0) throw new Error('LLM не настроен');
+
+  let lastError;
+  for (const provider of providers) {
+    try {
+      return await chatCompletion({
+        ...provider,
+        messages,
+        timeoutMs: LLM_TIMEOUT_MS,
+        proxyUrl: provider.proxyUrl || LLM_PROXY,
+      });
+    } catch (e) {
+      lastError = e;
+      console.warn(`⚠️ LLM ${provider.model} не ответил: ${e.message}`);
+    }
+  }
+  throw lastError;
 }
 
 /* ──────────────────────────────────────────────────────────────────────────
@@ -460,7 +634,7 @@ const server = http.createServer(async (req, res) => {
       // 2. LLM — если база не помогла.
       const history = Array.isArray(payload.messages) ? payload.messages.slice(-8) : [];
       const llmMessages = [
-        { role: 'system', content: SYSTEM_PROMPT },
+        { role: 'system', content: `${SYSTEM_PROMPT}\n\nФАКТЫ О КОМПАНИИ:\n${FACTS}` },
         ...history.map((t) => ({
           role: t.role === 'bot' ? 'assistant' : 'user',
           content: String(t.text ?? ''),
@@ -468,9 +642,27 @@ const server = http.createServer(async (req, res) => {
         { role: 'user', content: message },
       ];
 
-      const reply = await callLLM(llmMessages);
+      // LLM может не ответить (провайдер недоступен). Отдаём базу знаний или
+      // честный fallback — «пустого успеха» и 500 на живом виджете не бывает.
+      let reply = '';
+      let source = 'llm';
+      try {
+        reply = await callLLM(llmMessages);
+      } catch (e) {
+        console.error('❌ LLM недоступен:', e.message);
+        source = 'fallback';
+        reply =
+          'Сейчас не могу ответить подробно — задайте вопрос ещё раз или напишите в Telegram, ' +
+          'там ответит живой человек.';
+      }
+
+      if (!reply) {
+        source = 'fallback';
+        reply = 'Уточните вопрос — или напишите в Telegram, там ответит живой человек.';
+      }
+
       res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ reply, source: 'llm' }));
+      res.end(JSON.stringify({ reply, source }));
     } catch (e) {
       console.error('❌ Ошибка сервера:', e.message);
       res.writeHead(500, { 'Content-Type': 'application/json' });
@@ -484,7 +676,10 @@ server.listen(PORT, () => {
   console.log(
     `   Telegram: ${TELEGRAM_BOT_TOKEN && TELEGRAM_CHAT_ID ? 'настроен ✓' : 'НЕ настроен ✗ (заявки не уйдут)'}`,
   );
+  const providers = llmProvidersWithProxy();
   console.log(
-    `   LLM: ${OPENROUTER_API_KEY ? 'настроен ✓' : 'НЕ настроен ✗ (только база знаний)'}`,
+    providers.length
+      ? `   LLM: настроен ✓ (${providers.map((p) => p.model).join(' → ')})`
+      : '   LLM: НЕ настроен ✗ (только база знаний)',
   );
 });

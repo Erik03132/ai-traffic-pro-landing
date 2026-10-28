@@ -7,22 +7,26 @@
  * над составом карты: список URL собирается из единого источника истины.
  *
  * В карту попадают только страницы, которые должны индексироваться:
- * главная + шесть услуг. Правовые документы — черновики (noindex),
- * маркетплейс — дополнительное направление вне основной карты.
+ * главная + шесть услуг + реквизиты для оплаты. Правовые документы —
+ * черновики (noindex), маркетплейс — дополнительное направление вне основной карты.
  */
 import type { APIRoute } from 'astro';
 import { SERVICES, SITE_URL } from '../data/site';
 
 /** Страницы, которые индексируются. Правовые и маркетплейс исключены осознанно. */
-const INDEXABLE_PATHS: string[] = ['/', ...SERVICES.map((s) => `/services/${s.slug}/`)];
+const INDEXABLE_PATHS: string[] = [
+  '/',
+  '/requisites/',
+  ...SERVICES.map((s) => `/services/${s.slug}/`),
+];
 
 export const GET: APIRoute = () => {
   const today = new Date().toISOString().slice(0, 10);
 
   const urls = INDEXABLE_PATHS.map((path) => {
     const loc = new URL(path, SITE_URL).toString();
-    // Приоритет: главная выше, услуги равны между собой.
-    const priority = path === '/' ? '1.0' : '0.8';
+    // Приоритет: главная выше, услуги равны между собой, реквизиты — ниже.
+    const priority = path === '/' ? '1.0' : path === '/requisites/' ? '0.3' : '0.8';
     return `  <url>
     <loc>${loc}</loc>
     <lastmod>${today}</lastmod>
