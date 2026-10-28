@@ -75,26 +75,38 @@ LLM отвечает на вопросы вне базы знаний. На Work
 
 ## Деплой
 
-Схема размещения: **статика на GitHub Pages, API на Cloudflare Worker, VPS в резерве**.
-Решение зафиксировано в [ADR-001](docs/adr/ADR-001-api-on-cloudflare-worker.md).
+Схема размещения: **статика на Cloudflare Pages, API на Cloudflare Worker, VPS в резерве**.
+Решения зафиксированы в [ADR-001](docs/adr/ADR-001-api-on-cloudflare-worker.md) (API) и
+в задаче 0.8 `docs/ROADMAP.md` (статика).
 
 | Что                       | Где                                    | Адрес                                                        |
 | ------------------------- | -------------------------------------- | ------------------------------------------------------------ |
-| Статика (Astro → `dist/`) | GitHub Pages                           | `https://ai-traffic-pro.ru`                                  |
+| Статика (Astro → `dist/`) | Cloudflare Pages                       | `https://ai-traffic-pro.pages.dev` (staging) → `https://ai-traffic-pro.ru` (после смены NS) |
+| Статика (пока)           | GitHub Pages                           | `https://ai-traffic-pro.ru` (прод работает здесь)           |
 | API (заявки, чат)         | Cloudflare Worker (основной)           | `https://ai-traffic-pro-api.erik03132.workers.dev`           |
 | API (заявки, чат)         | Node-сервер на VPS `217.149.23.113`    | `https://api.ai-traffic-pro.ru` (резерв, другая инфраструктура)|
 
-DNS: A-записи `ai-traffic-pro.ru` и `www.ai-traffic-pro.ru` → `185.199.108.153`
-(IP GitHub Pages), `api.ai-traffic-pro.ru` → `217.149.23.113` (резервный API).
+DNS сейчас: A-записи `ai-traffic-pro.ru` и `www.ai-traffic-pro.ru` → `185.199.108.153`
+(GitHub Pages), `api.ai-traffic-pro.ru` → `217.149.23.113` (резервный API).
 TLS-сертификат выпускает GitHub (Let's Encrypt, до 2027-01-04), автообновление —
 на стороне GitHub.
+
+**Что даёт Cloudflare Pages и почему туда переезжаем:** GitHub Pages не умеет
+`_headers` — security-заголовки и `Cache-Control: immutable` для `/_astro/` там
+недоступны (`max-age=600`). Pages даёт и то, и другое через `public/_headers`,
+плюс 301-редиректы в 1 хоп (`public/_redirects`), свой 404 без soft-404,
+бесплатный preview-деплой на каждый PR и bandwidth без тарификации.
+
+> **Переезд упирается в NS.** Пока NS домена на TimeWeb, кастомный домен на Pages
+> не включить: `ai-traffic-pro.ru` продолжает работать на GitHub Pages. Шаги —
+> задача 0.8 в `docs/ROADMAP.md`.
 
 Адреса API приходят из окружения сборки, а не из репозитория:
 
 | Переменная                | Где задана                              | Значение                                       |
 | ------------------------- | ---------------------------------------- | ---------------------------------------------- |
-| `PUBLIC_API_BASE_URL`     | GitHub Actions → variable                | `https://ai-traffic-pro-api.erik03132.workers.dev` |
-| `PUBLIC_API_FALLBACK_URL` | GitHub Actions → variable                | `https://api.ai-traffic-pro.ru`                |
+| `PUBLIC_API_BASE_URL`     | Cloudflare Pages → production env_vars  | `https://ai-traffic-pro-api.erik03132.workers.dev` |
+| `PUBLIC_API_FALLBACK_URL` | Cloudflare Pages → production env_vars  | `https://api.ai-traffic-pro.ru`                |
 
 **Резерв срабатывает только при сетевой ошибке.** Если Worker недоступен по сети
 (троттлинг трафика из РФ, обрыв), запрос уходит на VPS. На 5xx повтора нет:

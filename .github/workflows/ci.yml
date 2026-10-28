@@ -1,0 +1,59 @@
+# Проверки перед деплоем: типы, тесты, аудит контента.
+#
+# Отдельный workflow, а не шаг в `deploy.yml`: проверки должны гнаться на каждом
+# PR, а деплой — только на `main`. Репозиторий публичный, форки не имеют
+# секретов — workflow оставляет `continue-on-error` только там, где нужны
+# внешние доступы.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Установка зависимостей
+        run: npm ci
+
+      # Типы и шаблоны Astro. Ловит ошибку в разметке до сборки.
+      - name: astro check
+        run: npm run check
+
+      # Тесты: rate limit, socks, agent-core, HTTP-сервер, Worker, api-post.
+      - name: Тесты
+        run: npm test
+
+      # Сборка с теми же переменными, что и в проде: пустой адрес API даёт
+      # относительные URL и молча ломает форму в бою.
+      - name: Сборка
+        run: npm run build
+        env:
+          PUBLIC_API_BASE_URL: ${{ vars.PUBLIC_API_BASE_URL }}
+          PUBLIC_API_FALLBACK_URL: ${{ vars.PUBLIC_API_FALLBACK_URL }}
+
+      # Артефакты Cloudflare Pages читаются из `dist/`: без `_headers`
+      # и `_redirects` в сборке заголовки и 301 не попадут на прод.
+      - name: Проверка артефактов сборки
+        run: |
+          test -f dist/_headers || { echo "::error::dist/_headers отсутствует"; exit 1; }
+          test -f dist/_redirects || { echo "::error::dist/_redirects отсутствует"; exit 1; }
+          test -f dist/404.html    || { echo "::error::dist/404.html отсутствует — будет soft-404"; exit 1; }
+          test -f dist/favicon.svg || { echo "::error::dist/favicon.svg отсутствует"; exit 1; }

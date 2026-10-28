@@ -1,0 +1,66 @@
+# Деплой статики AI-Traffic PRO на Cloudflare Pages.
+#
+# Отдельно от `deploy.yml` (GitHub Pages): оба деплоя живут параллельно, пока
+# домен указывает на GitHub Pages. Как только NS переключат на Cloudflare —
+# `deploy.yml` можно удалить, а этот workflow станет единственным.
+#
+# Токен: секрет репозитория `CLOUDFLARE_API_TOKEN` (Cloudflare → My Profile →
+# API Tokens → Create Token → шаблон "Edit Cloudflare Workers"). Без секрета
+# шаг деплоя пропускается, а job остаётся зелёным — CI не должен падать
+# из-за отсутствующего доступа (например, в форке).
+#
+# Адреса API подставляются на этапе сборки: они заданы в самом Pages-проекте
+# (production env_vars), поэтому здесь ничего не нужно, кроме случая, когда
+# деплоит не Pages-проект, а другой аккаунт.
+name: Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-cloudflare
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Astro 7 требует Node >=22.23.4 (engines в package.json astro).
+      # Пин «24» — стабильная ветка LTS; «22» тянул 22.23.3 и ломал сборку.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Установка зависимостей
+        run: npm ci
+
+      - name: Сборка
+        run: npm run build
+        env:
+          PUBLIC_API_BASE_URL: ${{ vars.PUBLIC_API_BASE_URL }}
+          PUBLIC_API_FALLBACK_URL: ${{ vars.PUBLIC_API_FALLBACK_URL }}
+
+      # Проверка токена внутри шага, а не в `if:`: так поведение одинаково
+      # на любой версии Actions и не зависит от того, доступен ли контекст
+      # `secrets` в условии шага.
+      - name: Деплой в Cloudflare Pages
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "::warning::CLOUDFLARE_API_TOKEN не задан — деплой в Pages пропущен"
+            exit 0
+          fi
+          npx --yes wrangler@latest pages deploy dist \
+            --project-name ai-traffic-pro \
+            --branch main \
+            --commit-dirty=true
