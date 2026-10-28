@@ -208,7 +208,7 @@ const { contact } = HOME;
    * 3. Успех → баннер «Заявка отправлена».
    * 4. Ошибка/нет API → баннер ошибки + ссылка в Telegram с готовым текстом.
    */
-  import { submitLead } from '../lib/submit-lead';
+  import { postJson } from '../lib/api-post';
 
   const forms = document.querySelectorAll<HTMLFormElement>('form[id]');
 
@@ -295,7 +295,7 @@ const { contact } = HOME;
         // Отправка с резервом: если Worker недоступен по сети, уходим на
         // резервный адрес (Node-сервер на VPS). Повтор делается только при
         // сетевой ошибке — на 5xx повтор запрещён, иначе будет дубль заявки.
-        const result = await submitLead({
+        const result = await postJson({
           url: form.action,
           fallbackUrl: form.dataset.leadFallback || undefined,
           payload: { ...data, source: window.location.pathname },

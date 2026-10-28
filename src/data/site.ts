@@ -36,6 +36,8 @@ export const API = {
   health: `${API_BASE}/api/health/`,
   /** Резервный адрес формы; пустая строка — резерва нет. */
   leadFallback: API_FALLBACK_BASE ? `${API_FALLBACK_BASE}/api/lead/` : '',
+  /** Резервный адрес чата; пустая строка — резерва нет. */
+  chatFallback: API_FALLBACK_BASE ? `${API_FALLBACK_BASE}/api/chat/` : '',
 } as const;
 
 export const SITE = {

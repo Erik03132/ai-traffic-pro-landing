@@ -1,7 +1,7 @@
 /**
- * Тесты отправки заявки: когда повтор помогает, а когда вредит.
+ * Тесты POST-запроса к API: когда повтор помогает, а когда вредит.
  *
- * Запуск: node --test src/lib/submit-lead.test.ts
+ * Запуск: node --test src/lib/api-post.test.ts
  * Зависимостей нет.
  *
  * Главный риск, который здесь закрывается: повтор при 5xx отправил бы заявку
@@ -10,20 +10,22 @@
  */
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { submitLead } from './submit-lead.ts';
+import { postJson } from './api-post.ts';
 
 const URL = 'https://primary.example/api/lead/';
 const FALLBACK = 'https://backup.example/api/lead/';
 const PAYLOAD = { name: 'Иван', contact: '+79990000000', service: 'seo', consent: true };
 
 /** Заглушка fetch: отвечает заданной последовательностью. */
-function fakeFetch(steps: Array<{ ok?: boolean; status?: number; throw?: boolean }>) {
+function fakeFetch(
+  steps: Array<{ status?: number; throw?: boolean; body?: unknown }>,
+) {
   const calls: string[] = [];
   const impl = (async (url: string) => {
     calls.push(String(url));
     const step = steps[Math.min(calls.length - 1, steps.length - 1)];
     if (step.throw) throw new Error('network down');
-    return new Response('{}', {
+    return new Response(JSON.stringify(step.body ?? { ok: true }), {
       status: step.status ?? 200,
       headers: { 'Content-Type': 'application/json' },
     });
@@ -33,16 +35,28 @@ function fakeFetch(steps: Array<{ ok?: boolean; status?: number; throw?: boolean
 
 test('успешный ответ — одна попытка, без повтора', async () => {
   const { impl, calls } = fakeFetch([{ status: 200 }]);
-  const result = await submitLead({ url: URL, payload: PAYLOAD, fetchImpl: impl });
+  const result = await postJson({ url: URL, payload: PAYLOAD, fetchImpl: impl });
   assert.equal(result.ok, true);
   assert.equal(result.tries, 1);
   assert.equal(result.via, 'primary');
   assert.equal(calls.length, 1);
 });
 
+test('тело ответа разбирается и возвращается', async () => {
+  const { impl } = fakeFetch([{ status: 200, body: { reply: 'Привет', source: 'knowledge' } }]);
+  const result = await postJson<{ reply: string; source: string }>({
+    url: URL,
+    payload: PAYLOAD,
+    fetchImpl: impl,
+  });
+  assert.equal(result.ok, true);
+  assert.equal(result.data?.reply, 'Привет');
+  assert.equal(result.data?.source, 'knowledge');
+});
+
 test('сетевая ошибка — уходим на резервный адрес', async () => {
   const { impl, calls } = fakeFetch([{ throw: true }, { status: 200 }]);
-  const result = await submitLead({
+  const result = await postJson({
     url: URL,
     fallbackUrl: FALLBACK,
     payload: PAYLOAD,
@@ -57,7 +71,7 @@ test('сетевая ошибка — уходим на резервный ад�
 
 test('оба адреса недоступны — ok=false, status=0', async () => {
   const { impl, calls } = fakeFetch([{ throw: true }]);
-  const result = await submitLead({
+  const result = await postJson({
     url: URL,
     fallbackUrl: FALLBACK,
     payload: PAYLOAD,
@@ -72,7 +86,7 @@ test('оба адреса недоступны — ok=false, status=0', async ()
 
 test('400 (невалидная заявка) — резерв не пробуем: вернул бы то же самое', async () => {
   const { impl, calls } = fakeFetch([{ status: 400 }]);
-  const result = await submitLead({
+  const result = await postJson({
     url: URL,
     fallbackUrl: FALLBACK,
     payload: PAYLOAD,
@@ -86,7 +100,7 @@ test('400 (невалидная заявка) — резерв не пробуе
 
 test('429 (rate limit) — резерв не пробуем: добьём лимит', async () => {
   const { impl, calls } = fakeFetch([{ status: 429 }]);
-  const result = await submitLead({
+  const result = await postJson({
     url: URL,
     fallbackUrl: FALLBACK,
     payload: PAYLOAD,
@@ -98,7 +112,7 @@ test('429 (rate limit) — резерв не пробуем: добьём лим
 
 test('404 — резерв не пробуем: адрес неверный', async () => {
   const { impl, calls } = fakeFetch([{ status: 404 }]);
-  const result = await submitLead({
+  const result = await postJson({
     url: URL,
     fallbackUrl: FALLBACK,
     payload: PAYLOAD,
@@ -110,7 +124,7 @@ test('404 — резерв не пробуем: адрес неверный', as
 
 test('500 — резерв НЕ пробуем: заявка могла уйти, повтор = дубль', async () => {
   const { impl, calls } = fakeFetch([{ status: 500 }]);
-  const result = await submitLead({
+  const result = await postJson({
     url: URL,
     fallbackUrl: FALLBACK,
     payload: PAYLOAD,
@@ -129,7 +143,7 @@ test('тело запроса — JSON с теми же данными', async (
     return new Response('{}', { status: 200 });
   }) as unknown as typeof fetch;
 
-  await submitLead({ url: URL, payload: PAYLOAD, fetchImpl: impl });
+  await postJson({ url: URL, payload: PAYLOAD, fetchImpl: impl });
   assert.equal(captured?.method, 'POST');
   assert.deepEqual(JSON.parse(String(captured?.body)), PAYLOAD);
   const headers = captured?.headers as Record<string, string>;
@@ -142,7 +156,7 @@ test('таймаут запроса не оставляет висящий се�
       init?.signal?.addEventListener('abort', () => reject(new Error('aborted')));
     })) as unknown as typeof fetch;
 
-  const result = await submitLead({
+  const result = await postJson({
     url: URL,
     payload: PAYLOAD,
     fetchImpl: impl,
@@ -156,7 +170,7 @@ test('таймаут запроса не оставляет висящий се�
 
 test('одинаковые адреса не дублируются', async () => {
   const { impl, calls } = fakeFetch([{ throw: true }]);
-  const result = await submitLead({
+  const result = await postJson({
     url: URL,
     fallbackUrl: URL,
     payload: PAYLOAD,
@@ -165,4 +179,20 @@ test('одинаковые адреса не дублируются', async () =
   });
   assert.equal(calls.length, 1, 'один и тот же адрес не пробуем дважды');
   assert.equal(result.tries, 1);
+});
+
+test('не-JSON ответ не роняет разбор', async () => {
+  const impl = (async () =>
+    new Response('<html>502</html>', {
+      status: 200,
+      headers: { 'Content-Type': 'text/html' },
+    })) as unknown as typeof fetch;
+
+  const result = await postJson({
+    url: URL,
+    payload: PAYLOAD,
+    fetchImpl: impl,
+  });
+  assert.equal(result.ok, true);
+  assert.equal(result.data, null);
 });

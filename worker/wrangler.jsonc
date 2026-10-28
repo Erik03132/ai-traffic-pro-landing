@@ -60,6 +60,13 @@
   "workers_dev": true,
 
   /**
+   * Превью-URL (`<hash>.workers.dev`) выключены: это лишние публичные
+   * точки входа с тем же кодом. Основной адрес — `workers.dev` или,
+   * после переноса NS, кастомный домен.
+   */
+  "preview_urls": false,
+
+  /**
    * "routes": [
    *   {
    *     "pattern": "api.ai-traffic-pro.ru",

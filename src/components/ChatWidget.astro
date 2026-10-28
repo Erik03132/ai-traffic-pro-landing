@@ -101,6 +101,7 @@ import { SITE, API } from '../data/site';
     aria-expanded="false"
     aria-controls="chat-panel"
     data-chat-api={API.chat}
+    data-chat-api-fallback={API.chatFallback}
     data-tg-bot={SITE.bot.username}
   >
     <span class="material-symbols-outlined text-[26px]" id="chat-icon">
@@ -129,6 +130,8 @@ import { SITE, API } from '../data/site';
 </style>
 
 <script>
+  import { postJson } from '../lib/api-post';
+
   const toggle = document.getElementById('chat-toggle');
   const panel = document.getElementById('chat-panel');
   const close = document.getElementById('chat-close');
@@ -142,6 +145,8 @@ import { SITE, API } from '../data/site';
   // Путь к API приходит из разметки: клиентский <script> в Astro не видит
   // серверные импорты, поэтому конфигурация передаётся через data-атрибут.
   const API_CHAT = toggle?.dataset.chatApi ?? '/api/chat/';
+  // Резервный адрес: если Worker недоступен по сети, идём на Node-сервер.
+  const API_CHAT_FALLBACK = toggle?.dataset.chatApiFallback ?? '';
   // Username бота приходит из разметки: клиентский <script> не видит серверные
   // импорты, поэтому конфигурация передаётся через data-атрибут.
   const TG_BOT = toggle?.dataset.tgBot ?? '';
@@ -199,18 +204,19 @@ import { SITE, API } from '../data/site';
 
     const pending = typing();
     try {
-      const response = await fetch(API_CHAT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      // Резерв при сетевой ошибке: Worker может быть недоступен из РФ.
+      const result = await postJson<{ reply?: string; source?: string }>({
+        url: API_CHAT,
+        fallbackUrl: API_CHAT_FALLBACK || undefined,
+        payload: {
           message: question,
           context: { page: window.location.pathname, source: 'widget' },
-        }),
+        },
       });
-      if (!response.ok) throw new Error('HTTP ' + response.status);
-      const data = await response.json();
+      if (!result.ok) throw new Error('HTTP ' + result.status);
+
       pending.remove();
-      addBubble(data.reply || 'Ответ пришёл пустым — уточните вопрос.', 'bot');
+      addBubble(result.data?.reply || 'Ответ пришёл пустым — уточните вопрос.', 'bot');
     } catch (err) {
       console.error('Chat request failed:', err);
       pending.remove();

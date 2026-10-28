@@ -1,13 +1,15 @@
 /**
- * Отправка заявки: основной адрес → резервный адрес.
+ * POST-запрос к API с резервным адресом.
  *
  * Зачем: сайт лежит на GitHub Pages, API — на Cloudflare Worker. Заявка — это
- * деньги, и терять её из-за сетевого сбоя нельзя.
+ * деньги, и терять её из-за сетевого сбоя нельзя. Поэтому при сетевой ошибке
+ * запрос уходит на резервный адрес (Node-сервер на VPS) — это другая
+ * инфраструктура, а не тот же Cloudflare.
  *
  * Правила повтора намеренно строгие:
  *   - повтор делается ТОЛЬКО при сетевой ошибке (запрос не дошёл до сервера);
  *   - при 5xx повтора НЕТ: ответ сервера означает, что запрос мог дойти
- *     и заявка могла уйти в Telegram. Повтор = две заявки у клиента.
+ *     и заявка могла уйти в Telegram. Повтор = две заявки у клиента;
  *   - при 400/404/429 повтора нет по очевидным причинам.
  *
  * Если не сработало ни то, ни другое — вызывающий код показывает ссылку
@@ -15,7 +17,7 @@
  * не зависит ни от какого сервера.
  */
 
-export interface SubmitLeadOptions {
+export interface PostJsonOptions {
   /** Адрес основного API. */
   url: string;
   /** Резервный адрес API (другая инфраструктура). */
@@ -32,8 +34,8 @@ export interface SubmitLeadOptions {
   fetchImpl?: typeof fetch;
 }
 
-export interface SubmitLeadResult {
-  /** Принял ли сервер заявку. */
+export interface PostJsonResult<T = unknown> {
+  /** Принял ли сервер запрос. */
   ok: boolean;
   /** HTTP-статус последнего ответа; 0 — сеть не ответила. */
   status: number;
@@ -41,6 +43,8 @@ export interface SubmitLeadResult {
   tries: number;
   /** Какой адрес использовался в последней попытке. */
   via: 'primary' | 'fallback' | 'none';
+  /** Разобранное тело ответа; null, если ответа не было или он не JSON. */
+  data: T | null;
 }
 
 /** Ждёт указанное число миллисекунд. */
@@ -49,12 +53,14 @@ function sleep(ms: number): Promise<void> {
 }
 
 /**
- * Отправляет заявку на основной адрес, при сетевой ошибке — на резервный.
+ * Отправляет POST с JSON на основной адрес, при сетевой ошибке — на резервный.
  *
- * @param options параметры отправки
- * @returns результат: принято ли, статус, число попыток, использованный адрес
+ * @param options параметры запроса
+ * @returns результат: принято ли, статус, число попыток, тело ответа
  */
-export async function submitLead(options: SubmitLeadOptions): Promise<SubmitLeadResult> {
+export async function postJson<T = unknown>(
+  options: PostJsonOptions,
+): Promise<PostJsonResult<T>> {
   const {
     url,
     fallbackUrl,
@@ -74,8 +80,11 @@ export async function submitLead(options: SubmitLeadOptions): Promise<SubmitLead
   let status = 0;
   let tries = 0;
   let via: 'primary' | 'fallback' | 'none' = 'none';
+  let data: T | null = null;
 
-  for (let i = 0; i < Math.min(attempts, targets.length); i++) {
+  const limit = Math.min(attempts, targets.length);
+
+  for (let i = 0; i < limit; i++) {
     tries = i + 1;
     via = targets[i].via;
 
@@ -97,23 +106,31 @@ export async function submitLead(options: SubmitLeadOptions): Promise<SubmitLead
 
       status = response.status;
 
+      // Тело читаем всегда: при ошибке оно тоже полезно вызывающему коду.
+      try {
+        data = (await response.json()) as T;
+      } catch {
+        data = null;
+      }
+
       if (response.ok) {
-        return { ok: true, status, tries, via };
+        return { ok: true, status, tries, via, data };
       }
 
       // Сервер ответил → адрес работает. Повтор не поможет и может
       // продублировать заявку. Прекращаем.
-      return { ok: false, status, tries, via };
+      return { ok: false, status, tries, via, data };
     } catch {
       // Сеть недоступна или истёк таймаут — запрос точно не дошёл.
       // Единственный безопасный случай для повтора.
       status = 0;
+      data = null;
     }
 
-    if (i < Math.min(attempts, targets.length) - 1) {
+    if (i < limit - 1) {
       await sleep(retryDelayMs);
     }
   }
 
-  return { ok: false, status, tries, via };
+  return { ok: false, status, tries, via, data };
 }
