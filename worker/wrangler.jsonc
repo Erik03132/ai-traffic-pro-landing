@@ -1,0 +1,74 @@
+{
+  /**
+   * Cloudflare Worker — API AI-Traffic PRO без VPS.
+   *
+   * Статика — на GitHub Pages (DNS A → 185.199.108.153). Этот Worker
+   * обслуживает только API на поддомене `api.ai-traffic-pro.ru`.
+   *
+   * Комментарии в JSONC удаляются при парсинге, но `wrangler` их читает —
+   * оставляем объяснения рядом с настройками, которые легко сломать.
+   */
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ai-traffic-pro-api",
+  "main": "src/index.js",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat"],
+
+  /**
+   * Личный Workers AI. На Free — 10 000 нейронов/сутки (≈500 ответов виджета).
+   * Модель выбрана в коде: `@cf/meta/llama-3.1-8b-instruct-fp8-fast`.
+   * `deepseek-v4-*` требуют Workers Paid ($5/мес) — не используем.
+   */
+  "ai": {
+    "binding": "AI"
+  },
+
+  /**
+   * Бэкап заявок. Free: 1 000 записей в сутки, хранилище 1 ГБ.
+   * Заявка пишется сюда ДО отправки в Telegram — она не должна теряться.
+   */
+  "kv_namespaces": [
+    {
+      "binding": "LEADS",
+      "id": "6aa58b76b01e4c2f9999578e4234c976"
+    }
+  ],
+
+  /**
+   * Rate limit: отдельные баки для виджета и формы.
+   * 10 запросов в минуту с одного IP — как на VPS. Приблизительный лимит:
+   * считается отдельно в каждой локации CF.
+   */
+  "ratelimits": [
+    {
+      "name": "CHAT_LIMITER",
+      "namespace_id": "1001",
+      "simple": { "limit": 10, "period": 60 }
+    },
+    {
+      "name": "LEAD_LIMITER",
+      "namespace_id": "1002",
+      "simple": { "limit": 10, "period": 60 }
+    }
+  ],
+
+  /**
+   * Кастомный домен требует, чтобы зона `ai-traffic-pro.ru` обслуживалась
+   * NS Cloudflare. Пока NS на Timeweb — работаем на `workers.dev`.
+   * После переноса NS раскомментировать блок ниже и убрать `workers_dev`.
+   */
+  "workers_dev": true,
+
+  /**
+   * "routes": [
+   *   {
+   *     "pattern": "api.ai-traffic-pro.ru",
+   *     "custom_domain": true
+   *   }
+   * ],
+   */
+
+  "observability": {
+    "enabled": true
+  }
+}

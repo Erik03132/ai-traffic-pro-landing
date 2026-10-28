@@ -15,6 +15,14 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseProxyUrl, socks5Connect } from './socks.js';
+import {
+  EMPTY_REPLY,
+  FALLBACK_REPLY,
+  buildLlmMessages,
+  findKnowledge,
+  formatLeadMessage,
+  validateLead,
+} from './agent-core.js';
 import { clientIpFrom, createRateLimiter } from './ratelimit.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -109,117 +117,6 @@ async function fetchDirect(url, options = {}) {
   }
 }
 
-/* ──────────────────────────────────────────────────────────────────────────
- * База знаний агента: короткие честные ответы по услугам.
- * Цитируются в ответах бота — источник правды, а не выдумка модели.
- * ────────────────────────────────────────────────────────────────────────── */
-const KNOWLEDGE = [
-  {
-    keywords: ['услуги', 'направления', 'чем занимаетесь', 'что делаете'],
-    answer:
-      'Шесть направлений: 1) привлечение клиентов и воронка продаж, 2) SEO, GEO и видимость в ИИ, ' +
-      '3) SMM и ведение соцсетей, 4) контекстная и таргетированная реклама, ' +
-      '5) сайт или лендинг под ключ, 6) e-commerce: интернет-магазин и маркетплейсы. ' +
-      'Каждое работает отдельно, комплекс собираем под задачу. ' +
-      'Дополнительно ведём CRM и автоматизацию маркетинга — по прямой ссылке.',
-  },
-  {
-    keywords: [
-      'маркетплейс',
-      'вб',
-      'ozon',
-      'озон',
-      'wildberries',
-      'интернет-магазин',
-      'e-commerce',
-      'карточки товаров',
-      'каталог',
-    ],
-    answer:
-      'E-commerce — общая услуга: свой интернет-магазин и карточки товаров для WB и Ozon. ' +
-      'Делаем аудит каталога и ниши, единый формат данных и выгрузку, подготовку и загрузку карточек, ' +
-      'SEO названий и описаний, рекламу внутри площадки, базовую аналитику ДРР и конверсии. ' +
-      'Свой магазин даёт клиентскую базу и маржу, маркетплейс — готовый трафик. Часто нужны оба.',
-  },
-  {
-    keywords: ['сколько стоит', 'цена', 'стоимость', 'бюджет', 'прайс'],
-    answer:
-      'Стоимость — по запросу. Смета зависит от объёма работ и формата: считаем после короткой ' +
-      'вводной, показываем, за что и сколько, и фиксируем в договоре. Вилки на сайте нет намеренно.',
-  },
-  {
-    keywords: ['сроки', 'когда', 'сколько времени', 'быстро'],
-    answer:
-      'Первые выводы по трафику обычно появляются через 7–14 дней после запуска. ' +
-      'Для SEO и контентных задач горизонт оценки дольше — фиксируем его в плане до старта. ' +
-      'Лендинг — от 1,5–2 недель, сайт услуг — 3–5 недель.',
-  },
-  {
-    keywords: ['договор', 'оплата', 'официально', 'ип', 'ооо'],
-    answer:
-      'Да, работаем по договору: фиксируем объём, сроки и критерии результата. ' +
-      'Оплата — по согласованной модели: за запуск, ежемесячное ведение или комбинация.',
-  },
-  {
-    keywords: ['отчет', 'отчёт', 'аналитика', 'метрики', 'как измеряете'],
-    answer:
-      'Раз в месяц — отчёт по обращениям, стоимости заявки, расходам и выводам. ' +
-      'В активных рекламных проектах дополнительно смотрим динамику каждую неделю. ' +
-      'Формат и состав фиксируем в договоре.',
-  },
-  {
-    keywords: ['заявк', 'форма', 'отправить', 'связаться', 'контакт'],
-    answer:
-      'Оставьте заявку через форму на сайте — отвечаем в течение рабочего дня. ' +
-      'Или напишите в Telegram, это быстрее всего.',
-  },
-  {
-    keywords: ['ai', 'ии', 'нейросет', 'искусственн'],
-    answer:
-      'AI используем для кабинетных исследований, анализа данных, генерации и теста гипотез, ' +
-      'а также в продуктах: бот с FSM-онбордингом, CRM-автоматизация. ' +
-      'Стратегия, финальные тексты и запуск остаются под контролем специалистов.',
-  },
-  {
-    keywords: ['опыт', 'кейсы', 'клиенты', 'проекты', 'портфолио'],
-    answer:
-      'Публичного портфолио пока нет, поэтому мы не публикуем показатели клиентов без согласования. ' +
-      'Вместо этого показываем метод: диагностика → гипотеза → замер → решение.',
-  },
-  {
-    keywords: ['с чего начать', 'начать', 'первый шаг', 'диагностика'],
-    answer:
-      'С диагностики: смотрим продукт, экономику, спрос и доступные каналы. ' +
-      'Предлагаем один канал, а не пять, и начинаем с узкого места, которое сильнее всего влияет на деньги.',
-  },
-];
-
-/** Быстрый поиск по базе знаний. */
-function findKnowledge(question) {
-  const q = question.toLowerCase();
-  const hits = KNOWLEDGE.filter((k) => k.keywords.some((word) => q.includes(word)));
-  if (hits.length === 0) return null;
-  return hits.map((h) => h.answer).join(' ');
-}
-
-/* ──────────────────────────────────────────────────────────────────────────
- * Telegram: отправка заявки менеджеру.
- * ────────────────────────────────────────────────────────────────────────── */
-function escapeHtml(str) {
-  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-}
-
-const SERVICE_LABELS = {
-  all: 'Весь комплекс',
-  leadgen: 'Привлечение клиентов и воронка продаж',
-  seo: 'SEO, GEO и видимость в ИИ',
-  smm: 'SMM и ведение соцсетей',
-  advertising: 'Контекстная и таргетированная реклама',
-  landing: 'Сайт или лендинг под ключ',
-  ecommerce: 'E-commerce: интернет-магазин и маркетплейсы',
-  crm: 'CRM и автоматизация маркетинга',
-};
-
 /**
  * Гарантированный бэкап лида на диск.
  *
@@ -256,26 +153,9 @@ async function sendLeadToTelegram(lead) {
     return true; // Заявка принята — она на диске, не потеряна.
   }
 
-  const serviceLabel = SERVICE_LABELS[lead.service] || lead.service || '—';
-  const lines = [
-    '🎯 <b>Новая заявка с сайта AI-Traffic PRO</b>',
-    '',
-    `👤 <b>Имя:</b> ${escapeHtml(lead.name || '—')}`,
-    `📞 <b>Контакт:</b> ${escapeHtml(lead.contact || '—')}`,
-    `🎯 <b>Услуга:</b> ${escapeHtml(serviceLabel)}`,
-  ];
-
-  if (lead.business) {
-    lines.push(`🏢 <b>Компания / сайт:</b> ${escapeHtml(lead.business)}`);
-  }
-  if (lead.comment) {
-    lines.push('', `📝 <b>О проекте:</b>\n${escapeHtml(lead.comment)}`);
-  }
-  if (lead.source) {
-    lines.push('', `🔗 <b>Страница:</b> ${escapeHtml(lead.source)}`);
-  }
-
-  lines.push('', `🕐 ${new Date().toLocaleString('ru-RU', { timeZone: 'Europe/Moscow' })} (МСК)`);
+  // Текст заявки — общий с Worker (agent-core.js), чтобы оба рантайма
+  // отправляли в Telegram одинаковое сообщение.
+  const text = `${formatLeadMessage(lead)}\n\n🕐 ${new Date().toLocaleString('ru-RU', { timeZone: 'Europe/Moscow' })} (МСК)`;
 
   try {
     // Telegram — российский сервис: строго напрямую, без прокси (ADR-002).
@@ -286,7 +166,7 @@ async function sendLeadToTelegram(lead) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           chat_id: TELEGRAM_CHAT_ID,
-          text: lines.join('\n'),
+          text,
           parse_mode: 'HTML',
           disable_web_page_preview: true,
         }),
@@ -306,30 +186,6 @@ async function sendLeadToTelegram(lead) {
     return true; // Не теряем заявку: она уже в файле.
   }
 }
-
-/* ──────────────────────────────────────────────────────────────────────────
- * LLM (OpenRouter). Используется только когда по базе знаний нет точного ответа.
- * ────────────────────────────────────────────────────────────────────────── */
-const SYSTEM_PROMPT = [
-  'Ты — агент маркетингового агентства AI-Traffic PRO (Россия).',
-  'Отвечай по-русски, кратко (1–4 предложения), по делу, без рекламных превосходных степеней.',
-  'Опирайся на КОНТЕКСТ. Если в контексте нет ответа — честно скажи, что уточнишь у команды,',
-  'и предложи оставить заявку через форму или написать в Telegram.',
-  'Не выдумывай цены, сроки, клиентов, кейсы и цифры. Стоимость — по запросу.',
-].join(' ');
-
-/* Факты о компании для подсказки. Единственный источник истины по контенту —
- * `src/data/site.ts`; здесь — выжимка для LLM, чтобы модель не фантазировала. */
-const FACTS = [
-  'AI-Traffic PRO — маркетинговое агентство полного цикла: реклама, SEO, SMM, сайты, e-commerce.',
-  'Шесть услуг: привлечение клиентов и воронка продаж; SEO, GEO и видимость в ИИ;',
-  'SMM и ведение соцсетей; контекстная и таргетированная реклама; сайт или лендинг под ключ;',
-  'e-commerce: интернет-магазин и маркетплейсы. Дополнительно ведём CRM и автоматизацию маркетинга.',
-  'Стоимость — по запросу: смета после короткой вводной, фиксируется в договоре. Прайса на сайте нет.',
-  'Работаем по договору, ведём отчётность: обращения, стоимость заявки, расходы, выводы.',
-  'Публичного портфолио и публичных кейсов нет — показатели клиентов не публикуем без согласования.',
-  'Метод работы: диагностика → гипотеза → замер → решение.',
-].join(' ');
 
 /**
  * HTTP-агент, который открывает соединение через SOCKS5-прокси.
@@ -518,68 +374,6 @@ const rateLimiter = createRateLimiter({
   max: RATE_LIMIT_MAX,
 });
 
-/* ──────────────────────────────────────────────────────────────────────────
- * Валидация заявки.
- * ────────────────────────────────────────────────────────────────────────── */
-function validateLead(payload) {
-  const errors = [];
-  const name = String(payload.name || '').trim();
-  const contact = String(payload.contact || '').trim();
-  const service = String(payload.service || '').trim();
-  const business = String(payload.business || '')
-    .trim()
-    .slice(0, 200);
-  const comment = String(payload.comment || '')
-    .trim()
-    .slice(0, 2000);
-  const source = String(payload.source || '')
-    .trim()
-    .slice(0, 200);
-  const consent =
-    payload.consent === true || payload.consent === 'true' || payload.consent === 'on';
-
-  if (name.length < 2) errors.push('name');
-  if (contact.length < 5) errors.push('contact');
-  if (!service) errors.push('service');
-  if (!consent) errors.push('consent');
-
-  // Honeypot: бот заполнил скрытое поле — принимаем, но никуда не отправляем.
-  if (payload.website) return { ok: false, honeypot: true, errors: [] };
-
-  return {
-    ok: errors.length === 0,
-    errors,
-    lead: { name, contact, service, business, comment, source },
-  };
-}
-
-/* ──────────────────────────────────────────────────────────────────────────
- * CORS
- *
- * В проде статика может лежать на GitHub Pages, а API — на отдельном
- * поддомене VPS: тогда запросы идут с другого origin и без CORS-headers
- * браузер их заблокирует.
- *
- * Список разрешённых origin задаётся через ALLOWED_ORIGINS (через запятую).
- * Пустой список = CORS-headers не выставляются вовсе (тот же домен, CORS не
- * нужен). Открытый `*` не используем: иначе любой сторонний сайт сможет
- * слать заявки от имени нашего домена.
- * ────────────────────────────────────────────────────────────────────────── */
-const ALLOWED_ORIGINS = (env.ALLOWED_ORIGINS || '')
-  .split(',')
-  .map((o) => o.trim())
-  .filter(Boolean);
-
-function applyCors(req, res) {
-  const origin = req.headers.origin;
-  if (!origin || ALLOWED_ORIGINS.length === 0) return;
-  if (!ALLOWED_ORIGINS.includes(origin)) return;
-
-  res.setHeader('Access-Control-Allow-Origin', origin);
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  res.setHeader('Vary', 'Origin');
-}
 
 /* ──────────────────────────────────────────────────────────────────────────
  * HTTP-сервер
@@ -685,14 +479,7 @@ const server = http.createServer(async (req, res) => {
 
       // 2. LLM — если база не помогла.
       const history = Array.isArray(payload.messages) ? payload.messages.slice(-8) : [];
-      const llmMessages = [
-        { role: 'system', content: `${SYSTEM_PROMPT}\n\nФАКТЫ О КОМПАНИИ:\n${FACTS}` },
-        ...history.map((t) => ({
-          role: t.role === 'bot' ? 'assistant' : 'user',
-          content: String(t.text ?? ''),
-        })),
-        { role: 'user', content: message },
-      ];
+      const llmMessages = buildLlmMessages(history, message);
 
       // LLM может не ответить (провайдер недоступен). Отдаём базу знаний или
       // честный fallback — «пустого успеха» и 500 на живом виджете не бывает.
@@ -703,14 +490,12 @@ const server = http.createServer(async (req, res) => {
       } catch (e) {
         console.error('❌ LLM недоступен:', e.message);
         source = 'fallback';
-        reply =
-          'Сейчас не могу ответить подробно — задайте вопрос ещё раз или напишите в Telegram, ' +
-          'там ответит живой человек.';
+        reply = FALLBACK_REPLY;
       }
 
       if (!reply) {
         source = 'fallback';
-        reply = 'Уточните вопрос — или напишите в Telegram, там ответит живой человек.';
+        reply = EMPTY_REPLY;
       }
 
       res.writeHead(200, { 'Content-Type': 'application/json' });

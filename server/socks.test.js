@@ -150,7 +150,7 @@ test('SOCKS5: CONNECT до HTTPS-сервера работает', async () => {
       key: fs.readFileSync(path.join(dir, 'key.pem')),
       cert: fs.readFileSync(path.join(dir, 'cert.pem')),
     },
-    (req, res) => {
+    (_req, res) => {
       res.writeHead(200, { 'Content-Type': 'text/plain' });
       res.end('ok');
     },
