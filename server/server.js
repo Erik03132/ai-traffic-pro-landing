@@ -374,6 +374,28 @@ const rateLimiter = createRateLimiter({
   max: RATE_LIMIT_MAX,
 });
 
+/* ──────────────────────────────────────────────────────────────────────────
+ * CORS: белый список origin (не пустой `*`).
+ *
+ * Открытый `*` не используем: иначе любой сторонний сайт сможет слать
+ * заявки от имени нашего домена. Список приходит из окружения
+ * (`ALLOWED_ORIGINS` через запятую).
+ * ────────────────────────────────────────────────────────────────────────── */
+const ALLOWED_ORIGINS = (env.ALLOWED_ORIGINS || '')
+  .split(',')
+  .map((o) => o.trim())
+  .filter(Boolean);
+
+function applyCors(req, res) {
+  const origin = req.headers.origin;
+  if (!origin || ALLOWED_ORIGINS.length === 0) return;
+  if (!ALLOWED_ORIGINS.includes(origin)) return;
+
+  res.setHeader('Access-Control-Allow-Origin', origin);
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Vary', 'Origin');
+}
 
 /* ──────────────────────────────────────────────────────────────────────────
  * HTTP-сервер
