@@ -533,6 +533,34 @@ function validateLead(payload) {
 }
 
 /* ──────────────────────────────────────────────────────────────────────────
+ * CORS
+ *
+ * В проде статика может лежать на GitHub Pages, а API — на отдельном
+ * поддомене VPS: тогда запросы идут с другого origin и без CORS-headers
+ * браузер их заблокирует.
+ *
+ * Список разрешённых origin задаётся через ALLOWED_ORIGINS (через запятую).
+ * Пустой список = CORS-headers не выставляются вовсе (тот же домен, CORS не
+ * нужен). Открытый `*` не используем: иначе любой сторонний сайт сможет
+ * слать заявки от имени нашего домена.
+ * ────────────────────────────────────────────────────────────────────────── */
+const ALLOWED_ORIGINS = (env.ALLOWED_ORIGINS || '')
+  .split(',')
+  .map((o) => o.trim())
+  .filter(Boolean);
+
+function applyCors(req, res) {
+  const origin = req.headers.origin;
+  if (!origin || ALLOWED_ORIGINS.length === 0) return;
+  if (!ALLOWED_ORIGINS.includes(origin)) return;
+
+  res.setHeader('Access-Control-Allow-Origin', origin);
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Vary', 'Origin');
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
  * HTTP-сервер
  * ────────────────────────────────────────────────────────────────────────── */
 const server = http.createServer(async (req, res) => {
@@ -541,10 +569,7 @@ const server = http.createServer(async (req, res) => {
   // нет. Приводим к единому виду, иначе /api/chat/ не найдёт эндпоинт.
   const pathname = url.pathname.replace(/\/+$/, '') || '/';
 
-  // CORS — тот же домен в проде, но dev-сервер Astro на другом порту.
-  res.setHeader('Access-Control-Allow-Origin', req.headers.origin ?? '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  applyCors(req, res);
 
   if (req.method === 'OPTIONS') {
     res.writeHead(204);

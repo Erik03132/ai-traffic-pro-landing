@@ -14,11 +14,19 @@ export const SITE_URL = 'https://ai-traffic-pro.ru';
 /**
  * Адреса API. Слэш на конце обязателен: в Astro включён `trailingSlash: 'always'`,
  * и запрос без слэша в dev-режиме отбрасывается с 404 ещё до прокси.
+ *
+ * `PUBLIC_API_BASE_URL` задаётся на этапе сборки (GitHub Actions → Pages):
+ * статика лежит на GitHub Pages, а API — на VPS, поэтому адрес должен быть
+ * абсолютным. Пустая переменная = API на том же домене (локальная сборка,
+ * nginx-проксирование на VPS). Значение приходит из окружения сборки,
+ * а не из репозитория, — это единственное место, где живёт «где API».
  */
+const API_BASE = (import.meta.env.PUBLIC_API_BASE_URL ?? '').replace(/\/+$/, '');
+
 export const API = {
-  lead: '/api/lead/',
-  chat: '/api/chat/',
-  health: '/api/health/',
+  lead: `${API_BASE}/api/lead/`,
+  chat: `${API_BASE}/api/chat/`,
+  health: `${API_BASE}/api/health/`,
 } as const;
 
 export const SITE = {
