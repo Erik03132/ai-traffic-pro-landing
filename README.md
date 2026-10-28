@@ -91,6 +91,27 @@ CORS: `ALLOWED_ORIGINS` в `.env` — белый список origin'ов ста
 > но его автообновление **отключено** (`/etc/letsencrypt/renewal/ai-traffic-pro.ru.conf.disabled`):
 > после переключения DNS на GitHub Pages HTTP-01-челлендж до VPS не доходит и renew падал бы.
 
+### certbot на VPS: какой бинарник рабочий
+
+`/usr/bin/certbot` (системный 1.21.0) **сломан**: pip-пакеты в
+`/usr/local/lib/python3.10/dist-packages` (urllib3 2.x) перекрывают системный
+urllib3, и старый `requests_toolbelt` падает с `ImportError`. Из-за этого автообновление
+не работало ни для одного сертификата на VPS.
+
+Рабочая версия — `/opt/certbot-venv/bin/certbot` (5.8.0), плагин `certbot-nginx`
+в неё доустановлен. Поэтому:
+
+- `certbot.service` переопределён в `/etc/systemd/system/certbot.service`
+  (`ExecStart=/opt/certbot-venv/bin/certbot -q renew`);
+- `/etc/cron.d/certbot` вызывает venv-версию, а не `/usr/bin/certbot`.
+
+Проверка: `systemctl start certbot.service` → `status=0/SUCCESS`;
+`certbot renew --dry-run` → «all simulated renewals succeeded».
+
+`vezemcip.ru` — не наш домен (DNS → 88.212.208.67, регистрация истекла, обслуживает
+партнёр Webnames.ru). Его renewal-конфиг на этом VPS — остаток прошлого размещения;
+он ронял весь `renew`, поэтому отключён: `renewal/vezemcip.ru.conf.disabled`.
+
 ## Перед продакшеном
 
 Осталось от Игоря (полный список — `docs/CONTENT_SPEC.md`, раздел 8):
