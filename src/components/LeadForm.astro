@@ -7,7 +7,7 @@
  * подготовленным текстом заявки. Молча «успеха» не бывает: всегда есть
  * видимый результат — либо отправлено, либо открыт чат.
  */
-import { FORM_FIELDS, SERVICE_OPTIONS, HOME, API, SITE } from '../data/site';
+import { FORM_FIELDS, SERVICE_OPTIONS, ALL_SERVICES, HOME, API, SITE } from '../data/site';
 
 interface Props {
   /** Заранее выбранная услуга (на странице услуги). */
@@ -18,6 +18,20 @@ interface Props {
 
 const { service = '', id = 'lead-form' } = Astro.props;
 const { contact } = HOME;
+
+/**
+ * Услуга, к которой относится страница, добавляется в список выбора первой
+ * позицией. Нужно для CRM: он не входит в шестёрку на главной, поэтому его
+ * нет в `SERVICE_OPTIONS`, и без этого заявка со страницы CRM ушла бы
+ * как «Весь комплекс».
+ */
+const current = ALL_SERVICES.find((s) => s.slug === service);
+const serviceOptions = current
+  ? [
+      { value: current.slug, label: current.title },
+      ...SERVICE_OPTIONS.filter((o) => o.value !== current.slug),
+    ]
+  : SERVICE_OPTIONS;
 ---
 
 <form
@@ -99,7 +113,7 @@ const { contact } = HOME;
         name="service"
         required
       >
-        {SERVICE_OPTIONS.map((opt) => (
+        {serviceOptions.map((opt) => (
           <option value={opt.value} selected={opt.value === service}>
             {opt.label}
           </option>

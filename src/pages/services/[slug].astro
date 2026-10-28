@@ -141,12 +141,42 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
     </div>
   </section>
 
+  <!-- С какой проблемой приходят -->
+  <section class="w-full border-b border-line bg-surface py-20 md:py-28">
+    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+      <div class="mb-14">
+        <span class="font-mono-label text-mono-label uppercase text-primary-container tracking-widest font-semibold block mb-2">
+          [01 / С ЧЕМ ПРИХОДЯТ]
+        </span>
+        <h2 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-on-surface">
+          С какой проблемой приходят
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {service.problem.map((p) => (
+          <div class="rounded-xl border border-line bg-surface-container-lowest p-8 flex flex-col">
+            <span class="material-symbols-outlined text-primary-container text-2xl mb-4">
+              report_problem
+            </span>
+            <h3 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-3">
+              {p.title}
+            </h3>
+            <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              {p.text}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
   <!-- Кому подходит -->
   <section class="w-full border-b border-line bg-surface py-20 md:py-28">
     <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
       <div class="mb-14">
         <span class="font-mono-label text-mono-label uppercase text-primary-container tracking-widest font-semibold block mb-2">
-          [01 / КОМУ ПОДХОДИТ]
+          [02 / КОМУ ПОДХОДИТ]
         </span>
         <h2 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-on-surface">
           Кому эта услуга решает задачу
@@ -173,7 +203,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
     <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
       <div class="mb-14">
         <span class="font-mono-label text-mono-label uppercase text-primary-container tracking-widest font-semibold block mb-2">
-          [02 / КАК ЭТО РАБОТАЕТ]
+          [03 / КАК ЭТО РАБОТАЕТ]
         </span>
         <h2 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-on-surface">
           Четыре шага до результата
@@ -195,6 +225,42 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
             <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
               {s.text}
             </p>
+            <span class="mt-4 inline-flex items-center gap-2 self-start px-3 py-1 rounded-full border border-line bg-surface-container-lowest font-mono-label text-mono-label uppercase tracking-wider text-on-surface-variant">
+              <span class="material-symbols-outlined text-base text-primary-container">
+                schedule
+              </span>
+              {s.period}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Как решаем -->
+  <section class="w-full border-b border-line bg-surface-container-lowest py-20 md:py-28">
+    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+      <div class="mb-14">
+        <span class="font-mono-label text-mono-label uppercase text-primary-container tracking-widest font-semibold block mb-2">
+          [04 / КАК РЕШАЕМ]
+        </span>
+        <h2 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-on-surface">
+          Как решаем задачу
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {service.solution.map((s, i) => (
+          <div class="rounded-xl border border-line bg-surface-container-lowest p-8">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="w-10 h-10 rounded-lg bg-surface-container-low border border-line flex items-center justify-center font-mono-index text-mono-index font-semibold text-primary-container">
+                {i + 1}
+              </span>
+              <h3 class="font-headline-sm text-headline-sm font-bold text-on-surface">{s.title}</h3>
+            </div>
+            <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              {s.text}
+            </p>
           </div>
         ))}
       </div>
@@ -207,7 +273,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
         <div class="lg:col-span-7">
           <span class="font-mono-label text-mono-label uppercase text-primary-container tracking-widest font-semibold block mb-2">
-            [03 / ЧТО ВХОДИТ]
+            [05 / ЧТО ВХОДИТ]
           </span>
           <h2 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-on-surface mb-8">
             Что входит в работу
@@ -249,7 +315,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
   <!-- FAQ услуги -->
   <Faq
     items={service.faq}
-    eyebrow="[04 / ВОПРОСЫ И ОТВЕТЫ]"
+    eyebrow="[06 / ВОПРОСЫ И ОТВЕТЫ]"
     title={`Вопросы и ответы по услуге «${service.title}»`}
     id="faq"
   />
@@ -261,7 +327,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           <div class="lg:col-span-5">
             <span class="font-mono-label text-mono-label uppercase text-primary-container tracking-widest font-semibold block mb-3">
-              [05 / ЗАЯВКА]
+              [07 / ЗАЯВКА]
             </span>
             <h2 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-on-surface mb-6">
               Оставьте заявку — свяжемся в течение рабочего дня
@@ -311,7 +377,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
     <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
       <div class="mb-12">
         <span class="font-mono-label text-mono-label uppercase text-primary-container tracking-widest font-semibold block mb-2">
-          [06 / ДРУГИЕ НАПРАВЛЕНИЯ]
+          [08 / ДРУГИЕ НАПРАВЛЕНИЯ]
         </span>
         <h2 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-on-surface">
           Что ещё мы делаем
