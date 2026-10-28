@@ -59,13 +59,37 @@ LLM отвечает на вопросы вне базы знаний. Пров�
 
 ## Деплой
 
-Прод — VPS `217.149.23.113` (nginx + pm2), DNS домена уже указывает на него,
-сертификат Let's Encrypt выпущен и обновляется автоматически.
+Схема размещения: **статика на GitHub Pages, API на VPS**.
 
-1. `npm run build` → скопировать `dist/` в `/opt/freelance/projects/ai-traffic-pro/dist`
-2. nginx: `server_name ai-traffic-pro.ru`, `root` → dist, `location /api/` → `127.0.0.1:3001`
-3. `pm2 startOrRestart ecosystem.config.cjs`, `.env` с секретами (chmod 600)
-4. Сертификат: `/opt/certbot-venv/bin/certbot certonly --webroot -w <dist> -d ai-traffic-pro.ru -d www.ai-traffic-pro.ru`
+| Что | Где | Адрес |
+|---|---|---|
+| Статика (Astro → `dist/`) | GitHub Pages | `https://ai-traffic-pro.ru` |
+| API (заявки, чат) | VPS `217.149.23.113`, nginx + pm2 | `https://api.ai-traffic-pro.ru` |
+
+DNS: A-записи `ai-traffic-pro.ru` и `www.ai-traffic-pro.ru` → `185.199.108.153`
+(IP GitHub Pages), `api.ai-traffic-pro.ru` → `217.149.23.113`. TLS-сертификат
+выпускает GitHub (Let's Encrypt, до 2027-01-04), автообновление — на стороне GitHub.
+
+Статика собирается в CI: пуш в `main` → `.github/workflows/deploy.yml` → Astro build →
+артефакт `dist` → Pages. Адрес API подставляется на этапе сборки через
+GitHub Actions variable `PUBLIC_API_BASE_URL` (`https://api.ai-traffic-pro.ru`).
+Пустая переменная = API на том же домене (локальная сборка, nginx-проксирование).
+
+VPS-часть:
+
+1. `scp`/`rsync` `server/` в `/opt/freelance/projects/ai-traffic-pro/server/`
+2. `.env` с секретами (chmod 600): Telegram-токен, `chat_id`, `LLM_*`, `LLM_PROXY`, `ALLOWED_ORIGINS`
+3. `pm2 startOrRestart ecosystem.config.cjs` (порт 3001)
+4. nginx-vhost `api.ai-traffic-pro.ru`: `location /api/` → `127.0.0.1:3001`
+5. Сертификат поддомена: `/opt/certbot-venv/bin/certbot certonly --webroot -w <dist> -d api.ai-traffic-pro.ru`
+   (автообновление — `certbot.timer` + `/etc/cron.d/certbot`; проверено `renew --dry-run`)
+
+CORS: `ALLOWED_ORIGINS` в `.env` — белый список origin'ов статики. Открытый `*` не
+используется: иначе любой сторонний сайт слал бы заявки от имени нашего домена.
+
+> Apex-сертификат на VPS (`ai-traffic-pro.ru`) оставлен для возможного отката,
+> но его автообновление **отключено** (`/etc/letsencrypt/renewal/ai-traffic-pro.ru.conf.disabled`):
+> после переключения DNS на GitHub Pages HTTP-01-челлендж до VPS не доходит и renew падал бы.
 
 ## Перед продакшеном
 
@@ -75,5 +99,6 @@ LLM отвечает на вопросы вне базы знаний. Пров�
 - [x] тексты политики и согласия
 - [x] токен Telegram-бота для приёма заявок
 - [x] решение по 6-й услуге (CRM подтверждена, маркетплейс — вне списка)
+- [x] HTTPS на домене (сертификат GitHub Pages, `https_enforced`), API — на поддомене
 - [ ] email на домен (`SITE.legal.email` — пусто, футер не выводит пустую ссылку)
 - [ ] мобильные экраны в Stitch (адаптив сейчас сделан на глаз)
