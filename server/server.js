@@ -15,6 +15,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseProxyUrl, socks5Connect } from './socks.js';
+import { clientIpFrom, createRateLimiter } from './ratelimit.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -503,19 +504,19 @@ async function callLLM(messages) {
 
 /* ──────────────────────────────────────────────────────────────────────────
  * Rate limit: защита от спама (в памяти процесса).
+ *
+ * Логика вынесена в `ratelimit.js` и покрыта тестом — здесь только
+ * настройки. Реальный IP берётся из `X-Forwarded-For`, который прокидывает
+ * nginx: `req.socket.remoteAddress` за прокси всегда 127.0.0.1, и лимит
+ * оказывался общим на всех посетителей (баг 28.10.2026).
  * ────────────────────────────────────────────────────────────────────────── */
-const requestLog = new Map();
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX = 10;
 
-function isRateLimited(ip) {
-  const now = Date.now();
-  const hits = (requestLog.get(ip) || []).filter((t) => now - t < RATE_LIMIT_WINDOW_MS);
-  if (hits.length >= RATE_LIMIT_MAX) return true;
-  hits.push(now);
-  requestLog.set(ip, hits);
-  return false;
-}
+const rateLimiter = createRateLimiter({
+  windowMs: RATE_LIMIT_WINDOW_MS,
+  max: RATE_LIMIT_MAX,
+});
 
 /* ──────────────────────────────────────────────────────────────────────────
  * Валидация заявки.
@@ -611,14 +612,20 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  const clientIp = req.socket.remoteAddress ?? 'unknown';
+  // Разные баки: чат-виджет и форма заявки не должны отнимать лимит
+  // друг у друга (иначе 10 сообщений в чате блокировали отправку формы).
+  const clientIp = clientIpFrom(req);
+  const bucket = pathname === '/api/lead' ? 'lead' : 'chat';
 
-  if (isRateLimited(clientIp)) {
+  if (rateLimiter.isRateLimited(clientIp, bucket)) {
     res.writeHead(429, { 'Content-Type': 'application/json' });
     res.end(
       JSON.stringify({
         error: 'rate limit',
-        reply: 'Слишком много запросов. Подождите минуту.',
+        reply:
+          bucket === 'lead'
+            ? 'Слишком много заявок. Подождите минуту.'
+            : 'Слишком много запросов. Подождите минуту.',
       }),
     );
     return;

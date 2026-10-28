@@ -8,6 +8,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
+    "test": "node --test server/ratelimit.test.js && node --test server/socks.test.js",
     "server": "node server/server.js",
     "dev:full": "astro dev & node server/server.js"
   },
