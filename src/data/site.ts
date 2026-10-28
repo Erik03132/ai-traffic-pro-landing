@@ -16,17 +16,26 @@ export const SITE_URL = 'https://ai-traffic-pro.ru';
  * и запрос без слэша в dev-режиме отбрасывается с 404 ещё до прокси.
  *
  * `PUBLIC_API_BASE_URL` задаётся на этапе сборки (GitHub Actions → Pages):
- * статика лежит на GitHub Pages, а API — на VPS, поэтому адрес должен быть
- * абсолютным. Пустая переменная = API на том же домене (локальная сборка,
- * nginx-проксирование на VPS). Значение приходит из окружения сборки,
+ * статика лежит на GitHub Pages, а API — на Cloudflare Worker, поэтому адрес
+ * должен быть абсолютным. Пустая переменная = API на том же домене (локальная
+ * сборка, nginx-проксирование на VPS). Значение приходит из окружения сборки,
  * а не из репозитория, — это единственное место, где живёт «где API».
+ *
+ * `PUBLIC_API_FALLBACK_URL` — резервный адрес API на другой инфраструктуре
+ * (Node-сервер на VPS). Если Worker недоступен (сеть, троттлинг CF, лимит),
+ * заявка уходит туда: терять её нельзя, это деньги. Пусто = резерва нет.
+ * Резерв подключается только при сетевой ошибке — на 5xx повтор запрещён,
+ * иначе клиент получит две заявки (см. `src/lib/submit-lead.ts`).
  */
 const API_BASE = (import.meta.env.PUBLIC_API_BASE_URL ?? '').replace(/\/+$/, '');
+const API_FALLBACK_BASE = (import.meta.env.PUBLIC_API_FALLBACK_URL ?? '').replace(/\/+$/, '');
 
 export const API = {
   lead: `${API_BASE}/api/lead/`,
   chat: `${API_BASE}/api/chat/`,
   health: `${API_BASE}/api/health/`,
+  /** Резервный адрес формы; пустая строка — резерва нет. */
+  leadFallback: API_FALLBACK_BASE ? `${API_FALLBACK_BASE}/api/lead/` : '',
 } as const;
 
 export const SITE = {

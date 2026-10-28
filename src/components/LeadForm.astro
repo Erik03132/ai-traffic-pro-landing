@@ -27,6 +27,7 @@ const { contact } = HOME;
   action={API.lead}
   novalidate
   data-tg-bot={SITE.bot.username}
+  data-lead-fallback={API.leadFallback}
 >
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     <div>
@@ -203,10 +204,12 @@ const { contact } = HOME;
   /**
    * Отправка формы. Логика:
    * 1. Клиентская валидация (имя, контакт, согласие).
-   * 2. POST /api/lead.
+   * 2. POST /api/lead — при сетевой ошибке уходим на резервный адрес.
    * 3. Успех → баннер «Заявка отправлена».
    * 4. Ошибка/нет API → баннер ошибки + ссылка в Telegram с готовым текстом.
    */
+  import { submitLead } from '../lib/submit-lead';
+
   const forms = document.querySelectorAll<HTMLFormElement>('form[id]');
 
   for (const form of forms) {
@@ -289,13 +292,16 @@ const { contact } = HOME;
       }
 
       try {
-        const response = await fetch(form.action, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ ...data, source: window.location.pathname }),
+        // Отправка с резервом: если Worker недоступен по сети, уходим на
+        // резервный адрес (Node-сервер на VPS). Повтор делается только при
+        // сетевой ошибке — на 5xx повтор запрещён, иначе будет дубль заявки.
+        const result = await submitLead({
+          url: form.action,
+          fallbackUrl: form.dataset.leadFallback || undefined,
+          payload: { ...data, source: window.location.pathname },
         });
 
-        if (!response.ok) throw new Error('HTTP ' + response.status);
+        if (!result.ok) throw new Error('HTTP ' + result.status);
 
         form.reset();
         success?.classList.remove('hidden');

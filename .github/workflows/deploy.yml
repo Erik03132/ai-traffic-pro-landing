@@ -41,6 +41,9 @@ jobs:
         run: npm run build
         env:
           PUBLIC_API_BASE_URL: ${{ vars.PUBLIC_API_BASE_URL }}
+          # Резервный адрес API (Node-сервер на VPS). Используется, только если
+          # основной (Cloudflare Worker) недоступен по сети — заявку нельзя терять.
+          PUBLIC_API_FALLBACK_URL: ${{ vars.PUBLIC_API_FALLBACK_URL }}
 
       - name: Загрузка артефакта
         uses: actions/upload-pages-artifact@v3
