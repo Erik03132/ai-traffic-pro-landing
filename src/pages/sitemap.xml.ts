@@ -12,12 +12,15 @@
  */
 import type { APIRoute } from 'astro';
 import { ALL_SERVICES, SITE_URL } from '../data/site';
+import { ARTICLES } from '../data/blog';
 
 /** Страницы, которые индексируются. Правовые документы исключены осознанно. */
 const INDEXABLE_PATHS: string[] = [
   '/',
   '/requisites/',
+  '/blog/',
   ...ALL_SERVICES.map((s) => `/services/${s.slug}/`),
+  ...ARTICLES.map((a) => `/blog/${a.slug}/`),
 ];
 
 export const GET: APIRoute = () => {
@@ -26,7 +29,14 @@ export const GET: APIRoute = () => {
   const urls = INDEXABLE_PATHS.map((path) => {
     const loc = new URL(path, SITE_URL).toString();
     // Приоритет: главная выше, услуги равны между собой, реквизиты — ниже.
-    const priority = path === '/' ? '1.0' : path === '/requisites/' ? '0.3' : '0.8';
+    const priority =
+      path === '/'
+        ? '1.0'
+        : path === '/requisites/'
+          ? '0.3'
+          : path.startsWith('/blog/') && path !== '/blog/'
+            ? '0.6'
+            : '0.8';
     return `  <url>
     <loc>${loc}</loc>
     <lastmod>${today}</lastmod>

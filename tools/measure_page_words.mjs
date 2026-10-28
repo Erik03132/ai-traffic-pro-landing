@@ -82,6 +82,24 @@ if (existsSync(home)) {
   console.log(`\nглавная: ${words.length} слов`);
 }
 
+// Блог: статьи меряются отдельно, порог ниже — это разборы, а не лендинги.
+const blogDir = join(dist, 'blog');
+if (existsSync(blogDir)) {
+  const { readdirSync } = await import('node:fs');
+  const posts = readdirSync(blogDir, { withFileTypes: true })
+    .filter((d) => d.isDirectory())
+    .map((d) => d.name)
+    .sort();
+  console.log('\nблог:');
+  for (const slug of posts) {
+    const file = join(blogDir, slug, 'index.html');
+    if (!existsSync(file)) continue;
+    const text = visibleText(readFileSync(file, 'utf8'));
+    const n = text.split(/\s+/).filter(Boolean).length;
+    console.log(`  ${slug.padEnd(38)} ${String(n).padStart(5)} слов`);
+  }
+}
+
 if (failed > 0) {
   console.error(`\n✗ Не выполнено: ${failed} из ${rows.length}`);
   process.exit(1);

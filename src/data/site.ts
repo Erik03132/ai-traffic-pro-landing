@@ -117,6 +117,7 @@ export const NAV = [
   { label: 'Услуги', href: '#services' },
   { label: 'Подход', href: '#approach' },
   { label: 'Процесс', href: '#process' },
+  { label: 'Блог', href: '/blog/' },
   { label: 'FAQ', href: '#faq' },
 ] as const;
 

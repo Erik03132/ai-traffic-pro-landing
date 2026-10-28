@@ -15,13 +15,13 @@ const nodePositions: Record<string, string> = {
 };
 ---
 
-<section class="w-full border-b border-line bg-surface-container-lowest">
-  <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop py-16 md:py-24">
+<section class="w-full border-b border-line bg-gradient-to-br from-surface via-surface-container-low to-surface py-20 md:py-28">
+  <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
       <div class="lg:col-span-7 flex flex-col items-start pr-0 lg:pr-6">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-line bg-surface-container-low mb-6">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary-container/20 bg-primary-container/5 mb-8 shadow-soft">
           <span class="w-2 h-2 rounded-full bg-primary-container inline-block animate-pulse"></span>
-          <span class="font-mono-label text-mono-label uppercase tracking-widest text-on-surface-variant font-medium">
+          <span class="font-mono-label text-mono-label uppercase tracking-widest text-primary-container font-semibold">
             {hero.badge}
           </span>
         </div>
@@ -39,13 +39,13 @@ const nodePositions: Record<string, string> = {
         <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto">
           <a
             href="#contact"
-            class="inline-flex items-center justify-center px-7 py-3.5 rounded-lg bg-primary-container text-on-primary font-body-sm text-body-sm font-semibold hover:bg-primary transition-all duration-150 text-center active:scale-[0.99]"
+            class="inline-flex items-center justify-center px-7 py-3.5 rounded-lg bg-primary-container text-on-primary font-body-sm text-body-sm font-semibold hover:bg-primary transition-all duration-150 text-center active:scale-[0.99] shadow-soft"
           >
             {hero.ctaPrimary}
           </a>
           <a
             href="#services"
-            class="inline-flex items-center justify-center px-7 py-3.5 rounded-lg border border-line bg-surface-container-lowest text-on-surface font-body-sm text-body-sm font-medium hover:border-primary-container hover:text-primary-container hover:bg-surface-container-low transition-all duration-150 text-center"
+            class="inline-flex items-center justify-center px-7 py-3.5 rounded-lg border border-line bg-surface-container-lowest text-on-surface font-body-sm text-body-sm font-medium hover:border-primary-container hover:text-primary-container hover:bg-surface-container-low transition-all duration-150 text-center shadow-soft"
           >
             {hero.ctaSecondary}
           </a>
@@ -55,7 +55,7 @@ const nodePositions: Record<string, string> = {
       </div>
 
       <div class="lg:col-span-5 w-full">
-        <div class="relative w-full aspect-square max-w-[480px] mx-auto bg-surface border border-line rounded-xl p-6 flex items-center justify-center overflow-hidden">
+        <div class="relative w-full aspect-square max-w-[480px] mx-auto bg-surface-container-lowest border border-line rounded-2xl p-6 flex items-center justify-center overflow-hidden shadow-card">
           <svg
             class="absolute inset-0 w-full h-full pointer-events-none"
             fill="none"
@@ -67,26 +67,26 @@ const nodePositions: Record<string, string> = {
               cx="200"
               cy="200"
               r="140"
-              stroke="#E2E8F0"
+              stroke="#D1D5DB"
               stroke-dasharray="2 4"
               stroke-width="1"
             ></circle>
-            <circle cx="200" cy="200" r="80" stroke="#E2E8F0" stroke-width="1"></circle>
+            <circle cx="200" cy="200" r="80" stroke="#D1D5DB" stroke-width="1"></circle>
             <line stroke="#C3C6D7" stroke-width="1" x1="200" x2="200" y1="160" y2="76"></line>
-            <circle cx="200" cy="76" fill="#2563EB" r="2.5"></circle>
+            <circle cx="200" cy="76" fill="#2d5a87" r="2.5"></circle>
             <line stroke="#C3C6D7" stroke-width="1" x1="230" x2="310" y1="175" y2="120"></line>
-            <circle cx="310" cy="120" fill="#2563EB" r="2.5"></circle>
+            <circle cx="310" cy="120" fill="#2d5a87" r="2.5"></circle>
             <line stroke="#C3C6D7" stroke-width="1" x1="230" x2="305" y1="225" y2="285"></line>
-            <circle cx="305" cy="285" fill="#2563EB" r="2.5"></circle>
+            <circle cx="305" cy="285" fill="#2d5a87" r="2.5"></circle>
             <line stroke="#C3C6D7" stroke-width="1" x1="170" x2="95" y1="225" y2="285"></line>
-            <circle cx="95" cy="285" fill="#2563EB" r="2.5"></circle>
+            <circle cx="95" cy="285" fill="#2d5a87" r="2.5"></circle>
             <line stroke="#C3C6D7" stroke-width="1" x1="170" x2="90" y1="175" y2="120"></line>
-            <circle cx="90" cy="120" fill="#2563EB" r="2.5"></circle>
+            <circle cx="90" cy="120" fill="#2d5a87" r="2.5"></circle>
           </svg>
 
           {hero.nodes.map((n) => (
             <div class={`absolute ${nodePositions[n.pos]} z-10`}>
-              <div class="bg-surface-container-lowest border border-line rounded-md px-3 py-1.5 flex items-center gap-2">
+              <div class="bg-surface-container-lowest border border-line rounded-md px-3 py-1.5 flex items-center gap-2 shadow-soft">
                 <span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
                 <span class="font-mono-index text-mono-index font-medium text-on-surface">
                   {n.label}
@@ -95,7 +95,7 @@ const nodePositions: Record<string, string> = {
             </div>
           ))}
 
-          <div class="relative z-20 bg-surface-container-lowest border-2 border-primary-container rounded-lg p-5 w-44 text-center">
+          <div class="relative z-20 bg-surface-container-lowest border-2 border-primary-container rounded-lg p-5 w-44 text-center shadow-elevated">
             <div class="flex items-center justify-center gap-1.5 mb-1.5">
               <span class="w-2 h-2 rounded-full bg-primary-container animate-ping"></span>
               <span class="font-mono-label text-mono-label uppercase text-primary-container tracking-wider font-semibold">
@@ -110,4 +110,4 @@ const nodePositions: Record<string, string> = {
       </div>
     </div>
   </div>
-</section>
+</section>>

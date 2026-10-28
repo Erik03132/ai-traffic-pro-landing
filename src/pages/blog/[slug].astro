@@ -1,0 +1,220 @@
+---
+/**
+ * Статья блога. Один шаблон на все статьи.
+ *
+ * Содержимое — из `src/data/blog/<slug>.ts`. В разметке нет ни одного текста
+ * статьи: заголовки, абзацы, списки и FAQ приходят из данных.
+ *
+ * Перелинковка (задача 2.7): каждая статья ссылается на свою услугу,
+ * на список статей и на соседние материалы — до любой страницы ≤ 3 клика.
+ */
+import type { GetStaticPaths } from 'astro';
+
+import Base from '../../layouts/Base.astro';
+import Faq from '../../components/Faq.astro';
+
+import { ARTICLES } from '../../data/blog';
+import { ALL_SERVICES } from '../../data/site';
+import { articleLd, faqLd, organizationLd } from '../../lib/seo';
+
+export const getStaticPaths = (() =>
+  ARTICLES.map((article) => ({
+    params: { slug: article.slug },
+    props: { article },
+  }))) satisfies GetStaticPaths;
+
+const { article } = Astro.props;
+
+const service = ALL_SERVICES.find((s) => s.slug === article.service);
+
+/** Соседние статьи: сначала из той же услуги, потом остальные. */
+const related = [
+  ...ARTICLES.filter((a) => a.slug !== article.slug && a.service === article.service),
+  ...ARTICLES.filter((a) => a.slug !== article.slug && a.service !== article.service),
+].slice(0, 3);
+
+const path = `/blog/${article.slug}/`;
+
+const ld = [
+  ...organizationLd().filter((o) => o['@type'] !== 'FAQPage' && o['@type'] !== 'Service'),
+  ...articleLd(article),
+  faqLd(article.faq),
+];
+
+const dateLabel = new Date(article.date).toLocaleDateString('ru-RU', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+---
+
+<Base
+  meta={{
+    title: article.seoTitle,
+    description: article.seoDescription,
+    path,
+    type: 'article',
+  }}
+  ld={ld}
+  localFaq={true}
+  localContact={false}
+>
+  <!-- Хлебные крошки -->
+  <nav aria-label="Хлебные крошки" class="bg-surface-container-lowest border-b border-line">
+    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop py-4">
+      <ol class="flex flex-wrap items-center gap-2 font-mono-index text-mono-index text-on-surface-variant">
+        <li>
+          <a href="/" class="hover:text-primary-container transition-colors">
+            Главная
+          </a>
+        </li>
+        <li aria-hidden="true" class="text-outline">
+          /
+        </li>
+        <li>
+          <a href="/blog/" class="hover:text-primary-container transition-colors">
+            Блог
+          </a>
+        </li>
+        <li aria-hidden="true" class="text-outline">
+          /
+        </li>
+        <li class="text-on-surface" aria-current="page">
+          {article.title}
+        </li>
+      </ol>
+    </div>
+  </nav>
+
+  <!-- Заголовок статьи -->
+  <header class="w-full border-b border-line bg-surface-container-lowest">
+    <div class="max-w-3xl mx-auto px-margin md:px-margin-desktop py-16 md:py-20">
+      <div class="flex flex-wrap items-center gap-3 mb-6">
+        <span class="inline-flex items-center px-3 py-1 rounded-full border border-line bg-surface-container-low font-mono-label text-mono-label uppercase tracking-wider text-primary-container">
+          {article.tag}
+        </span>
+        <span class="font-mono-index text-mono-index text-outline">
+          {dateLabel} · {article.readingTime} мин чтения
+        </span>
+      </div>
+
+      <h1 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-on-surface mb-6">
+        {article.title}
+      </h1>
+
+      <p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
+        {article.lead}
+      </p>
+    </div>
+  </header>
+
+  <!-- Тело статьи -->
+  <article class="w-full bg-surface py-16 md:py-20">
+    <div class="max-w-3xl mx-auto px-margin md:px-margin-desktop">
+      {article.sections.map((section, i) => (
+        <section class={i === 0 ? '' : 'mt-12'}>
+          <h2 class="font-headline-lg text-headline-lg font-bold tracking-tight text-on-surface mb-5">
+            {section.title}
+          </h2>
+
+          {section.paragraphs?.map((p) => (
+            <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-5">
+              {p}
+            </p>
+          ))}
+
+          {section.list && (
+            <ul class="space-y-3 my-6">
+              {section.list.map((item) => (
+                <li class="flex items-start gap-3">
+                  <span class="material-symbols-outlined text-primary-container text-xl mt-0.5 shrink-0">
+                    check_circle
+                  </span>
+                  <span class="font-body-md text-body-md text-on-surface leading-relaxed">
+                    {item}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+
+          {section.steps && (
+            <ol class="space-y-4 my-6">
+              {section.steps.map((step, n) => (
+                <li class="flex items-start gap-4">
+                  <span class="w-8 h-8 shrink-0 rounded-lg bg-surface-container-low border border-line flex items-center justify-center font-mono-index text-mono-index font-semibold text-primary-container">
+                    {n + 1}
+                  </span>
+                  <span class="font-body-md text-body-md text-on-surface leading-relaxed">
+                    {step}
+                  </span>
+                </li>
+              ))}
+            </ol>
+          )}
+        </section>
+      ))}
+
+      <!-- Ссылка на услугу: статья → её кластер -->
+      {service && (
+        <aside class="mt-14 rounded-xl border border-line bg-surface-container-low p-8">
+          <span class="font-mono-label text-mono-label uppercase text-primary-container tracking-widest font-semibold block mb-2">
+            [УСЛУГА ПО ТЕМЕ]
+          </span>
+          <h2 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-2">
+            {service.title}
+          </h2>
+          <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed mb-5">
+            {service.card}
+          </p>
+          <a
+            href={`/services/${service.slug}/`}
+            class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary-container text-on-primary font-body-sm text-body-sm font-semibold hover:bg-primary transition-colors"
+          >
+            Подробнее об услуге
+            <span class="material-symbols-outlined text-base">arrow_forward</span>
+          </a>
+        </aside>
+      )}
+    </div>
+  </article>
+
+  <!-- FAQ статьи -->
+  <Faq items={article.faq} eyebrow="[ВОПРОСЫ ПО ТЕМЕ]" title="Коротко о главном" id="faq" />
+
+  <!-- Другие статьи -->
+  <section class="w-full border-t border-line bg-surface-container-lowest py-20 md:py-24">
+    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+      <div class="flex items-end justify-between gap-6 mb-10">
+        <h2 class="font-headline-lg text-headline-lg font-bold tracking-tight text-on-surface">
+          Читать дальше
+        </h2>
+        <a
+          href="/blog/"
+          class="font-body-sm text-body-sm text-primary-container hover:text-primary transition-colors whitespace-nowrap"
+        >
+          Все статьи →
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {related.map((a) => (
+          <a
+            href={`/blog/${a.slug}/`}
+            class="group rounded-xl border border-line bg-surface p-6 flex flex-col hover:border-primary-container transition-colors"
+          >
+            <span class="font-mono-label text-mono-label uppercase tracking-wider text-outline mb-3">
+              {a.tag}
+            </span>
+            <h3 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-3 group-hover:text-primary-container transition-colors">
+              {a.title}
+            </h3>
+            <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed mt-auto">
+              {a.seoDescription}
+            </p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>

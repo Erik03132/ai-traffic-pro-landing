@@ -46,3 +46,43 @@ export interface Service {
   /** Входит в 6 карточек главной / футера / sitemap. */
   inMain: boolean;
 }
+
+/** Блок статьи: раздел с заголовком и одним из видов содержимого. */
+export interface ArticleBlock {
+  /** Заголовок раздела (h2). */
+  title: string;
+  /** Абзацы. */
+  paragraphs?: string[];
+  /** Маркированный список. */
+  list?: string[];
+  /** Нумерованные шаги (для инструкций). */
+  steps?: string[];
+}
+
+/**
+ * Статья блога. Одна статья — один файл `src/data/blog/<slug>.ts`.
+ *
+ * `service` — slug услуги, к которой относится материал: из него строится
+ * перелинковка «статья → страница услуги» (задача 2.7 ROADMAP).
+ */
+export interface Article {
+  slug: string;
+  /** Slug услуги-кластера (leadgen, seo, smm, advertising, landing, ecommerce, crm). */
+  service: string;
+  /** H1 статьи. */
+  title: string;
+  seoTitle: string;
+  seoDescription: string;
+  /** Вводный абзац под H1. */
+  lead: string;
+  /** Дата публикации, ISO (YYYY-MM-DD). */
+  date: string;
+  /** Время чтения в минутах. */
+  readingTime: number;
+  /** Метка для карточки в списке статей. */
+  tag: string;
+  /** Разделы статьи по порядку. */
+  sections: ArticleBlock[];
+  /** Вопросы в конце статьи (3 штуки). */
+  faq: { q: string; a: string }[];
+}

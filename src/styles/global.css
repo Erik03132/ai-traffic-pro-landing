@@ -10,27 +10,29 @@
    --spacing- → p-/m-/gap-, --radius- → rounded-.
    ────────────────────────────────────────────────────────────────────────── */
 @theme {
-  /* Цвета */
-  --color-primary: #004ac6;
-  --color-primary-container: #2563eb;
+  /* Цвета — Corporate Elegance Hub: сапфировая палитра */
+  --color-primary: #1e3a5f;
+  --color-primary-container: #2d5a87;
   --color-on-primary: #ffffff;
-  --color-primary-fixed: #dbe1ff;
-  --color-on-primary-fixed: #00174b;
-  --color-surface: #faf8ff;
+  --color-primary-fixed: #dce5f2;
+  --color-on-primary-fixed: #0a1a2e;
+  --color-surface: #f5f7fa;
   --color-surface-container-lowest: #ffffff;
-  --color-surface-container-low: #f2f3ff;
-  --color-surface-container: #eaedff;
-  --color-surface-container-high: #e2e7ff;
-  --color-surface-dim: #d2d9f4;
-  --color-on-surface: #131b2e;
-  --color-on-surface-variant: #434655;
-  /* Контурный текст. У darkened-варианта Stitch (#737686) на подложке
-     surface-container-low контраст 4.08 — ниже порога WCAG AA 4.5 для мелких
-     моно-подписей. Слегка затемняем, сохраняя тот же нейтральный тон. */
-  --color-outline: #676b7a;
-  --color-outline-variant: #c3c6d7;
-  --color-error: #ba1a1a;
-  --color-line: #e2e8f0;
+  --color-surface-container-low: #eef1f6;
+  --color-surface-container: #e4e8f0;
+  --color-surface-container-high: #d8dde6;
+  --color-surface-dim: #c8cdd6;
+  --color-on-surface: #0f1a2e;
+  --color-on-surface-variant: #4a5568;
+  --color-outline: #6b7280;
+  --color-outline-variant: #d1d5db;
+  --color-error: #dc2626;
+  --color-line: #e5e7eb;
+
+  /* Тени */
+  --shadow-soft: 0 2px 8px rgba(30, 58, 95, 0.06), 0 8px 24px rgba(30, 58, 95, 0.08);
+  --shadow-card: 0 4px 12px rgba(30, 58, 95, 0.08), 0 12px 32px rgba(30, 58, 95, 0.10);
+  --shadow-elevated: 0 8px 24px rgba(30, 58, 95, 0.12), 0 20px 48px rgba(30, 58, 95, 0.14);
 
   /* Шрифты */
   --font-body-lg: 'Inter', ui-sans-serif, system-ui, sans-serif;

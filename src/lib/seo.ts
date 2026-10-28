@@ -131,3 +131,74 @@ export function faqLd(items: readonly { q: string; a: string }[]) {
     })),
   };
 }
+
+/** JSON-LD статьи блога: BlogPosting + хлебные крошки. */
+export function articleLd(article: {
+  slug: string;
+  title: string;
+  seoDescription: string;
+  date: string;
+  service: string;
+}) {
+  const url = `${SITE_URL}/blog/${article.slug}/`;
+  const service = ALL_SERVICES.find((s) => s.slug === article.service);
+
+  const posting = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    '@id': `${url}#article`,
+    headline: article.title,
+    description: article.seoDescription,
+    datePublished: article.date,
+    dateModified: article.date,
+    inLanguage: 'ru-RU',
+    mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+    url,
+    author: { '@id': `${SITE_URL}/#organization` },
+    publisher: { '@id': `${SITE_URL}/#organization` },
+    ...(service
+      ? {
+          about: {
+            '@type': 'Service',
+            name: service.title,
+            url: `${SITE_URL}/services/${service.slug}/`,
+          },
+        }
+      : {}),
+  };
+
+  const breadcrumbs = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Главная', item: `${SITE_URL}/` },
+      { '@type': 'ListItem', position: 2, name: 'Блог', item: `${SITE_URL}/blog/` },
+      { '@type': 'ListItem', position: 3, name: article.title, item: url },
+    ],
+  };
+
+  return [posting, breadcrumbs];
+}
+
+/** JSON-LD списка статей: Blog со ссылками на публикации. */
+export function blogLd(
+  articles: readonly { slug: string; title: string; seoDescription: string; date: string }[],
+) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    '@id': `${SITE_URL}/blog/#blog`,
+    name: 'Блог AI-Traffic PRO',
+    url: `${SITE_URL}/blog/`,
+    inLanguage: 'ru-RU',
+    publisher: { '@id': `${SITE_URL}/#organization` },
+    blogPost: articles.map((a) => ({
+      '@type': 'BlogPosting',
+      '@id': `${SITE_URL}/blog/${a.slug}/#article`,
+      headline: a.title,
+      description: a.seoDescription,
+      datePublished: a.date,
+      url: `${SITE_URL}/blog/${a.slug}/`,
+    })),
+  };
+}
