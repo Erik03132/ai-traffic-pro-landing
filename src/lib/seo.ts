@@ -4,7 +4,7 @@
  * Канон и og:url всегда от `SITE_URL` — иначе поисковик увидит дубль
  * (в старой версии canonical вёз на erik03132.github.io, который 301-редиректит).
  */
-import { SITE, SITE_URL, SERVICES, FAQ } from '../data/site';
+import { SITE, SITE_URL, ALL_SERVICES, FAQ } from '../data/site';
 
 export interface PageMeta {
   title: string;
@@ -72,7 +72,9 @@ export function organizationLd() {
     publisher: { '@id': `${SITE_URL}/#organization` },
   };
 
-  const services = SERVICES.map((s) => ({
+  // ALL_SERVICES, а не SERVICES: CRM — дополнительное направление, но его
+  // страница живёт и должна размечаться как Service (иначе теряет JSON-LD).
+  const services = ALL_SERVICES.map((s) => ({
     '@context': 'https://schema.org',
     '@type': 'Service',
     '@id': `${SITE_URL}/services/${s.slug}/#service`,
@@ -101,7 +103,7 @@ export function organizationLd() {
 
 /** JSON-LD одной услуги — для страницы услуги. */
 export function serviceLd(slug: string) {
-  const s = SERVICES.find((x) => x.slug === slug);
+  const s = ALL_SERVICES.find((x) => x.slug === slug);
   if (!s) return null;
   return {
     '@context': 'https://schema.org',

@@ -19,6 +19,19 @@ export default defineConfig({
   output: 'static',
   trailingSlash: 'always',
   integrations: [],
+  /**
+   * Редиректы старых адресов.
+   *
+   * Прод отдаёт GitHub Pages (DNS A → 185.199.108.153), а nginx на VPS
+   * обслуживает только API-поддомен, поэтому 301 на уровне сервера недоступен.
+   * Astro генерирует для этих путей статическую страницу с meta-refresh —
+   * рабочий вариант для статического хостинга.
+   *
+   * 28.10.2026: маркетплейс поглощён услугой e-commerce (/services/ecommerce/).
+   */
+  redirects: {
+    '/services/marketplace/': '/services/ecommerce/',
+  },
   vite: {
     plugins: [tailwindcss()],
     server: {

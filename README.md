@@ -15,7 +15,7 @@ src/
                          ContactSection, LeadForm, Faq, Footer, ChatWidget
   pages/
     index.astro           главная
-    services/[slug].astro шаблон всех страниц услуг (6 + маркетплейс)
+    services/[slug].astro шаблон всех страниц услуг (6 основных + CRM)
     privacy.astro         политика конфиденциальности
     consent.astro         согласие на обработку ПДн
   styles/global.css   ← дизайн-токены из Stitch (Manrope / Inter / JetBrains Mono)
@@ -61,10 +61,10 @@ LLM отвечает на вопросы вне базы знаний. Пров�
 
 Схема размещения: **статика на GitHub Pages, API на VPS**.
 
-| Что | Где | Адрес |
-|---|---|---|
-| Статика (Astro → `dist/`) | GitHub Pages | `https://ai-traffic-pro.ru` |
-| API (заявки, чат) | VPS `217.149.23.113`, nginx + pm2 | `https://api.ai-traffic-pro.ru` |
+| Что                       | Где                               | Адрес                           |
+| ------------------------- | --------------------------------- | ------------------------------- |
+| Статика (Astro → `dist/`) | GitHub Pages                      | `https://ai-traffic-pro.ru`     |
+| API (заявки, чат)         | VPS `217.149.23.113`, nginx + pm2 | `https://api.ai-traffic-pro.ru` |
 
 DNS: A-записи `ai-traffic-pro.ru` и `www.ai-traffic-pro.ru` → `185.199.108.153`
 (IP GitHub Pages), `api.ai-traffic-pro.ru` → `217.149.23.113`. TLS-сертификат
@@ -119,7 +119,8 @@ urllib3, и старый `requests_toolbelt` падает с `ImportError`. Из
 - [x] контакты: телефон, ИП, адрес, реквизиты → `SITE.legal` в `src/data/site.ts`
 - [x] тексты политики и согласия
 - [x] токен Telegram-бота для приёма заявок
-- [x] решение по 6-й услуге (CRM подтверждена, маркетплейс — вне списка)
+- [x] решение по 6-й услуге (28.10.2026): 06 = e-commerce (интернет-магазин + WB/Ozon),
+      CRM — дополнительное направление, `/services/marketplace/` → 301 на e-commerce
 - [x] HTTPS на домене (сертификат GitHub Pages, `https_enforced`), API — на поддомене
 - [x] email для связи: `erik03132@gmail.com` (`SITE.legal.email`) — пока личная
       почта, не доменная; при заведении `@ai-traffic-pro.ru` обновить `src/data/site.ts`
