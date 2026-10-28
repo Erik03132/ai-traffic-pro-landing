@@ -1,0 +1,74 @@
+---
+/**
+ * 404 — страница «адрес не найден».
+ *
+ * Зачем она нужна именно на Cloudflare Pages: без файла `404.html` Pages
+ * отдаёт на любой несуществующий путь главную страницу с кодом 200
+ * (soft-404). Поисковик считает такие URL дубликатами главной и они
+ * выпадают из индекса, а битые ссылки извне не дают перехода наверх.
+ * На GitHub Pages поведение было другим — 404 сразу, но без своей страницы.
+ *
+ * Страница `noindex`: мусорные URL не должны попасть в индекс.
+ */
+import Base from '../layouts/Base.astro';
+import { ALL_SERVICES } from '../data/site';
+
+const popular = ALL_SERVICES.filter((s) => s.inMain).slice(0, 4);
+---
+
+<Base
+  meta={{
+    title: 'Страница не найдена | AI-Traffic PRO',
+    description:
+      'Адрес не найден. Вернитесь на главную или выберите нужное направление: привлечение клиентов, SEO и GEO, SMM, реклама, разработка сайтов, e-commerce.',
+    path: '/404/',
+    noindex: true,
+  }}
+>
+  <article class="max-w-3xl mx-auto px-margin md:px-margin-desktop py-16 md:py-24">
+    <span class="font-mono-label text-mono-label uppercase text-primary-container tracking-widest font-semibold block mb-3">
+      [404]
+    </span>
+    <h1 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-on-surface mb-4">
+      Такой страницы нет
+    </h1>
+    <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-10">
+      Возможно, адрес устарел или в нём опечатка. Всё нужное — на главной и на
+      страницах услуг.
+    </p>
+
+    <div class="flex flex-wrap gap-3 mb-12">
+      <a
+        href="/"
+        class="inline-flex items-center rounded-full bg-primary px-6 py-3 text-body-md text-on-primary font-semibold hover:bg-primary-container transition-colors"
+      >
+        На главную
+      </a>
+      <a
+        href="/#services"
+        class="inline-flex items-center rounded-full border border-line px-6 py-3 text-body-md text-on-surface font-semibold hover:bg-surface-container-low transition-colors"
+      >
+        Все услуги
+      </a>
+    </div>
+
+    <h2 class="font-headline-sm text-headline-sm font-semibold text-on-surface mb-4">
+      Популярные направления
+    </h2>
+    <ul class="grid gap-2 sm:grid-cols-2">
+      {
+        popular.map((s) => (
+          <li>
+            <a
+              href={`/services/${s.slug}/`}
+              class="block rounded-xl border border-line bg-surface-container-low px-4 py-3 text-body-md text-on-surface hover:bg-surface-container transition-colors"
+            >
+              <span class="font-mono-index text-mono-index text-outline mr-2">{s.num}</span>
+              {s.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </article>
+</Base>

@@ -1,0 +1,40 @@
+# Security-заголовки и кэш — Cloudflare Pages.
+#
+# Файл работает только на Cloudflare Pages (на GitHub Pages игнорируется).
+# Правила применяются к статике; ответы Pages Functions (`/functions/*`)
+# под `_headers` не попадают — там заголовки ставятся в коде.
+#
+# ВАЖНО: адреса API в `connect-src` и `form-action` — это те же значения,
+# что в `PUBLIC_API_BASE_URL` / `PUBLIC_API_FALLBACK_URL` на этапе сборки.
+# Сменили адрес API — обновите строки ниже, иначе форма перестанет
+# отправляться (браузер заблокирует запрос по CSP).
+
+/*
+  # Не отдавать версию движка и прочие подсказки.
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), camera=(), microphone=(), interest-cohort=()
+  # HSTS без includeSubDomains: поддомены обслуживают разные площадки
+  # (api — Worker/VPS, mail — почта), и преждевременный includeSubDomains
+  # их заблокирует. Включить после перехода NS на Cloudflare.
+  Strict-Transport-Security: max-age=31536000
+  # CSP. 'unsafe-inline' в script-src/style-src обязателен: Astro встраивает
+  # часть скриптов и стилей инлайном, внешние стили приходят с Google Fonts.
+  # Источники API перечислены явно — форма и виджет ходят по абсолютным URL.
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data:; connect-src 'self' https://ai-traffic-pro-api.erik03132.workers.dev https://api.ai-traffic-pro.ru; form-action 'self' https://ai-traffic-pro-api.erik03132.workers.dev https://api.ai-traffic-pro.ru; frame-ancestors 'none'; base-uri 'self'; object-src 'none'
+
+# Хешированная статика Astro: имя файла содержит хеш содержимого,
+# менять файл без смены имени нельзя — кэшируем навсегда.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Служебные файлы.
+/robots.txt
+  Cache-Control: public, max-age=3600
+/sitemap.xml
+  Cache-Control: public, max-age=3600
+/llms.txt
+  Cache-Control: public, max-age=3600
+/favicon.svg
+  Cache-Control: public, max-age=604800
