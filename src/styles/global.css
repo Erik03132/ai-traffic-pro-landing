@@ -286,11 +286,25 @@
     color: var(--color-terracotta-600);
   }
 
+  /*
+   * Курсивный акцент в заголовках.
+   *
+   * Instrument Serif существует только в одном весе (400), а заголовки
+   * секций набраны Plus Jakarta Sans Light (300). Без компенсации акцент
+   * выглядит заметно тяжелее соседнего текста — это читается как «скачок
+   * кегля». Поэтому:
+   *   - scale(0.94) по X — оптически уравниваем толщину штриха;
+   *   - scale(0.97) по Y и меньший line-height — базовая линия акцента
+   *     совпадает с базовой линией обычного текста, строки не «разъезжаются».
+   */
   .accent-italic {
     font-family: var(--font-serif);
     font-style: italic;
     font-weight: 400;
     color: var(--color-terracotta-600);
+    display: inline-block;
+    transform: scale(0.94, 0.97);
+    transform-origin: left baseline;
   }
 }
 
