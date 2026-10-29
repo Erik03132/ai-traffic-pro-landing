@@ -9,7 +9,7 @@ import { METHOD, BOUNDARIES } from '../data/site';
 
 const filters = [
   {
-    tag: 'ФИЛЬТР 01 // ТОЧКА ВХОДА',
+    tag: '01 // ТОЧКА ВХОДА',
     title: 'Начинаем с точки входа',
     text: 'Сначала аудит потерь: если сайт конвертит мало, заливать контекст — это выброшенные деньги.',
     foot: 'Сначала точка входа, потом масштаб',
@@ -17,7 +17,7 @@ const filters = [
     icon: 'filter_alt',
   },
   {
-    tag: 'ФИЛЬТР 02 // ЭКОНОМИКА ЛИДА',
+    tag: '02 // ЭКОНОМИКА ЛИДА',
     title: 'Считаем стоимость заявки, а не кликов',
     text: 'Каждый канал показывает CPA и ROMI. Что не считается — пересматриваем.',
     foot: 'Метрики, а не активности',
@@ -25,7 +25,7 @@ const filters = [
     icon: 'query_stats',
   },
   {
-    tag: 'ФИЛЬТР 03 // ОТВЕТСТВЕННОСТЬ',
+    tag: '03 // ОТВЕТСТВЕННОСТЬ',
     title: 'Один партнёр на весь путь',
     text: 'От стратегии до отчёта — одна команда. Не нужно переключаться между отделами.',
     foot: 'Единая точка входа',
@@ -47,7 +47,7 @@ const filters = [
       <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight mb-4">
         <span class="font-sans">Как мы мыслим внутри проекта:</span>
         <br />
-        <span class="accent-italic">три фильтра</span>
+        <span class="accent-italic">три правила</span>
       </h2>
       <p class="text-stone-700 text-base sm:text-lg leading-relaxed font-normal max-w-2xl">
         {METHOD.lead}
@@ -69,10 +69,10 @@ const filters = [
                 {i + 1}
               </span>
               <span
-                class="font-mono text-[11px] text-stone-500 uppercase tracking-wider px-2.5 py-1 rounded-full bg-stone-100 border border-stone-200"
+                class="w-8 h-8 rounded-full border border-stone-200 bg-stone-100 flex items-center justify-center shrink-0"
+                title={f.tag}
               >
-                <span class="material-symbols-outlined align-middle text-[14px]">{f.icon}</span>
-                ФИЛЬТР
+                <span class="material-symbols-outlined text-[16px] text-stone-500">{f.icon}</span>
               </span>
             </div>
             <div class={`font-mono text-xs font-semibold ${f.color} mb-2 tracking-wider uppercase`}>
