@@ -8,25 +8,23 @@ import LeadForm from './LeadForm.astro';
 const { contact } = HOME;
 ---
 
-<section class="w-full border-b border-line bg-surface-container-low py-20 md:py-28" id="contact">
+<section class="w-full border-b border-line bg-surface py-16 md:py-20" id="contact">
   <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
-    <div class="border border-line bg-surface-container-lowest rounded-2xl p-8 md:p-14">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+    <div class="card p-6 md:p-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
         <div class="lg:col-span-5">
-          <span class="font-mono-label text-mono-label uppercase text-primary-container tracking-widest font-semibold block mb-3">
+          <span class="font-mono-label text-mono-label uppercase text-on-surface-variant block mb-2">
             {contact.eyebrow}
           </span>
-          <h2 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-on-surface mb-6">
-            {contact.title}
-          </h2>
-          <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-8">
+          <h2 class="section-title">{contact.title}</h2>
+          <p class="font-body-md text-body-md text-on-surface-variant mb-6">
             {contact.lead}
           </p>
 
-          <div class="p-6 rounded-lg border border-line bg-surface-container-low space-y-4">
+          <div class="p-5 rounded-md border border-line bg-surface space-y-3">
             {contact.points.map((p) => (
               <div class="flex items-start gap-3">
-                <span class="material-symbols-outlined text-primary-container text-xl mt-0.5">
+                <span class="material-symbols-outlined text-success text-xl mt-0.5">
                   check_circle
                 </span>
                 <span class="font-body-sm text-body-sm text-on-surface">{p}</span>

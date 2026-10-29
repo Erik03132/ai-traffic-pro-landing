@@ -71,7 +71,7 @@ const ogType = meta.type ?? 'website';
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&family=Manrope:wght@600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&family=Manrope:wght@500;600;700&display=swap"
     />
     <link
       rel="stylesheet"
@@ -86,13 +86,13 @@ const ogType = meta.type ?? 'website';
   <body class={`min-h-screen bg-surface font-body-md text-on-surface ${bodyClass}`}>
     <a
       href="#main"
-      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-primary-container focus:px-4 focus:py-2 focus:text-on-primary"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-sm focus:bg-primary focus:px-4 focus:py-2 focus:text-on-primary"
     >
       Перейти к содержимому
     </a>
 
     <Header isHome={isHome} localFaq={localFaq} localContact={localContact} />
-    <main id="main" class="pt-[72px]">
+    <main id="main" class="pt-14">
       <slot />
     </main>
     <Footer />

@@ -13,7 +13,7 @@ import { SITE, API } from '../data/site';
   <!-- Панель чата -->
   <div
     id="chat-panel"
-    class="hidden w-[calc(100vw-2.5rem)] max-w-[380px] h-[min(560px,calc(100vh-8rem))] bg-surface-container-lowest border border-line rounded-2xl shadow-[0_24px_60px_-20px_rgba(19,27,46,0.28)] flex flex-col overflow-hidden"
+    class="hidden w-[calc(100vw-2.5rem)] max-w-[380px] h-[min(560px,calc(100vh-8rem))] bg-surface-container-lowest border border-line rounded-md shadow-elevated flex flex-col overflow-hidden"
     role="dialog"
     aria-label="Чат с агентом"
     aria-modal="false"
@@ -31,7 +31,7 @@ import { SITE, API } from '../data/site';
       <button
         type="button"
         id="chat-close"
-        class="w-8 h-8 rounded-lg border border-line flex items-center justify-center hover:border-primary-container transition-colors shrink-0"
+        class="w-8 h-8 rounded-sm border border-line flex items-center justify-center hover:border-primary-container transition-colors shrink-0"
         aria-label="Закрыть чат"
       >
         <span class="material-symbols-outlined text-[18px]">close</span>
@@ -64,12 +64,12 @@ import { SITE, API } from '../data/site';
           autocomplete="off"
           placeholder="Ваш вопрос…"
           aria-label="Ваш вопрос"
-          class="flex-1 h-11 px-3.5 rounded-lg border border-line bg-surface-container-lowest text-on-surface placeholder:text-outline font-body-sm text-body-sm focus:outline-none focus:border-primary-container transition-colors"
+          class="flex-1 h-11 px-3.5 rounded-sm border-2 border-line bg-field text-on-surface placeholder:text-outline font-body-sm text-body-sm focus:outline-none focus:border-primary-container transition-colors"
         />
         <button
           type="submit"
           aria-label="Отправить"
-          class="w-11 h-11 rounded-lg bg-primary-container text-on-primary flex items-center justify-center hover:bg-primary transition-colors shrink-0"
+          class="w-11 h-11 rounded-sm bg-primary text-on-primary flex items-center justify-center hover:bg-primary transition-colors shrink-0"
         >
           <span class="material-symbols-outlined text-[20px]">send</span>
         </button>
@@ -99,7 +99,7 @@ import { SITE, API } from '../data/site';
   <button
     type="button"
     id="chat-toggle"
-    class="w-14 h-14 rounded-full bg-primary-container text-on-primary flex items-center justify-center shadow-[0_12px_32px_-8px_rgba(37,99,235,0.55)] hover:bg-primary transition-colors"
+    class="w-14 h-14 rounded-full bg-primary-container text-on-primary flex items-center justify-center shadow-[0_4px_12px_-2px_rgba(9,30,66,0.24)] hover:bg-primary-hover transition-colors"
     aria-label="Задать вопрос"
     aria-expanded="false"
     aria-controls="chat-panel"

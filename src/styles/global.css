@@ -1,38 +1,43 @@
 @import 'tailwindcss';
 
 /* ──────────────────────────────────────────────────────────────────────────
-   Дизайн-система AI-Traffic PRO.
+   Дизайн-система AI-Traffic PRO — Corporate Elegance Hub.
 
-   Токены перенесены 1:1 из `tailwind.config` макета Stitch
-   (Manrope / Inter / JetBrains Mono, primary #2563eb).
+   Токены перенесены 1:1 из референса
+   `docs/design/theme-corporate.css` (`:root --stitch-*`).
+   Спецификация и маппинг: `docs/design/SPEC-redesign-corporate.md`.
+
    Tailwind 4: имена токенов задают namespace утилит:
    --color- → bg-/text-/border-, --text- → text-, --font- → font-,
    --spacing- → p-/m-/gap-, --radius- → rounded-.
    ────────────────────────────────────────────────────────────────────────── */
 @theme {
-  /* Цвета — Corporate Elegance Hub: сапфировая палитра */
-  --color-primary: #1e3a5f;
-  --color-primary-container: #2d5a87;
+  /* Цвета — Corporate Elegance Hub */
+  --color-primary: #0052cc;
+  --color-primary-container: #0052cc;
+  --color-primary-hover: #0047b3;
   --color-on-primary: #ffffff;
-  --color-primary-fixed: #dce5f2;
-  --color-on-primary-fixed: #0a1a2e;
-  --color-surface: #f5f7fa;
+  --color-primary-fixed: #deebff;
+  --color-on-primary-fixed: #0747a6;
+  --color-surface: #f4f5f7;
   --color-surface-container-lowest: #ffffff;
-  --color-surface-container-low: #eef1f6;
-  --color-surface-container: #e4e8f0;
-  --color-surface-container-high: #d8dde6;
-  --color-surface-dim: #c8cdd6;
-  --color-on-surface: #0f1a2e;
-  --color-on-surface-variant: #4a5568;
-  --color-outline: #6b7280;
-  --color-outline-variant: #d1d5db;
-  --color-error: #dc2626;
-  --color-line: #e5e7eb;
+  --color-surface-container-low: #ebecf0;
+  --color-surface-container: #ebecf0;
+  --color-surface-container-high: #f4f5f7;
+  --color-surface-dim: #dfe1e6;
+  --color-field: #fafbfc;
+  --color-on-surface: #172b4d;
+  --color-on-surface-variant: #5e6c84;
+  --color-outline: #5e6c84;
+  --color-outline-variant: #dfe1e6;
+  --color-error: #de350b;
+  --color-success: #00875a;
+  --color-line: #dfe1e6;
 
-  /* Тени */
-  --shadow-soft: 0 2px 8px rgba(30, 58, 95, 0.06), 0 8px 24px rgba(30, 58, 95, 0.08);
-  --shadow-card: 0 4px 12px rgba(30, 58, 95, 0.08), 0 12px 32px rgba(30, 58, 95, 0.10);
-  --shadow-elevated: 0 8px 24px rgba(30, 58, 95, 0.12), 0 20px 48px rgba(30, 58, 95, 0.14);
+  /* Тени — горизонтальные, мягкие, с синим подтоном (как в референсе) */
+  --shadow-soft: 0 1px 2px rgba(9, 30, 66, 0.05);
+  --shadow-card: 0 4px 8px -2px rgba(9, 30, 66, 0.08), 0 0 1px rgba(9, 30, 66, 0.08);
+  --shadow-elevated: 0 8px 16px -4px rgba(9, 30, 66, 0.12), 0 0 1px rgba(9, 30, 66, 0.08);
 
   /* Шрифты */
   --font-body-lg: 'Inter', ui-sans-serif, system-ui, sans-serif;
@@ -47,19 +52,19 @@
   --font-mono-label: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
 
   /* Размеры текста (адаптивные через clamp — мобильных макетов в Stitch нет) */
-  --text-display-hero: clamp(2.4rem, 5.6vw, 4.75rem);
-  --text-display-hero--line-height: 1.08;
-  --text-display-hero--letter-spacing: -0.04em;
-  --text-display-hero--font-weight: 800;
+  --text-display-hero: clamp(2.25rem, 5vw, 4rem);
+  --text-display-hero--line-height: 1.1;
+  --text-display-hero--letter-spacing: -0.03em;
+  --text-display-hero--font-weight: 700;
 
-  --text-headline-xl: clamp(2rem, 4.6vw, 3.25rem);
-  --text-headline-xl--line-height: 1.1;
-  --text-headline-xl--letter-spacing: -0.035em;
+  --text-headline-xl: clamp(1.75rem, 3.6vw, 2.5rem);
+  --text-headline-xl--line-height: 1.15;
+  --text-headline-xl--letter-spacing: -0.025em;
   --text-headline-xl--font-weight: 700;
 
-  --text-headline-lg: clamp(1.6rem, 3.4vw, 2.25rem);
+  --text-headline-lg: clamp(1.5rem, 2.8vw, 2rem);
   --text-headline-lg--line-height: 1.2;
-  --text-headline-lg--letter-spacing: -0.025em;
+  --text-headline-lg--letter-spacing: -0.02em;
   --text-headline-lg--font-weight: 700;
 
   --text-headline-md: 1.5rem;
@@ -104,9 +109,9 @@
   --spacing-gutter: 1.5rem;
   --spacing-gutter-desktop: 2rem;
 
-  /* Радиусы */
+  /* Радиусы: контролы 4px (sm), карточки 8px (md/lg) */
   --radius-sm: 0.25rem;
-  --radius-md: 0.375rem;
+  --radius-md: 0.5rem;
   --radius-lg: 0.5rem;
   --radius-xl: 0.75rem;
 }
@@ -115,7 +120,7 @@
   html {
     scroll-behavior: smooth;
     /* якоря не заезжают под фиксированный хедер */
-    scroll-padding-top: 6rem;
+    scroll-padding-top: 5rem;
   }
 
   body {
@@ -158,6 +163,60 @@
       'wght' 500,
       'GRAD' 0,
       'opsz' 24;
+  }
+
+  /* ── Заголовок секции (референс: .stitch-section-title) ── */
+  .section-title {
+    font-family: var(--font-headline-lg);
+    font-size: 1.25rem;
+    line-height: 1.35;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--color-on-surface);
+    margin: 0 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--color-line);
+    display: block;
+  }
+
+  /* ── Карточка (референс: .stitch-card) ── */
+  .card {
+    background-color: var(--color-surface-container-lowest);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .card-hover {
+    transition:
+      box-shadow 0.3s ease,
+      transform 0.3s ease,
+      border-color 0.2s ease;
+  }
+
+  .card-hover:hover {
+    box-shadow: var(--shadow-card);
+    transform: translateY(-2px);
+  }
+
+  /* ── Бейдж (референс: .stitch-badge-primary) ── */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 4px 10px;
+    font-family: var(--font-mono-label);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-radius: var(--radius-sm);
+  }
+
+  .badge-primary {
+    background-color: var(--color-primary-fixed);
+    color: var(--color-on-primary-fixed);
+    border: 1px solid #b3d4ff;
   }
 
   /* Базовое состояние ссылок */

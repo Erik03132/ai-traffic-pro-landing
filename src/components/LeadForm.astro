@@ -46,13 +46,13 @@ const serviceOptions = current
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     <div>
       <label
-        class="block font-mono-index text-mono-index uppercase tracking-wider text-on-surface mb-2 font-medium"
+        class="block font-mono-index text-mono-index uppercase tracking-wider text-on-surface-variant mb-2 font-medium"
         for={`${id}-name`}
       >
         {FORM_FIELDS.name.label} <span class="text-error">*</span>
       </label>
       <input
-        class="w-full h-12 px-4 rounded-lg border border-line bg-surface-container-lowest text-on-surface placeholder:text-outline font-body-sm text-body-sm focus:outline-none focus:border-primary-container transition-colors"
+        class="w-full h-12 px-3.5 rounded-sm border-2 border-line bg-field text-on-surface placeholder:text-outline font-body-sm text-body-sm transition-shadow focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(0,82,204,0.1)]"
         id={`${id}-name`}
         name="name"
         type="text"
@@ -65,13 +65,13 @@ const serviceOptions = current
 
     <div>
       <label
-        class="block font-mono-index text-mono-index uppercase tracking-wider text-on-surface mb-2 font-medium"
+        class="block font-mono-index text-mono-index uppercase tracking-wider text-on-surface-variant mb-2 font-medium"
         for={`${id}-contact`}
       >
         {FORM_FIELDS.contact.label} <span class="text-error">*</span>
       </label>
       <input
-        class="w-full h-12 px-4 rounded-lg border border-line bg-surface-container-lowest text-on-surface placeholder:text-outline font-body-sm text-body-sm focus:outline-none focus:border-primary-container transition-colors"
+        class="w-full h-12 px-3.5 rounded-sm border-2 border-line bg-field text-on-surface placeholder:text-outline font-body-sm text-body-sm transition-shadow focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(0,82,204,0.1)]"
         id={`${id}-contact`}
         name="contact"
         type="text"
@@ -86,13 +86,13 @@ const serviceOptions = current
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     <div>
       <label
-        class="block font-mono-index text-mono-index uppercase tracking-wider text-on-surface mb-2 font-medium"
+        class="block font-mono-index text-mono-index uppercase tracking-wider text-on-surface-variant mb-2 font-medium"
         for={`${id}-business`}
       >
         {FORM_FIELDS.business.label}
       </label>
       <input
-        class="w-full h-12 px-4 rounded-lg border border-line bg-surface-container-lowest text-on-surface placeholder:text-outline font-body-sm text-body-sm focus:outline-none focus:border-primary-container transition-colors"
+        class="w-full h-12 px-3.5 rounded-sm border-2 border-line bg-field text-on-surface placeholder:text-outline font-body-sm text-body-sm transition-shadow focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(0,82,204,0.1)]"
         id={`${id}-business`}
         name="business"
         type="text"
@@ -102,13 +102,13 @@ const serviceOptions = current
 
     <div>
       <label
-        class="block font-mono-index text-mono-index uppercase tracking-wider text-on-surface mb-2 font-medium"
+        class="block font-mono-index text-mono-index uppercase tracking-wider text-on-surface-variant mb-2 font-medium"
         for={`${id}-service`}
       >
         {FORM_FIELDS.service.label} <span class="text-error">*</span>
       </label>
       <select
-        class="w-full h-12 px-4 rounded-lg border border-line bg-surface-container-lowest text-on-surface font-body-sm text-body-sm focus:outline-none focus:border-primary-container transition-colors cursor-pointer"
+        class="w-full h-12 px-3.5 rounded-sm border-2 border-line bg-field text-on-surface font-body-sm text-body-sm transition-shadow focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(0,82,204,0.1)] cursor-pointer"
         id={`${id}-service`}
         name="service"
         required
@@ -124,13 +124,13 @@ const serviceOptions = current
 
   <div>
     <label
-      class="block font-mono-index text-mono-index uppercase tracking-wider text-on-surface mb-2 font-medium"
+      class="block font-mono-index text-mono-index uppercase tracking-wider text-on-surface-variant mb-2 font-medium"
       for={`${id}-comment`}
     >
       {FORM_FIELDS.comment.label}
     </label>
     <textarea
-      class="w-full p-4 rounded-lg border border-line bg-surface-container-lowest text-on-surface placeholder:text-outline font-body-sm text-body-sm focus:outline-none focus:border-primary-container transition-colors resize-none"
+      class="w-full p-3.5 rounded-sm border-2 border-line bg-field text-on-surface placeholder:text-outline font-body-sm text-body-sm transition-shadow focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(0,82,204,0.1)] resize-none"
       id={`${id}-comment`}
       name="comment"
       rows="3"
@@ -140,7 +140,7 @@ const serviceOptions = current
 
   <div class="flex items-start gap-3 pt-1">
     <input
-      class="mt-1 w-4 h-4 rounded border-line text-primary-container focus:ring-0 cursor-pointer"
+      class="mt-1 w-4 h-4 rounded-sm border-line accent-primary cursor-pointer"
       id={`${id}-consent`}
       name="consent"
       type="checkbox"
@@ -151,7 +151,7 @@ const serviceOptions = current
       for={`${id}-consent`}
     >
       {FORM_FIELDS.consent}
-      <a class="link-underline hover:text-primary-container transition-colors" href="/consent/">
+      <a class="link-underline hover:text-primary transition-colors" href="/consent/">
         Подробнее
       </a>
     </label>
@@ -166,7 +166,7 @@ const serviceOptions = current
   </div>
 
   <button
-    class="w-full h-12 rounded-lg bg-primary-container text-on-primary font-body-sm text-body-sm font-semibold hover:bg-primary transition-all duration-150 flex items-center justify-center active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed"
+    class="w-full h-12 rounded-sm bg-primary text-on-primary font-body-sm text-body-sm font-medium shadow-soft hover:bg-primary-hover transition-all duration-200 flex items-center justify-center disabled:opacity-60 disabled:cursor-not-allowed"
     type="submit"
     data-submit
   >
