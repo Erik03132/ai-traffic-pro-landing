@@ -1,7 +1,8 @@
 ---
 /**
- * Секция `[02 / ПРИНЦИПЫ РАБОТЫ]` — подход агентства (4 принципа).
- * Левая колонка липнет при скролле — как в макете.
+ * Секция `[02 / ПРИНЦИПЫ РАБОТЫ]` — 4 принципа подхода.
+ *
+ * Дизайн перенесён из Stitch: карточка со списком принципов + левая колонка.
  */
 import { APPROACH } from '../data/site';
 import { HOME } from '../data/site';
@@ -9,33 +10,41 @@ import { HOME } from '../data/site';
 const { approach } = HOME;
 ---
 
-<section
-  class="w-full border-b border-line bg-surface-container-lowest py-16 md:py-20"
-  id="approach"
->
-  <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
-      <div class="lg:col-span-5 lg:sticky lg:top-24">
-        <span class="font-mono-label text-mono-label uppercase text-on-surface-variant block mb-2">
-          {approach.eyebrow}
-        </span>
-        <h2 class="section-title">{approach.title}</h2>
-        <p class="font-body-md text-body-md text-on-surface-variant">
+<section class="w-full py-24 bg-stone-50 border-b border-stone-200" id="approach">
+  <div class="max-w-7xl mx-auto px-6 lg:px-12">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+      <div class="lg:col-span-5">
+        <div
+          class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-stone-100 font-mono text-xs border border-stone-200/80 mb-4 text-terracotta-600"
+        >
+          <span class="w-1.5 h-1.5 rounded-full bg-terracotta-500 animate-pulse"></span>
+          <span class="tracking-wider uppercase font-semibold">{approach.eyebrow}</span>
+        </div>
+        <h2 class="text-3xl sm:text-5xl font-light text-stone-900 tracking-tight leading-tight">
+          Не отдельные инструменты.
+          <br />
+          <span class="accent-italic">Связанная система.</span>
+        </h2>
+        <p class="text-stone-700 text-base sm:text-lg leading-relaxed font-normal max-w-2xl mt-6">
           {approach.lead}
         </p>
       </div>
 
-      <div class="lg:col-span-7 card overflow-hidden">
+      <div class="lg:col-span-7 flex flex-col gap-4">
         {APPROACH.map((a) => (
-          <div class="px-6 py-7 border-b border-line last:border-b-0 flex flex-col sm:flex-row items-start gap-3 sm:gap-6">
-            <span class="font-mono-index text-mono-index font-semibold text-primary min-w-[56px] pt-0.5">
-              {a.num} /
-            </span>
-            <div>
-              <h3 class="font-headline-sm text-[1.0625rem] leading-snug font-semibold text-on-surface mb-1.5">
-                {a.title}
-              </h3>
-              <p class="font-body-sm text-body-sm text-on-surface-variant">{a.text}</p>
+          <div
+            class="p-6 sm:p-7 rounded-2xl bg-white border border-stone-200 editorial-shadow hover:border-stone-400 transition-all"
+          >
+            <div class="flex items-start gap-5">
+              <span
+                class="w-9 h-9 rounded-full border-2 border-stone-900 text-stone-900 font-mono text-xs font-semibold flex items-center justify-center shrink-0 leading-none"
+              >
+                {a.num}
+              </span>
+              <div>
+                <h3 class="text-lg font-semibold text-stone-900 mb-1.5">{a.title}</h3>
+                <p class="text-sm text-stone-700 leading-relaxed">{a.text}</p>
+              </div>
             </div>
           </div>
         ))}

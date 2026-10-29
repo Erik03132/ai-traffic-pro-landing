@@ -50,26 +50,26 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
   localContact
 >
   <!-- Хлебные крошки -->
-  <nav aria-label="Хлебные крошки" class="bg-surface-container-lowest border-b border-line">
+  <nav aria-label="Хлебные крошки" class="bg-white border-b border-stone-200">
     <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop py-4">
-      <ol class="flex flex-wrap items-center gap-2 font-mono-index text-mono-index text-on-surface-variant">
+      <ol class="flex flex-wrap items-center gap-2 font-mono-index text-mono-index text-stone-700">
         <li>
-          <a href="/" class="hover:text-primary-container transition-colors">
+          <a href="/" class="hover:text-terracotta-600 transition-colors">
             Главная
           </a>
         </li>
-        <li aria-hidden="true" class="text-outline">
+        <li aria-hidden="true" class="text-stone-400">
           /
         </li>
         <li>
-          <a href="/#services" class="hover:text-primary-container transition-colors">
+          <a href="/#services" class="hover:text-terracotta-600 transition-colors">
             Услуги
           </a>
         </li>
-        <li aria-hidden="true" class="text-outline">
+        <li aria-hidden="true" class="text-stone-400">
           /
         </li>
-        <li class="text-on-surface" aria-current="page">
+        <li class="text-stone-900" aria-current="page">
           {service.title}
         </li>
       </ol>
@@ -77,36 +77,36 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
   </nav>
 
   <!-- Hero -->
-  <section class="w-full border-b border-line bg-surface-container-lowest">
+  <section class="w-full border-b border-stone-200 bg-white">
     <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop py-16 md:py-24">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
         <div class="lg:col-span-8">
           <div class="flex items-center gap-3 mb-6">
-            <span class="w-11 h-11 rounded-lg bg-surface-container-lowest border border-line flex items-center justify-center font-mono-index text-mono-index font-semibold text-primary-container">
+            <span class="w-11 h-11 rounded-2xl bg-white border border-stone-200 flex items-center justify-center font-mono-index text-mono-index font-semibold text-terracotta-600">
               {service.num}
             </span>
-            <span class="px-2.5 py-0.5 rounded border border-[#BFDBFE] bg-[#EFF6FF] text-primary-container font-mono-label text-mono-label font-semibold tracking-wider uppercase">
+            <span class="px-2.5 py-0.5 rounded border border-[#BFDBFE] bg-[#EFF6FF] text-terracotta-600 font-mono-label text-mono-label font-semibold tracking-wider uppercase">
               {service.badge}
             </span>
           </div>
 
-          <h1 class="font-headline-xl text-headline-lg md:text-headline-xl font-extrabold tracking-tight text-on-surface mb-5">
+          <h1 class="font-headline-xl text-headline-lg md:text-headline-xl font-extrabold tracking-tight text-stone-900 mb-5">
             {service.h1}
           </h1>
-          <p class="font-body-lg text-body-lg text-on-surface-variant max-w-3xl leading-relaxed">
+          <p class="font-body-lg text-body-lg text-stone-700 max-w-3xl leading-relaxed">
             {service.subtitle}
           </p>
 
           <div class="mt-8 flex flex-col sm:flex-row gap-4">
             <a
               href="#lead"
-              class="inline-flex items-center justify-center px-7 py-3.5 rounded-lg bg-primary-container text-on-primary font-body-sm text-body-sm font-semibold hover:bg-primary transition-all duration-150 text-center active:scale-[0.99]"
+              class="inline-flex items-center justify-center px-7 py-3.5 rounded-2xl bg-stone-900 text-on-primary font-body-sm text-body-sm font-semibold hover:bg-stone-900 transition-all duration-150 text-center active:scale-[0.99]"
             >
               Оставить заявку
             </a>
             <a
               href="#what-included"
-              class="inline-flex items-center justify-center px-7 py-3.5 rounded-lg border border-line bg-surface-container-lowest text-on-surface font-body-sm text-body-sm font-medium hover:border-primary-container hover:text-primary-container transition-colors text-center"
+              class="inline-flex items-center justify-center px-7 py-3.5 rounded-2xl border border-stone-200 bg-white text-stone-900 font-body-sm text-body-sm font-medium hover:border-primary-container hover:text-terracotta-600 transition-colors text-center"
             >
               Что входит
             </a>
@@ -114,24 +114,24 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
         </div>
 
         <div class="lg:col-span-4">
-          <div class="rounded-xl border border-line bg-surface-container-low p-6 space-y-4">
+          <div class="rounded-2xl border border-stone-200 bg-stone-100 p-6 space-y-4">
             <div>
-              <span class="font-mono-label text-mono-label uppercase text-outline block">
+              <span class="font-mono-label text-mono-label uppercase text-stone-400 block">
                 Метрика
               </span>
-              <span class="font-body-md text-body-md text-on-surface">{service.metric}</span>
+              <span class="font-body-md text-body-md text-stone-900">{service.metric}</span>
             </div>
-            <div class="border-t border-line pt-4">
-              <span class="font-mono-label text-mono-label uppercase text-outline block">
+            <div class="border-t border-stone-200 pt-4">
+              <span class="font-mono-label text-mono-label uppercase text-stone-400 block">
                 Кому подходит
               </span>
-              <span class="font-body-md text-body-md text-on-surface">{service.forWhom}</span>
+              <span class="font-body-md text-body-md text-stone-900">{service.forWhom}</span>
             </div>
-            <div class="border-t border-line pt-4">
-              <span class="font-mono-label text-mono-label uppercase text-outline block">
+            <div class="border-t border-stone-200 pt-4">
+              <span class="font-mono-label text-mono-label uppercase text-stone-400 block">
                 Стоимость
               </span>
-              <span class="font-body-md text-body-md text-on-surface">
+              <span class="font-body-md text-body-md text-stone-900">
                 По запросу — считаем после короткой вводной.
               </span>
             </div>
@@ -142,27 +142,27 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
   </section>
 
   <!-- С какой проблемой приходят -->
-  <section class="w-full border-b border-line bg-surface py-20 md:py-28">
+  <section class="w-full border-b border-stone-200 bg-stone-50 py-20 md:py-28">
     <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
       <div class="mb-14">
-        <span class="font-mono-label text-mono-label uppercase text-primary-container tracking-widest font-semibold block mb-2">
+        <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
           [01 / С ЧЕМ ПРИХОДЯТ]
         </span>
-        <h2 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-on-surface">
+        <h2 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-stone-900">
           С какой проблемой приходят
         </h2>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         {service.problem.map((p) => (
-          <div class="rounded-xl border border-line bg-surface-container-lowest p-8 flex flex-col">
-            <span class="material-symbols-outlined text-primary-container text-2xl mb-4">
+          <div class="rounded-2xl border border-stone-200 bg-white p-8 flex flex-col">
+            <span class="material-symbols-outlined text-terracotta-600 text-2xl mb-4">
               report_problem
             </span>
-            <h3 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-3">
+            <h3 class="font-headline-sm text-headline-sm font-bold text-stone-900 mb-3">
               {p.title}
             </h3>
-            <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
               {p.text}
             </p>
           </div>
@@ -172,24 +172,24 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
   </section>
 
   <!-- Кому подходит -->
-  <section class="w-full border-b border-line bg-surface py-20 md:py-28">
+  <section class="w-full border-b border-stone-200 bg-stone-50 py-20 md:py-28">
     <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
       <div class="mb-14">
-        <span class="font-mono-label text-mono-label uppercase text-primary-container tracking-widest font-semibold block mb-2">
+        <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
           [02 / КОМУ ПОДХОДИТ]
         </span>
-        <h2 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-on-surface">
+        <h2 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-stone-900">
           Кому эта услуга решает задачу
         </h2>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         {service.audience.map((a) => (
-          <div class="rounded-xl border border-line bg-surface-container-lowest p-8">
-            <h3 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-2">
+          <div class="rounded-2xl border border-stone-200 bg-white p-8">
+            <h3 class="font-headline-sm text-headline-sm font-bold text-stone-900 mb-2">
               {a.title}
             </h3>
-            <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
               {a.text}
             </p>
           </div>
@@ -199,13 +199,13 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
   </section>
 
   <!-- Как это работает -->
-  <section class="w-full border-b border-line bg-surface-container-lowest py-20 md:py-28">
+  <section class="w-full border-b border-stone-200 bg-white py-20 md:py-28">
     <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
       <div class="mb-14">
-        <span class="font-mono-label text-mono-label uppercase text-primary-container tracking-widest font-semibold block mb-2">
+        <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
           [03 / КАК ЭТО РАБОТАЕТ]
         </span>
-        <h2 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-on-surface">
+        <h2 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-stone-900">
           Четыре шага до результата
         </h2>
       </div>
@@ -214,19 +214,19 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
         {service.steps.map((s) => (
           <div class="flex flex-col">
             <div class="flex items-center gap-3 mb-6">
-              <span class="w-14 h-14 rounded-lg bg-surface-container-lowest border border-line flex items-center justify-center font-mono-index text-mono-index font-semibold text-primary-container">
+              <span class="w-14 h-14 rounded-2xl bg-white border border-stone-200 flex items-center justify-center font-mono-index text-mono-index font-semibold text-terracotta-600">
                 {service.steps.indexOf(s) + 1}
               </span>
-              <span class="hidden lg:block w-3 h-px bg-primary-container" />
+              <span class="hidden lg:block w-3 h-px bg-stone-900" />
             </div>
-            <h3 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-2">
+            <h3 class="font-headline-sm text-headline-sm font-bold text-stone-900 mb-2">
               {s.title}
             </h3>
-            <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
               {s.text}
             </p>
-            <span class="mt-4 inline-flex items-center gap-2 self-start px-3 py-1 rounded-full border border-line bg-surface-container-lowest font-mono-label text-mono-label uppercase tracking-wider text-on-surface-variant">
-              <span class="material-symbols-outlined text-base text-primary-container">
+            <span class="mt-4 inline-flex items-center gap-2 self-start px-3 py-1 rounded-full border border-stone-200 bg-white font-mono-label text-mono-label uppercase tracking-wider text-stone-700">
+              <span class="material-symbols-outlined text-base text-terracotta-600">
                 schedule
               </span>
               {s.period}
@@ -238,27 +238,27 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
   </section>
 
   <!-- Как решаем -->
-  <section class="w-full border-b border-line bg-surface-container-lowest py-20 md:py-28">
+  <section class="w-full border-b border-stone-200 bg-white py-20 md:py-28">
     <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
       <div class="mb-14">
-        <span class="font-mono-label text-mono-label uppercase text-primary-container tracking-widest font-semibold block mb-2">
+        <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
           [04 / КАК РЕШАЕМ]
         </span>
-        <h2 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-on-surface">
+        <h2 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-stone-900">
           Как решаем задачу
         </h2>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         {service.solution.map((s, i) => (
-          <div class="rounded-xl border border-line bg-surface-container-lowest p-8">
+          <div class="rounded-2xl border border-stone-200 bg-white p-8">
             <div class="flex items-center gap-3 mb-4">
-              <span class="w-10 h-10 rounded-lg bg-surface-container-low border border-line flex items-center justify-center font-mono-index text-mono-index font-semibold text-primary-container">
+              <span class="w-10 h-10 rounded-2xl bg-stone-100 border border-stone-200 flex items-center justify-center font-mono-index text-mono-index font-semibold text-terracotta-600">
                 {i + 1}
               </span>
-              <h3 class="font-headline-sm text-headline-sm font-bold text-on-surface">{s.title}</h3>
+              <h3 class="font-headline-sm text-headline-sm font-bold text-stone-900">{s.title}</h3>
             </div>
-            <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
               {s.text}
             </p>
           </div>
@@ -268,41 +268,41 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
   </section>
 
   <!-- Что входит + что получите -->
-  <section class="w-full border-b border-line bg-surface py-20 md:py-28" id="what-included">
+  <section class="w-full border-b border-stone-200 bg-stone-50 py-20 md:py-28" id="what-included">
     <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
         <div class="lg:col-span-7">
-          <span class="font-mono-label text-mono-label uppercase text-primary-container tracking-widest font-semibold block mb-2">
+          <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
             [05 / ЧТО ВХОДИТ]
           </span>
-          <h2 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-on-surface mb-8">
+          <h2 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-stone-900 mb-8">
             Что входит в работу
           </h2>
 
-          <ul class="border-t border-line">
+          <ul class="border-t border-stone-200">
             {service.includes.map((item) => (
-              <li class="flex items-start gap-3 py-5 border-b border-line">
-                <span class="material-symbols-outlined text-primary-container text-xl mt-0.5 shrink-0">
+              <li class="flex items-start gap-3 py-5 border-b border-stone-200">
+                <span class="material-symbols-outlined text-terracotta-600 text-xl mt-0.5 shrink-0">
                   check_circle
                 </span>
-                <span class="font-body-md text-body-md text-on-surface">{item}</span>
+                <span class="font-body-md text-body-md text-stone-900">{item}</span>
               </li>
             ))}
           </ul>
         </div>
 
         <div class="lg:col-span-5">
-          <div class="rounded-xl border border-line bg-surface-container-low p-8 lg:sticky lg:top-28">
-            <span class="font-mono-label text-mono-label uppercase text-outline tracking-widest block mb-6">
+          <div class="rounded-2xl border border-stone-200 bg-stone-100 p-8 lg:sticky lg:top-28">
+            <span class="font-mono-label text-mono-label uppercase text-stone-400 tracking-widest block mb-6">
               [ЧТО ВЫ ПОЛУЧИТЕ]
             </span>
             <ul class="space-y-5">
               {service.outcomes.map((o) => (
                 <li class="flex items-start gap-3">
-                  <span class="material-symbols-outlined text-primary-container text-xl mt-0.5 shrink-0">
+                  <span class="material-symbols-outlined text-terracotta-600 text-xl mt-0.5 shrink-0">
                     arrow_forward
                   </span>
-                  <span class="font-body-sm text-body-sm text-on-surface leading-relaxed">{o}</span>
+                  <span class="font-body-sm text-body-sm text-stone-900 leading-relaxed">{o}</span>
                 </li>
               ))}
             </ul>
@@ -321,43 +321,43 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
   />
 
   <!-- Форма заявки -->
-  <section class="w-full border-t border-line bg-surface-container-low py-20 md:py-28" id="lead">
+  <section class="w-full border-t border-stone-200 bg-stone-100 py-20 md:py-28" id="lead">
     <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
-      <div class="border border-line bg-surface-container-lowest rounded-2xl p-8 md:p-14">
+      <div class="border border-stone-200 bg-white rounded-2xl p-8 md:p-14">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           <div class="lg:col-span-5">
-            <span class="font-mono-label text-mono-label uppercase text-primary-container tracking-widest font-semibold block mb-3">
+            <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-3">
               [07 / ЗАЯВКА]
             </span>
-            <h2 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-on-surface mb-6">
+            <h2 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-stone-900 mb-6">
               Оставьте заявку — свяжемся в течение рабочего дня
             </h2>
-            <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-8">
+            <p class="font-body-md text-body-md text-stone-700 leading-relaxed mb-8">
               Расскажите о задаче — вернёмся с конкретным планом и оценкой. Без обязательств.
             </p>
 
-            <div class="p-6 rounded-lg border border-line bg-surface-container-low space-y-4">
+            <div class="p-6 rounded-2xl border border-stone-200 bg-stone-100 space-y-4">
               <div class="flex items-start gap-3">
-                <span class="material-symbols-outlined text-primary-container text-xl mt-0.5">
+                <span class="material-symbols-outlined text-terracotta-600 text-xl mt-0.5">
                   check_circle
                 </span>
-                <span class="font-body-sm text-body-sm text-on-surface">
+                <span class="font-body-sm text-body-sm text-stone-900">
                   Отвечаем в течение рабочего дня
                 </span>
               </div>
               <div class="flex items-start gap-3">
-                <span class="material-symbols-outlined text-primary-container text-xl mt-0.5">
+                <span class="material-symbols-outlined text-terracotta-600 text-xl mt-0.5">
                   check_circle
                 </span>
-                <span class="font-body-sm text-body-sm text-on-surface">
+                <span class="font-body-sm text-body-sm text-stone-900">
                   План первоначальных гипотез на встрече
                 </span>
               </div>
               <div class="flex items-start gap-3">
-                <span class="material-symbols-outlined text-primary-container text-xl mt-0.5">
+                <span class="material-symbols-outlined text-terracotta-600 text-xl mt-0.5">
                   check_circle
                 </span>
-                <span class="font-body-sm text-body-sm text-on-surface">
+                <span class="font-body-sm text-body-sm text-stone-900">
                   Без навязывания лишних пакетов
                 </span>
               </div>
@@ -373,13 +373,13 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
   </section>
 
   <!-- Другие услуги -->
-  <section class="w-full bg-surface py-20 md:py-28">
+  <section class="w-full bg-stone-50 py-20 md:py-28">
     <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
       <div class="mb-12">
-        <span class="font-mono-label text-mono-label uppercase text-primary-container tracking-widest font-semibold block mb-2">
+        <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
           [08 / ДРУГИЕ НАПРАВЛЕНИЯ]
         </span>
-        <h2 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-on-surface">
+        <h2 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-stone-900">
           Что ещё мы делаем
         </h2>
       </div>
@@ -388,25 +388,25 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
         {otherServices.map((s) => (
           <a
             href={`/services/${s.slug}/`}
-            class="group flex flex-col justify-between p-8 rounded-xl border border-line bg-surface-container-lowest hover:border-primary-container transition-all duration-200"
+            class="group flex flex-col justify-between p-8 rounded-2xl border border-stone-200 bg-white hover:border-primary-container transition-all duration-200"
           >
             <div>
               <div class="flex items-center justify-between mb-6">
-                <span class="font-mono-index text-mono-index text-outline group-hover:text-primary-container transition-colors">
+                <span class="font-mono-index text-mono-index text-stone-400 group-hover:text-terracotta-600 transition-colors">
                   {s.num}
                 </span>
-                <span class="material-symbols-outlined text-outline group-hover:text-primary-container text-2xl transition-colors">
+                <span class="material-symbols-outlined text-stone-400 group-hover:text-terracotta-600 text-2xl transition-colors">
                   {s.icon}
                 </span>
               </div>
-              <h3 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-3 group-hover:text-primary-container transition-colors">
+              <h3 class="font-headline-sm text-headline-sm font-bold text-stone-900 mb-3 group-hover:text-terracotta-600 transition-colors">
                 {s.title}
               </h3>
-              <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
                 {s.card}
               </p>
             </div>
-            <div class="pt-4 mt-6 border-t border-line flex items-center font-mono-index text-mono-index text-on-surface group-hover:text-primary-container font-medium">
+            <div class="pt-4 mt-6 border-t border-stone-200 flex items-center font-mono-index text-mono-index text-stone-900 group-hover:text-terracotta-600 font-medium">
               <span>Подробнее об услуге</span>
               <span class="inline-block transform group-hover:translate-x-1.5 transition-transform duration-150 ml-1">
                 →
@@ -417,9 +417,9 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
       </div>
 
       {!isMain && (
-        <p class="mt-10 font-body-sm text-body-sm text-on-surface-variant">
+        <p class="mt-10 font-body-sm text-body-sm text-stone-700">
           Нужно что-то из соседних направлений?{' '}
-          <a class="link-underline text-primary-container hover:underline" href="/#services">
+          <a class="link-underline text-terracotta-600 hover:underline" href="/#services">
             Посмотрите все шесть услуг
           </a>
           .

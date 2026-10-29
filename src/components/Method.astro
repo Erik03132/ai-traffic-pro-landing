@@ -1,53 +1,108 @@
 ---
 /**
- * Секция «Как мы работаем» — вместо «Кейсов».
+ * Секция «Как мы работаем» + границы работы.
  *
+ * Дизайн перенесён из Stitch: 3 «инженерных фильтра» + баннер границ.
  * Публичного портфолио нет, поэтому показываем метод, а не чужие цифры.
- * Рядом — блок границ работы: он же работает как отсев нецелевых заявок.
  */
 import { METHOD, BOUNDARIES } from '../data/site';
+
+const filters = [
+  {
+    tag: 'ФИЛЬТР 01 // УЗКОЕ ГОРЛЫШКО',
+    title: 'Не запускаем каналы вслепую',
+    text: 'Сначала аудит потерь: если сайт конвертит мало, заливать контекст — это выброшенные деньги.',
+    foot: 'Сначала точка входа, потом масштаб',
+    color: 'text-terracotta-600',
+    icon: 'filter_alt',
+  },
+  {
+    tag: 'ФИЛЬТР 02 // ЭКОНОМИКА ЛИДА',
+    title: 'Считаем стоимость заявки, а не кликов',
+    text: 'Каждый канал обязан показать CPA и ROMI. Что не считается — отключаем.',
+    foot: 'Метрики, а не активности',
+    color: 'text-sage-600',
+    icon: 'query_stats',
+  },
+  {
+    tag: 'ФИЛЬТР 03 // ОТВЕТСТВЕННОСТЬ',
+    title: 'Один партнёр на весь путь',
+    text: 'От стратегии до отчёта — одна команда. Не перекидываем заказчика между отделами.',
+    foot: 'Единая точка входа',
+    color: 'text-stone-700',
+    icon: 'verified_user',
+  },
+] as const;
 ---
 
-<section class="w-full border-b border-line bg-surface-container-lowest py-16 md:py-20" id="method">
-  <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
-      <div class="lg:col-span-5">
-        <span class="font-mono-label text-mono-label uppercase text-on-surface-variant block mb-2">
-          {METHOD.eyebrow}
-        </span>
-        <h2 class="section-title">{METHOD.title}</h2>
-        <p class="font-body-md text-body-md text-on-surface-variant">
-          {METHOD.lead}
-        </p>
+<section class="w-full py-24 bg-stone-50" id="method">
+  <div class="max-w-7xl mx-auto px-6 lg:px-12">
+    <div class="max-w-3xl mb-16">
+      <div
+        class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-stone-100 font-mono text-xs border border-stone-200/80 mb-4 text-terracotta-600"
+      >
+        <span class="w-1.5 h-1.5 rounded-full bg-terracotta-500 animate-pulse"></span>
+        <span class="tracking-wider uppercase font-semibold">{METHOD.eyebrow}</span>
       </div>
+      <h2 class="text-3xl sm:text-5xl font-light text-stone-900 tracking-tight leading-tight mb-4">
+        <span class="font-sans">Как мы мыслим внутри проекта:</span>
+        <br />
+        <span class="accent-italic">три жёстких фильтра</span>
+      </h2>
+      <p class="text-stone-700 text-base sm:text-lg leading-relaxed font-normal max-w-2xl">
+        {METHOD.lead}
+      </p>
+    </div>
 
-      <div class="lg:col-span-7 flex flex-col">
-        {METHOD.items.map((item) => (
-          <div class="py-6 border-b border-line first:pt-0">
-            <span class="font-mono-label text-mono-label uppercase text-on-surface-variant block mb-2">
-              {item.tag}
-            </span>
-            <h3 class="font-headline-sm text-[1.0625rem] leading-snug font-semibold text-on-surface mb-1.5">
-              {item.title}
-            </h3>
-            <p class="font-body-sm text-body-sm text-on-surface-variant">{item.text}</p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      {filters.map((f, i) => (
+        <div
+          class="p-8 rounded-3xl bg-white border border-stone-200 editorial-shadow flex flex-col justify-between"
+        >
+          <div>
+            <div
+              class="flex items-center justify-between pb-4 mb-4 border-b border-stone-200"
+            >
+              <span
+                class="w-8 h-8 rounded-full border-2 border-stone-900 text-stone-900 font-mono text-xs font-semibold flex items-center justify-center shrink-0 leading-none"
+              >
+                {i + 1}
+              </span>
+              <span
+                class="font-mono text-[11px] text-stone-500 uppercase tracking-wider px-2.5 py-1 rounded-full bg-stone-100 border border-stone-200"
+              >
+                <span class="material-symbols-outlined align-middle text-[14px]">{f.icon}</span>
+                ФИЛЬТР
+              </span>
+            </div>
+            <div class={`font-mono text-xs font-semibold ${f.color} mb-2 tracking-wider uppercase`}>
+              {f.tag}
+            </div>
+            <h3 class="text-lg font-semibold text-stone-900 mb-2">{f.title}</h3>
+            <p class="text-sm text-stone-700 leading-relaxed font-normal">{f.text}</p>
+          </div>
+          <div class="pt-6 mt-8 border-t border-sage-500/30 font-mono text-[11px] text-stone-400">
+            {f.foot}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="p-8 rounded-3xl bg-white border border-stone-200 editorial-shadow">
+      <div class="flex items-center justify-between gap-4 mb-6">
+        <div class="font-mono text-xs font-semibold text-terracotta-600 mb-4 tracking-wider">
+          [ЧЕГО МЫ НЕ ДЕЛАЕМ]
+        </div>
+        <span class="w-1.5 h-1.5 rounded-full bg-terracotta-500"></span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-3">
+        {BOUNDARIES.map((b) => (
+          <div class="flex items-start gap-3">
+            <span class="material-symbols-outlined text-stone-400 text-lg mt-0.5">remove</span>
+            <span class="text-sm text-stone-700 leading-relaxed">{b}</span>
           </div>
         ))}
       </div>
-    </div>
-
-    <div class="mt-12 rounded-md border border-line bg-surface p-6 md:p-8">
-      <span class="font-mono-label text-mono-label uppercase text-on-surface-variant block mb-4">
-        [ЧЕГО МЫ НЕ ДЕЛАЕМ]
-      </span>
-      <ul class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-2.5">
-        {BOUNDARIES.map((b) => (
-          <li class="flex items-start gap-3">
-            <span class="material-symbols-outlined text-on-surface-variant text-xl mt-0.5">remove</span>
-            <span class="font-body-sm text-body-sm text-on-surface-variant">{b}</span>
-          </li>
-        ))}
-      </ul>
     </div>
   </div>
 </section>

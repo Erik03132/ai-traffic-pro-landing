@@ -1,84 +1,105 @@
 @import 'tailwindcss';
 
 /* ──────────────────────────────────────────────────────────────────────────
-   Дизайн-система AI-Traffic PRO — Corporate Elegance Hub.
+   AI-Traffic PRO — Editorial Warm (дизайн Stitch, проект 347837169574599192).
 
-   Токены перенесены 1:1 из референса
-   `docs/design/theme-corporate.css` (`:root --stitch-*`).
-   Спецификация и маппинг: `docs/design/SPEC-redesign-corporate.md`.
+   Палитра, шрифты и ритм перенесены из макета «AI-Traffic-Pro — Комплексная
+   система роста»: stone-50…900, terracotta-500…700, sage-500…700.
+   Шрифты: Instrument Serif (курсивные акценты), Plus Jakarta Sans, JetBrains Mono.
 
    Tailwind 4: имена токенов задают namespace утилит:
    --color- → bg-/text-/border-, --text- → text-, --font- → font-,
    --spacing- → p-/m-/gap-, --radius- → rounded-.
    ────────────────────────────────────────────────────────────────────────── */
 @theme {
-  /* Цвета — Corporate Elegance Hub */
-  --color-primary: #0052cc;
-  --color-primary-container: #0052cc;
-  --color-primary-hover: #0047b3;
-  --color-on-primary: #ffffff;
-  --color-primary-fixed: #deebff;
-  --color-on-primary-fixed: #0747a6;
-  --color-surface: #f4f5f7;
-  --color-surface-container-lowest: #ffffff;
-  --color-surface-container-low: #ebecf0;
-  --color-surface-container: #ebecf0;
-  --color-surface-container-high: #f4f5f7;
-  --color-surface-dim: #dfe1e6;
-  --color-field: #fafbfc;
-  --color-on-surface: #172b4d;
-  --color-on-surface-variant: #5e6c84;
-  --color-outline: #5e6c84;
-  --color-outline-variant: #dfe1e6;
-  --color-error: #de350b;
-  --color-success: #00875a;
-  --color-line: #dfe1e6;
+  /* Палитра — stone */
+  --color-stone-50: #faf8f5;
+  --color-stone-100: #f5f2eb;
+  --color-stone-200: #eae5d9;
+  --color-stone-300: #dcd5c6;
+  --color-stone-400: #a8a29e;
+  --color-stone-700: #52525b;
+  --color-stone-800: #27272a;
+  --color-stone-900: #18181b;
 
-  /* Тени — горизонтальные, мягкие, с синим подтоном (как в референсе) */
-  --shadow-soft: 0 1px 2px rgba(9, 30, 66, 0.05);
-  --shadow-card: 0 4px 8px -2px rgba(9, 30, 66, 0.08), 0 0 1px rgba(9, 30, 66, 0.08);
-  --shadow-elevated: 0 8px 16px -4px rgba(9, 30, 66, 0.12), 0 0 1px rgba(9, 30, 66, 0.08);
+  /* Акцент — terracotta */
+  --color-terracotta-500: #f97316;
+  --color-terracotta-600: #ea580c;
+  --color-terracotta-700: #c2410c;
+
+  /* Успех/акцент 2 — sage */
+  --color-sage-500: #10b981;
+  --color-sage-600: #0d9488;
+  --color-sage-700: #0f766e;
+
+  /* Семантические (для совместимости с остальными страницами) */
+  --color-primary: #18181b;
+  --color-primary-container: #27272a;
+  --color-primary-hover: #52525b;
+  --color-on-primary: #ffffff;
+  --color-surface: #faf8f5;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f5f2eb;
+  --color-surface-container: #f5f2eb;
+  --color-surface-container-high: #eae5d9;
+  --color-surface-dim: #eae5d9;
+  --color-field: #ffffff;
+  --color-on-surface: #18181b;
+  --color-on-surface-variant: #52525b;
+  --color-outline: #a8a29e;
+  --color-outline-variant: #eae5d9;
+  --color-error: #c2410c;
+  --color-success: #0d9488;
+  --color-line: #eae5d9;
+
+  /* Тени — editorial: очень мягкие, горизонтальные */
+  --shadow-soft: 0 1px 3px 0 rgba(24, 24, 27, 0.02);
+  --shadow-card: 0 20px 40px -15px rgba(24, 24, 27, 0.04), 0 1px 3px 0 rgba(24, 24, 27, 0.02);
+  --shadow-elevated: 0 24px 48px -12px rgba(24, 24, 27, 0.1);
 
   /* Шрифты */
-  --font-body-lg: 'Inter', ui-sans-serif, system-ui, sans-serif;
-  --font-body-md: 'Inter', ui-sans-serif, system-ui, sans-serif;
-  --font-body-sm: 'Inter', ui-sans-serif, system-ui, sans-serif;
-  --font-headline-sm: 'Manrope', ui-sans-serif, system-ui, sans-serif;
-  --font-headline-md: 'Manrope', ui-sans-serif, system-ui, sans-serif;
-  --font-headline-lg: 'Manrope', ui-sans-serif, system-ui, sans-serif;
-  --font-headline-xl: 'Manrope', ui-sans-serif, system-ui, sans-serif;
-  --font-display-hero: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+  --font-serif: 'Instrument Serif', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  --font-body-lg: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-body-md: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-body-sm: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-headline-sm: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-headline-md: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-headline-lg: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-headline-xl: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-display-hero: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
   --font-mono-index: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
   --font-mono-label: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
 
-  /* Размеры текста (адаптивные через clamp — мобильных макетов в Stitch нет) */
-  --text-display-hero: clamp(2.25rem, 5vw, 4rem);
-  --text-display-hero--line-height: 1.1;
-  --text-display-hero--letter-spacing: -0.03em;
-  --text-display-hero--font-weight: 700;
+  /* Размеры */
+  --text-display-hero: clamp(2.5rem, 5.4vw, 4.5rem);
+  --text-display-hero--line-height: 1.06;
+  --text-display-hero--letter-spacing: -0.025em;
+  --text-display-hero--font-weight: 300;
 
-  --text-headline-xl: clamp(1.75rem, 3.6vw, 2.5rem);
-  --text-headline-xl--line-height: 1.15;
-  --text-headline-xl--letter-spacing: -0.025em;
-  --text-headline-xl--font-weight: 700;
+  --text-headline-xl: clamp(1.875rem, 4vw, 3rem);
+  --text-headline-xl--line-height: 1.1;
+  --text-headline-xl--letter-spacing: -0.02em;
+  --text-headline-xl--font-weight: 300;
 
   --text-headline-lg: clamp(1.5rem, 2.8vw, 2rem);
   --text-headline-lg--line-height: 1.2;
-  --text-headline-lg--letter-spacing: -0.02em;
-  --text-headline-lg--font-weight: 700;
+  --text-headline-lg--letter-spacing: -0.015em;
+  --text-headline-lg--font-weight: 300;
 
   --text-headline-md: 1.5rem;
   --text-headline-md--line-height: 1.3;
-  --text-headline-md--letter-spacing: -0.015em;
-  --text-headline-md--font-weight: 600;
+  --text-headline-md--letter-spacing: -0.01em;
+  --text-headline-md--font-weight: 400;
 
   --text-headline-sm: 1.25rem;
   --text-headline-sm--line-height: 1.35;
   --text-headline-sm--letter-spacing: -0.01em;
-  --text-headline-sm--font-weight: 600;
+  --text-headline-sm--font-weight: 500;
 
   --text-body-lg: 1.125rem;
-  --text-body-lg--line-height: 1.6;
+  --text-body-lg--line-height: 1.65;
   --text-body-lg--letter-spacing: -0.01em;
 
   --text-body-md: 1rem;
@@ -87,19 +108,19 @@
   --text-body-sm: 0.875rem;
   --text-body-sm--line-height: 1.5;
 
-  --text-mono-index: 0.8125rem;
+  --text-mono-index: 0.75rem;
   --text-mono-index--line-height: 1.2;
-  --text-mono-index--letter-spacing: 0.04em;
-  --text-mono-index--font-weight: 500;
+  --text-mono-index--letter-spacing: 0.01em;
+  --text-mono-index--font-weight: 400;
 
-  --text-mono-label: 0.6875rem;
+  --text-mono-label: 0.75rem;
   --text-mono-label--line-height: 1.2;
-  --text-mono-label--letter-spacing: 0.08em;
-  --text-mono-label--font-weight: 600;
+  --text-mono-label--letter-spacing: 0.02em;
+  --text-mono-label--font-weight: 500;
 
   /* Отступы */
-  --spacing-margin: 1.25rem;
-  --spacing-margin-desktop: 2.5rem;
+  --spacing-margin: 1.5rem;
+  --spacing-margin-desktop: 3rem;
   --spacing-space-xs: 0.25rem;
   --spacing-space-sm: 0.5rem;
   --spacing-space-md: 1rem;
@@ -107,33 +128,33 @@
   --spacing-space-xl: 2.5rem;
   --spacing-space-2xl: 4rem;
   --spacing-gutter: 1.5rem;
-  --spacing-gutter-desktop: 2rem;
+  --spacing-gutter-desktop: 1.5rem;
 
-  /* Радиусы: контролы 4px (sm), карточки 8px (md/lg) */
-  --radius-sm: 0.25rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.5rem;
-  --radius-xl: 0.75rem;
+  /* Радиусы — макет: 8px контролы, 16px карточки, 24px крупные, full для пилюль */
+  --radius-sm: 0.5rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
+  --radius-xl: 1.5rem;
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
-    /* якоря не заезжают под фиксированный хедер */
-    scroll-padding-top: 5rem;
+    scroll-padding-top: 6rem;
   }
 
   body {
-    font-family: var(--font-body-md);
-    background-color: var(--color-surface);
-    color: var(--color-on-surface);
+    font-family: var(--font-sans);
+    background-color: var(--color-stone-50);
+    color: var(--color-stone-800);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
   }
 
   ::selection {
-    background-color: var(--color-primary-fixed);
-    color: var(--color-on-primary-fixed);
+    background-color: #fed7aa;
+    color: #7c2d12;
   }
 }
 
@@ -157,34 +178,23 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  .ms-filled {
-    font-variation-settings:
-      'FILL' 1,
-      'wght' 500,
-      'GRAD' 0,
-      'opsz' 24;
+  /* ── Editorial shadow (из макета) ── */
+  .editorial-shadow {
+    box-shadow:
+      0 20px 40px -15px rgba(24, 24, 27, 0.04),
+      0 1px 3px 0 rgba(24, 24, 27, 0.02);
   }
 
-  /* ── Заголовок секции (референс: .stitch-section-title) ── */
-  .section-title {
-    font-family: var(--font-headline-lg);
-    font-size: 1.25rem;
-    line-height: 1.35;
-    font-weight: 500;
-    letter-spacing: -0.01em;
-    color: var(--color-on-surface);
-    margin: 0 0 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid var(--color-line);
-    display: block;
-  }
-
-  /* ── Карточка (референс: .stitch-card) ── */
+  /* ── Карточка (макет: bg-white + border-stone-200 + rounded-2xl/3xl) ── */
   .card {
-    background-color: var(--color-surface-container-lowest);
-    border: 1px solid var(--color-line);
-    border-radius: var(--radius-md);
+    background-color: #ffffff;
+    border: 1px solid var(--color-stone-200);
+    border-radius: 1rem;
     box-shadow: var(--shadow-soft);
+  }
+
+  .card-lg {
+    border-radius: 1.5rem;
   }
 
   .card-hover {
@@ -199,36 +209,92 @@
     transform: translateY(-2px);
   }
 
-  /* ── Бейдж (референс: .stitch-badge-primary) ── */
-  .badge {
+  /* ── Пилюля-бейдж (макет) ── */
+  .pill {
     display: inline-flex;
     align-items: center;
-    gap: 0.375rem;
-    padding: 4px 10px;
-    font-family: var(--font-mono-label);
-    font-size: 0.6875rem;
-    font-weight: 700;
-    letter-spacing: 0.06em;
+    gap: 0.5rem;
+    padding: 6px 14px;
+    border-radius: 9999px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    line-height: 1.2;
+  }
+
+  .pill-light {
+    background-color: #ffffff;
+    border: 1px solid var(--color-stone-200);
+    color: var(--color-stone-700);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .pill-muted {
+    background-color: var(--color-stone-100);
+    border: 1px solid rgb(234 229 217 / 0.7);
+    color: var(--color-stone-700);
+  }
+
+  /* ── Кнопки (макет: rounded-full) ── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 16px 32px;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease,
+      box-shadow 0.2s ease,
+      transform 0.1s ease;
+  }
+
+  .btn-dark {
+    background-color: var(--color-stone-900);
+    color: #ffffff;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+  }
+
+  .btn-dark:hover {
+    background-color: var(--color-stone-800);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  }
+
+  .btn-dark:active {
+    transform: scale(0.98);
+  }
+
+  .btn-light {
+    background-color: #ffffff;
+    color: var(--color-stone-900);
+    border: 1px solid var(--color-stone-200);
+  }
+
+  .btn-light:hover {
+    border-color: var(--color-stone-300);
+    box-shadow: var(--shadow-soft);
+  }
+
+  /* Заголовок секции — моно-eyebrow + лёгкий крупный заголовок + курсивный акцент */
+  .section-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
     text-transform: uppercase;
-    border-radius: var(--radius-sm);
+    letter-spacing: 0.1em;
+    color: var(--color-terracotta-600);
   }
 
-  .badge-primary {
-    background-color: var(--color-primary-fixed);
-    color: var(--color-on-primary-fixed);
-    border: 1px solid #b3d4ff;
-  }
-
-  /* Базовое состояние ссылок */
-  .link-underline {
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    text-decoration-thickness: 1px;
+  .accent-italic {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--color-terracotta-600);
   }
 }
 
 @layer utilities {
-  /* Скрываем нативный маркер у <summary> в FAQ-аккордеоне */
   .faq-summary::-webkit-details-marker {
     display: none;
   }

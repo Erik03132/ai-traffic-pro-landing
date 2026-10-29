@@ -34,18 +34,18 @@ const fmt = (iso: string) =>
   ld={ld}
 >
   <!-- Хлебные крошки -->
-  <nav aria-label="Хлебные крошки" class="bg-surface-container-lowest border-b border-line">
+  <nav aria-label="Хлебные крошки" class="bg-white border-b border-stone-200">
     <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop py-4">
-      <ol class="flex flex-wrap items-center gap-2 font-mono-index text-mono-index text-on-surface-variant">
+      <ol class="flex flex-wrap items-center gap-2 font-mono-index text-mono-index text-stone-700">
         <li>
-          <a href="/" class="hover:text-primary-container transition-colors">
+          <a href="/" class="hover:text-terracotta-600 transition-colors">
             Главная
           </a>
         </li>
-        <li aria-hidden="true" class="text-outline">
+        <li aria-hidden="true" class="text-stone-400">
           /
         </li>
-        <li class="text-on-surface" aria-current="page">
+        <li class="text-stone-900" aria-current="page">
           Блог
         </li>
       </ol>
@@ -53,15 +53,15 @@ const fmt = (iso: string) =>
   </nav>
 
   <!-- Заголовок -->
-  <header class="w-full border-b border-line bg-surface-container-lowest">
+  <header class="w-full border-b border-stone-200 bg-white">
     <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop py-16 md:py-24">
-      <span class="font-mono-label text-mono-label uppercase text-primary-container tracking-widest font-semibold block mb-3">
+      <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-3">
         [БЛОГ]
       </span>
-      <h1 class="font-headline-xl text-headline-xl md:text-[56px] font-bold tracking-tight text-on-surface max-w-3xl mb-6">
+      <h1 class="font-headline-xl text-headline-xl md:text-[56px] font-bold tracking-tight text-stone-900 max-w-3xl mb-6">
         Разбираем маркетинг по частям
       </h1>
-      <p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed max-w-2xl">
+      <p class="font-body-lg text-body-lg text-stone-700 leading-relaxed max-w-2xl">
         Практические статьи без «10 секретов успеха»: как выбирать каналы, считать окупаемость,
         готовить сайт к ответам нейросетей и не терять заявки. Каждая статья связана с услугой, о
         которой в ней речь.
@@ -70,32 +70,32 @@ const fmt = (iso: string) =>
   </header>
 
   <!-- Список статей -->
-  <section class="w-full bg-surface py-16 md:py-24">
+  <section class="w-full bg-stone-50 py-16 md:py-24">
     <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {articles.map((a) => (
           <a
             href={`/blog/${a.slug}/`}
-            class="group rounded-xl border border-line bg-surface-container-lowest p-8 flex flex-col hover:border-primary-container transition-colors"
+            class="group rounded-2xl border border-stone-200 bg-white p-8 flex flex-col hover:border-primary-container transition-colors"
           >
             <div class="flex items-center gap-3 mb-4">
-              <span class="font-mono-label text-mono-label uppercase tracking-wider text-primary-container">
+              <span class="font-mono-label text-mono-label uppercase tracking-wider text-terracotta-600">
                 {a.tag}
               </span>
-              <span class="font-mono-index text-mono-index text-outline">{a.readingTime} мин</span>
+              <span class="font-mono-index text-mono-index text-stone-400">{a.readingTime} мин</span>
             </div>
 
-            <h2 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-3 group-hover:text-primary-container transition-colors">
+            <h2 class="font-headline-sm text-headline-sm font-bold text-stone-900 mb-3 group-hover:text-terracotta-600 transition-colors">
               {a.title}
             </h2>
 
-            <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed mb-5">
+            <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed mb-5">
               {a.seoDescription}
             </p>
 
-            <div class="mt-auto pt-5 border-t border-line flex items-center justify-between gap-3">
-              <span class="font-mono-index text-mono-index text-outline">{title(a.service)}</span>
-              <span class="font-mono-index text-mono-index text-outline">{fmt(a.date)}</span>
+            <div class="mt-auto pt-5 border-t border-stone-200 flex items-center justify-between gap-3">
+              <span class="font-mono-index text-mono-index text-stone-400">{title(a.service)}</span>
+              <span class="font-mono-index text-mono-index text-stone-400">{fmt(a.date)}</span>
             </div>
           </a>
         ))}
@@ -104,20 +104,20 @@ const fmt = (iso: string) =>
   </section>
 
   <!-- CTA -->
-  <section class="w-full border-t border-line bg-surface-container-low py-20 md:py-24">
+  <section class="w-full border-t border-stone-200 bg-stone-100 py-20 md:py-24">
     <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
-      <div class="rounded-2xl border border-line bg-surface-container-lowest p-8 md:p-14 text-center">
-        <h2 class="font-headline-lg text-headline-lg font-bold tracking-tight text-on-surface mb-4">
+      <div class="rounded-2xl border border-stone-200 bg-white p-8 md:p-14 text-center">
+        <h2 class="font-headline-lg text-headline-lg font-bold tracking-tight text-stone-900 mb-4">
           Не нашли свою задачу?
         </h2>
-        <p class="font-body-md text-body-md text-on-surface-variant mb-8 max-w-2xl mx-auto">
+        <p class="font-body-md text-body-md text-stone-700 mb-8 max-w-2xl mx-auto">
           Опишите ситуацию — вернёмся с планом: что проверить первым, какие каналы имеют смысл и
           какие сроки реалистичны.
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           <a
             href="/#contact"
-            class="inline-flex items-center justify-center px-7 py-3.5 rounded-lg bg-primary-container text-on-primary font-body-sm text-body-sm font-semibold hover:bg-primary transition-colors"
+            class="inline-flex items-center justify-center px-7 py-3.5 rounded-2xl bg-stone-900 text-on-primary font-body-sm text-body-sm font-semibold hover:bg-stone-900 transition-colors"
           >
             Оставить заявку
           </a>
@@ -125,7 +125,7 @@ const fmt = (iso: string) =>
             href={SITE.bot.link}
             target="_blank"
             rel="noopener"
-            class="inline-flex items-center justify-center px-7 py-3.5 rounded-lg border border-line bg-surface text-on-surface font-body-sm text-body-sm font-medium hover:border-primary-container hover:text-primary-container transition-colors"
+            class="inline-flex items-center justify-center px-7 py-3.5 rounded-2xl border border-stone-200 bg-stone-50 text-stone-900 font-body-sm text-body-sm font-medium hover:border-primary-container hover:text-terracotta-600 transition-colors"
           >
             Написать в Telegram
           </a>

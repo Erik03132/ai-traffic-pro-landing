@@ -1,9 +1,9 @@
 ---
 /**
- * Секция `[01 / НАПРАВЛЕНИЯ]` — 6 карточек услуг.
+ * Секция `[01 / НАПРАВЛЕНИЯ]` — 6 карточек услуг + интерактивный блок сравнения.
  *
- * Карточка ведёт на страницу услуги (а не в якорь формы): на главной
- * 6 услуг = 6 точек входа, и заявка должна уходить со страницы услуги.
+ * Дизайн перенесён из Stitch. Карточка ведёт на страницу услуги:
+ * на главной 6 услуг = 6 точек входа, заявка уходит со страницы услуги.
  */
 import { SERVICES } from '../data/site';
 import { HOME } from '../data/site';
@@ -11,50 +11,235 @@ import { HOME } from '../data/site';
 const { services } = HOME;
 ---
 
-<section class="w-full border-b border-line bg-surface py-16 md:py-20" id="services">
-  <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
-    <span class="font-mono-label text-mono-label uppercase text-on-surface-variant block mb-2">
-      {services.eyebrow}
-    </span>
-    <h2 class="section-title">{services.title}</h2>
-    <p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mb-10">
-      {services.lead}
-    </p>
+<section class="w-full py-24 bg-white border-y border-stone-200" id="services">
+  <div class="max-w-7xl mx-auto px-6 lg:px-12">
+    <div class="max-w-4xl mb-12 sm:mb-16">
+      <div
+        class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-stone-100 text-terracotta-600 font-mono text-xs border border-stone-200/80 mb-4"
+      >
+        <span class="w-1.5 h-1.5 rounded-full bg-terracotta-500 animate-pulse"></span>
+        <span class="tracking-wider uppercase font-semibold">{services.eyebrow}</span>
+      </div>
+      <h2 class="text-3xl sm:text-5xl font-light text-stone-900 tracking-tight leading-[1.1]">
+        Один из одиночных каналов сливает бюджет.
+        <br />
+        <span class="accent-italic">Результат рождается только в связке.</span>
+      </h2>
+      <p class="text-stone-700 text-base sm:text-lg leading-relaxed font-normal max-w-3xl mt-6">
+        {services.lead}
+      </p>
+    </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {SERVICES.map((s) => (
-        <a
-          href={`/services/${s.slug}/`}
-          class="card card-hover group flex flex-col justify-between p-6 hover:border-primary/40"
-        >
-          <div>
-            <div class="flex items-center justify-between mb-5">
-              <span class="font-mono-index text-mono-index text-on-surface-variant">
-                {s.num}
-              </span>
-              {s.badge === 'ПОИСК + AI' ? (
-                <span class="badge badge-primary">{s.badge}</span>
-              ) : (
-                <span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary text-2xl transition-colors">
-                  {s.icon}
+    <div class="w-full flex flex-col gap-6">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div>
+          <div class="font-mono text-xs uppercase tracking-widest text-terracotta-600 font-medium mb-1">
+            [ АРХИТЕКТУРА 6 В 1 ]
+          </div>
+          <h3 class="text-2xl sm:text-3xl lg:text-4xl font-light text-stone-900 tracking-tight">
+            6 шагов к <span class="accent-italic">эффективности продвижения</span>
+          </h3>
+        </div>
+        <span class="text-xs font-mono text-stone-500">Кликните на карточку, чтобы узнать подробнее</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {SERVICES.map((s) => (
+          <a
+            href={`/services/${s.slug}/`}
+            class="group p-8 rounded-3xl bg-stone-50 border border-stone-200 hover:border-stone-400 transition-all flex flex-col justify-between gap-6 editorial-shadow"
+          >
+            <div>
+              <div
+                class="flex items-center justify-between pb-4 mb-4 border-b border-stone-200"
+              >
+                <span class="font-mono text-xs text-terracotta-600 font-semibold">
+                  МОДУЛЬ {s.num} // {s.badge}
                 </span>
-              )}
+                <span
+                  class="w-8 h-8 rounded-full border-2 border-stone-900 text-stone-900 font-mono text-xs font-semibold flex items-center justify-center shrink-0 leading-none"
+                >
+                  {s.num.replace(/\D/g, '') || '•'}
+                </span>
+              </div>
+              <h4 class="text-lg font-semibold text-stone-900 mb-2 group-hover:text-terracotta-600 transition-colors">
+                {s.title}
+              </h4>
+              <p class="text-xs text-stone-600 leading-relaxed">{s.card}</p>
             </div>
-            <h3 class="font-headline-sm text-[1.0625rem] leading-snug font-semibold text-on-surface mb-2 group-hover:text-primary transition-colors">
-              {s.title}
-            </h3>
-            <p class="font-body-sm text-body-sm text-on-surface-variant mb-6">
-              {s.card}
+            <div
+              class="pt-4 border-t border-sage-500/30 font-mono text-[11px] text-sage-600 font-medium flex items-center justify-between"
+            >
+              <span>УЗКОЕ ГОРЛЫШКО</span>
+              <span class="material-symbols-outlined text-[16px] transition-transform group-hover:translate-x-1">
+                arrow_forward
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <div class="mt-16 p-6 sm:p-8 rounded-3xl bg-stone-50 border border-stone-200 editorial-shadow">
+      <div
+        class="flex flex-col lg:flex-row lg:items-center justify-between pb-6 mb-6 border-b border-stone-200 gap-6"
+      >
+        <div class="flex-1">
+          <div
+            class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-stone-100 font-mono text-xs text-terracotta-600 border border-stone-200/80 mb-3 tracking-wider uppercase font-semibold"
+          >
+            <span class="w-1.5 h-1.5 rounded-full bg-terracotta-500 animate-pulse"></span>
+            [ ИНТЕРАКТИВНОЕ СРАВНЕНИЕ ЭФФЕКТА ]
+          </div>
+          <h3 class="text-2xl sm:text-3xl lg:text-4xl font-light text-stone-900 tracking-tight leading-tight">
+            Каждый канал отдельно
+            <span class="accent-italic">vs экосистема AI-Traffic</span>
+          </h3>
+        </div>
+        <div
+          class="inline-flex p-1 bg-stone-200/70 rounded-full border border-stone-300/80 shrink-0 self-start lg:self-center"
+          id="synergy-mode-toggle"
+        >
+          <button
+            class="px-4 py-1.5 rounded-full text-xs font-mono font-medium bg-white text-stone-900 shadow-sm transition-all"
+            id="btn-mode-isolated"
+            type="button"
+          >
+            По отдельности
+          </button>
+          <button
+            class="px-4 py-1.5 rounded-full text-xs font-mono font-medium text-stone-600 hover:text-stone-900 transition-all"
+            id="btn-mode-unified"
+            type="button"
+          >
+            В связке (система)
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="synergy-view-unified">
+        <div class="p-6 rounded-2xl bg-white border border-stone-200 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="font-mono text-xs text-sage-600 font-semibold uppercase">01 // ДАННЫЕ</span>
+              <span class="material-symbols-outlined text-sage-600 text-lg">sync</span>
+            </div>
+            <div class="text-2xl font-light text-stone-900 mb-1">100% сквозной контур</div>
+            <p class="text-xs text-stone-600 leading-relaxed">
+              Все 6 направлений пишут в одну аналитическую базу. Ни один клик и лид не теряются
+              между подрядчиками.
             </p>
           </div>
-          <div class="pt-4 border-t border-line flex items-center font-body-sm text-body-sm text-on-surface group-hover:text-primary font-medium">
-            <span>{services.cta}</span>
-            <span class="inline-block transform group-hover:translate-x-1 transition-transform duration-150 ml-1">
-              →
-            </span>
+          <div class="pt-4 mt-4 border-t border-stone-100 font-mono text-[11px] text-sage-600 font-medium">
+            Нулевая потеря контакта между этапами
           </div>
-        </a>
-      ))}
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white border border-stone-200 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="font-mono text-xs text-terracotta-600 font-semibold uppercase">02 // ЭКОНОМИКА</span>
+              <span class="material-symbols-outlined text-terracotta-600 text-lg">trending_down</span>
+            </div>
+            <div class="text-2xl font-light text-stone-900 mb-1">Снижение CPA до 40%</div>
+            <p class="text-xs text-stone-600 leading-relaxed">
+              AI-поиск подогревает доверие, ретаргетинг дожимает заявку, а персонализированный
+              лендинг поднимает конверсию.
+            </p>
+          </div>
+          <div class="pt-4 mt-4 border-t border-stone-100 font-mono text-[11px] text-terracotta-600 font-medium">
+            Эффект перекрестного усиления каналов
+          </div>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white border border-stone-200 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="font-mono text-xs text-stone-700 font-semibold uppercase">03 // SLA</span>
+              <span class="material-symbols-outlined text-stone-700 text-lg">hub</span>
+            </div>
+            <div class="text-2xl font-light text-stone-900 mb-1">Единая ответственность</div>
+            <p class="text-xs text-stone-600 leading-relaxed">
+              Одна команда отвечает за итоговую выручку и ROMI, исключая разрозненные отчёты.
+            </p>
+          </div>
+          <div class="pt-4 mt-4 border-t border-stone-100 font-mono text-[11px] text-stone-500 font-medium">
+            Спринт каждые 14 дней с прозрачным KPI
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
+
+<script>
+  /**
+   * Переключатель «по отдельности / в связке» — интерактив из макета Stitch.
+   * Работает на чистом JS, без зависимостей; при выключенном JS показывается
+   * блок «в связке» (значение по умолчанию из разметки).
+   */
+  const btnIso = document.getElementById('btn-mode-isolated');
+  const btnUni = document.getElementById('btn-mode-unified');
+  const viewUni = document.getElementById('synergy-view-unified');
+
+  const isoCards = [
+    {
+      label: '01 // РАЗРОЗНЕННО',
+      title: 'Отдельные подрядчики',
+      text: 'Каждый ведёт свой канал и отчитывается о своей активности. Клиент и его данные теряются между исполнителями.',
+      foot: 'Каналы не знают друг о друге',
+      color: 'text-stone-500',
+    },
+    {
+      label: '02 // РАЗРОЗНЕННО',
+      title: 'Цена потери заявок',
+      text: 'Бюджет распределяется равномерно, а не туда, где он окупается. Дорогие каналы оплачиваются из общей кассы.',
+      foot: 'Рост стоимости лида',
+      color: 'text-terracotta-600',
+    },
+    {
+      label: '03 // РАЗРОЗНЕННО',
+      title: 'Ответственность размыта',
+      text: 'За результат никто не отвечает целиком: каждый закрыл свой участок и отчитался.',
+      foot: 'Отчёт есть — выгоды нет',
+      color: 'text-stone-500',
+    },
+  ];
+
+  function render(isUnified) {
+    if (!viewUni) return;
+    viewUni.innerHTML = isUnified
+      ? ''
+      : isoCards
+          .map(
+            (c) => `
+      <div class="p-6 rounded-2xl bg-white border border-stone-200 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="font-mono text-xs ${c.color} font-semibold uppercase">${c.label}</span>
+            <span class="material-symbols-outlined text-stone-400 text-lg">remove_circle</span>
+          </div>
+          <div class="text-2xl font-light text-stone-900 mb-1">${c.title}</div>
+          <p class="text-xs text-stone-600 leading-relaxed">${c.text}</p>
+        </div>
+        <div class="pt-4 mt-4 border-t border-stone-100 font-mono text-[11px] ${c.color} font-medium">${c.foot}</div>
+      </div>`,
+          )
+          .join('');
+  }
+
+  function setMode(isUnified) {
+    btnUni?.classList.toggle('bg-white', isUnified);
+    btnUni?.classList.toggle('shadow-sm', isUnified);
+    btnUni?.classList.toggle('text-stone-900', isUnified);
+    btnUni?.classList.toggle('text-stone-600', !isUnified);
+    btnIso?.classList.toggle('bg-white', !isUnified);
+    btnIso?.classList.toggle('shadow-sm', !isUnified);
+    btnIso?.classList.toggle('text-stone-900', !isUnified);
+    btnIso?.classList.toggle('text-stone-600', isUnified);
+    render(isUnified);
+  }
+
+  btnIso?.addEventListener('click', () => setMode(false));
+  btnUni?.addEventListener('click', () => setMode(true));
+</script>

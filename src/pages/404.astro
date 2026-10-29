@@ -26,13 +26,13 @@ const popular = ALL_SERVICES.filter((s) => s.inMain).slice(0, 4);
   }}
 >
   <article class="max-w-3xl mx-auto px-margin md:px-margin-desktop py-16 md:py-24">
-    <span class="font-mono-label text-mono-label uppercase text-primary-container tracking-widest font-semibold block mb-3">
+    <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-3">
       [404]
     </span>
-    <h1 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-on-surface mb-4">
+    <h1 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-stone-900 mb-4">
       Такой страницы нет
     </h1>
-    <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-10">
+    <p class="font-body-md text-body-md text-stone-700 leading-relaxed mb-10">
       Возможно, адрес устарел или в нём опечатка. Всё нужное — на главной и на
       страницах услуг.
     </p>
@@ -40,19 +40,19 @@ const popular = ALL_SERVICES.filter((s) => s.inMain).slice(0, 4);
     <div class="flex flex-wrap gap-3 mb-12">
       <a
         href="/"
-        class="inline-flex items-center rounded-full bg-primary px-6 py-3 text-body-md text-on-primary font-semibold hover:bg-primary-container transition-colors"
+        class="inline-flex items-center rounded-full bg-stone-900 px-6 py-3 text-body-md text-on-primary font-semibold hover:bg-stone-900 transition-colors"
       >
         На главную
       </a>
       <a
         href="/#services"
-        class="inline-flex items-center rounded-full border border-line px-6 py-3 text-body-md text-on-surface font-semibold hover:bg-surface-container-low transition-colors"
+        class="inline-flex items-center rounded-full border border-stone-200 px-6 py-3 text-body-md text-stone-900 font-semibold hover:bg-stone-100 transition-colors"
       >
         Все услуги
       </a>
     </div>
 
-    <h2 class="font-headline-sm text-headline-sm font-semibold text-on-surface mb-4">
+    <h2 class="font-headline-sm text-headline-sm font-semibold text-stone-900 mb-4">
       Популярные направления
     </h2>
     <ul class="grid gap-2 sm:grid-cols-2">
@@ -61,9 +61,9 @@ const popular = ALL_SERVICES.filter((s) => s.inMain).slice(0, 4);
           <li>
             <a
               href={`/services/${s.slug}/`}
-              class="block rounded-xl border border-line bg-surface-container-low px-4 py-3 text-body-md text-on-surface hover:bg-surface-container transition-colors"
+              class="block rounded-2xl border border-stone-200 bg-stone-100 px-4 py-3 text-body-md text-stone-900 hover:bg-stone-100 transition-colors"
             >
-              <span class="font-mono-index text-mono-index text-outline mr-2">{s.num}</span>
+              <span class="font-mono-index text-mono-index text-stone-400 mr-2">{s.num}</span>
               {s.title}
             </a>
           </li>

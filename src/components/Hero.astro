@@ -1,112 +1,160 @@
 ---
 /**
- * Hero: заголовок, CTA и схема «ядро системы» (SVG-узлы из макета Stitch).
+ * Hero: бейджи, H1 с курсивными акцентами, лид, CTA и панель «live pipeline».
  *
- * Стиль Corporate Elegance: плоский фон, без градиентов и объёмных теней.
- * Токены и правила — docs/design/SPEC-redesign-corporate.md.
+ * Дизайн перенесён из Stitch (проект 347837169574599192, экран
+ * «AI-Traffic-Pro — Комплексная система роста»).
+ * Тексты — из `src/data/site.ts` (единый источник истины).
  */
 import { HOME } from '../data/site';
 
 const { hero } = HOME;
-
-const nodePositions: Record<string, string> = {
-  top: 'top-6 left-1/2 -translate-x-1/2',
-  tr: 'top-[22%] right-4',
-  br: 'bottom-[18%] right-5',
-  bl: 'bottom-[18%] left-5',
-  tl: 'top-[22%] left-4',
-};
 ---
 
-<section class="w-full border-b border-line bg-surface py-16 md:py-20">
-  <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
-      <div class="lg:col-span-7 flex flex-col items-start pr-0 lg:pr-6">
-        <span class="badge badge-primary mb-6">
-          <span class="w-1.5 h-1.5 rounded-full bg-on-primary-fixed inline-block"></span>
-          {hero.badge}
-        </span>
+<section class="relative w-full pb-24 lg:pb-32 px-6 lg:px-12 max-w-7xl mx-auto">
+  <div class="max-w-5xl mx-auto flex flex-col items-start gap-10 lg:gap-12">
+    <div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+      <div class="lg:col-span-7 flex flex-col items-start gap-8">
+        <div class="flex flex-wrap items-center gap-3">
+          <div
+            class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-stone-200 text-stone-700 font-mono text-xs editorial-shadow"
+          >
+            <span class="w-1.5 h-1.5 rounded-full bg-terracotta-500 animate-pulse"></span>
+            <span class="tracking-wider uppercase font-medium">{hero.badge}</span>
+          </div>
+          <div
+            class="hidden sm:inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-stone-100 text-stone-700 font-mono text-xs border border-stone-200/70"
+          >
+            <span class="w-1.5 h-1.5 rounded-full bg-terracotta-500"></span>
+            <span class="font-medium">ЕДИНАЯ СИСТЕМА РОСТА</span>
+          </div>
+        </div>
 
-        <h1 class="font-display-hero text-display-hero text-on-surface font-bold mb-5">
+        <h1 class="text-5xl sm:text-6xl lg:text-7xl font-light text-stone-900 tracking-tight leading-[1.06]">
           {hero.h1Top}
+          <br class="hidden sm:block" />
+          <span class="accent-italic">{hero.h1Accent}</span>
           <br />
           {hero.h1Bottom}
         </h1>
 
-        <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mb-8">
+        <p class="font-sans text-lg sm:text-xl text-stone-700 max-w-2xl leading-relaxed font-normal">
           {hero.lead}
         </p>
 
-        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
-          <a
-            href="#contact"
-            class="inline-flex items-center justify-center px-5 py-2.5 rounded-sm bg-primary text-on-primary font-body-sm text-body-sm font-medium shadow-soft transition-all duration-200 hover:bg-primary-hover hover:shadow-card hover:-translate-y-px text-center"
-          >
-            {hero.ctaPrimary}
+        <div class="flex flex-wrap items-center gap-4">
+          <a href="#contact" class="btn btn-dark">
+            <span>{hero.ctaPrimary}</span>
+            <span class="material-symbols-outlined text-[18px]">arrow_outward</span>
           </a>
-          <a
-            href="#services"
-            class="inline-flex items-center justify-center px-5 py-2.5 rounded-sm border border-line bg-surface-container-lowest text-on-surface font-body-sm text-body-sm font-medium transition-all duration-200 hover:border-primary hover:text-primary text-center"
-          >
-            {hero.ctaSecondary}
+          <a href="#services" class="btn btn-light">
+            <span>{hero.ctaSecondary}</span>
+            <span class="material-symbols-outlined text-[18px]">north_east</span>
           </a>
         </div>
-
-        <span class="mt-4 font-mono-index text-mono-index text-on-surface-variant">{hero.micro}</span>
       </div>
 
       <div class="lg:col-span-5 w-full">
-        <div class="card relative w-full aspect-square max-w-[460px] mx-auto p-6 flex items-center justify-center overflow-hidden">
-          <svg
-            class="absolute inset-0 w-full h-full pointer-events-none"
-            fill="none"
-            viewBox="0 0 400 400"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-          >
-            <circle
-              cx="200"
-              cy="200"
-              r="140"
-              stroke="#dfe1e6"
-              stroke-dasharray="2 4"
-              stroke-width="1"></circle>
-            <circle cx="200" cy="200" r="80" stroke="#dfe1e6" stroke-width="1"></circle>
-            <line stroke="#dfe1e6" stroke-width="1" x1="200" x2="200" y1="160" y2="76"></line>
-            <circle cx="200" cy="76" fill="#0052cc" r="2.5"></circle>
-            <line stroke="#dfe1e6" stroke-width="1" x1="230" x2="310" y1="175" y2="120"></line>
-            <circle cx="310" cy="120" fill="#0052cc" r="2.5"></circle>
-            <line stroke="#dfe1e6" stroke-width="1" x1="230" x2="305" y1="225" y2="285"></line>
-            <circle cx="305" cy="285" fill="#0052cc" r="2.5"></circle>
-            <line stroke="#dfe1e6" stroke-width="1" x1="170" x2="95" y1="225" y2="285"></line>
-            <circle cx="95" cy="285" fill="#0052cc" r="2.5"></circle>
-            <line stroke="#dfe1e6" stroke-width="1" x1="170" x2="90" y1="175" y2="120"></line>
-            <circle cx="90" cy="120" fill="#0052cc" r="2.5"></circle>
-          </svg>
-
-          {hero.nodes.map((n) => (
-            <div class={`absolute ${nodePositions[n.pos]} z-10`}>
-              <div class="bg-surface-container-lowest border border-line rounded-sm px-3 py-1.5 flex items-center gap-2 shadow-soft">
-                <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
-                <span class="font-mono-index text-mono-index font-medium text-on-surface">
-                  {n.label}
-                </span>
-              </div>
+        <div
+          class="bg-white border border-stone-200 rounded-3xl p-6 sm:p-7 flex flex-col gap-6 editorial-shadow"
+        >
+          <div class="flex items-center justify-between">
+            <div class="inline-flex items-center gap-2 font-mono text-[11px] text-stone-700">
+              <span class="w-1.5 h-1.5 rounded-full bg-sage-500"></span>
+              <span>AI-TRAFFIC // LIVE PIPELINE</span>
             </div>
-          ))}
+            <span
+              class="font-mono text-[10px] uppercase px-2.5 py-1 rounded-full bg-stone-100 text-stone-700 border border-stone-200"
+            >
+              ACTIVE
+            </span>
+          </div>
 
-          <div class="relative z-20 bg-surface-container-lowest border-2 border-primary rounded-md p-5 w-44 text-center shadow-card">
-            <div class="flex items-center justify-center gap-1.5 mb-1.5">
-              <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-              <span class="font-mono-label text-mono-label uppercase text-primary tracking-wider font-semibold">
-                {hero.coreLabel}
+          <div>
+            <h2 class="text-xl sm:text-2xl font-light text-stone-900 tracking-tight leading-snug">
+              Синхронизация 6 каналов в единый поток
+            </h2>
+            <p class="text-xs text-stone-600 leading-relaxed mt-2">
+              Отслеживание конверсий и сквозная оптимизация CPA в реальном времени
+            </p>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-stone-50 border border-stone-200/80">
+            <div class="flex items-center justify-between mb-3">
+              <span class="font-mono text-[11px] text-stone-600 uppercase tracking-wider">
+                ПУТЬ КЛИЕНТА // ПОТОК РОСТА
               </span>
+              <span class="font-mono text-[11px] font-semibold text-terracotta-600">100% SYNC</span>
             </div>
-            <span class="font-headline-sm text-headline-sm font-bold text-on-surface block">
-              {hero.core}
+            <div class="grid grid-cols-3 gap-2">
+              {hero.funnel.map((f) => (
+                <div class="p-3 rounded-xl bg-white border border-stone-200/90">
+                  <div class="font-mono text-[10px] text-stone-500 uppercase mb-1.5">{f.step}</div>
+                  <div class="text-xs font-semibold text-stone-900 leading-tight mb-1.5">{f.label}</div>
+                  <div class="font-mono text-[10px] text-sage-600">+{f.gain}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-3">
+            {hero.metrics.map((m) => (
+              <div>
+                <div class="flex items-center justify-between mb-1.5">
+                  <span class="text-[11px] text-stone-600">{m.label}</span>
+                  <span class="font-mono text-[11px] font-semibold text-stone-900">{m.value}</span>
+                </div>
+                <div class="h-1.5 rounded-full bg-stone-200/70 overflow-hidden">
+                  <div
+                    class="h-full rounded-full"
+                    style={`width:${m.percent}%;background-color:${m.color}`}
+                  >
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div class="flex items-center justify-between pt-4 border-t border-stone-200">
+            <span class="inline-flex items-center gap-1.5 font-mono text-[11px] text-stone-500">
+              <span class="material-symbols-outlined text-[14px]">database</span>
+              Ежедневная связка данных
+            </span>
+            <span class="inline-flex items-center gap-1.5 font-mono text-[11px] text-stone-500">
+              <span class="material-symbols-outlined text-[14px]">schedule</span>
+              Дайджест 24/7
             </span>
           </div>
         </div>
+      </div>
+    </div>
+
+    <div
+      class="w-full grid grid-cols-1 md:grid-cols-3 gap-6 p-6 sm:p-8 rounded-3xl bg-white border border-stone-200 editorial-shadow"
+    >
+      <div>
+        <div class="font-mono text-[11px] uppercase tracking-widest text-terracotta-600 mb-2">
+          СВЯЗАННЫЙ МАРКЕТИНГ
+        </div>
+        <p class="text-sm text-stone-700 leading-relaxed">
+          6 направлений в одной синхронной связке
+        </p>
+      </div>
+      <div>
+        <div class="font-mono text-[11px] uppercase tracking-widest text-sage-600 mb-2">
+          БЫСТРЫЕ СПРИНТЫ
+        </div>
+        <p class="text-sm text-stone-700 leading-relaxed">
+          Спринты по 14 дней с прозрачной фиксацией CPA и ROMI
+        </p>
+      </div>
+      <div>
+        <div class="font-mono text-[11px] uppercase tracking-widest text-stone-700 mb-2">
+          ТЕХНОЛОГИЯ
+        </div>
+        <p class="text-sm text-stone-700 leading-relaxed">
+          Прямая интеграция AI-инструментов в маркетинг и поиск
+        </p>
       </div>
     </div>
   </div>

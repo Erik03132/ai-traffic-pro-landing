@@ -1,6 +1,6 @@
 ---
 /**
- * Хедер: логотип, навигация, CTA.
+ * Хедер: плавающая пилюля (дизайн Stitch), логотип, навигация, CTA.
  *
  * Якоря работают на главной (`/#services`), на остальных страницах — абсолютные,
  * чтобы не попадать в несуществующий якорь текущей страницы.
@@ -28,67 +28,84 @@ const href = (h: string) => {
 };
 ---
 
-<header class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest/85 backdrop-blur-md border-b border-line">
-  <div class="h-14 max-w-[1280px] mx-auto px-margin md:px-margin-desktop flex items-center justify-between">
-    <a href="/" class="flex items-center gap-1.5 group">
-      <span class="font-headline-sm text-[1rem] text-on-surface tracking-tight font-semibold">
-<img src="/logo.svg" alt="AI-Traffic-Pro" class="h-6 w-auto" /> AI-Traffic-Pro
+<header class="fixed top-5 left-0 right-0 z-50 px-4 pointer-events-none">
+  <div
+    class="max-w-5xl mx-auto flex items-center justify-between bg-white/90 backdrop-blur-md px-4 py-2.5 rounded-full border border-stone-200/90 editorial-shadow pointer-events-auto transition-all duration-300 hover:border-stone-300"
+  >
+    <a href="/" class="flex items-center gap-2.5 pl-2 group shrink-0">
+      <span class="inline-flex items-center gap-2 select-none">
+        <span class="text-[22px] font-extrabold tracking-[-0.03em] text-[#1e2329] leading-none">
+          AI Traffic
+        </span>
+        <span
+          class="inline-flex items-center justify-center px-3 py-0.5 rounded-tr-[16px] rounded-bl-[16px] rounded-tl-[8px] rounded-br-[8px] bg-[#d35f3b] text-white text-[15px] font-bold leading-none"
+        >
+          PRO
+        </span>
       </span>
-      <span class="h-1.5 w-1.5 rounded-full bg-primary inline-block transition-transform duration-200 group-hover:scale-125"></span>
     </a>
 
-    <nav class="hidden md:flex items-center gap-space-lg" aria-label="Основная навигация">
+    <nav
+      class="hidden md:flex items-center gap-1 bg-stone-100/70 p-1 rounded-full border border-stone-200/60"
+      aria-label="Основная навигация"
+    >
       {NAV.map((item) => (
         <a
           href={href(item.href)}
-          class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors"
+          class="text-xs font-medium px-3.5 py-1.5 rounded-full text-stone-700 hover:text-stone-900 hover:bg-white transition-all"
         >
           {item.label}
         </a>
       ))}
     </nav>
 
-    <div class="flex items-center gap-space-md">
+    <div class="flex items-center gap-2">
+      <div
+        class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-stone-100 text-stone-700 font-mono text-[11px]"
+      >
+        <span class="w-1.5 h-1.5 rounded-full bg-sage-500"></span>
+        <span>ONLINE</span>
+      </div>
+
       <a
         href={href('#contact')}
-        class="inline-flex items-center justify-center px-5 py-2.5 rounded-sm bg-primary text-on-primary font-body-sm text-body-sm font-medium shadow-soft hover:bg-primary-hover transition-colors duration-200"
+        class="inline-flex items-center gap-2 px-4 py-2 bg-stone-900 hover:bg-stone-800 text-white text-xs font-medium rounded-full transition-all"
       >
-        Обсудить проект
+        ОБСУДИТЬ ПРОЕКТ
+        <span class="material-symbols-outlined text-[14px]">arrow_outward</span>
       </a>
 
       <button
         type="button"
         id="mobile-menu-toggle"
-        class="md:hidden w-9 h-9 rounded-sm border border-line flex items-center justify-center"
+        class="md:hidden w-8 h-8 rounded-full border border-stone-200 flex items-center justify-center"
         aria-label="Открыть меню"
         aria-expanded="false"
         aria-controls="mobile-menu"
       >
-        <span class="ms text-[20px]">menu</span>
+        <span class="material-symbols-outlined text-[18px]">menu</span>
       </button>
     </div>
   </div>
 
-  <div id="mobile-menu" class="md:hidden hidden border-t border-line bg-surface-container-lowest">
-    <nav
-      class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop py-4 flex flex-col"
-      aria-label="Мобильная навигация"
-    >
+  <div
+    id="mobile-menu"
+    class="hidden md:hidden mt-2 max-w-5xl mx-auto bg-white/95 backdrop-blur-md rounded-3xl border border-stone-200/90 editorial-shadow p-2"
+  >
+    <nav class="flex flex-col" aria-label="Мобильная навигация">
       {NAV.map((item) => (
         <a
           href={href(item.href)}
-          class="py-3 font-body-md text-body-md text-on-surface-variant border-b border-line last:border-0"
+          class="text-sm font-medium px-4 py-3 rounded-2xl text-stone-700 hover:bg-stone-100 transition-colors"
         >
           {item.label}
         </a>
       ))}
       <a
-        href={SITE.bot.askLink}
-        target="_blank"
-        rel="noopener"
-        class="mt-4 inline-flex items-center justify-center px-5 py-2.5 rounded-sm border border-line font-body-sm text-body-sm font-medium"
+        href={href('#contact')}
+        class="mt-1 inline-flex items-center justify-center px-4 py-3 rounded-full bg-stone-900 text-white text-xs font-medium"
       >
-        Задать вопрос в Telegram
+        ОБСУДИТЬ ПРОЕКТ
       </a>
     </nav>
   </div>
@@ -99,17 +116,14 @@ const href = (h: string) => {
   const menu = document.getElementById('mobile-menu');
 
   toggle?.addEventListener('click', () => {
-    const isOpen = toggle.getAttribute('aria-expanded') === 'true';
-    toggle.setAttribute('aria-expanded', String(!isOpen));
-    toggle.setAttribute('aria-label', isOpen ? 'Открыть меню' : 'Закрыть меню');
-    menu?.classList.toggle('hidden', isOpen);
+    const open = menu?.classList.toggle('hidden') === false;
+    toggle.setAttribute('aria-expanded', String(open));
   });
 
-  // Закрываем меню при переходе по ссылке (мобильная навигация).
-  menu?.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', () => {
-      toggle?.setAttribute('aria-expanded', 'false');
+  menu?.querySelectorAll('a').forEach((a) => {
+    a.addEventListener('click', () => {
       menu.classList.add('hidden');
+      toggle?.setAttribute('aria-expanded', 'false');
     });
   });
 </script>

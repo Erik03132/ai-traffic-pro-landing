@@ -1,6 +1,9 @@
 ---
 /**
  * Секция `[03 / ЭТАПЫ]` — процесс из 4 этапов.
+ *
+ * Дизайн перенесён из Stitch: карточки `rounded-3xl bg-stone-50`,
+ * круглый номер `border-2 border-stone-900`, подпись этапа моно-шрифтом.
  */
 import { PROCESS } from '../data/site';
 import { HOME } from '../data/site';
@@ -8,30 +11,35 @@ import { HOME } from '../data/site';
 const { process } = HOME;
 ---
 
-<section class="w-full border-b border-line bg-surface py-16 md:py-20" id="process">
-  <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
-    <span class="font-mono-label text-mono-label uppercase text-on-surface-variant block mb-2">
-      {process.eyebrow}
-    </span>
-    <h2 class="section-title max-w-2xl">{process.title}</h2>
-
-    <div class="relative mt-10">
-      <div class="hidden lg:block absolute top-6 left-0 right-0 h-px bg-line z-0"></div>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
-        {PROCESS.map((p) => (
-          <div class="card p-6">
-            <span class="w-12 h-12 rounded-md bg-surface-container-low border border-line flex items-center justify-center font-mono-index text-mono-index font-semibold text-primary mb-5">
-              {p.num}
-            </span>
-            <h3 class="font-headline-sm text-[1.0625rem] leading-snug font-semibold text-on-surface mb-2">
-              {p.title}
-            </h3>
-            <p class="font-body-sm text-body-sm text-on-surface-variant">
-              {p.text}
-            </p>
-          </div>
-        ))}
+<section class="w-full py-24 bg-white border-y border-stone-200" id="process">
+  <div class="max-w-7xl mx-auto px-6 lg:px-12">
+    <div class="mb-16">
+      <div class="font-mono text-xs font-medium text-terracotta-600 uppercase tracking-widest mb-3">
+        {process.eyebrow}
       </div>
+      <h2 class="text-3xl sm:text-5xl font-light text-stone-900 tracking-tight leading-tight">
+        От первого разговора
+        <span class="accent-italic">до запуска</span>
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {PROCESS.map((p, i) => (
+        <div class="p-8 rounded-3xl bg-stone-50 border border-stone-200 flex flex-col justify-between editorial-shadow">
+          <div>
+            <div
+              class="w-10 h-10 rounded-full border-2 border-stone-900 text-stone-900 font-mono text-base font-semibold flex items-center justify-center mb-4 leading-none"
+            >
+              {i + 1}
+            </div>
+            <h3 class="text-base font-semibold text-stone-900 mb-2">{p.title}</h3>
+            <p class="text-sm text-stone-700 leading-relaxed">{p.text}</p>
+          </div>
+          <div class="mt-8 pt-4 border-t border-sage-500/30 font-mono text-[11px] text-stone-400">
+            ЭТАП: {p.num}
+          </div>
+        </div>
+      ))}
     </div>
   </div>
 </section>

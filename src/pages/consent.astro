@@ -22,21 +22,21 @@ const L = SITE.legal;
   }}
 >
   <article class="max-w-3xl mx-auto px-margin md:px-margin-desktop py-16 md:py-24">
-    <span class="font-mono-label text-mono-label uppercase text-primary-container tracking-widest font-semibold block mb-3">
+    <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-3">
       [ПРАВОВАЯ ИНФОРМАЦИЯ]
     </span>
-    <h1 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-on-surface mb-4">
+    <h1 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-stone-900 mb-4">
       Согласие на обработку персональных данных
     </h1>
-    <p class="font-mono-index text-mono-index text-outline mb-10">Редакция от {updated}</p>
+    <p class="font-mono-index text-mono-index text-stone-400 mb-10">Редакция от {updated}</p>
 
-    <div class="rounded-xl border border-line bg-surface-container-low p-6 mb-10">
+    <div class="rounded-2xl border border-stone-200 bg-stone-100 p-6 mb-10">
       <div class="flex items-start gap-3">
-        <span class="material-symbols-outlined text-primary-container text-xl mt-0.5">
+        <span class="material-symbols-outlined text-terracotta-600 text-xl mt-0.5">
           verified_user
         </span>
         <div>
-          <p class="font-body-md text-body-md text-on-surface leading-relaxed">
+          <p class="font-body-md text-body-md text-stone-900 leading-relaxed">
             Документ действует с {updated}. Оператор персональных данных — {L.entityShort}, ИНН
             {L.inn}. Полные реквизиты — в разделе 7.
           </p>
@@ -45,17 +45,17 @@ const L = SITE.legal;
     </div>
 
     <div class="space-y-8">
-      <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+      <p class="font-body-md text-body-md text-stone-700 leading-relaxed">
         Отправляя заявку через формы на сайте {SITE.url}, я, как субъект персональных данных,
         свободно, своей волей и в своём интересе даю согласие оператору —{' '}
-        <span class="text-on-surface">
+        <span class="text-stone-900">
           {L.entity} (ИНН {L.inn}, ОГРНИП {L.ogrnip})
         </span>{' '}
         — на обработку моих персональных данных на следующих условиях.
       </p>
 
       <section>
-        <h2 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-3">
+        <h2 class="font-headline-sm text-headline-sm font-bold text-stone-900 mb-3">
           Перечень персональных данных
         </h2>
         <ul class="space-y-2">
@@ -67,20 +67,20 @@ const L = SITE.legal;
             'иные технические данные, получаемые автоматически при отправке формы.',
           ].map((item) => (
             <li class="flex items-start gap-3">
-              <span class="material-symbols-outlined text-outline text-lg mt-0.5 shrink-0">
+              <span class="material-symbols-outlined text-stone-400 text-lg mt-0.5 shrink-0">
                 remove
               </span>
-              <span class="font-body-sm text-body-sm text-on-surface-variant">{item}</span>
+              <span class="font-body-sm text-body-sm text-stone-700">{item}</span>
             </li>
           ))}
         </ul>
       </section>
 
       <section>
-        <h2 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-3">
+        <h2 class="font-headline-sm text-headline-sm font-bold text-stone-900 mb-3">
           Цели обработки
         </h2>
-        <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+        <p class="font-body-md text-body-md text-stone-700 leading-relaxed">
           Обработка данных осуществляется в следующих целях: связь с пользователем по его обращению,
           подготовка коммерческого предложения и оценки стоимости работ, заключение и исполнение
           договора, информирование о ходе работы по обращению.
@@ -88,10 +88,10 @@ const L = SITE.legal;
       </section>
 
       <section>
-        <h2 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-3">
+        <h2 class="font-headline-sm text-headline-sm font-bold text-stone-900 mb-3">
           Перечень действий с данными
         </h2>
-        <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+        <p class="font-body-md text-body-md text-stone-700 leading-relaxed">
           Оператор вправе: собирать, записывать, систематизировать, накапливать, хранить, уточнять
           (обновлять, изменять), извлекать, использовать, блокировать, удалять и уничтожать данные
           как с использованием средств автоматизации, так и без них.
@@ -99,10 +99,10 @@ const L = SITE.legal;
       </section>
 
       <section>
-        <h2 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-3">
+        <h2 class="font-headline-sm text-headline-sm font-bold text-stone-900 mb-3">
           Срок действия и порядок отзыва
         </h2>
-        <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+        <p class="font-body-md text-body-md text-stone-700 leading-relaxed">
           Согласие действует до достижения целей обработки, но не более 3 лет с момента последнего
           обращения пользователя. Согласие может быть отозвано в любой момент путём направления
           письменного уведомления оператору на контакты, указанные на сайте. После отзыва оператор
@@ -112,10 +112,10 @@ const L = SITE.legal;
       </section>
 
       <section>
-        <h2 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-3">
+        <h2 class="font-headline-sm text-headline-sm font-bold text-stone-900 mb-3">
           Реквизиты оператора
         </h2>
-        <dl class="space-y-2 font-body-sm text-body-sm text-on-surface-variant">
+        <dl class="space-y-2 font-body-sm text-body-sm text-stone-700">
           {[
             ['Наименование', L.entity],
             ['ИНН', L.inn],
@@ -125,20 +125,20 @@ const L = SITE.legal;
             ['Связь', `@${SITE.bot.username} — ${SITE.bot.link}`],
           ].map(([k, v]) => (
             <div class="flex flex-wrap gap-x-3">
-              <dt class="min-w-[200px] text-outline">{k}:</dt>
-              <dd class="text-on-surface">{v}</dd>
+              <dt class="min-w-[200px] text-stone-400">{k}:</dt>
+              <dd class="text-stone-900">{v}</dd>
             </div>
           ))}
         </dl>
       </section>
 
       <section>
-        <h2 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-3">
+        <h2 class="font-headline-sm text-headline-sm font-bold text-stone-900 mb-3">
           Подтверждение
         </h2>
-        <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+        <p class="font-body-md text-body-md text-stone-700 leading-relaxed">
           Я подтверждаю, что ознакомлен(а) с{' '}
-          <a class="link-underline text-primary-container" href="/privacy/">
+          <a class="link-underline text-terracotta-600" href="/privacy/">
             политикой конфиденциальности
           </a>
           , что указанные мной данные являются достоверными и принадлежат мне, и что я достиг(ла)
@@ -150,13 +150,13 @@ const L = SITE.legal;
     <div class="mt-14 flex flex-wrap gap-4">
       <a
         href="/privacy/"
-        class="inline-flex items-center justify-center px-6 py-3 rounded-lg border border-line font-body-sm text-body-sm font-medium hover:border-primary-container hover:text-primary-container transition-colors"
+        class="inline-flex items-center justify-center px-6 py-3 rounded-2xl border border-stone-200 font-body-sm text-body-sm font-medium hover:border-primary-container hover:text-terracotta-600 transition-colors"
       >
         Политика конфиденциальности
       </a>
       <a
         href="/"
-        class="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-primary-container text-on-primary font-body-sm text-body-sm font-semibold hover:bg-primary transition-colors"
+        class="inline-flex items-center justify-center px-6 py-3 rounded-2xl bg-stone-900 text-on-primary font-body-sm text-body-sm font-semibold hover:bg-stone-900 transition-colors"
       >
         На главную
       </a>

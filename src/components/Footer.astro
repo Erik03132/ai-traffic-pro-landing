@@ -27,42 +27,45 @@ const contacts = [
 ].filter((c) => c.value);
 ---
 
-<footer class="w-full bg-surface-container-lowest border-t border-line py-space-xl">
+<footer class="w-full bg-white border-t border-stone-200 py-space-xl">
   <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop grid grid-cols-1 md:grid-cols-12 gap-gutter-desktop">
     <div class="md:col-span-5 flex flex-col justify-between pr-space-md">
       <div class="space-y-space-sm">
-        <div class="flex items-center gap-1">
-          <img src="/logo.svg" alt="AI-Traffic-Pro" class="h-6 w-auto" />
-          <span class="font-headline-sm text-headline-sm text-on-surface tracking-tight">
-            AI-Traffic PRO
+        <div class="flex items-center gap-2 select-none">
+          <span class="text-[22px] font-extrabold tracking-[-0.03em] text-[#1e2329] leading-none">
+            AI Traffic
           </span>
-          <span class="h-2 w-2 rounded-full bg-primary-container inline-block"></span>
+          <span
+            class="inline-flex items-center justify-center px-3 py-0.5 rounded-tr-[16px] rounded-bl-[16px] rounded-tl-[8px] rounded-br-[8px] bg-[#d35f3b] text-white text-[15px] font-bold leading-none"
+          >
+            PRO
+          </span>
         </div>
-        <p class="font-body-md text-body-md text-on-surface-variant max-w-sm">{SITE.tagline}</p>
+        <p class="font-body-md text-body-md text-stone-700 max-w-sm">{SITE.tagline}</p>
       </div>
       <div class="mt-space-lg">
-        <span class="font-mono-label text-mono-label uppercase text-outline">
+        <span class="font-mono-label text-mono-label uppercase text-stone-400">
           AI-TRAFFIC PRO · 2026
         </span>
       </div>
     </div>
 
     <div class="md:col-span-4 flex flex-col space-y-space-sm">
-      <span class="font-mono-label text-mono-label uppercase text-outline tracking-wider">
+      <span class="font-mono-label text-mono-label uppercase text-stone-400 tracking-wider">
         [01 / УСЛУГИ]
       </span>
       <div class="flex flex-col space-y-space-xs">
         {SERVICES.map((s) => (
           <a
             href={`/services/${s.slug}/`}
-            class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary-container transition-colors"
+            class="font-body-sm text-body-sm text-stone-700 hover:text-terracotta-600 transition-colors"
           >
             {s.title}
           </a>
         ))}
         <a
           href="/blog/"
-          class="font-body-sm text-body-sm text-primary-container hover:text-primary transition-colors"
+          class="font-body-sm text-body-sm text-terracotta-600 hover:text-stone-900 transition-colors"
         >
           Блог: разборы и инструкции →
         </a>
@@ -70,14 +73,14 @@ const contacts = [
     </div>
 
     <div class="md:col-span-3 flex flex-col space-y-space-sm">
-      <span class="font-mono-label text-mono-label uppercase text-outline tracking-wider">
+      <span class="font-mono-label text-mono-label uppercase text-stone-400 tracking-wider">
         [02 / ПРАВОВАЯ ИНФОРМАЦИЯ]
       </span>
       <div class="flex flex-col space-y-space-xs">
         {legalLinks.map((l) => (
           <a
             href={l.href}
-            class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary-container transition-colors"
+            class="font-body-sm text-body-sm text-stone-700 hover:text-terracotta-600 transition-colors"
           >
             {l.label}
           </a>
@@ -86,7 +89,7 @@ const contacts = [
 
       {contacts.length > 0 && (
         <div class="mt-space-lg flex flex-col space-y-space-xs">
-          <span class="font-mono-label text-mono-label uppercase text-outline tracking-wider">
+          <span class="font-mono-label text-mono-label uppercase text-stone-400 tracking-wider">
             [03 / КОНТАКТЫ]
           </span>
           {contacts.map((c) =>
@@ -95,12 +98,12 @@ const contacts = [
                 href={c.href}
                 target={c.href.startsWith('http') ? '_blank' : undefined}
                 rel={c.href.startsWith('http') ? 'noopener' : undefined}
-                class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary-container transition-colors"
+                class="font-body-sm text-body-sm text-stone-700 hover:text-terracotta-600 transition-colors"
               >
                 {c.label}: {c.value}
               </a>
             ) : (
-              <span class="font-body-sm text-body-sm text-on-surface-variant">
+              <span class="font-body-sm text-body-sm text-stone-700">
                 {c.label}: {c.value}
               </span>
             ),
@@ -110,16 +113,16 @@ const contacts = [
 
       <!-- Реквизиты исполнителя: обязательны для сайта услуг в РФ. -->
       <div class="mt-space-lg flex flex-col space-y-space-xs">
-        <span class="font-mono-label text-mono-label uppercase text-outline tracking-wider">
+        <span class="font-mono-label text-mono-label uppercase text-stone-400 tracking-wider">
           [04 / РЕКВИЗИТЫ]
         </span>
-        <span class="font-body-sm text-body-sm text-on-surface-variant">
+        <span class="font-body-sm text-body-sm text-stone-700">
           {SITE.legal.entityShort}
         </span>
-        <span class="font-body-sm text-body-sm text-on-surface-variant">
+        <span class="font-body-sm text-body-sm text-stone-700">
           ИНН {SITE.legal.inn} · ОГРНИП {SITE.legal.ogrnip}
         </span>
-        <span class="font-body-sm text-body-sm text-on-surface-variant">{SITE.legal.address}</span>
+        <span class="font-body-sm text-body-sm text-stone-700">{SITE.legal.address}</span>
       </div>
     </div>
   </div>

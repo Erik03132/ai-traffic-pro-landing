@@ -34,25 +34,25 @@ const rows: [string, string][] = [
   }}
 >
   <article class="max-w-3xl mx-auto px-margin md:px-margin-desktop py-16 md:py-24">
-    <span class="font-mono-label text-mono-label uppercase text-primary-container tracking-widest font-semibold block mb-3">
+    <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-3">
       [ОПЛАТА]
     </span>
-    <h1 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-on-surface mb-4">
+    <h1 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-stone-900 mb-4">
       Реквизиты для оплаты
     </h1>
-    <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-10">
+    <p class="font-body-md text-body-md text-stone-700 leading-relaxed mb-10">
       Реквизиты для безналичного перевода. Счёт выставляется по договору — состав работ и сумму
       согласовываем до оплаты. Если нужно оплатить по реквизитам без договора, напишите в Telegram:
-      <a class="link-underline text-primary-container" href={SITE.bot.link}>
+      <a class="link-underline text-terracotta-600" href={SITE.bot.link}>
         @{SITE.bot.username}
       </a>
     </p>
 
     <dl class="space-y-3 font-body-sm text-body-sm">
       {rows.map(([k, v]) => (
-        <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-line pb-3">
-          <dt class="min-w-[220px] text-outline">{k}</dt>
-          <dd class="font-mono-index text-mono-index text-on-surface break-all">{v}</dd>
+        <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-stone-200 pb-3">
+          <dt class="min-w-[220px] text-stone-400">{k}</dt>
+          <dd class="font-mono-index text-mono-index text-stone-900 break-all">{v}</dd>
         </div>
       ))}
     </dl>
@@ -61,7 +61,7 @@ const rows: [string, string][] = [
       <button
         type="button"
         data-copy={B.account}
-        class="inline-flex items-center justify-center px-6 py-3 rounded-lg border border-line font-body-sm text-body-sm font-medium hover:border-primary-container hover:text-primary-container transition-colors"
+        class="inline-flex items-center justify-center px-6 py-3 rounded-2xl border border-stone-200 font-body-sm text-body-sm font-medium hover:border-primary-container hover:text-terracotta-600 transition-colors"
       >
         Скопировать расчётный счёт
       </button>
@@ -69,13 +69,13 @@ const rows: [string, string][] = [
         href={SITE.bot.link}
         target="_blank"
         rel="noopener"
-        class="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-primary-container text-on-primary font-body-sm text-body-sm font-semibold hover:bg-primary transition-colors"
+        class="inline-flex items-center justify-center px-6 py-3 rounded-2xl bg-stone-900 text-on-primary font-body-sm text-body-sm font-semibold hover:bg-stone-900 transition-colors"
       >
         Написать в Telegram
       </a>
     </div>
 
-    <p class="mt-6 font-body-sm text-body-sm text-outline">
+    <p class="mt-6 font-body-sm text-body-sm text-stone-400">
       В назначении платежа укажите номер договора или счёта, если он указан в вашем письме. По всем
       вопросам — @{SITE.bot.username}.
     </p>

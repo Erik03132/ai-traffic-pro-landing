@@ -13,25 +13,31 @@ import { SITE, API } from '../data/site';
   <!-- Панель чата -->
   <div
     id="chat-panel"
-    class="hidden w-[calc(100vw-2.5rem)] max-w-[380px] h-[min(560px,calc(100vh-8rem))] bg-surface-container-lowest border border-line rounded-md shadow-elevated flex flex-col overflow-hidden"
+    class="hidden w-[calc(100vw-2.5rem)] max-w-[380px] h-[min(560px,calc(100vh-8rem))] bg-white border border-stone-200 rounded-md editorial-shadow flex flex-col overflow-hidden"
     role="dialog"
     aria-label="Чат с агентом"
     aria-modal="false"
   >
-    <div class="flex items-start justify-between gap-3 px-5 py-4 border-b border-line bg-surface-container-low">
+    <div class="flex items-start justify-between gap-3 px-5 py-4 border-b border-stone-200 bg-stone-100">
       <div>
-        <div class="flex items-center gap-1">
-          <img src="/logo.svg" alt="AI-Traffic-Pro" class="h-6 w-auto" />
-          <p class="font-headline-sm text-headline-sm font-bold text-on-surface">AI-Traffic PRO</p>
+        <div class="flex items-center gap-2 select-none">
+          <span class="text-[18px] font-extrabold tracking-[-0.03em] text-[#1e2329] leading-none">
+            AI Traffic
+          </span>
+          <span
+            class="inline-flex items-center justify-center px-2 py-0.5 rounded-tr-[12px] rounded-bl-[12px] rounded-tl-[6px] rounded-br-[6px] bg-[#d35f3b] text-white text-xs font-bold leading-none"
+          >
+            PRO
+          </span>
         </div>
-        <p class="font-mono-index text-mono-index text-on-surface-variant mt-0.5">
+        <p class="font-mono-index text-mono-index text-stone-700 mt-0.5">
           Отвечает по услугам и ценам
         </p>
       </div>
       <button
         type="button"
         id="chat-close"
-        class="w-8 h-8 rounded-sm border border-line flex items-center justify-center hover:border-primary-container transition-colors shrink-0"
+        class="w-8 h-8 rounded-full border border-stone-200 flex items-center justify-center hover:border-terracotta-500 transition-colors shrink-0"
         aria-label="Закрыть чат"
       >
         <span class="material-symbols-outlined text-[18px]">close</span>
@@ -39,7 +45,7 @@ import { SITE, API } from '../data/site';
     </div>
 
     <div id="chat-log" class="flex-1 overflow-y-auto px-5 py-4 space-y-3" aria-live="polite">
-      <div class="chat-bubble-bot font-body-sm text-body-sm text-on-surface bg-surface-container-low border border-line rounded-xl rounded-tl-sm px-3.5 py-2.5 leading-relaxed">
+      <div class="chat-bubble-bot font-body-sm text-body-sm text-stone-900 bg-stone-100 border border-stone-200 rounded-2xl rounded-tl-sm px-3.5 py-2.5 leading-relaxed">
         Здравствуйте. Спросите про услуги, сроки или стоимость — отвечу по делу.
       </div>
     </div>
@@ -49,7 +55,7 @@ import { SITE, API } from '../data/site';
         {['Какие услуги вы делаете?', 'Сколько стоит работа?', 'С чего начать?'].map((q) => (
           <button
             type="button"
-            class="chat-chip font-body-sm text-xs px-3 py-1.5 rounded-full border border-line text-on-surface-variant hover:border-primary-container hover:text-primary-container transition-colors"
+            class="chat-chip font-body-sm text-xs px-3 py-1.5 rounded-full border border-stone-200 text-stone-700 hover:border-terracotta-500 hover:text-terracotta-600 transition-colors"
             data-chip={q}
           >
             {q}
@@ -64,22 +70,22 @@ import { SITE, API } from '../data/site';
           autocomplete="off"
           placeholder="Ваш вопрос…"
           aria-label="Ваш вопрос"
-          class="flex-1 h-11 px-3.5 rounded-sm border-2 border-line bg-field text-on-surface placeholder:text-outline font-body-sm text-body-sm focus:outline-none focus:border-primary-container transition-colors"
+          class="flex-1 h-11 px-3.5 rounded-xl border-2 border-stone-200 bg-white text-stone-900 placeholder:text-stone-400 font-body-sm text-body-sm focus:outline-none focus:border-terracotta-500 transition-colors"
         />
         <button
           type="submit"
           aria-label="Отправить"
-          class="w-11 h-11 rounded-sm bg-primary text-on-primary flex items-center justify-center hover:bg-primary transition-colors shrink-0"
+          class="w-11 h-11 rounded-xl bg-stone-900 text-on-primary flex items-center justify-center hover:bg-stone-900 transition-colors shrink-0"
         >
           <span class="material-symbols-outlined text-[20px]">send</span>
         </button>
       </form>
 
       <div
-        class="hidden mt-3 p-3 rounded-lg bg-surface-container-low border border-error/30"
+        class="hidden mt-3 p-3 rounded-2xl bg-stone-100 border border-terracotta-500/30"
         id="chat-error"
       >
-        <p class="font-body-sm text-xs text-on-surface-variant">
+        <p class="font-body-sm text-xs text-stone-700">
           Не получилось ответить. Напишите в Telegram — живой человек на связи.
         </p>
         <a
@@ -87,7 +93,7 @@ import { SITE, API } from '../data/site';
           href={SITE.bot.askLink}
           target="_blank"
           rel="noopener"
-          class="inline-flex items-center gap-1 mt-2 font-body-sm text-sm font-semibold text-primary-container hover:underline"
+          class="inline-flex items-center gap-1 mt-2 font-body-sm text-sm font-semibold text-terracotta-600 hover:underline"
         >
           Открыть Telegram <span>→</span>
         </a>
@@ -99,7 +105,7 @@ import { SITE, API } from '../data/site';
   <button
     type="button"
     id="chat-toggle"
-    class="w-14 h-14 rounded-full bg-primary-container text-on-primary flex items-center justify-center shadow-[0_4px_12px_-2px_rgba(9,30,66,0.24)] hover:bg-primary-hover transition-colors"
+    class="w-14 h-14 rounded-full bg-stone-900 text-on-primary flex items-center justify-center shadow-[0_4px_12px_-2px_rgba(9,30,66,0.24)] hover:bg-stone-900-hover transition-colors"
     aria-label="Задать вопрос"
     aria-expanded="false"
     aria-controls="chat-panel"
@@ -180,10 +186,10 @@ import { SITE, API } from '../data/site';
     const el = document.createElement('div');
     el.className =
       kind === 'bot'
-        ? 'chat-bubble-bot font-body-sm text-body-sm text-on-surface bg-surface-container-low border border-line rounded-xl rounded-tl-sm px-3.5 py-2.5 leading-relaxed'
+        ? 'chat-bubble-bot font-body-sm text-body-sm text-stone-900 bg-stone-100 border border-stone-200 rounded-2xl rounded-tl-sm px-3.5 py-2.5 leading-relaxed'
         : kind === 'user'
           ? 'chat-bubble-user font-body-sm text-body-sm px-3.5 py-2.5 leading-relaxed'
-          : 'chat-bubble-error font-body-sm text-body-sm text-on-surface-variant px-3.5 py-2.5 leading-relaxed';
+          : 'chat-bubble-error font-body-sm text-body-sm text-stone-700 px-3.5 py-2.5 leading-relaxed';
     el.textContent = text;
     log?.appendChild(el);
     scroll();
@@ -192,7 +198,7 @@ import { SITE, API } from '../data/site';
   const typing = () => {
     const el = document.createElement('div');
     el.className =
-      'chat-bubble-bot font-body-sm text-body-sm text-on-surface bg-surface-container-low border border-line rounded-xl rounded-tl-sm px-3.5 py-2.5';
+      'chat-bubble-bot font-body-sm text-body-sm text-stone-900 bg-stone-100 border border-stone-200 rounded-2xl rounded-tl-sm px-3.5 py-2.5';
     el.textContent = 'Печатаю…';
     log?.appendChild(el);
     scroll();

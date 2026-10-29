@@ -46,13 +46,13 @@ const serviceOptions = current
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     <div>
       <label
-        class="block font-mono-index text-mono-index uppercase tracking-wider text-on-surface-variant mb-2 font-medium"
+        class="block font-mono text-[11px] uppercase tracking-wider text-stone-500 mb-2 font-medium"
         for={`${id}-name`}
       >
         {FORM_FIELDS.name.label} <span class="text-error">*</span>
       </label>
       <input
-        class="w-full h-12 px-3.5 rounded-sm border-2 border-line bg-field text-on-surface placeholder:text-outline font-body-sm text-body-sm transition-shadow focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(0,82,204,0.1)]"
+        class="w-full h-12 px-4 rounded-2xl border border-stone-200 bg-white text-stone-900 placeholder:text-stone-400 font-body-sm text-body-sm transition-all focus:outline-none focus:border-terracotta-500 focus:shadow-[0_0_0_3px_rgba(249,115,22,0.12)]"
         id={`${id}-name`}
         name="name"
         type="text"
@@ -65,13 +65,13 @@ const serviceOptions = current
 
     <div>
       <label
-        class="block font-mono-index text-mono-index uppercase tracking-wider text-on-surface-variant mb-2 font-medium"
+        class="block font-mono text-[11px] uppercase tracking-wider text-stone-500 mb-2 font-medium"
         for={`${id}-contact`}
       >
         {FORM_FIELDS.contact.label} <span class="text-error">*</span>
       </label>
       <input
-        class="w-full h-12 px-3.5 rounded-sm border-2 border-line bg-field text-on-surface placeholder:text-outline font-body-sm text-body-sm transition-shadow focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(0,82,204,0.1)]"
+        class="w-full h-12 px-4 rounded-2xl border border-stone-200 bg-white text-stone-900 placeholder:text-stone-400 font-body-sm text-body-sm transition-all focus:outline-none focus:border-terracotta-500 focus:shadow-[0_0_0_3px_rgba(249,115,22,0.12)]"
         id={`${id}-contact`}
         name="contact"
         type="text"
@@ -86,13 +86,13 @@ const serviceOptions = current
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     <div>
       <label
-        class="block font-mono-index text-mono-index uppercase tracking-wider text-on-surface-variant mb-2 font-medium"
+        class="block font-mono text-[11px] uppercase tracking-wider text-stone-500 mb-2 font-medium"
         for={`${id}-business`}
       >
         {FORM_FIELDS.business.label}
       </label>
       <input
-        class="w-full h-12 px-3.5 rounded-sm border-2 border-line bg-field text-on-surface placeholder:text-outline font-body-sm text-body-sm transition-shadow focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(0,82,204,0.1)]"
+        class="w-full h-12 px-4 rounded-2xl border border-stone-200 bg-white text-stone-900 placeholder:text-stone-400 font-body-sm text-body-sm transition-all focus:outline-none focus:border-terracotta-500 focus:shadow-[0_0_0_3px_rgba(249,115,22,0.12)]"
         id={`${id}-business`}
         name="business"
         type="text"
@@ -102,13 +102,13 @@ const serviceOptions = current
 
     <div>
       <label
-        class="block font-mono-index text-mono-index uppercase tracking-wider text-on-surface-variant mb-2 font-medium"
+        class="block font-mono text-[11px] uppercase tracking-wider text-stone-500 mb-2 font-medium"
         for={`${id}-service`}
       >
         {FORM_FIELDS.service.label} <span class="text-error">*</span>
       </label>
       <select
-        class="w-full h-12 px-3.5 rounded-sm border-2 border-line bg-field text-on-surface font-body-sm text-body-sm transition-shadow focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(0,82,204,0.1)] cursor-pointer"
+        class="w-full h-12 px-4 rounded-2xl border border-stone-200 bg-white text-stone-900 font-body-sm text-body-sm transition-all focus:outline-none focus:border-terracotta-500 focus:shadow-[0_0_0_3px_rgba(249,115,22,0.12)] cursor-pointer"
         id={`${id}-service`}
         name="service"
         required
@@ -124,13 +124,13 @@ const serviceOptions = current
 
   <div>
     <label
-      class="block font-mono-index text-mono-index uppercase tracking-wider text-on-surface-variant mb-2 font-medium"
+      class="block font-mono text-[11px] uppercase tracking-wider text-stone-500 mb-2 font-medium"
       for={`${id}-comment`}
     >
       {FORM_FIELDS.comment.label}
     </label>
     <textarea
-      class="w-full p-3.5 rounded-sm border-2 border-line bg-field text-on-surface placeholder:text-outline font-body-sm text-body-sm transition-shadow focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(0,82,204,0.1)] resize-none"
+      class="w-full p-4 rounded-2xl border border-stone-200 bg-white text-stone-900 placeholder:text-stone-400 font-body-sm text-body-sm transition-all focus:outline-none focus:border-terracotta-500 focus:shadow-[0_0_0_3px_rgba(249,115,22,0.12)] resize-none"
       id={`${id}-comment`}
       name="comment"
       rows="3"
@@ -140,24 +140,24 @@ const serviceOptions = current
 
   <div class="flex items-start gap-3 pt-1">
     <input
-      class="mt-1 w-4 h-4 rounded-sm border-line accent-primary cursor-pointer"
+      class="mt-0.5 w-4 h-4 rounded border-stone-300 accent-terracotta-600 cursor-pointer shrink-0"
       id={`${id}-consent`}
       name="consent"
       type="checkbox"
       required
     />
     <label
-      class="font-body-sm text-body-sm text-on-surface-variant cursor-pointer select-none"
+      class="font-body-sm text-xs text-stone-600 cursor-pointer select-none leading-relaxed"
       for={`${id}-consent`}
     >
       {FORM_FIELDS.consent}
-      <a class="link-underline hover:text-primary transition-colors" href="/consent/">
+      <a class="link-underline hover:text-terracotta-600 transition-colors" href="/consent/">
         Подробнее
       </a>
     </label>
   </div>
 
-  <p class="font-body-sm text-xs text-outline">{contact.consentNote}</p>
+  <p class="font-mono text-[11px] text-stone-400">{contact.consentNote}</p>
 
   <!-- Honeypot: боты заполняют скрытое поле, humans — нет. -->
   <div class="hidden" aria-hidden="true">
@@ -166,7 +166,7 @@ const serviceOptions = current
   </div>
 
   <button
-    class="w-full h-12 rounded-sm bg-primary text-on-primary font-body-sm text-body-sm font-medium shadow-soft hover:bg-primary-hover transition-all duration-200 flex items-center justify-center disabled:opacity-60 disabled:cursor-not-allowed"
+    class="w-full py-4 rounded-full bg-stone-900 text-white font-body-sm text-body-sm font-medium transition-all hover:bg-stone-800 active:scale-[0.99] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
     type="submit"
     data-submit
   >
@@ -174,22 +174,22 @@ const serviceOptions = current
   </button>
 
   <div
-    class="hidden p-4 rounded-lg bg-surface-container-low border border-primary-container/30 text-on-surface"
+    class="hidden p-4 rounded-2xl bg-sage-500/10 border border-sage-500/30 text-stone-900"
     data-status="success"
     role="status"
     aria-live="polite"
   >
     <div class="flex items-center gap-3">
-      <span class="material-symbols-outlined text-primary-container text-2xl">task_alt</span>
+      <span class="material-symbols-outlined text-sage-600 text-2xl">task_alt</span>
       <div>
         <h4 class="font-headline-sm text-sm font-bold">{contact.successTitle}</h4>
-        <p class="font-body-sm text-xs text-on-surface-variant mt-0.5">{contact.successText}</p>
+        <p class="font-body-sm text-xs text-stone-600 mt-0.5">{contact.successText}</p>
       </div>
     </div>
   </div>
 
   <div
-    class="hidden p-4 rounded-lg border border-error/40 bg-surface-container-low text-on-surface"
+    class="hidden p-4 rounded-2xl border border-terracotta-500/40 bg-terracotta-500/5 text-stone-900"
     data-status="error"
     role="alert"
   >
@@ -197,11 +197,11 @@ const serviceOptions = current
       <span class="material-symbols-outlined text-error text-2xl">error</span>
       <div>
         <h4 class="font-headline-sm text-sm font-bold">Заявка не отправлена</h4>
-        <p class="font-body-sm text-xs text-on-surface-variant mt-0.5" data-error-text>
+        <p class="font-body-sm text-xs text-stone-600 mt-0.5" data-error-text>
           {contact.errorText}
         </p>
         <a
-          class="inline-flex items-center gap-1 mt-2 font-body-sm text-sm font-semibold text-primary-container hover:underline"
+          class="inline-flex items-center gap-1 mt-2 font-body-sm text-sm font-semibold text-terracotta-600 hover:underline"
           data-telegram-fallback
           href="#"
           target="_blank"
