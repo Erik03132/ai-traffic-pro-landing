@@ -59,7 +59,7 @@ const { services } = HOME;
                 <span
                   class="w-8 h-8 rounded-full border-2 border-stone-900 text-stone-900 font-mono text-xs font-semibold flex items-center justify-center shrink-0 leading-none"
                 >
-                  {s.num.replace(/\D/g, '') || '•'}
+                  {Number(s.num) || '•'}
                 </span>
               </div>
               <h4 class="text-lg font-semibold text-stone-900 mb-2 group-hover:text-terracotta-600 transition-colors">
@@ -70,7 +70,7 @@ const { services } = HOME;
             <div
               class="pt-4 border-t border-sage-500/30 font-mono text-[11px] text-sage-600 font-medium flex items-center justify-between"
             >
-              <span>УЗКОЕ ГОРЛЫШКО</span>
+              <span>УЗНАТЬ ПОДРОБНЕЕ</span>
               <span class="material-symbols-outlined text-[16px] transition-transform group-hover:translate-x-1">
                 arrow_forward
               </span>

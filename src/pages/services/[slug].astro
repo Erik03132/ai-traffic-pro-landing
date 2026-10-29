@@ -83,7 +83,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
         <div class="lg:col-span-8">
           <div class="flex items-center gap-3 mb-6">
             <span class="w-11 h-11 rounded-2xl bg-white border border-stone-200 flex items-center justify-center font-mono-index text-mono-index font-semibold text-terracotta-600">
-              {service.num}
+              {Number(service.num) || '—'}
             </span>
             <span class="px-2.5 py-0.5 rounded border border-[#BFDBFE] bg-[#EFF6FF] text-terracotta-600 font-mono-label text-mono-label font-semibold tracking-wider uppercase">
               {service.badge}
@@ -393,7 +393,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
             <div>
               <div class="flex items-center justify-between mb-6">
                 <span class="font-mono-index text-mono-index text-stone-400 group-hover:text-terracotta-600 transition-colors">
-                  {s.num}
+                  {Number(s.num) || '—'}
                 </span>
                 <span class="material-symbols-outlined text-stone-400 group-hover:text-terracotta-600 text-2xl transition-colors">
                   {s.icon}
