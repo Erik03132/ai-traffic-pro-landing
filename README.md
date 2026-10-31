@@ -28,9 +28,11 @@ worker/
   wrangler.jsonc    ← биндинги: KV лидов, Workers AI, rate limit, секреты
 src/lib/api-post.ts ← POST с резервным адресом: повтор только при сетевой ошибке
 docs/CONTENT_SPEC.md  ← спека контента с обоснованиями
-docs/adr/            ← архитектурные решения (ADR-001: API на Worker)
+docs/adr/            ← архитектурные решения (ADR-001: API на Worker,
+                       ADR-002: единый шаблон страницы услуги)
 docs/design/SPEC-multi-landing.md ← стандарт страницы услуги: H1, типографика,
                       палитра, компоненты, модель данных, чек-лист
+CONTEXT.md           ← доменные термины: метрики, каналы, e-commerce, стек
 ```
 
 > **Правило:** тексты живут только в `src/data/site.ts`. В разметке страниц текстов
