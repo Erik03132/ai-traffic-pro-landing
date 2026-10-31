@@ -13,13 +13,13 @@ import { seo } from './seo';
 import { smm } from './smm';
 import { advertising } from './advertising';
 import { landing } from './landing';
-import { ecommerce } from './ecommerce';
 import { crm } from './crm';
+import { ecommerce } from './ecommerce';
 
 /** 6 направлений — канон из дизайна Stitch. Входят в карточки главной и футера. */
-export const SERVICES: Service[] = [leadgen, seo, smm, advertising, landing, ecommerce];
+export const SERVICES: Service[] = [leadgen, seo, smm, advertising, landing, crm];
 
-/** Все страницы услуг: 6 основных + CRM как дополнительное направление. */
-export const ALL_SERVICES: Service[] = [...SERVICES, crm];
+/** Все страницы услуг: 6 основных + ecommerce как дополнительное направление. */
+export const ALL_SERVICES: Service[] = [...SERVICES, ecommerce];
 
 export type { Service };

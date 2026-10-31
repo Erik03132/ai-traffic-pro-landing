@@ -2,7 +2,7 @@ import type { Service } from '../types';
 
 export const ecommerce: Service = {
   slug: 'ecommerce',
-  num: '06',
+  num: '—',
   title: 'E-commerce: интернет-магазин и маркетплейсы',
   card: 'Собираем каталог, карточки товаров и продвижение: свой интернет-магазин и площадки WB, Ozon.',
   subtitle: 'Каталог, который продаёт — и в своём магазине, и на маркетплейсе',
@@ -142,5 +142,5 @@ export const ecommerce: Service = {
   forWhom: 'Продавец с товаром и намерением продавать онлайн',
   badge: 'E-COM',
   icon: 'storefront',
-  inMain: true,
+  inMain: false,
 };
