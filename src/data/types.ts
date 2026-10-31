@@ -81,6 +81,13 @@ export interface Service {
   leadChannels?: { name: string; desc: string }[];
   /** Как устроена квалификация обращения — опционально. */
   qualification?: { title: string; text: string; icon: string }[];
+
+  /** Площадки продаж: свой магазин и маркетплейсы — опционально. */
+  salesChannels?: { name: string; desc: string }[];
+  /** Из чего состоит карточка товара — опционально. */
+  cardParts?: { title: string; text: string; icon: string }[];
+  /** Что синхронизируем между площадками — опционально. */
+  dataSync?: { title: string; text: string; icon: string }[];
 }
 
 /** Блок статьи: раздел с заголовком и одним из видов содержимого. */
