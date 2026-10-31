@@ -98,11 +98,11 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
             </span>
           </div>
 
-          <h1 class="text-5xl sm:text-6xl lg:text-7xl font-light tracking-tight leading-[1.06] mb-5">
+          <h1 class="text-5xl sm:text-6xl lg:text-7xl font-light text-stone-900 tracking-tight leading-[1.06] mb-5">
             {service.h1.split('|').map((line, i) => (
               <span key={i} class="block" style={{ display: 'block' }}>
                 {i === 0 ? (
-                  <span class="text-terracotta-600">{line}</span>
+                  <span>{line}</span>
                 ) : (
                   <span class="uppercase text-terracotta-600">{line}</span>
                 )}
