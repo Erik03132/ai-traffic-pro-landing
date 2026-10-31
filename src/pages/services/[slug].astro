@@ -98,13 +98,13 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
             </span>
           </div>
 
-          <h1 class="text-5xl sm:text-6xl lg:text-7xl font-light text-stone-900 tracking-tight leading-[1.06] mb-5">
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-light text-stone-900 tracking-tight leading-[1.06] mb-5">
             {service.h1.split('|').map((line, i) => (
               <span key={i} class="block" style={{ display: 'block' }}>
                 {i === 0 ? (
                   <span>{line}</span>
                 ) : (
-                  <span class="uppercase text-terracotta-600">{line}</span>
+                  <span class="accent-italic">{line}</span>
                 )}
               </span>
             ))}
@@ -186,7 +186,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
           [01 / С ЧЕМ ПРИХОДЯТ]
         </span>
         <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight">
-          С какой проблемой приходят
+          С какой проблеме&nbsp;<span class="accent-italic">приходят</span>
         </h2>
       </div>
 
@@ -216,7 +216,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
           [02 / КОМУ ПОДХОДИТ]
         </span>
         <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight">
-          Кому эта услуга решает задачу
+          Кому эта услуга&nbsp;<span class="accent-italic">решает задачу</span>
         </h2>
       </div>
 
@@ -243,7 +243,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
           [03 / КАК ЭТО РАБОТАЕТ]
         </span>
         <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight">
-          Четыре шага до результата
+          Четыре шага&nbsp;<span class="accent-italic">до результата</span>
         </h2>
       </div>
 
@@ -282,7 +282,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
           [04 / КАК РЕШАЕМ]
         </span>
         <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight">
-          Как решаем задачу
+          Наш подход к&nbsp;<span class="accent-italic">решению задачи</span>
         </h2>
       </div>
 
@@ -313,7 +313,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
             [04.7 / GEO-СЛОЙ]
           </span>
           <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight">
-            Как сайт попадает в ответы нейросетей
+            Как сайт&nbsp;<span class="accent-italic">попадает в ответы нейросетей</span>
           </h2>
           <p class="font-body-md text-body-md text-stone-700 leading-relaxed mt-3">
             GEO и AEO — это отдельная работа от обычного SEO. Нейросети не читают сайт целиком: они выбирают, какие страницы и факты взять для ответа. Готовим именно те страницы, которые будут цитироваться.
@@ -372,121 +372,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
     </div>
   </section>
 
-  <!-- Внутренние ссылки -->
-  <section class="w-full border-b border-stone-200 bg-white py-20 md:py-28">
-    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-        <div class="lg:col-span-5">
-          <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
-            [04.8 / ПОХОЖИЕ]
-          </span>
-          <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight">
-            Что ещё может быть нужно
-          </h2>
-          <p class="font-body-md text-body-md text-stone-700 leading-relaxed mt-3">
-            Остальные направления: каждый решает свою задачу, но работают в связке.
-          </p>
-        </div>
-
-        <div class="lg:col-span-7">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {otherServices.slice(0, 4).map((s) => (
-              <a
-                href={`/services/${s.slug}/`}
-                class="group flex items-center gap-4 p-5 rounded-2xl border border-stone-200 bg-stone-50 hover:bg-white hover:border-terracotta-300 transition-colors"
-              >
-                <span class="w-10 h-10 rounded-xl bg-white border border-stone-200 flex items-center justify-center shrink-0 group-hover:border-terracotta-300 transition-colors">
-                  <span class="material-symbols-outlined text-terracotta-600 text-xl">{s.icon}</span>
-                </span>
-                <div class="flex-1 min-w-0">
-                  <div class="font-body-sm text-body-sm font-semibold text-stone-900 group-hover:text-terracotta-600 transition-colors truncate">
-                    {s.title}
-                  </div>
-                  <div class="font-mono-label text-mono-label uppercase text-stone-400 tracking-wider">
-                    {s.badge}
-                  </div>
-                </div>
-                <span class="material-symbols-outlined text-sage-600 shrink-0">
-                  arrow_forward
-                </span>
-              </a>
-            ))}
-          </div>
-
-          <div class="mt-6">
-            <span class="font-mono-label text-mono-label uppercase text-stone-400 tracking-wider block mb-3">
-              Статьи из блога по этой теме
-            </span>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {ARTICLES.filter((a) => a.service === service.slug).slice(0, 2).map((a) => (
-                <a
-                  href={`/blog/${a.slug}/`}
-                  class="group flex items-start gap-3 p-4 rounded-2xl border border-stone-200 bg-stone-50 hover:bg-white hover:border-terracotta-300 transition-colors"
-                >
-                  <span class="material-symbols-outlined text-terracotta-600 text-lg mt-0.5 shrink-0">
-                    article
-                  </span>
-                  <div class="flex-1 min-w-0">
-                    <div class="font-body-sm text-body-sm font-semibold text-stone-900 group-hover:text-terracotta-600 transition-colors leading-snug">
-                      {a.title}
-                    </div>
-                    <div class="font-mono-label text-mono-label uppercase text-stone-400 tracking-wider mt-1">
-                      {a.readingTime} мин чтения
-                    </div>
-                  </div>
-                </a>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Что входит + что получите -->
-  <section class="w-full border-b border-stone-200 bg-stone-50 py-20 md:py-28" id="what-included">
-    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-        <div class="lg:col-span-7">
-          <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
-            [05 / ЧТО ВХОДИТ]
-          </span>
-          <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight mb-8">
-            Что входит в работу
-          </h2>
-
-          <ul class="border-t border-stone-200">
-            {service.includes.map((item) => (
-              <li class="flex items-start gap-3 py-5 border-b border-stone-200">
-                <span class="material-symbols-outlined text-sage-600 text-xl mt-0.5 shrink-0">
-                  check_circle
-                </span>
-                <span class="font-body-md text-body-md text-stone-900">{item}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div class="lg:col-span-5">
-          <div class="rounded-2xl border border-stone-200 bg-stone-100 p-8 lg:sticky lg:top-28">
-            <span class="font-mono-label text-mono-label uppercase text-stone-400 tracking-widest block mb-6">
-              [ЧТО ВЫ ПОЛУЧИТЕ]
-            </span>
-            <ul class="space-y-5">
-              {service.outcomes.map((o) => (
-                <li class="flex items-start gap-3">
-                  <span class="material-symbols-outlined text-sage-600 text-xl mt-0.5 shrink-0">
-                    arrow_forward
-                  </span>
-                  <span class="font-body-sm text-body-sm text-stone-900 leading-relaxed">{o}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  
 
   <!-- FAQ услуги -->
   <Faq
