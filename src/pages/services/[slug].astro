@@ -85,12 +85,13 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
             <span class="w-11 h-11 rounded-2xl bg-white border border-stone-200 flex items-center justify-center font-mono-index text-mono-index font-semibold text-terracotta-600">
               {Number(service.num) || '—'}
             </span>
-            <span class="px-2.5 py-0.5 rounded border border-[#BFDBFE] bg-[#EFF6FF] text-terracotta-600 font-mono-label text-mono-label font-semibold tracking-wider uppercase">
+            <span class="px-2.5 py-0.5 rounded border border-[#BFDBFE] bg-[#EFF6FF] text-terracotta-600 font-mono-label text-mono-label font-semibold tracking-wider uppercase flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-base align-middle">{service.icon}</span>
               {service.badge}
             </span>
           </div>
 
-          <h1 class="font-headline-xl text-headline-lg md:text-headline-xl font-extrabold tracking-tight text-stone-900 mb-5">
+          <h1 class="text-5xl sm:text-6xl lg:text-7xl font-light text-stone-900 tracking-tight leading-[1.06] mb-5">
             {service.h1}
           </h1>
           <p class="font-body-lg text-body-lg text-stone-700 max-w-3xl leading-relaxed">
@@ -100,39 +101,60 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
           <div class="mt-8 flex flex-col sm:flex-row gap-4">
             <a
               href="#lead"
-              class="inline-flex items-center justify-center px-7 py-3.5 rounded-2xl bg-stone-900 text-on-primary font-body-sm text-body-sm font-semibold hover:bg-stone-900 transition-all duration-150 text-center active:scale-[0.99]"
+              class="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-2xl bg-stone-900 text-on-primary font-body-sm text-body-sm font-semibold hover:bg-stone-800 transition-all duration-150 text-center active:scale-[0.99]"
             >
               Оставить заявку
+              <span class="material-symbols-outlined text-base align-middle">arrow_outward</span>
             </a>
             <a
               href="#what-included"
-              class="inline-flex items-center justify-center px-7 py-3.5 rounded-2xl border border-stone-200 bg-white text-stone-900 font-body-sm text-body-sm font-medium hover:border-primary-container hover:text-terracotta-600 transition-colors text-center"
+              class="inline-flex items-center justify-center px-7 py-3.5 rounded-2xl border border-stone-200 bg-white text-stone-900 font-body-sm text-body-sm font-medium hover:border-stone-300 hover:bg-stone-50 transition-colors text-center"
             >
               Что входит
+            </a>
+            <a
+              href="#lead"
+              class="inline-flex items-center justify-center px-7 py-3.5 rounded-2xl border border-stone-200 bg-white text-stone-900 font-body-sm text-body-sm font-medium hover:border-terracotta-500 hover:text-terracotta-600 transition-colors text-center"
+            >
+              Получить КП
             </a>
           </div>
         </div>
 
         <div class="lg:col-span-4">
-          <div class="rounded-2xl border border-stone-200 bg-stone-100 p-6 space-y-4">
+          <div class="rounded-2xl border border-stone-200 bg-stone-100 p-6 space-y-5">
             <div>
-              <span class="font-mono-label text-mono-label uppercase text-stone-400 block">
+              <span class="font-mono-label text-mono-label uppercase text-stone-400 block mb-1">
                 Метрика
               </span>
               <span class="font-body-md text-body-md text-stone-900">{service.metric}</span>
             </div>
             <div class="border-t border-stone-200 pt-4">
-              <span class="font-mono-label text-mono-label uppercase text-stone-400 block">
+              <span class="font-mono-label text-mono-label uppercase text-stone-400 block mb-1">
                 Кому подходит
               </span>
               <span class="font-body-md text-body-md text-stone-900">{service.forWhom}</span>
             </div>
             <div class="border-t border-stone-200 pt-4">
-              <span class="font-mono-label text-mono-label uppercase text-stone-400 block">
-                Стоимость
+              <span class="font-mono-label text-mono-label uppercase text-stone-400 block mb-3">
+                Что получите
               </span>
-              <span class="font-body-md text-body-md text-stone-900">
-                По запросу — считаем после короткой вводной.
+              <ul class="space-y-3">
+                {service.outcomes.slice(0, 3).map((o) => (
+                  <li class="flex items-start gap-2.5">
+                    <span class="material-symbols-outlined text-terracotta-600 text-base mt-0.5 shrink-0">
+                      check_circle
+                    </span>
+                    <span class="font-body-sm text-body-sm text-stone-900 leading-relaxed">{o}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div class="border-t border-stone-200 pt-4">
+              <span class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
+                Стоимость:{' '}
+                <span class="font-semibold text-stone-900">по запросу</span>
+                — считаем после короткой вводной.
               </span>
             </div>
           </div>
@@ -148,7 +170,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
         <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
           [01 / С ЧЕМ ПРИХОДЯТ]
         </span>
-        <h2 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-stone-900">
+        <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight">
           С какой проблемой приходят
         </h2>
       </div>
@@ -159,7 +181,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
             <span class="material-symbols-outlined text-terracotta-600 text-2xl mb-4">
               report_problem
             </span>
-            <h3 class="font-headline-sm text-headline-sm font-bold text-stone-900 mb-3">
+            <h3 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight mb-3">
               {p.title}
             </h3>
             <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
@@ -178,7 +200,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
         <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
           [02 / КОМУ ПОДХОДИТ]
         </span>
-        <h2 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-stone-900">
+        <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight">
           Кому эта услуга решает задачу
         </h2>
       </div>
@@ -186,7 +208,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         {service.audience.map((a) => (
           <div class="rounded-2xl border border-stone-200 bg-white p-8">
-            <h3 class="font-headline-sm text-headline-sm font-bold text-stone-900 mb-2">
+            <h3 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight mb-2">
               {a.title}
             </h3>
             <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
@@ -205,7 +227,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
         <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
           [03 / КАК ЭТО РАБОТАЕТ]
         </span>
-        <h2 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-stone-900">
+        <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight">
           Четыре шага до результата
         </h2>
       </div>
@@ -219,7 +241,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
               </span>
               <span class="hidden lg:block w-3 h-px bg-stone-900" />
             </div>
-            <h3 class="font-headline-sm text-headline-sm font-bold text-stone-900 mb-2">
+            <h3 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight mb-2">
               {s.title}
             </h3>
             <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
@@ -244,7 +266,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
         <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
           [04 / КАК РЕШАЕМ]
         </span>
-        <h2 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-stone-900">
+        <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight">
           Как решаем задачу
         </h2>
       </div>
@@ -256,7 +278,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
               <span class="w-10 h-10 rounded-2xl bg-stone-100 border border-stone-200 flex items-center justify-center font-mono-index text-mono-index font-semibold text-terracotta-600">
                 {i + 1}
               </span>
-              <h3 class="font-headline-sm text-headline-sm font-bold text-stone-900">{s.title}</h3>
+              <h3 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight">{s.title}</h3>
             </div>
             <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
               {s.text}
@@ -275,7 +297,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
           <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
             [05 / ЧТО ВХОДИТ]
           </span>
-          <h2 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-stone-900 mb-8">
+          <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight mb-8">
             Что входит в работу
           </h2>
 
@@ -329,7 +351,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
             <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-3">
               [07 / ЗАЯВКА]
             </span>
-            <h2 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-stone-900 mb-6">
+            <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight mb-6">
               Оставьте заявку — свяжемся в течение рабочего дня
             </h2>
             <p class="font-body-md text-body-md text-stone-700 leading-relaxed mb-8">
@@ -379,7 +401,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
         <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
           [08 / ДРУГИЕ НАПРАВЛЕНИЯ]
         </span>
-        <h2 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-stone-900">
+        <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight">
           Что ещё мы делаем
         </h2>
       </div>
@@ -399,7 +421,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
                   {s.icon}
                 </span>
               </div>
-              <h3 class="font-headline-sm text-headline-sm font-bold text-stone-900 mb-3 group-hover:text-terracotta-600 transition-colors">
+              <h3 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight mb-3 group-hover:text-terracotta-600 transition-colors">
                 {s.title}
               </h3>
               <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">

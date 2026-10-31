@@ -98,7 +98,7 @@ const dateLabel = new Date(article.date).toLocaleDateString('ru-RU', {
         </span>
       </div>
 
-      <h1 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold tracking-tight text-stone-900 mb-6">
+      <h1 class="text-5xl sm:text-6xl lg:text-7xl font-light text-stone-900 tracking-tight leading-[1.06] mb-6">
         {article.title}
       </h1>
 
@@ -113,7 +113,7 @@ const dateLabel = new Date(article.date).toLocaleDateString('ru-RU', {
     <div class="max-w-3xl mx-auto px-margin md:px-margin-desktop">
       {article.sections.map((section, i) => (
         <section class={i === 0 ? '' : 'mt-12'}>
-          <h2 class="font-headline-lg text-headline-lg font-bold tracking-tight text-stone-900 mb-5">
+          <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight mb-5">
             {section.title}
           </h2>
 
@@ -161,7 +161,7 @@ const dateLabel = new Date(article.date).toLocaleDateString('ru-RU', {
           <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
             [УСЛУГА ПО ТЕМЕ]
           </span>
-          <h2 class="font-headline-sm text-headline-sm font-bold text-stone-900 mb-2">
+          <h2 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight mb-2">
             {service.title}
           </h2>
           <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed mb-5">
@@ -186,7 +186,7 @@ const dateLabel = new Date(article.date).toLocaleDateString('ru-RU', {
   <section class="w-full border-t border-stone-200 bg-white py-20 md:py-24">
     <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
       <div class="flex items-end justify-between gap-6 mb-10">
-        <h2 class="font-headline-lg text-headline-lg font-bold tracking-tight text-stone-900">
+        <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight">
           Читать дальше
         </h2>
         <a
@@ -206,7 +206,7 @@ const dateLabel = new Date(article.date).toLocaleDateString('ru-RU', {
             <span class="font-mono-label text-mono-label uppercase tracking-wider text-stone-400 mb-3">
               {a.tag}
             </span>
-            <h3 class="font-headline-sm text-headline-sm font-bold text-stone-900 mb-3 group-hover:text-terracotta-600 transition-colors">
+            <h3 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight mb-3 group-hover:text-terracotta-600 transition-colors">
               {a.title}
             </h3>
             <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed mt-auto">
