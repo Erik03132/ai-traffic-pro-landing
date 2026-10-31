@@ -467,6 +467,103 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
     </section>
   )}
 
+  <!-- ТИПЫ САЙТОВ (только для landing) -->
+  {service.slug === 'landing' && service.siteTypes && (
+    <section class="w-full border-b border-stone-200 bg-white py-20 md:py-28">
+      <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+        <div class="mb-14">
+          <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
+            [04.5 / ЧТО СОБИРАЕМ]
+          </span>
+          <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight">
+            Сайт, лендинг или&nbsp;<span class="accent-italic">корпоративный портал</span>
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {service.siteTypes.map((t) => (
+            <div class="rounded-2xl border border-stone-200 bg-stone-50 p-8">
+              <h3 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight mb-2">
+                {t.name}
+              </h3>
+              <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
+                {t.desc}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- ТЕХНОЛОГИИ (только для landing) -->
+  {service.slug === 'landing' && service.techStack && (
+    <section class="w-full border-b border-stone-200 bg-stone-50 py-20 md:py-28">
+      <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+        <div class="mb-14">
+          <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
+            [04.6 / ТЕХНОЛОГИИ]
+          </span>
+          <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight">
+            На чём&nbsp;<span class="accent-italic">собираем</span>
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {service.techStack.map((t) => (
+            <div class="rounded-2xl border border-stone-200 bg-white p-8">
+              <h3 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight mb-2">
+                {t.name}
+              </h3>
+              <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
+                {t.desc}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- ЧЕК-ЛИСТ ПЕРЕД ЗАПУСКОМ (только для landing) -->
+  {service.slug === 'landing' && service.launchChecks && (
+    <section class="w-full border-b border-stone-200 bg-white py-20 md:py-28">
+      <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+          <div class="lg:col-span-5">
+            <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
+              [04.7 / ПРОВЕРКА ПЕРЕД ЗАПУСКОМ]
+            </span>
+            <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight">
+              Что проверяем&nbsp;<span class="accent-italic">до публикации</span>
+            </h2>
+            <p class="font-body-md text-body-md text-stone-700 leading-relaxed mt-3">
+              Страница не считается готовой, пока не пройден чек-лист: скорость, адаптив, доставка заявок, аналитика, индексация и доступность. Проверяем на живом домене до запуска рекламы.
+            </p>
+          </div>
+
+          <div class="lg:col-span-7">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {service.launchChecks.map((c) => (
+                <div class="rounded-2xl border border-stone-200 bg-stone-50 p-8">
+                  <span class="material-symbols-outlined text-terracotta-600 text-2xl mb-4">
+                    {c.icon}
+                  </span>
+                  <h3 class="text-lg sm:text-xl font-medium text-stone-900 mb-2">
+                    {c.title}
+                  </h3>
+                  <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
+                    {c.text}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
   <!-- ПЛОЩАДКИ (только для SMM) -->
   {service.slug === 'smm' && service.platforms && (
     <section class="w-full border-b border-stone-200 bg-white py-20 md:py-28">

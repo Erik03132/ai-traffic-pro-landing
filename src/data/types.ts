@@ -69,6 +69,11 @@ export interface Service {
     process: string[];
     metrics: string[];
   }[];
+
+  /** Типы сайтов и лендингов (аналог Platforms) — опционально. */
+  siteTypes?: { name: string; desc: string }[];
+  /** Что проверяем перед запуском (аналог Integration Layer) — опционально. */
+  launchChecks?: { title: string; text: string; icon: string }[];
 }
 
 /** Блок статьи: раздел с заголовком и одним из видов содержимого. */
