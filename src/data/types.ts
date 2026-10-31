@@ -50,6 +50,11 @@ export interface Service {
   integrationLayer?: { title: string; text: string; icon: string }[];
   /** Технологический стек / системы — опционально. */
   techStack?: { name: string; desc: string }[];
+
+  /** Площадки для SMM (аналог Tech Stack) — опционально. */
+  platforms?: { name: string; desc: string }[];
+  /** Форматы контента для SMM (аналог Integration Layer) — опционально. */
+  contentFormats?: { title: string; text: string; icon: string }[];
 }
 
 /** Блок статьи: раздел с заголовком и одним из видов содержимого. */

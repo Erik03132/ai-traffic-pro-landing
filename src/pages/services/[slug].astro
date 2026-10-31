@@ -467,6 +467,74 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
     </section>
   )}
 
+  <!-- ПЛОЩАДКИ (только для SMM) -->
+  {service.slug === 'smm' && service.platforms && (
+    <section class="w-full border-b border-stone-200 bg-white py-20 md:py-28">
+      <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+        <div class="mb-14">
+          <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
+            [04.5 / ПЛОЩАДКИ]
+          </span>
+          <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight">
+            Где ведём&nbsp;<span class="accent-italic">соцсети</span>
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {service.platforms.map((p) => (
+            <div class="rounded-2xl border border-stone-200 bg-stone-50 p-8">
+              <h3 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight mb-2">
+                {p.name}
+              </h3>
+              <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
+                {p.desc}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- ФОРМАТЫ КОНТЕНТА (только для SMM) -->
+  {service.slug === 'smm' && service.contentFormats && (
+    <section class="w-full border-b border-stone-200 bg-stone-50 py-20 md:py-28">
+      <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+          <div class="lg:col-span-5">
+            <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
+              [04.6 / ФОРМАТЫ КОНТЕНТА]
+            </span>
+            <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight">
+              Какие форматы&nbsp;<span class="accent-italic">делаем</span>
+            </h2>
+            <p class="font-body-md text-body-md text-stone-700 leading-relaxed mt-3">
+              Не просто «посты» — производственный конвейер: сценарии, съёмка, монтаж, дизайн-пакет, шаблоны. Под каждую площадку и задачу.
+            </p>
+          </div>
+
+          <div class="lg:col-span-7">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {service.contentFormats.map((f) => (
+                <div class="rounded-2xl border border-stone-200 bg-white p-8">
+                  <span class="material-symbols-outlined text-terracotta-600 text-2xl mb-4">
+                    {f.icon}
+                  </span>
+                  <h3 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight mb-3">
+                    {f.title}
+                  </h3>
+                  <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
+                    {f.text}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
   <!-- FAQ услуги -->
   <Faq
     items={service.faq}
