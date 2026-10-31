@@ -603,6 +603,94 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
     </section>
   )}
 
+  <!-- КОНТЕНТ-ПЛАН И БЕСПЛАТНЫЕ ПОСТЫ (только для advertising) -->
+  {service.slug === 'advertising' && service.contentPlan && (
+    <section class="w-full border-b border-stone-200 bg-white py-20 md:py-28">
+      <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+        <div class="mb-14">
+          <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
+            [04.7 / КОНТЕНТ-ПЛАН И БЕСПЛАТНЫЕ ПОСТЫ]
+          </span>
+          <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight">
+            <span class="accent-italic">Органика</span> в соцсетях: подписчики без стоимости за клик
+          </h2>
+        </div>
+
+        {service.contentPlan.map((cp) => (
+          <div class="space-y-12">
+            <div class="prose prose-stone max-w-none">
+              <h3 class="text-2xl sm:text-3xl font-light text-stone-900 tracking-tight mb-4">
+                {cp.title}
+              </h3>
+              <p class="font-body-lg text-body-lg text-stone-700 leading-relaxed mb-10">
+                {cp.text}
+              </p>
+            </div>
+
+            <!-- Площадки и форматы -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {cp.platforms.map((p) => (
+                <div class="rounded-2xl border border-stone-200 bg-stone-50 p-8">
+                  <h4 class="text-lg sm:text-xl font-medium text-stone-900 mb-3">
+                    {p.name}
+                  </h4>
+                  <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed mb-4">
+                    {p.desc}
+                  </p>
+                  <div class="flex flex-wrap gap-2">
+                    {p.formats.map((f) => (
+                      <span key={f} class="px-3 py-1.5 rounded-full border border-stone-200 bg-white font-body-xs text-body-xs text-stone-700">
+                        {f}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <!-- Процесс -->
+            <div class="border-t border-stone-200 pt-10">
+              <h4 class="text-lg sm:text-xl font-medium text-stone-900 mb-6">
+                Как работаем
+              </h4>
+              <ol class="space-y-4">
+                {cp.process.map((step, i) => (
+                  <li key={i} class="flex gap-4">
+                    <span class="font-mono-label text-mono-label text-terracotta-600 shrink-0 w-8 text-center">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    <span class="font-body-md text-body-md text-stone-700 leading-relaxed">
+                      {step}
+                    </span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+
+            <!-- Метрики -->
+            <div class="border-t border-stone-200 pt-10">
+              <h4 class="text-lg sm:text-xl font-medium text-stone-900 mb-6">
+                За чем следим
+              </h4>
+              <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {cp.metrics.map((m, i) => (
+                  <li key={i} class="flex items-start gap-3">
+                    <span class="material-symbols-outlined text-sage-600 text-xl mt-0.5 shrink-0">
+                      check_circle
+                    </span>
+                    <span class="font-body-md text-body-md text-stone-700 leading-relaxed">
+                      {m}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  )}
+
   <!-- FAQ услуги -->
   <Faq
     items={service.faq}

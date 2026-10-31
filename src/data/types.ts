@@ -60,6 +60,15 @@ export interface Service {
   channels?: { name: string; desc: string }[];
   /** Форматы и инструменты рекламы (аналог Content Formats) — опционально. */
   adFormats?: { title: string; text: string; icon: string }[];
+
+  /** Контент-план и бесплатные посты (органика) — опционально. */
+  contentPlan?: {
+    title: string;
+    text: string;
+    platforms: { name: string; desc: string; formats: string[] }[];
+    process: string[];
+    metrics: string[];
+  }[];
 }
 
 /** Блок статьи: раздел с заголовком и одним из видов содержимого. */
