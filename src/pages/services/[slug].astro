@@ -136,20 +136,20 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
               </span>
               <span class="font-body-md text-body-md text-stone-900">{service.metric}</span>
             </div>
-            <div class="border-t border-stone-200 pt-4">
+            <div class="border-t border-sage-200 pt-4">
               <span class="font-mono-label text-mono-label uppercase text-stone-400 block mb-1">
                 Кому подходит
               </span>
               <span class="font-body-md text-body-md text-stone-900">{service.forWhom}</span>
             </div>
-            <div class="border-t border-stone-200 pt-4">
+            <div class="border-t border-sage-200 pt-4">
               <span class="font-mono-label text-mono-label uppercase text-stone-400 block mb-3">
                 Что получите
               </span>
               <ul class="space-y-3">
                 {service.outcomes.slice(0, 3).map((o) => (
                   <li class="flex items-start gap-2.5">
-                    <span class="material-symbols-outlined text-terracotta-600 text-base mt-0.5 shrink-0">
+                    <span class="material-symbols-outlined text-sage-600 text-base mt-0.5 shrink-0">
                       check_circle
                     </span>
                     <span class="font-body-sm text-body-sm text-stone-900 leading-relaxed">{o}</span>
@@ -157,7 +157,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
                 ))}
               </ul>
             </div>
-            <div class="border-t border-stone-200 pt-4">
+            <div class="border-t border-sage-200 pt-4">
               <span class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
                 Стоимость:{' '}
                 <span class="font-semibold text-stone-900">по запросу</span>
@@ -398,7 +398,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
                     {s.badge}
                   </div>
                 </div>
-                <span class="material-symbols-outlined text-stone-400 group-hover:text-terracotta-600 transition-colors shrink-0">
+                <span class="material-symbols-outlined text-sage-600 shrink-0">
                   arrow_forward
                 </span>
               </a>
@@ -450,7 +450,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
           <ul class="border-t border-stone-200">
             {service.includes.map((item) => (
               <li class="flex items-start gap-3 py-5 border-b border-stone-200">
-                <span class="material-symbols-outlined text-terracotta-600 text-xl mt-0.5 shrink-0">
+                <span class="material-symbols-outlined text-sage-600 text-xl mt-0.5 shrink-0">
                   check_circle
                 </span>
                 <span class="font-body-md text-body-md text-stone-900">{item}</span>
@@ -467,7 +467,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
             <ul class="space-y-5">
               {service.outcomes.map((o) => (
                 <li class="flex items-start gap-3">
-                  <span class="material-symbols-outlined text-terracotta-600 text-xl mt-0.5 shrink-0">
+                  <span class="material-symbols-outlined text-sage-600 text-xl mt-0.5 shrink-0">
                     arrow_forward
                   </span>
                   <span class="font-body-sm text-body-sm text-stone-900 leading-relaxed">{o}</span>
@@ -506,7 +506,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
 
             <div class="p-6 rounded-2xl border border-stone-200 bg-stone-100 space-y-4">
               <div class="flex items-start gap-3">
-                <span class="material-symbols-outlined text-terracotta-600 text-xl mt-0.5">
+                <span class="material-symbols-outlined text-sage-600 text-xl mt-0.5">
                   check_circle
                 </span>
                 <span class="font-body-sm text-body-sm text-stone-900">
@@ -514,7 +514,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
                 </span>
               </div>
               <div class="flex items-start gap-3">
-                <span class="material-symbols-outlined text-terracotta-600 text-xl mt-0.5">
+                <span class="material-symbols-outlined text-sage-600 text-xl mt-0.5">
                   check_circle
                 </span>
                 <span class="font-body-sm text-body-sm text-stone-900">
@@ -522,7 +522,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
                 </span>
               </div>
               <div class="flex items-start gap-3">
-                <span class="material-symbols-outlined text-terracotta-600 text-xl mt-0.5">
+                <span class="material-symbols-outlined text-sage-600 text-xl mt-0.5">
                   check_circle
                 </span>
                 <span class="font-body-sm text-body-sm text-stone-900">
@@ -537,62 +537,6 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
           </div>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- Другие услуги -->
-  <section class="w-full bg-stone-50 py-20 md:py-28">
-    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
-      <div class="mb-12">
-        <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
-          [08 / ДРУГИЕ НАПРАВЛЕНИЯ]
-        </span>
-        <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight">
-          Что ещё мы делаем
-        </h2>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {otherServices.map((s) => (
-          <a
-            href={`/services/${s.slug}/`}
-            class="group flex flex-col justify-between p-8 rounded-2xl border border-stone-200 bg-white hover:border-primary-container transition-all duration-200"
-          >
-            <div>
-              <div class="flex items-center justify-between mb-6">
-                <span class="font-mono-index text-mono-index text-stone-400 group-hover:text-terracotta-600 transition-colors">
-                  {Number(s.num) || '—'}
-                </span>
-                <span class="material-symbols-outlined text-stone-400 group-hover:text-terracotta-600 text-2xl transition-colors">
-                  {s.icon}
-                </span>
-              </div>
-              <h3 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight mb-3 group-hover:text-terracotta-600 transition-colors">
-                {s.title}
-              </h3>
-              <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
-                {s.card}
-              </p>
-            </div>
-            <div class="pt-4 mt-6 border-t border-stone-200 flex items-center font-mono-index text-mono-index text-stone-900 group-hover:text-terracotta-600 font-medium">
-              <span>Подробнее об услуге</span>
-              <span class="inline-block transform group-hover:translate-x-1.5 transition-transform duration-150 ml-1">
-                →
-              </span>
-            </div>
-          </a>
-        ))}
-      </div>
-
-      {!isMain && (
-        <p class="mt-10 font-body-sm text-body-sm text-stone-700">
-          Нужно что-то из соседних направлений?{' '}
-          <a class="link-underline text-terracotta-600 hover:underline" href="/#services">
-            Посмотрите все шесть услуг
-          </a>
-          .
-        </p>
-      )}
     </div>
   </section>
 </Base>

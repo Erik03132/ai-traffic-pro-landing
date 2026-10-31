@@ -28,9 +28,16 @@
   --color-terracotta-700: #c2410c;
 
   /* Успех/акцент 2 — sage */
+  --color-sage-50: #ecfdf5;
+  --color-sage-100: #d1fae5;
+  --color-sage-200: #a7f3d0;
+  --color-sage-300: #6ee7b7;
+  --color-sage-400: #34d399;
   --color-sage-500: #10b981;
   --color-sage-600: #0d9488;
   --color-sage-700: #0f766e;
+  --color-sage-800: #065f46;
+  --color-sage-900: #064e3b;
 
   /* Семантические (для совместимости с остальными страницами) */
   --color-primary: #18181b;
