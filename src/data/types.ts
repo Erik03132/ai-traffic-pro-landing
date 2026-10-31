@@ -74,6 +74,13 @@ export interface Service {
   siteTypes?: { name: string; desc: string }[];
   /** Что проверяем перед запуском (аналог Integration Layer) — опционально. */
   launchChecks?: { title: string; text: string; icon: string }[];
+
+  /** Этапы воронки продаж с метрикой каждого — опционально. */
+  funnelStages?: { name: string; desc: string; metric: string }[];
+  /** Каналы привлечения клиентов — опционально. */
+  leadChannels?: { name: string; desc: string }[];
+  /** Как устроена квалификация обращения — опционально. */
+  qualification?: { title: string; text: string; icon: string }[];
 }
 
 /** Блок статьи: раздел с заголовком и одним из видов содержимого. */
