@@ -12,7 +12,7 @@ import LeadForm from '../../components/LeadForm.astro';
 import Faq from '../../components/Faq.astro';
 
 import { ALL_SERVICES, SERVICES, type Service } from '../../data/site';
-import { organizationLd, serviceLd, faqLd } from '../../lib/seo';
+import { organizationLd, serviceLd, faqLd, serviceBreadcrumbLd, howToLd } from '../../lib/seo';
 
 export const getStaticPaths = (() =>
   ALL_SERVICES.map((service) => ({
@@ -28,11 +28,17 @@ const { service } = Astro.props;
 const path = `/services/${service.slug}/`;
 const isMain = service.inMain;
 
-// JSON-LD: организация + сайт (общие) + услуга + её FAQ.
+// JSON-LD: организация + сайт (общие) + услуга + FAQ + breadcrumbs + HowTo.
 const ld = [
   ...organizationLd().filter((o) => o['@type'] !== 'Service' && o['@type'] !== 'FAQPage'),
   serviceLd(service.slug),
   faqLd(service.faq),
+  serviceBreadcrumbLd(service.slug, service.title),
+  howToLd(
+    `Как получить ${service.title.toLowerCase()}`,
+    service.subtitle,
+    service.steps.map((s) => ({ title: s.title, text: s.text })),
+  ),
 ].filter(Boolean);
 
 const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
@@ -360,6 +366,74 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
             </span>
           </div>
         ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- GEO-слой -->
+  <section class="w-full border-b border-stone-200 bg-stone-50 py-20 md:py-28">
+    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+        <div class="lg:col-span-5">
+          <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
+            [04.7 / GEO-СЛОЙ]
+          </span>
+          <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight">
+            Как сайт попадает в ответы нейросетей
+          </h2>
+          <p class="font-body-md text-body-md text-stone-700 leading-relaxed mt-3">
+            GEO и AEO — это отдельная работа от обычного SEO. Нейросети не читают сайт целиком: они выбирают, какие страницы и факты взять для ответа. Готовим именно те страницы, которые будут цитироваться.
+          </p>
+        </div>
+
+        <div class="lg:col-span-7">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div class="rounded-2xl border border-stone-200 bg-white p-8">
+              <span class="material-symbols-outlined text-terracotta-600 text-2xl mb-4">
+                search
+              </span>
+              <h3 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight mb-3">
+                Прямые ответы
+              </h3>
+              <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
+                На каждой ключевой странице — чёткий ответ на типичный вопрос пользователя. Нейросеть берёт именно такие фрагменты, а не общие описания.
+              </p>
+            </div>
+            <div class="rounded-2xl border border-stone-200 bg-white p-8">
+              <span class="material-symbols-outlined text-terracotta-600 text-2xl mb-4">
+                database
+              </span>
+              <h3 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight mb-3">
+                Структурированные данные
+              </h3>
+              <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
+                JSON-LD и микроразметка, которые однозначно объясняют поисковым системам и нейросетям: что это за услуга, кто её предоставляет, на какую задачу отвечает.
+              </p>
+            </div>
+            <div class="rounded-2xl border border-stone-200 bg-white p-8">
+              <span class="material-symbols-outlined text-terracotta-600 text-2xl mb-4">
+                hub
+              </span>
+              <h3 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight mb-3">
+                Факты, а не формулировки
+              </h3>
+              <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
+                На страницах — конкретные цифры, условия, сроки и ограничения. Нейросети доверяют текстам, где можно проверить каждое утверждение.
+              </p>
+            </div>
+            <div class="rounded-2xl border border-stone-200 bg-white p-8">
+              <span class="material-symbols-outlined text-terracotta-600 text-2xl mb-4">
+                verified_user
+              </span>
+              <h3 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight mb-3">
+                Источники и цитируемость
+              </h3>
+              <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
+                Работаем с тем, что цитируют другие: профили, отраслевые источники, упоминания в блоге. Без этого бренд остаётся вне разговора, даже если сайт технически идеален.
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>

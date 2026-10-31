@@ -132,6 +132,41 @@ export function faqLd(items: readonly { q: string; a: string }[]) {
   };
 }
 
+/** JSON-LD хлебных крошек для страницы услуги. */
+export function serviceBreadcrumbLd(slug: string, title: string) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Главная', item: `${SITE_URL}/` },
+      { '@type': 'ListItem', position: 2, name: 'Услуги', item: `${SITE_URL}/#services` },
+      { '@type': 'ListItem', position: 3, name: title, item: `${SITE_URL}/services/${slug}/` },
+    ],
+  };
+}
+
+/** JSON-LD HowTo для шагов страницы услуги. */
+export function howToLd(
+  name: string,
+  description: string,
+  steps: readonly { title: string; text: string }[],
+  totalTime?: string,
+) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name,
+    description,
+    step: steps.map((s, i) => ({
+      '@type': 'HowToStep',
+      position: i + 1,
+      name: s.title,
+      text: s.text,
+    })),
+    ...(totalTime ? { totalTime } : {}),
+  };
+}
+
 /** JSON-LD статьи блога: BlogPosting + хлебные крошки. */
 export function articleLd(article: {
   slug: string;
