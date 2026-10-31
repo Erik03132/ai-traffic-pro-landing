@@ -43,6 +43,10 @@ export interface Service {
   badge: string;
   /** Иконка Material Symbols. */
   icon: string;
+  /** Кейсы / примеры работ (цифры, без имён клиентов). */
+  cases?: { metric: string; before: string; after: string; period: string }[];
+  /** Отзывы / цитаты клиентов (с разрешения или анонимные). */
+  reviews?: { text: string; role: string }[];
   /** Входит в 6 карточек главной / футера / sitemap. */
   inMain: boolean;
 }
