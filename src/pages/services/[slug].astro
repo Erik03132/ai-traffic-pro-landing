@@ -12,6 +12,7 @@ import LeadForm from '../../components/LeadForm.astro';
 import Faq from '../../components/Faq.astro';
 
 import { ALL_SERVICES, SERVICES, type Service } from '../../data/site';
+import { ARTICLES } from '../../data/blog';
 import { organizationLd, serviceLd, faqLd, serviceBreadcrumbLd, howToLd } from '../../lib/seo';
 
 export const getStaticPaths = (() =>
@@ -431,6 +432,77 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
               <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
                 Работаем с тем, что цитируют другие: профили, отраслевые источники, упоминания в блоге. Без этого бренд остаётся вне разговора, даже если сайт технически идеален.
               </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Внутренние ссылки -->
+  <section class="w-full border-b border-stone-200 bg-white py-20 md:py-28">
+    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+        <div class="lg:col-span-5">
+          <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
+            [04.8 / ПОХОЖИЕ]
+          </span>
+          <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight">
+            Что ещё может быть нужно
+          </h2>
+          <p class="font-body-md text-body-md text-stone-700 leading-relaxed mt-3">
+            Остальные направления: каждый решает свою задачу, но работают в связке.
+          </p>
+        </div>
+
+        <div class="lg:col-span-7">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {otherServices.slice(0, 4).map((s) => (
+              <a
+                href={`/services/${s.slug}/`}
+                class="group flex items-center gap-4 p-5 rounded-2xl border border-stone-200 bg-stone-50 hover:bg-white hover:border-terracotta-300 transition-colors"
+              >
+                <span class="w-10 h-10 rounded-xl bg-white border border-stone-200 flex items-center justify-center shrink-0 group-hover:border-terracotta-300 transition-colors">
+                  <span class="material-symbols-outlined text-terracotta-600 text-xl">{s.icon}</span>
+                </span>
+                <div class="flex-1 min-w-0">
+                  <div class="font-body-sm text-body-sm font-semibold text-stone-900 group-hover:text-terracotta-600 transition-colors truncate">
+                    {s.title}
+                  </div>
+                  <div class="font-mono-label text-mono-label uppercase text-stone-400 tracking-wider">
+                    {s.badge}
+                  </div>
+                </div>
+                <span class="material-symbols-outlined text-stone-400 group-hover:text-terracotta-600 transition-colors shrink-0">
+                  arrow_forward
+                </span>
+              </a>
+            ))}
+          </div>
+
+          <div class="mt-6">
+            <span class="font-mono-label text-mono-label uppercase text-stone-400 tracking-wider block mb-3">
+              Статьи из блога по этой теме
+            </span>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {ARTICLES.filter((a) => a.service === service.slug).slice(0, 2).map((a) => (
+                <a
+                  href={`/blog/${a.slug}/`}
+                  class="group flex items-start gap-3 p-4 rounded-2xl border border-stone-200 bg-stone-50 hover:bg-white hover:border-terracotta-300 transition-colors"
+                >
+                  <span class="material-symbols-outlined text-terracotta-600 text-lg mt-0.5 shrink-0">
+                    article
+                  </span>
+                  <div class="flex-1 min-w-0">
+                    <div class="font-body-sm text-body-sm font-semibold text-stone-900 group-hover:text-terracotta-600 transition-colors leading-snug">
+                      {a.title}
+                    </div>
+                    <div class="font-mono-label text-mono-label uppercase text-stone-400 tracking-wider mt-1">
+                      {a.readingTime} мин чтения
+                    </div>
+                  </div>
+                </a>
+              ))}
             </div>
           </div>
         </div>
