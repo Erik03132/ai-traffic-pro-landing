@@ -303,75 +303,196 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
     </div>
   </section>
 
-  <!-- GEO-слой -->
-  <section class="w-full border-b border-stone-200 bg-stone-50 py-20 md:py-28">
-    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-        <div class="lg:col-span-5">
-          <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
-            [04.7 / GEO-СЛОЙ]
-          </span>
-          <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight">
-            Как сайт&nbsp;<span class="accent-italic">попадает в ответы нейросетей</span>
-          </h2>
-          <p class="font-body-md text-body-md text-stone-700 leading-relaxed mt-3">
-            GEO и AEO — это отдельная работа от обычного SEO. Нейросети не читают сайт целиком: они выбирают, какие страницы и факты взять для ответа. Готовим именно те страницы, которые будут цитироваться.
-          </p>
-        </div>
+  <!-- GEO-слой (только для SEO) -->
+  {service.slug === 'seo' && (
+    <section class="w-full border-b border-stone-200 bg-stone-50 py-20 md:py-28">
+      <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+          <div class="lg:col-span-5">
+            <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
+              [04.7 / GEO-СЛОЙ]
+            </span>
+            <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight">
+              Как сайт&nbsp;<span class="accent-italic">попадает в ответы нейросетей</span>
+            </h2>
+            <p class="font-body-md text-body-md text-stone-700 leading-relaxed mt-3">
+              GEO и AEO — это отдельная работа от обычного SEO. Нейросети не читают сайт целиком: они выбирают, какие страницы и факты взять для ответа. Готовим именно те страницы, которые будут цитироваться.
+            </p>
+          </div>
 
-        <div class="lg:col-span-7">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div class="rounded-2xl border border-stone-200 bg-white p-8">
-              <span class="material-symbols-outlined text-terracotta-600 text-2xl mb-4">
-                search
-              </span>
-              <h3 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight mb-3">
-                Прямые ответы
-              </h3>
-              <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
-                На каждой ключевой странице — чёткий ответ на типичный вопрос пользователя. Нейросеть берёт именно такие фрагменты, а не общие описания.
-              </p>
-            </div>
-            <div class="rounded-2xl border border-stone-200 bg-white p-8">
-              <span class="material-symbols-outlined text-terracotta-600 text-2xl mb-4">
-                database
-              </span>
-              <h3 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight mb-3">
-                Структурированные данные
-              </h3>
-              <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
-                JSON-LD и микроразметка, которые однозначно объясняют поисковым системам и нейросетям: что это за услуга, кто её предоставляет, на какую задачу отвечает.
-              </p>
-            </div>
-            <div class="rounded-2xl border border-stone-200 bg-white p-8">
-              <span class="material-symbols-outlined text-terracotta-600 text-2xl mb-4">
-                hub
-              </span>
-              <h3 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight mb-3">
-                Факты, а не формулировки
-              </h3>
-              <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
-                На страницах — конкретные цифры, условия, сроки и ограничения. Нейросети доверяют текстам, где можно проверить каждое утверждение.
-              </p>
-            </div>
-            <div class="rounded-2xl border border-stone-200 bg-white p-8">
-              <span class="material-symbols-outlined text-terracotta-600 text-2xl mb-4">
-                verified_user
-              </span>
-              <h3 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight mb-3">
-                Источники и цитируемость
-              </h3>
-              <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
-                Работаем с тем, что цитируют другие: профили, отраслевые источники, упоминания в блоге. Без этого бренд остаётся вне разговора, даже если сайт технически идеален.
-              </p>
+          <div class="lg:col-span-7">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div class="rounded-2xl border border-stone-200 bg-white p-8">
+                <span class="material-symbols-outlined text-terracotta-600 text-2xl mb-4">
+                  search
+                </span>
+                <h3 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight mb-3">
+                  Прямые ответы
+                </h3>
+                <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
+                  На каждой ключевой странице — чёткий ответ на типичный вопрос пользователя. Нейросеть берёт именно такие фрагменты, а не общие описания.
+                </p>
+              </div>
+              <div class="rounded-2xl border border-stone-200 bg-white p-8">
+                <span class="material-symbols-outlined text-terracotta-600 text-2xl mb-4">
+                  database
+                </span>
+                <h3 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight mb-3">
+                  Структурированные данные
+                </h3>
+                <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
+                  JSON-LD и микроразметка, которые однозначно объясняют поисковым системам и нейросетям: что это за услуга, кто её предоставляет, на какую задачу отвечает.
+                </p>
+              </div>
+              <div class="rounded-2xl border border-stone-200 bg-white p-8">
+                <span class="material-symbols-outlined text-terracotta-600 text-2xl mb-4">
+                  hub
+                </span>
+                <h3 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight mb-3">
+                  Факты, а не формулировки
+                </h3>
+                <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
+                  На страницах — конкретные цифры, условия, сроки и ограничения. Нейросети доверяют текстам, где можно проверить каждое утверждение.
+                </p>
+              </div>
+              <div class="rounded-2xl border border-stone-200 bg-white p-8">
+                <span class="material-symbols-outlined text-terracotta-600 text-2xl mb-4">
+                  verified_user
+                </span>
+                <h3 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight mb-3">
+                  Источники и цитируемость
+                </h3>
+                <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
+                  Работаем с тем, что цитируют другие: профили, отраслевые источники, упоминания в блоге. Без этого бренд остаётся вне разговора, даже если сайт технически идеален.
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  )}
 
-  
+  <!-- ИНТЕГРАЦИОННЫЙ СЛОЙ (только для CRM) -->
+  {service.slug === 'crm' && (
+    <section class="w-full border-b border-stone-200 bg-stone-50 py-20 md:py-28">
+      <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+          <div class="lg:col-span-5">
+            <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
+              [04.5 / ИНТЕГРАЦИОННЫЙ СЛОЙ]
+            </span>
+            <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight">
+              Как сайт, бот, реклама и телефония&nbsp;<span class="accent-italic">работают в одной системе</span>
+            </h2>
+            <p class="font-body-md text-body-md text-stone-700 leading-relaxed mt-3">
+              CRM — это центр, куда сходятся все каналы привлечения клиентов. Готовим сайт, Telegram-бота, рекламные кабинеты и телефонию так, чтобы заявка попадала в систему сразу — без ручного переноса.
+            </p>
+          </div>
+
+          <div class="lg:col-span-7">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div class="rounded-2xl border border-stone-200 bg-white p-8">
+                <span class="material-symbols-outlined text-terracotta-600 text-2xl mb-4">
+                  web
+                </span>
+                <h3 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight mb-3">
+                  Сайт и лендинги
+                </h3>
+                <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
+                  Формы, чат-виджеты, попапы → сразу в CRM с меткой источника и UTM. Без ручного переноса.
+                </p>
+              </div>
+              <div class="rounded-2xl border border-stone-200 bg-white p-8">
+                <span class="material-symbols-outlined text-terracotta-600 text-2xl mb-4">
+                  smart_toy
+                </span>
+                <h3 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight mb-3">
+                  Telegram-бот (FSM-сценарии)
+                </h3>
+                <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
+                  Квалификация, сбор недостающих данных, передача готового лида в CRM. Клиент в привычном мессенджере.
+                </p>
+              </div>
+              <div class="rounded-2xl border border-stone-200 bg-white p-8">
+                <span class="material-symbols-outlined text-terracotta-600 text-2xl mb-4">
+                  campaign
+                </span>
+                <h3 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight mb-3">
+                  Рекламные кабинеты
+                </h3>
+                <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
+                  Яндекс Директ, VK Реклама, Telegram Ads → стоимость заявки по каналам в отчёте воронки автоматически.
+                </p>
+              </div>
+              <div class="rounded-2xl border border-stone-200 bg-white p-8">
+                <span class="material-symbols-outlined text-terracotta-600 text-2xl mb-4">
+                  call
+                </span>
+                <h3 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight mb-3">
+                  Телефония и почта
+                </h3>
+                <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
+                  Звонки и письма — в истории сделки. Запись разговора, транскрибация, привязка к контакту.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- ТЕХНОЛОГИЧЕСКИЙ СТЕК (только для CRM) -->
+  {service.slug === 'crm' && (
+    <section class="w-full border-b border-stone-200 bg-white py-20 md:py-28">
+      <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+        <div class="mb-14">
+          <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
+            [04.6 / ТЕХНОЛОГИЧЕСКИЙ СТЕК]
+          </span>
+          <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight">
+            С какой CRM&nbsp;<span class="accent-italic">работаем</span>
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="rounded-2xl border border-stone-200 bg-stone-50 p-8">
+            <h3 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight mb-2">
+              amoCRM
+            </h3>
+            <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
+              Лидер для малого бизнеса, гибкие воронки, маркетплейс интеграций
+            </p>
+          </div>
+          <div class="rounded-2xl border border-stone-200 bg-stone-50 p-8">
+            <h3 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight mb-2">
+              Битрикс24
+            </h3>
+            <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
+              Если нужны и CRM, и задачи, и телефония, и сайт в одной экосистеме
+            </p>
+          </div>
+          <div class="rounded-2xl border border-stone-200 bg-stone-50 p-8">
+            <h3 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight mb-2">
+              HubSpot
+            </h3>
+            <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
+              Для B2B с длинным циклом, маркетинг-автоматизация и англоязычный интерфейс
+            </p>
+          </div>
+          <div class="rounded-2xl border border-stone-200 bg-stone-50 p-8">
+            <h3 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight mb-2">
+              Другие / Кастом
+            </h3>
+            <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
+              Pipedrive, Salesforce, самописные — подключим через API/вебхуки
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
 
   <!-- FAQ услуги -->
   <Faq

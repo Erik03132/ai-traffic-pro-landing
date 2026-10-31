@@ -45,6 +45,11 @@ export interface Service {
   icon: string;
   /** Входит в 6 карточек главной / футера / sitemap. */
   inMain: boolean;
+
+  /** Специфический слой интеграций (как GEO для SEO) — опционально. */
+  integrationLayer?: { title: string; text: string; icon: string }[];
+  /** Технологический стек / системы — опционально. */
+  techStack?: { name: string; desc: string }[];
 }
 
 /** Блок статьи: раздел с заголовком и одним из видов содержимого. */
