@@ -90,15 +90,14 @@ LLM отвечает на вопросы вне базы знаний. На Work
 
 | Что                       | Где                                    | Адрес                                                        |
 | ------------------------- | -------------------------------------- | ------------------------------------------------------------ |
-| Статика (Astro → `dist/`) | Cloudflare Pages                       | `https://ai-traffic-pro.pages.dev` (staging) → `https://ai-traffic-pro.ru` (после смены NS) |
-| Статика (пока)           | GitHub Pages                           | `https://ai-traffic-pro.ru` (прод работает здесь)           |
+| Статика (Astro → `dist/`) | Cloudflare Pages (**прод**)            | `https://ai-traffic-pro.ru`                                   |
+| Статика (резерв)          | GitHub Pages                           | сборка `deploy.yml` остаётся зелёной, но домен на неё не смотрит |
 | API (заявки, чат)         | Cloudflare Worker (основной)           | `https://ai-traffic-pro-api.erik03132.workers.dev`           |
-| API (заявки, чат)         | Node-сервер на VPS `217.149.23.113`    | `https://api.ai-traffic-pro.ru` (резерв, другая инфраструктура)|
+| API (заявки, чат)         | Node-сервер на VPS `217.149.23.113`    | `https://api.ai-traffic-pro.ru` (резерв, nginx/Ubuntu)        |
 
-DNS сейчас: A-записи `ai-traffic-pro.ru` и `www.ai-traffic-pro.ru` → `185.199.108.153`
-(GitHub Pages), `api.ai-traffic-pro.ru` → `217.149.23.113` (резервный API).
-TLS-сертификат выпускает GitHub (Let's Encrypt, до 2027-01-04), автообновление —
-на стороне GitHub.
+DNS: NS зоны `ai-traffic-pro.ru` — `kolton.ns.cloudflare.com` и `daphne.ns.cloudflare.com`.
+`ai-traffic-pro.ru`, `www` и `api` отдаёт Cloudflare (A-записи `104.21.46.228`,
+`172.67.142.183`), сертификаты — на стороне Cloudflare.
 
 **Что даёт Cloudflare Pages и почему туда переезжаем:** GitHub Pages не умеет
 `_headers` — security-заголовки и `Cache-Control: immutable` для `/_astro/` там
@@ -106,9 +105,64 @@ TLS-сертификат выпускает GitHub (Let's Encrypt, до 2027-01-
 плюс 301-редиректы в 1 хоп (`public/_redirects`), свой 404 без soft-404,
 бесплатный preview-деплой на каждый PR и bandwidth без тарификации.
 
-> **Переезд упирается в NS.** Пока NS домена на TimeWeb, кастомный домен на Pages
-> не включить: `ai-traffic-pro.ru` продолжает работать на GitHub Pages. Шаги —
-> задача 0.8 в `docs/ROADMAP.md`.
+> **Переезд сделан.** NS домена перенесены на Cloudflare, поэтому кастомный домен
+> на Pages заработал: `ai-traffic-pro.ru` отдаёт сборку из Cloudflare Pages.
+> GitHub Pages остаётся резервным каналом (workflow `deploy.yml`), но прод —
+> на Pages.
+
+Статика собирается в CI: пуш в `main` → `.github/workflows/deploy.yml` → Astro build →
+артефакт `dist` → Pages. Адреса API подставляются на этапе сборки через GitHub
+Actions variables `PUBLIC_API_BASE_URL` и `PUBLIC_API_FALLBACK_URL`. Пустая
+переменная = API на том же домене (локальная сборка, nginx-проксирование).
+
+### Ручной деплой статики (когда CI не может)
+
+CI-деплой в Cloudflare Pages требует секретов `CLOUDFLARE_API_TOKEN` и
+`CLOUDFLARE_ACCOUNT_ID`: без них шаг печатает заметку в summary и пропускается.
+Тогда статику выкладываем с машины (нужен `wrangler login`):
+
+```bash
+npm run build
+npx wrangler pages deploy dist --project-name ai-traffic-pro --branch main --commit-dirty=true
+```
+
+**Известный блокер: `fetch failed` / `write EPIPE` на `POST /pages/assets/upload`.**
+Причина не в сайте и не в токене — Node отправляет TLS ClientHello с пост-квантовым
+key share `X25519MLKEM768`, и на части каналов до `api.cloudflare.com` такой пакет
+не проходит (curl идёт с `X25519` и работает). Лечится форсированием классического
+ECDH для процесса wrangler:
+
+```bash
+cat > /tmp/force-x25519.cjs <<'JS'
+const tls = require('tls');
+if (!tls.__nomlkemPatched) {
+  tls.__nomlkemPatched = true;
+  const orig = tls.connect;
+  tls.connect = function (...args) {
+    if (args[0] && typeof args[0] === 'object') {
+      args[0] = Object.assign({ ecdhCurve: 'X25519:P-256' }, args[0]);
+    }
+    return orig.apply(this, args);
+  };
+}
+JS
+
+NODE_OPTIONS="--require /tmp/force-x25519.cjs" \
+  npx wrangler pages deploy dist --project-name ai-traffic-pro --branch main --commit-dirty=true
+```
+
+Проверка после деплоя (все три пункта обязательны):
+
+```bash
+curl -sI https://ai-traffic-pro.ru/ | head -3                       # 200, server: cloudflare
+curl -s  https://ai-traffic-pro.ru/ | grep -o '<title>[^<]*'        # title из dist/index.html
+curl -s -o /dev/null -w "%{http_code}\n" https://ai-traffic-pro.ru/blog/   # 200
+```
+
+Размер HTML с прода больше локального на ~243 байта — это вставка Cloudflare
+(авто-скрипт), не расхождение сборки.
+
+### Адреса API и резерв
 
 Адреса API приходят из окружения сборки, а не из репозитория:
 
@@ -122,11 +176,6 @@ TLS-сертификат выпускает GitHub (Let's Encrypt, до 2027-01-
 сервер ответил — значит заявка могла уйти, повтор дал бы клиенту две заявки.
 Если не сработало ни то, ни другое, форма показывает ссылку в Telegram с уже
 готовым текстом заявки.
-
-Статика собирается в CI: пуш в `main` → `.github/workflows/deploy.yml` → Astro build →
-артефакт `dist` → Pages. Адреса API подставляются на этапе сборки через GitHub
-Actions variables `PUBLIC_API_BASE_URL` и `PUBLIC_API_FALLBACK_URL`. Пустая
-переменная = API на том же домене (локальная сборка, nginx-проксирование).
 
 ### Worker (основной API)
 
