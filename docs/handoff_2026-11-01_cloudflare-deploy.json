@@ -1,0 +1,42 @@
+{
+  "project": "AI-Traffic PRO (ai-marketing)",
+  "date": "2026-11-01",
+  "task": "Довести 7 страниц услуг до единого мультилендинг-стандарта, смержить в main и задеплоить на ai-traffic-pro.ru",
+  "status": "Verified",
+  "context": "Редизайн (Фаза 4) и переезд на Cloudflare Pages (задача 0.8) закрыты. Все 7 страниц услуг приведены к стандарту (H1 2 строки с двоеточием, accent-italic, нормы outcomes=9 и faq=13-15, нумерация 01→05), мета под лимиты (title<=60, description 140-160), стандарт зафиксирован в SPEC-multi-landing.md и ADR-002/ADR-003. Мерж redesign-v2 -> main fast-forward, прод задеплоен и проверен. Блокер деплоя (TLS ClientHello с X25519MLKEM768 -> fetch failed / write EPIPE) диагностирован замером 10/10 vs 3/10 и обойдён патчем ecdhCurve X25519; для CI не нужен - добавлены секреты CLOUDFLARE_API_TOKEN и CLOUDFLARE_ACCOUNT_ID, деплой из GitHub Actions зелёный.",
+  "files": [
+    "src/pages/services/[slug].astro",
+    "src/data/services/*.ts",
+    "src/data/types.ts",
+    "docs/design/SPEC-multi-landing.md",
+    "docs/adr/ADR-002-multi-landing-standard.md",
+    "docs/adr/ADR-003-redesign-single-release.md",
+    "docs/ROADMAP.md",
+    "README.md",
+    "SESSION_LATEST.md"
+  ],
+  "metrics": {
+    "pages_built": 21,
+    "astro_check_errors": 0,
+    "tests": "12/12 pass",
+    "h1_wrap_checked_at_px": [1024, 1440, 1936],
+    "deploy": "Cloudflare Pages via GitHub Actions (success)",
+    "prod": "https://ai-traffic-pro.ru"
+  },
+  "open_items": [
+    "48 ч наблюдения по ADR-003 до 2026-11-03 20:47 UTC; откат при просадке: git revert -m 1 54a32d0",
+    "Метрика отсутствует (задача 0.1) - главный блокер измерения",
+    "www.ai-traffic-pro.ru отдаёт 200 без 301 на apex (задача 1.5)",
+    "finish_day.sh не поддерживает --help/--dry-run (нарушение CP-1)"
+  ],
+  "next_steps": [
+    "1. 0.1 Метрика: код счётчика + цели (заявка, клик по телефону, открытие чата, скролл 75%)",
+    "2. 0.2 Вебмастер и Search Console: подтвердить домен, отправить sitemap.xml",
+    "3. 1.5 Правило Cloudflare: 301 с www на apex одним хопом",
+    "4. 1.2 og:image 1200x630 для 9 индексируемых страниц",
+    "5. 1.4 sitemap: lastmod по факту изменения, а не today()"
+  ],
+  "skills": ["action-first", "web-standards", "deployment"],
+  "escalation": false,
+  "secrets_set": ["CLOUDFLARE_API_TOKEN", "CLOUDFLARE_ACCOUNT_ID"]
+}
