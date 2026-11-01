@@ -58,6 +58,13 @@ jobs:
         run: |
           if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
             echo "::warning::CLOUDFLARE_API_TOKEN не задан — деплой в Pages пропущен"
+            {
+              echo "### Деплой в Cloudflare Pages пропущен"
+              echo ""
+              echo "Секрет \`CLOUDFLARE_API_TOKEN\` не задан, поэтому домен \`ai-traffic-pro.ru\` **не обновился** — job зелёный только для форков."
+              echo ""
+              echo "Что сделать: Settings → Secrets and variables → Actions → добавить \`CLOUDFLARE_API_TOKEN\` и \`CLOUDFLARE_ACCOUNT_ID\`, затем Re-run этого workflow."
+            } >> "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
           npx --yes wrangler@latest pages deploy dist \
