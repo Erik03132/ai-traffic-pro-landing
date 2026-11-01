@@ -9,16 +9,19 @@
 
 ```
 src/
-  data/site.ts        ← ЕДИНЫЙ ИСТОЧНИК ИСТИНЫ: услуги, тексты, FAQ, мета, контакты
+  data/site.ts        ← канон, контакты, реквизиты, API, тексты главной
+  data/services/*.ts  ← тексты страниц услуг: 7 файлов по одной услуге
+  data/types.ts       ← тип `Service`: какие поля обязательны, какие опциональны
   layouts/Base.astro  ← обвязка: мета, canonical, OG, JSON-LD, скрипты
   components/         ← Header, Hero, Services, Approach, Process, Method,
                          ContactSection, LeadForm, Faq, Footer, ChatWidget
   pages/
     index.astro           главная
-    services/[slug].astro шаблон всех страниц услуг (6 основных + CRM)
+    services/[slug].astro шаблон всех страниц услуг (6 основных + e-commerce)
     privacy.astro         политика конфиденциальности
     consent.astro         согласие на обработку ПДн
-  styles/global.css   ← дизайн-токены из Stitch (Manrope / Inter / JetBrains Mono)
+  styles/global.css   ← токены Editorial Warm: Plus Jakarta Sans,
+                         Instrument Serif (акценты), JetBrains Mono
 server/
   agent-core.js     ← ОБЩАЯ ЛОГИКА API: база знаний, валидация заявки, формат
                       сообщения Telegram. Один источник истины для Worker и VPS
@@ -29,14 +32,16 @@ worker/
 src/lib/api-post.ts ← POST с резервным адресом: повтор только при сетевой ошибке
 docs/CONTENT_SPEC.md  ← спека контента с обоснованиями
 docs/adr/            ← архитектурные решения (ADR-001: API на Worker,
-                       ADR-002: единый шаблон страницы услуги)
+                       ADR-002: единый шаблон страницы услуги,
+                       ADR-003: редизайн одним релизом + план отката)
 docs/design/SPEC-multi-landing.md ← стандарт страницы услуги: H1, типографика,
                       палитра, компоненты, модель данных, чек-лист
 CONTEXT.md           ← доменные термины: метрики, каналы, e-commerce, стек
 ```
 
-> **Правило:** тексты живут только в `src/data/site.ts`. В разметке страниц текстов
-> нет — всё генерируется из данных. Это убирает расхождения между страницами.
+> **Правило:** тексты живут только в `src/data/`. Услуги — в `src/data/services/<slug>.ts`,
+> контакты и канон — в `src/data/site.ts`. В разметке страниц текстов нет — всё
+> генерируется из данных. Это убирает расхождения между страницами.
 
 ## Команды
 

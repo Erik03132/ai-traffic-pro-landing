@@ -207,7 +207,7 @@ const { services } = HOME;
     },
   ];
 
-  function render(isUnified) {
+  function render(isUnified: boolean) {
     if (!viewUni) return;
     viewUni.innerHTML = isUnified
       ? ''
@@ -229,7 +229,7 @@ const { services } = HOME;
           .join('');
   }
 
-  function setMode(isUnified) {
+  function setMode(isUnified: boolean) {
     btnUni?.classList.toggle('bg-white', isUnified);
     btnUni?.classList.toggle('shadow-sm', isUnified);
     btnUni?.classList.toggle('text-stone-900', isUnified);

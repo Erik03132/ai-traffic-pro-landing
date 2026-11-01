@@ -300,7 +300,7 @@ export const SERVICE_OPTIONS = [
  */
 export const HOME = {
   meta: {
-    title: 'AI-Traffic PRO — маркетинговое агентство в РФ: реклама, SEO, SMM, сайты',
+    title: 'AI-Traffic PRO — реклама, SEO, SMM и сайты в РФ',
     description:
       'Маркетинговое агентство полного цикла: реклама, SEO, GEO, SMM, сайты и e-commerce. Считаем стоимость заявки, а не клики. Отчётность и договор.',
     ogTitle: 'AI-Traffic PRO — маркетинговое агентство полного цикла',

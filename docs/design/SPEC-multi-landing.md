@@ -16,27 +16,31 @@
 
 ## 1. Архитектура страницы
 
-Порядок секций фиксирован. Меняется только состав «сервисных» блоков (04.5–04.7).
+Порядок секций фиксирован. Меняется только состав «сервисных» блоков (03.5–03.7).
 
 | № | Секция | Eyebrow | Фон | Обязательна |
 |---|--------|---------|-----|-------------|
 | 0 | Хлебные крошки | — | `bg-white` | да |
 | 1 | Hero (H1 + подзаголовок + CTA + сайдбар) | — | `bg-white` | да |
 | 2 | Проблемы | `[01 / ПРОБЛЕМЫ]` | `bg-stone-50` | да |
-| 3 | Как это работает (таймлайн) | `[03 / КАК ЭТО РАБОТАЕТ]` | `bg-white` | да |
-| 4 | Как решаем (нумерованные карточки) | `[04 / КАК РЕШАЕМ]` | `bg-white` | да |
-| 5 | Сервисный блок A | `[04.5 / …]` | `bg-white` | зависит от услуги |
-| 6 | Сервисный блок B | `[04.6 / …]` | `bg-stone-50` | зависит от услуги |
-| 7 | Сервисный блок C | `[04.7 / …]` | `bg-white` | зависит от услуги |
-| 8 | FAQ | `[06 / ВОПРОСЫ И ОТВЕТЫ]` | компонент `Faq` | да |
-| 9 | Заявка | `[07 / ЗАЯВКА]` | `bg-stone-100` | да |
+| 3 | Как это работает (таймлайн) | `[02 / КАК ЭТО РАБОТАЕТ]` | `bg-white` | да |
+| 4 | Как решаем (нумерованные карточки) | `[03 / КАК РЕШАЕМ]` | `bg-white` | да |
+| 5 | Сервисный блок A | `[03.5 / …]` | `bg-white` | зависит от услуги |
+| 6 | Сервисный блок B | `[03.6 / …]` | `bg-stone-50` | зависит от услуги |
+| 7 | Сервисный блок C | `[03.7 / …]` | `bg-white` | зависит от услуги |
+| 8 | FAQ | `[04 / ВОПРОСЫ И ОТВЕТЫ]` | компонент `Faq` | да |
+| 9 | Заявка | `[05 / ЗАЯВКА]` | `bg-stone-100` | да |
 
 **Ритм фона:** секции чередуются `white → stone-50 → white`. Два одинаковых
 фона подряд не ставим — границу держит ещё и `border-b border-stone-200`.
 
-**Нумерация сквозная 01→07.** Никаких `[05]`, `[06]` на месте сервисных
-блоков: они всегда `04.5 / 04.6 / 04.7`, чтобы основная нумерация не ехала
-при добавлении блоков.
+**Нумерация сквозная 01→05 без пропусков.** Основные секции идут подряд
+(`01 → 02 → 03 → 04 → 05`), сервисные блоки встают после `[03 / КАК РЕШАЕМ]`
+и получают дробный номер `03.5 / 03.6 / 03.7` — так добавление блока не
+сдвигает номера остальных секций.
+
+> Пропусков быть не должно: `[01] → [03]` читается как потерянная секция.
+> Если блок удалили — следующие перенумеровываются, а не оставляют дырку.
 
 **Отступы секции (одинаковые везде):**
 
@@ -52,7 +56,7 @@
 H1 хранится в данных одной строкой, строки разделены символом `|`:
 
 ```ts
-h1: 'SEO, GEO и видимость в ИИ:|сайт находят и в поиске и в нейросетях'
+h1: 'SEO, GEO и видимость в ИИ:|сайт находят и цитируют'
 ```
 
 Шаблон режет по `|` и вторую строку оборачивает в `.accent-italic`.
@@ -62,28 +66,35 @@ h1: 'SEO, GEO и видимость в ИИ:|сайт находят и в по�
 | Ровно **2 строки** | Один `|`, не больше |
 | Строка 1 — суть услуги | Обычный Plus Jakarta Sans Light, `text-stone-900` |
 | Строка 2 — обещание/выгода | `.accent-italic` — терракота, Instrument Serif italic |
-| Двоеточие | Ставится в конце **первой** строки, если вторая — раскрытие: `'Привлечение клиентов и воронка продаж:|заявки окупаются'` |
+| Двоеточие | Ставится в конце **первой** строки **всегда** — у всех 7 страниц: `'Привлечение клиентов и воронка продаж:|заявки окупаются'`. Внутри строки 1 двоеточия не бывает (иначе их два) |
 | Без дублей | Строка 2 не повторяет строку 1 другими словами |
-| **Строка 2 — в одну визуальную строку** | Иначе фраза рвётся на неудобном месте |
-| Длина строки 2 | ≤ ~25 символов при 60px ≈ 500px; больше — перенос |
+| **Строка 2 — в одну визуальную строку** | На десктопе от 1024 px и выше. Иначе фраза рвётся на неудобном месте |
+| Длина строки 2 | ≤ 26 символов — рабочий ориентир; жёсткий критерий — замер (см. ниже) |
 | Без «Искусственные товары…» | Вторая строка всегда про эту услугу, не про другую |
 
-**Как проверить, что строка 2 не переносится:**
+**Как проверить, что строка 2 не переносится:** мерить надо в двух режимах —
+`xl` (≥1280 px, шрифт 60 px, колонка ≈ 773 px) и `lg` (1024–1279 px, 48 px,
+колонка ≈ 603 px). Второй режим — самый узкий для H1, именно там чаще рвётся.
 
 ```js
 const h1 = document.querySelector('main h1');
-const cs = getComputedStyle(h1);
-[...h1.querySelectorAll('span.block')].map(s => ({
-  text: s.firstElementChild.innerText,
-  lines: Math.round(s.firstElementChild.getBoundingClientRect().height / parseFloat(cs.lineHeight)),
-}));
-// ожидаем: [{lines: 1 или 2 — строка 1}, {lines: 1 — строка 2}]
+const l2 = () => h1.querySelectorAll('span.block')[1].firstElementChild;
+const lines = (fs, w) => {
+  h1.style.fontSize = fs; h1.style.width = w;
+  const lh = parseFloat(getComputedStyle(h1).lineHeight);
+  return Math.round(l2().getBoundingClientRect().height / lh);
+};
+console.log(lines('60px', '773px'), lines('48px', '603px')); // ожидаем: 1 1
+h1.style.fontSize = ''; h1.style.width = '';
 ```
+
+Кегль H1 задан как `text-4xl sm:text-5xl xl:text-6xl` — 60 px только с `xl`.
+На 1024–1279 px работает 48 px, иначе строка 2 переносится в узкой колонке.
 
 **Разметка:**
 
 ```html
-<h1 class="text-4xl sm:text-5xl lg:text-6xl font-light text-stone-900 tracking-tight leading-[1.06] mb-5">
+<h1 class="text-4xl sm:text-5xl xl:text-6xl font-light text-stone-900 tracking-tight leading-[1.06] mb-5">
   {service.h1.split('|').map((line, i) => (
     <span key={i} class="block" style={{ display: 'block' }}>
       {i === 0 ? <span>{line}</span> : <span class="accent-italic">{line}</span>}
@@ -102,7 +113,7 @@ const cs = getComputedStyle(h1);
 <!-- A: заголовок слева, описание под ним (для блоков с 3+ карточками) -->
 <div class="mb-14">
   <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
-    [04.5 / ПЛОЩАДКИ]
+    [03.5 / ПЛОЩАДКИ]
   </span>
   <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight">
     Где ведём&nbsp;<span class="accent-italic">соцсети</span>
@@ -329,8 +340,22 @@ Material Symbols Outlined, имя — строкой в данных (`icon: 'an
 | Размер инлайн (в кнопке, чипе) | `text-base` |
 | Цвет акцента | `text-terracotta-600` |
 | Цвет «выполнено» | `text-sage-600` |
-| Имя | только существующее в наборе: `analytics`, `search`, `send`, `sync`, `devices`, `speed`, `rule`, `database`, `cloud_upload`, `storefront`, `checklist`, `photo_camera`, `title`, `description`, `bolt`, `smart_toy`, `sort`, `move_to_inbox`, `alt_route`, `travel_explore`, `accessibility_new` |
+| Имя | только существующее в наборе (список ниже). Новое имя проверять по `MaterialSymbolsOutlined…codepoints` из репозитория `google/material-design-icons` |
 | Нет валидной иконки | не выдумывать — выбрать ближайшую по смыслу существующую |
+
+Проверенные имена (все используются в проекте сегодня):
+
+```
+search public precision_manufacturing analytics query_stats trending_up hub storefront web
+smart_toy campaign call title photo_camera checklist description database sync rule
+cloud_upload speed devices send video_library ondemand_video slideshow podcasts article
+bolt sort move_to_inbox alt_route travel_explore accessibility_new verified_user filter_alt
+report_problem check_circle schedule arrow_outward error task_alt expand_more
+```
+
+> Способ проверки: имя = лигатура в шрифте. Ошибка в имени даёт не иконку, а
+> текст `arrow_outward` в вёрстке. Поэтому новое имя сверяем по официальному
+> файлу codepoints, а не «на глаз».
 
 ---
 
@@ -366,22 +391,22 @@ Material Symbols Outlined, имя — строкой в данных (`icon: 'an
 
 | Поле | Форма | Страница | Eyebrow |
 |---|---|---|---|
-| `integrationLayer` | `{title, text, icon}[]` | CRM | `[04.5 / ИНТЕГРАЦИОННЫЙ СЛОЙ]` |
-| `techStack` | `{name, desc}[]` | CRM, Landing | `[04.6 / ТЕХНОЛОГИЧЕСКИЙ СТЕК]` / `[04.6 / ТЕХНОЛОГИИ]` |
-| `platforms` | `{name, desc}[]` | SMM | `[04.5 / ПЛОЩАДКИ]` |
-| `contentFormats` | `{title, text, icon}[]` | SMM | `[04.6 / ФОРМАТЫ КОНТЕНТА]` |
-| `channels` | `{name, desc}[]` | Advertising | `[04.5 / КАНАЛЫ РЕКЛАМЫ]` |
-| `adFormats` | `{title, text, icon}[]` | Advertising | `[04.6 / ФОРМАТЫ И ИНСТРУМЕНТЫ]` |
-| `contentPlan` | `{title, text, platforms[{name,desc,formats[]}], process[], metrics[]}[]` | Advertising | `[04.7 / КОНТЕНТ-ПЛАН И БЕСПЛАТНЫЕ ПОСТЫ]` |
-| `siteTypes` | `{name, desc}[]` | Landing | `[04.5 / ЧТО СОБИРАЕМ]` |
-| `launchChecks` | `{title, text, icon}[]` | Landing | `[04.7 / ПРОВЕРКА ПЕРЕД ЗАПУСКОМ]` |
-| `funnelStages` | `{name, desc, metric}[]` | Leadgen | `[04.5 / ЭТАПЫ ВОРОНКИ]` |
-| `leadChannels` | `{name, desc}[]` | Leadgen | `[04.6 / КАНАЛЫ ПРИВЛЕЧЕНИЯ]` |
-| `qualification` | `{title, text, icon}[]` | Leadgen | `[04.7 / КВАЛИФИКАЦИЯ]` |
-| `salesChannels` | `{name, desc}[]` | Ecommerce | `[04.5 / ПЛОЩАДКИ ПРОДАЖ]` |
-| `cardParts` | `{title, text, icon}[]` | Ecommerce | `[04.6 / КАРТОЧКА ТОВАРА]` |
-| `dataSync` | `{title, text, icon}[]` | Ecommerce | `[04.7 / ЕДИНЫЙ КАТАЛОГ]` |
-| `geoLayer` (в шаблоне) | — | SEO | `[04.7 / GEO-СЛОЙ]` |
+| `integrationLayer` | `{title, text, icon}[]` | CRM | `[03.5 / ИНТЕГРАЦИОННЫЙ СЛОЙ]` |
+| `techStack` | `{name, desc}[]` | CRM, Landing | `[03.6 / ТЕХНОЛОГИЧЕСКИЙ СТЕК]` / `[03.6 / ТЕХНОЛОГИИ]` |
+| `platforms` | `{name, desc}[]` | SMM | `[03.5 / ПЛОЩАДКИ]` |
+| `contentFormats` | `{title, text, icon}[]` | SMM | `[03.6 / ФОРМАТЫ КОНТЕНТА]` |
+| `channels` | `{name, desc}[]` | Advertising | `[03.5 / КАНАЛЫ РЕКЛАМЫ]` |
+| `adFormats` | `{title, text, icon}[]` | Advertising | `[03.6 / ФОРМАТЫ И ИНСТРУМЕНТЫ]` |
+| `contentPlan` | `{title, text, platforms[{name,desc,formats[]}], process[], metrics[]}[]` | Advertising | `[03.7 / КОНТЕНТ-ПЛАН И БЕСПЛАТНЫЕ ПОСТЫ]` |
+| `siteTypes` | `{name, desc}[]` | Landing | `[03.5 / ЧТО СОБИРАЕМ]` |
+| `launchChecks` | `{title, text, icon}[]` | Landing | `[03.7 / ПРОВЕРКА ПЕРЕД ЗАПУСКОМ]` |
+| `funnelStages` | `{name, desc, metric}[]` | Leadgen | `[03.5 / ЭТАПЫ ВОРОНКИ]` |
+| `leadChannels` | `{name, desc}[]` | Leadgen | `[03.6 / КАНАЛЫ ПРИВЛЕЧЕНИЯ]` |
+| `qualification` | `{title, text, icon}[]` | Leadgen | `[03.7 / КВАЛИФИКАЦИЯ]` |
+| `salesChannels` | `{name, desc}[]` | Ecommerce | `[03.5 / ПЛОЩАДКИ ПРОДАЖ]` |
+| `cardParts` | `{title, text, icon}[]` | Ecommerce | `[03.6 / КАРТОЧКА ТОВАРА]` |
+| `dataSync` | `{title, text, icon}[]` | Ecommerce | `[03.7 / ЕДИНЫЙ КАТАЛОГ]` |
+| `geoLayer` (в шаблоне) | — | SEO | `[03.7 / GEO-СЛОЙ]` |
 
 Блок в шаблоне включается условием:
 
@@ -422,7 +447,7 @@ Material Symbols Outlined, имя — строкой в данных (`icon: 'an
 - [ ] `problem` = 3, `solution` = 4, `steps` = 4 (у всех `period`)
 - [ ] `outcomes` = 9, из них первые 3 читаются как обещание в hero
 - [ ] `faq` = 13–15, включает вопрос про цену и вопрос про сроки
-- [ ] Добавлены 2–3 сервисных блока (04.5/04.6/04.7) с полями в `types.ts`
+- [ ] Добавлены 2–3 сервисных блока (03.5/03.6/03.7) с полями в `types.ts`
 - [ ] В шаблоне блоки под условием `service.slug === '<slug>' && service.<field>`
 - [ ] Фоны секций чередуются, у каждой `py-20 md:py-28` и `border-b`
 - [ ] Сетка карточек выбрана по §7.6
@@ -443,8 +468,9 @@ Material Symbols Outlined, имя — строкой в данных (`icon: 'an
 | Тени у обычных карточек | Тень = только hero-сайдбар и форма |
 | Терракота как фон плашки | Акцент только текстом/иконкой |
 | Вторая кнопка в hero | Один CTA — «Оставить заявку» → `#lead` |
-| Eyebrow без номера или со сбитой нумерацией | Всегда `[NN / НАЗВАНИЕ]`, сервисные — `04.5+` |
-| `[05]`, `[06]` для сервисных блоков | Сдвигает основную нумерацию |
+| Eyebrow без номера или с пропуском (`01 → 03`) | Всегда `[NN / НАЗВАНИЕ]` подряд, сервисные — `03.5+` |
+| `[04]`, `[05]` для сервисных блоков | Сдвигает основную нумерацию |
+| Двоеточие внутри первой строки H1 | Их становится два |
 | Выдуманное имя иконки | Glyph не отрисуется, останется текст |
 | Контент, захардкоженный в шаблоне | Всё содержимое — только из `src/data/services/*` |
 | Два блока с одинаковым фоном подряд | Пропадает граница секций |
@@ -458,7 +484,7 @@ Material Symbols Outlined, имя — строкой в данных (`icon: 'an
 2. Данные в `src/data/services/<slug>.ts`.
 3. Секция в `src/pages/services/[slug].astro` — между блоком `[04 / КАК РЕШАЕМ]`
    и FAQ, с условием `service.slug === '<slug>' && service.<field>`.
-4. Eyebrow — следующий свободный `04.5 / 04.6 / 04.7`.
+4. Eyebrow — следующий свободный `03.5 / 03.6 / 03.7`.
 5. Фон — противоположный предыдущей секции.
 6. Прогнать §11 и проверить в браузере.
 
@@ -471,3 +497,4 @@ Material Symbols Outlined, имя — строкой в данных (`icon: 'an
 | 2026-10 | Эталон — SEO-страница (GEO-слой). Затем CRM (интеграции + стек), SMM (площадки + форматы), Advertising (каналы + форматы + контент-план) |
 | 2026-11-01 | Landing (типы сайтов, стек, чек-лист запуска), Leadgen (воронка с метриками, каналы, квалификация), Ecommerce (площадки, карточка, единый каталог) |
 | 2026-11-01 | Рубрика `[01 / С ЧЕМ ПРИХОДЯТ]` → `[01 / ПРОБЛЕМЫ]`; H1-правило «строка 2 в одну визуальную строку» |
+| 2026-11-01 | Нумерация приведена к 01→05 без пропусков (было `01 → 03 → 04 → 06 → 07` после удаления двух секций), сервисные блоки `03.5–03.7`. Кегль H1 — `xl:text-6xl` (60 px только с 1280 px), строка 2 проверена замером на 1024 и 1280 px. Давление расширено до 15 вопросов и 9 обещаний — теперь норма одинакова для всех 7 страниц |
