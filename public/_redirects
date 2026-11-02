@@ -10,3 +10,11 @@
 
 # Поглощённая услуга: маркетплейс стал e-commerce.
 /services/marketplace/  /services/ecommerce/  301
+
+# Файл подтверждения Google Search Console (задача 0.2).
+# Cloudflare Pages по умолчанию нормализует `/foo.html` -> `/foo` кодом 308.
+# Google при подтверждении владения требует ровно тот URL, что выдал, и код
+# 200: на 308 проверка падает («We couldn't find your verification file»).
+# Правило с кодом 200 (rewrite) отдаёт содержимое по адресу с `.html`, минуя
+# нормализацию. Удалять вместе с файлом подтверждения.
+/google21afb67cb52a9da8.html  /google21afb67cb52a9da8  200
