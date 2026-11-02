@@ -35,13 +35,16 @@ import { YM_COUNTER_ID } from '../data/site';
 
       window.__ymCounterId = Number(YM_COUNTER_ID);
       window.ym(Number(YM_COUNTER_ID), 'init', {
-        ssr: true,
+        // ВАЖНО: НЕ добавлять `ssr: true`. Опция нужна SPA/SSR-рендерингу; на
+        // статической сборке Astro она молча обрывает инициализацию счётчика:
+        // tag.js грузится (200), но ни одного хита не уходит, ошибок в консоли
+        // нет. Проверено 02.11.2026 на изолированной странице — с `ssr: true`
+        // счётчик не регистрируется, без него регистрируется и шлёт хиты.
         clickmap: true,
         // Webvisor выключен осознанно: формы собирают телефоны и имена,
         // запись ввода — риск по 152-ФЗ. Включать только после юридической
         // проверки и настройки маскирования полей (ADR-004).
         webvisor: false,
-        ecommerce: 'dataLayer',
         accurateTrackBounce: true,
         trackLinks: true,
       });
