@@ -48,6 +48,16 @@ const ogType = meta.type ?? 'website';
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
+    {
+      /* Подтверждение владения доменом для Яндекс.Вебмастера (задача 0.2).
+         Код привязан к сайту https://ai-traffic-pro.ru и не является секретом:
+         он публичен по определению — лежит в открытом HTML. Менять только
+         вместе с переподтверждением домена в Вебмастере. */
+    }
+    <meta
+      name="yandex-verification"
+      content="0df5be9d730f7d69"
+    />
 
     <title>{meta.title}</title>
     <meta name="description" content={meta.description} />

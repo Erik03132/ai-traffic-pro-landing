@@ -88,3 +88,32 @@
 2. В Network есть запросы `mc.yandex.ru/watch/<id>...`.
 3. Для целей — запрос с параметром `goal=<идентификатор>` после действия.
 
+### Объективная проверка через API Метрики (предпочтительно)
+
+Проверки в браузере показывают, что хит **отправлен**, но не что он **записан**.
+Внешний `curl` на `/watch/<id>` не доказывает ничего: несуществующий счётчик
+отвечает так же (200, 43 байта, 1×1 GIF). Единственное доказательство —
+данные из Stat API.
+
+```bash
+T=$(cat ~/.config/opencode/secrets/yandex-oauth.token)
+
+# визиты и достижения целей за сегодня
+curl -s -H "Authorization: OAuth $T" \
+  'https://api-metrika.yandex.net/stat/v1/data?id=<COUNTER_ID>&date1=today&date2=today&metrics=ym:s:visits,ym:s:users,ym:s:goal<GOAL_ID>reaches'
+```
+
+Замечания по API:
+
+- метрика достижения цели пишется **строчными**: `ym:s:goal<GOAL_ID>reaches`
+  (с заглавной `Reaches` — ошибка `4002 Incorrectly specified metric`);
+- список счётчиков: `/management/v1/counters`, цели: `/management/v1/counter/<id>/goals`;
+- токен: OAuth-приложение типа «Для доступа к API или отладки», доступ
+  `metrika:read`, Redirect URI `https://oauth.yandex.ru/verification_code`
+  (токен показывается прямо на странице). Хранить в
+  `~/.config/opencode/secrets/yandex-oauth.token`, права 600, в git не класть.
+
+**Задержка отчётов.** Новый счётчик и первые визиты появляются в веб-интерфейсе
+не мгновенно: агрегация идёт порциями (обычно 15–40 минут). «Нет данных» в
+отчёте сразу после первого визита — это ещё не дефект; сначала Stat API.
+
