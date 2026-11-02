@@ -22,7 +22,10 @@
   # CSP. 'unsafe-inline' в script-src/style-src обязателен: Astro встраивает
   # часть скриптов и стилей инлайном, внешние стили приходят с Google Fonts.
   # Источники API перечислены явно — форма и виджет ходят по абсолютным URL.
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data:; connect-src 'self' https://ai-traffic-pro-api.erik03132.workers.dev https://api.ai-traffic-pro.ru; form-action 'self' https://ai-traffic-pro-api.erik03132.workers.dev https://api.ai-traffic-pro.ru; frame-ancestors 'none'; base-uri 'self'; object-src 'none'
+  # mc.yandex.ru — счётчик Яндекс.Метрики (ADR-004): скрипт tag.js, пиксель
+  # `<noscript>` (img) и служебные запросы счётчика (connect). Без всех трёх
+  # источников счётчик молча не загружается, цели не считаются.
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://mc.yandex.ru; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https://mc.yandex.ru; connect-src 'self' https://ai-traffic-pro-api.erik03132.workers.dev https://api.ai-traffic-pro.ru https://mc.yandex.ru; form-action 'self' https://ai-traffic-pro-api.erik03132.workers.dev https://api.ai-traffic-pro.ru; frame-ancestors 'none'; base-uri 'self'; object-src 'none'
 
 # Хешированная статика Astro: имя файла содержит хеш содержимого,
 # менять файл без смены имени нельзя — кэшируем навсегда.
