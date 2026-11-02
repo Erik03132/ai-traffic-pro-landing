@@ -140,6 +140,7 @@ import { SITE, API } from '../data/site';
 
 <script>
   import { postJson } from '../lib/api-post';
+  import { reachGoal } from '../lib/analytics';
 
   const toggle = document.getElementById('chat-toggle');
   const panel = document.getElementById('chat-panel');
@@ -166,7 +167,11 @@ import { SITE, API } from '../data/site';
     toggle?.setAttribute('aria-expanded', String(open));
     panel?.classList.toggle('hidden', !open);
     if (icon) icon.textContent = open ? 'close' : 'chat_bubble';
-    if (open) input?.focus();
+    if (open) {
+      input?.focus();
+      // Один раз за страницу: важен сам факт «открыл чат», а не число кликов.
+      reachGoal('chat_open', { page: window.location.pathname }, { once: true });
+    }
   };
 
   toggle?.addEventListener('click', () => {

@@ -223,6 +223,7 @@ const serviceOptions = current
    * 4. Ошибка/нет API → баннер ошибки + ссылка в Telegram с готовым текстом.
    */
   import { postJson } from '../lib/api-post';
+  import { reachGoal } from '../lib/analytics';
 
   const forms = document.querySelectorAll<HTMLFormElement>('form[id]');
 
@@ -320,6 +321,10 @@ const serviceOptions = current
         form.reset();
         success?.classList.remove('hidden');
         success?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        reachGoal('lead_submit', {
+          service: data.service || 'не указана',
+          page: window.location.pathname,
+        });
       } catch (err) {
         console.error('Lead submit failed:', err);
         if (tgFallback) tgFallback.href = telegramLink(data);

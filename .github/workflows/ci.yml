@@ -48,6 +48,7 @@ jobs:
         env:
           PUBLIC_API_BASE_URL: ${{ vars.PUBLIC_API_BASE_URL }}
           PUBLIC_API_FALLBACK_URL: ${{ vars.PUBLIC_API_FALLBACK_URL }}
+          PUBLIC_YM_COUNTER_ID: ${{ vars.PUBLIC_YM_COUNTER_ID }}
 
       # Артефакты Cloudflare Pages читаются из `dist/`: без `_headers`
       # и `_redirects` в сборке заголовки и 301 не попадут на прод.

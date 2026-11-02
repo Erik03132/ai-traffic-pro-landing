@@ -45,6 +45,7 @@ jobs:
           # Резервный адрес API (Node-сервер на VPS). Используется, только если
           # основной (Cloudflare Worker) недоступен по сети — заявку нельзя терять.
           PUBLIC_API_FALLBACK_URL: ${{ vars.PUBLIC_API_FALLBACK_URL }}
+          PUBLIC_YM_COUNTER_ID: ${{ vars.PUBLIC_YM_COUNTER_ID }}
 
       - name: Загрузка артефакта
         uses: actions/upload-pages-artifact@v3

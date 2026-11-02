@@ -40,6 +40,15 @@ export const API = {
   chatFallback: API_FALLBACK_BASE ? `${API_FALLBACK_BASE}/api/chat/` : '',
 } as const;
 
+/**
+ * Номер счётчика Яндекс.Метрики.
+ *
+ * Живёт в переменной окружения сборки (`PUBLIC_YM_COUNTER_ID`), а не в
+ * репозитории: счётчик заводится на домен и легко меняется под окружение.
+ * Пусто = счётчика нет: `Analytics.astro` не рендерится, `reachGoal` — no-op.
+ */
+export const YM_COUNTER_ID = (import.meta.env.PUBLIC_YM_COUNTER_ID ?? '').trim();
+
 export const SITE = {
   url: SITE_URL,
   name: 'AI-Traffic PRO',
