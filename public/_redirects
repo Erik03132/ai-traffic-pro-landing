@@ -11,6 +11,16 @@
 # Поглощённая услуга: маркетплейс стал e-commerce.
 /services/marketplace/  /services/ecommerce/  301
 
+# www -> apex, 301 в один хоп (задача 1.5).
+# На GitHub Pages это делалось само (CNAME + редирект площадки). На Cloudflare
+# Pages автоматического редиректа между доменами НЕТ: если привязать и www, и
+# apex к проекту, оба отдадут одинаковый контент — то есть дубль для Google.
+# Условие работы правила: домен www.ai-traffic-pro.ru привязан к проекту
+# (Pages → Custom domains) и проксируется Cloudflare (оранжевое облако).
+# Если после переезда правило не сработает — сделать то же самое зональным
+# правилом: Rules → Redirect Rules, `http.host eq "www.ai-traffic-pro.ru"`.
+https://www.ai-traffic-pro.ru/*  https://ai-traffic-pro.ru/:splat  301!
+
 # Файл подтверждения Google Search Console (задача 0.2).
 # Cloudflare Pages по умолчанию нормализует `/foo.html` -> `/foo` кодом 308.
 # Google при подтверждении владения требует ровно тот URL, что выдал, и код
