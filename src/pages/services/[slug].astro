@@ -104,7 +104,19 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
                 {i === 0 ? (
                   <span>{line}</span>
                 ) : (
-                  <span class="accent-italic">{line}</span>
+                  // Вторая строка — акцентная целиком. Внутри неё фрагмент
+                  // вида **SEO, GEO** получает дополнительное выделение:
+                  // полужирный и без оптического scale, чтобы не гасить
+                  // начертание соседних слов той же строки.
+                  <span class="accent-italic">
+                    {line.split('**').map((part, j) =>
+                      j % 2 === 1 ? (
+                        <strong class="accent-strong">{part}</strong>
+                      ) : (
+                        part
+                      )
+                    )}
+                  </span>
                 )}
               </span>
             ))}

@@ -16,3 +16,7 @@ server/leads/
 # Служебное
 .DS_Store
 *.log
+
+# Python-кэш инструментов (tools/*.py)
+__pycache__/
+*.pyc

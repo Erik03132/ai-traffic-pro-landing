@@ -5,7 +5,7 @@
  * Якоря работают на главной (`/#services`), на остальных страницах — абсолютные,
  * чтобы не попадать в несуществующий якорь текущей страницы.
  */
-import { SITE, NAV } from '../data/site';
+import { SITE, NAV, SERVICES, ALL_SERVICES } from '../data/site';
 
 interface Props {
   /** На главной якоря локальные, на других страницах — абсолютные. */
@@ -20,12 +20,24 @@ interface Props {
 
 const { isHome = false, localFaq = false, localContact = false } = Astro.props;
 
+/**
+ * Услуги в выпадающем меню.
+ *
+ * 6 основных направлений + e-commerce (дополнительное). Порядок — как в
+ * `SERVICES`, чтобы меню совпадало с блоком направлений на главной.
+ */
+const MENU_SERVICES = [...SERVICES, ...ALL_SERVICES.filter((s) => !SERVICES.includes(s))];
+
 const href = (h: string) => {
   if (isHome || !h.startsWith('#')) return h;
   if (h === '#faq' && localFaq) return '#faq';
   if (h === '#contact' && localContact) return '#lead';
   return `/${h}`;
 };
+
+/** Пункт «Услуги» в шапке: кнопка с выпадающим списком, а не ссылка. */
+const servicesNavItem = NAV.find((item) => item.label === 'Услуги');
+const otherNavItems = NAV.filter((item) => item.label !== 'Услуги');
 ---
 
 <header class="fixed top-5 left-0 right-0 z-50 px-4 pointer-events-none">
@@ -49,7 +61,56 @@ const href = (h: string) => {
       class="hidden md:flex items-center gap-1 bg-stone-100/70 p-1 rounded-full border border-stone-200/60"
       aria-label="Основная навигация"
     >
-      {NAV.map((item) => (
+      {/* «Услуги» — кнопка с выпадающим списком всех направлений. */}
+      <div class="relative" data-services-menu>
+        <button
+          type="button"
+          data-services-trigger
+          class="flex items-center gap-1 text-xs font-medium px-3.5 py-1.5 rounded-full text-stone-700 hover:text-stone-900 hover:bg-white transition-all"
+          aria-expanded="false"
+          aria-haspopup="true"
+          aria-controls="services-dropdown"
+        >
+          {servicesNavItem?.label ?? 'Услуги'}
+          <span
+            class="material-symbols-outlined text-[14px] transition-transform duration-200"
+            data-services-chevron
+            >expand_more</span
+          >
+        </button>
+
+        <div
+          id="services-dropdown"
+          data-services-panel
+          class="hidden absolute left-1/2 -translate-x-1/2 top-full mt-3 w-[min(44rem,calc(100vw-3rem))] rounded-3xl bg-white/97 backdrop-blur-md border border-stone-200/90 editorial-shadow p-2 z-50"
+        >
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-1">
+            {MENU_SERVICES.map((s) => (
+              <a
+                href={`/services/${s.slug}/`}
+                data-services-item
+                class="group flex items-start gap-3 p-3.5 rounded-2xl hover:bg-stone-50 transition-colors"
+              >
+                <span
+                  class="w-7 h-7 shrink-0 rounded-full border-2 border-stone-900 text-stone-900 font-mono text-[11px] font-semibold flex items-center justify-center leading-none group-hover:border-terracotta-600 group-hover:text-terracotta-600 transition-colors"
+                >
+                  {Number(s.num) || '•'}
+                </span>
+                <span class="min-w-0">
+                  <span class="block text-sm font-semibold text-stone-900 group-hover:text-terracotta-600 transition-colors">
+                    {s.title}
+                  </span>
+                  <span class="block text-xs text-stone-600 leading-relaxed mt-0.5 line-clamp-2">
+                    {s.card}
+                  </span>
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {otherNavItems.map((item) => (
         <a
           href={href(item.href)}
           class="text-xs font-medium px-3.5 py-1.5 rounded-full text-stone-700 hover:text-stone-900 hover:bg-white transition-all"
@@ -93,7 +154,46 @@ const href = (h: string) => {
     class="hidden md:hidden mt-2 max-w-5xl mx-auto bg-white/95 backdrop-blur-md rounded-3xl border border-stone-200/90 editorial-shadow p-2"
   >
     <nav class="flex flex-col" aria-label="Мобильная навигация">
-      {NAV.map((item) => (
+      {/* Мобильный «Услуги» — раскрывающийся список услуг. */}
+      <button
+        type="button"
+        data-mobile-services-trigger
+        class="flex items-center justify-between text-sm font-medium px-4 py-3 rounded-2xl text-stone-700 hover:bg-stone-100 transition-colors"
+        aria-expanded="false"
+        aria-controls="mobile-services"
+      >
+        {servicesNavItem?.label ?? 'Услуги'}
+        <span
+          class="material-symbols-outlined text-[18px] transition-transform duration-200"
+          data-mobile-services-chevron
+          >expand_more</span
+        >
+      </button>
+      <div id="mobile-services" data-mobile-services-panel class="hidden pb-1">
+        <div class="flex flex-col gap-0.5">
+          {MENU_SERVICES.map((s) => (
+            <a
+              href={`/services/${s.slug}/`}
+              data-mobile-services-item
+              class="flex items-start gap-3 px-4 py-2.5 rounded-2xl text-stone-600 hover:bg-stone-50 transition-colors"
+            >
+              <span
+                class="w-6 h-6 shrink-0 rounded-full border-2 border-stone-900 text-stone-900 font-mono text-[10px] font-semibold flex items-center justify-center leading-none"
+              >
+                {Number(s.num) || '•'}
+              </span>
+              <span class="min-w-0">
+                <span class="block text-sm font-medium text-stone-900">{s.title}</span>
+                <span class="block text-xs text-stone-500 leading-relaxed mt-0.5 line-clamp-2">
+                  {s.card}
+                </span>
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      {otherNavItems.map((item) => (
         <a
           href={href(item.href)}
           class="text-sm font-medium px-4 py-3 rounded-2xl text-stone-700 hover:bg-stone-100 transition-colors"
@@ -123,6 +223,76 @@ const href = (h: string) => {
   menu?.querySelectorAll('a').forEach((a) => {
     a.addEventListener('click', () => {
       menu.classList.add('hidden');
+      toggle?.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  /* --- Выпадающее меню услуг (десктоп) --------------------------------- */
+  const servicesTrigger = document.querySelector<HTMLButtonElement>('[data-services-trigger]');
+  const servicesPanel = document.querySelector<HTMLElement>('[data-services-panel]');
+  const servicesChevron = document.querySelector<HTMLElement>('[data-services-chevron]');
+
+  const setServicesOpen = (open: boolean) => {
+    if (!servicesPanel || !servicesTrigger) return;
+    servicesPanel.classList.toggle('hidden', !open);
+    servicesTrigger.setAttribute('aria-expanded', String(open));
+    servicesChevron?.classList.toggle('rotate-180', open);
+  };
+
+  servicesTrigger?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    setServicesOpen(servicesPanel?.classList.contains('hidden') ?? true);
+  });
+
+  // Клик по ссылке услуги — закрыть меню (переход всё равно уводит со страницы).
+  servicesPanel?.querySelectorAll('[data-services-item]').forEach((a) => {
+    a.addEventListener('click', () => setServicesOpen(false));
+  });
+
+  // Клик вне меню — закрыть.
+  document.addEventListener('click', (e) => {
+    if (!servicesPanel || servicesPanel.classList.contains('hidden')) return;
+    const target = e.target as Node;
+    if (!servicesPanel.contains(target) && !servicesTrigger?.contains(target)) {
+      setServicesOpen(false);
+    }
+  });
+
+  // Escape — закрыть и вернуть фокус на кнопку.
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    if (servicesPanel && !servicesPanel.classList.contains('hidden')) {
+      setServicesOpen(false);
+      servicesTrigger?.focus();
+    }
+  });
+
+  // Уход фокуса из блока — закрыть (позволяет уйти с клавиатуры по Tab).
+  const servicesRoot = servicesTrigger?.closest('[data-services-menu]');
+  servicesRoot?.addEventListener('focusout', (e) => {
+    const next = (e as FocusEvent).relatedTarget as Node | null;
+    if (next && servicesRoot.contains(next)) return;
+    setServicesOpen(false);
+  });
+
+  /* --- Раскрытие списка услуг в мобильном меню ------------------------- */
+  const mobileTrigger = document.querySelector<HTMLButtonElement>('[data-mobile-services-trigger]');
+  const mobilePanel = document.querySelector<HTMLElement>('[data-mobile-services-panel]');
+  const mobileChevron = document.querySelector<HTMLElement>('[data-mobile-services-chevron]');
+
+  mobileTrigger?.addEventListener('click', () => {
+    if (!mobilePanel) return;
+    const open = mobilePanel.classList.toggle('hidden') === false;
+    mobileTrigger.setAttribute('aria-expanded', String(open));
+    mobileChevron?.classList.toggle('rotate-180', open);
+  });
+
+  // Переход по услуге — закрыть и мобильное меню, и весь бургер.
+  mobilePanel?.querySelectorAll('[data-mobile-services-item]').forEach((a) => {
+    a.addEventListener('click', () => {
+      mobilePanel.classList.add('hidden');
+      mobileTrigger?.setAttribute('aria-expanded', 'false');
+      menu?.classList.add('hidden');
       toggle?.setAttribute('aria-expanded', 'false');
     });
   });

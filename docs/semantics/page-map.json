@@ -1,0 +1,1546 @@
+{
+  "generated_from": "docs/semantics/semantics.json",
+  "rules": {
+    "merged_into": {
+      "marketplace": "ecommerce"
+    },
+    "overrides": {
+      "автоматизация продаж": "crm",
+      "управление продажами": "crm",
+      "интернет-магазин": "ecommerce"
+    }
+  },
+  "pages": {
+    "ecommerce": {
+      "roots": [
+        {
+          "query": "интернет-магазин",
+          "vacancies": 12945,
+          "trendsAvg": 9,
+          "from_cluster": "ecommerce"
+        },
+        {
+          "query": "маркетплейс",
+          "vacancies": 12173,
+          "trendsAvg": 17.9,
+          "from_cluster": "ecommerce"
+        },
+        {
+          "query": "загрузка товаров",
+          "vacancies": 8024,
+          "trendsAvg": 0,
+          "from_cluster": "ecommerce"
+        },
+        {
+          "query": "продажи на маркетплейсах",
+          "vacancies": 5639,
+          "trendsAvg": 0,
+          "from_cluster": "ecommerce"
+        },
+        {
+          "query": "выгрузка товаров",
+          "vacancies": 4179,
+          "trendsAvg": 0,
+          "from_cluster": "ecommerce"
+        },
+        {
+          "query": "продвижение товаров",
+          "vacancies": 4148,
+          "trendsAvg": 5.1,
+          "from_cluster": "ecommerce"
+        },
+        {
+          "query": "e-commerce",
+          "vacancies": 4110,
+          "trendsAvg": 37.7,
+          "from_cluster": "ecommerce"
+        },
+        {
+          "query": "аналитика маркетплейсов",
+          "vacancies": 2728,
+          "trendsAvg": 0.1,
+          "from_cluster": "ecommerce"
+        },
+        {
+          "query": "продвижение на маркетплейсах",
+          "vacancies": 1993,
+          "trendsAvg": 4,
+          "from_cluster": "ecommerce"
+        },
+        {
+          "query": "помощь с маркетплейсом",
+          "vacancies": 1950,
+          "trendsAvg": null,
+          "from_cluster": "ecommerce"
+        },
+        {
+          "query": "e-commerce услуги",
+          "vacancies": 1760,
+          "trendsAvg": null,
+          "from_cluster": "ecommerce"
+        },
+        {
+          "query": "сопровождение маркетплейсов",
+          "vacancies": 1728,
+          "trendsAvg": null,
+          "from_cluster": "ecommerce"
+        },
+        {
+          "query": "карточки товаров",
+          "vacancies": 1578,
+          "trendsAvg": null,
+          "from_cluster": "ecommerce"
+        },
+        {
+          "query": "продвижение озона",
+          "vacancies": 1430,
+          "trendsAvg": null,
+          "from_cluster": "ecommerce"
+        },
+        {
+          "query": "продвижение вб",
+          "vacancies": 1373,
+          "trendsAvg": null,
+          "from_cluster": "ecommerce"
+        },
+        {
+          "query": "каталог товаров",
+          "vacancies": 1310,
+          "trendsAvg": null,
+          "from_cluster": "ecommerce"
+        },
+        {
+          "query": "карточки для маркетплейсов",
+          "vacancies": 1177,
+          "trendsAvg": null,
+          "from_cluster": "ecommerce"
+        },
+        {
+          "query": "выход на маркетплейс",
+          "vacancies": 1085,
+          "trendsAvg": null,
+          "from_cluster": "ecommerce"
+        },
+        {
+          "query": "оформление карточек товаров",
+          "vacancies": 978,
+          "trendsAvg": null,
+          "from_cluster": "ecommerce"
+        },
+        {
+          "query": "создание интернет-магазина",
+          "vacancies": 680,
+          "trendsAvg": null,
+          "from_cluster": "ecommerce"
+        },
+        {
+          "query": "продавцу на маркетплейсе",
+          "vacancies": 645,
+          "trendsAvg": null,
+          "from_cluster": "ecommerce"
+        },
+        {
+          "query": "разработка интернет-магазина",
+          "vacancies": 640,
+          "trendsAvg": null,
+          "from_cluster": "ecommerce"
+        },
+        {
+          "query": "старт продаж на маркетплейсе",
+          "vacancies": 525,
+          "trendsAvg": null,
+          "from_cluster": "ecommerce"
+        },
+        {
+          "query": "инфографика для маркетплейсов",
+          "vacancies": 484,
+          "trendsAvg": null,
+          "from_cluster": "ecommerce"
+        },
+        {
+          "query": "каталог для маркетплейса",
+          "vacancies": 300,
+          "trendsAvg": null,
+          "from_cluster": "ecommerce"
+        },
+        {
+          "query": "наполнение карточек товаров",
+          "vacancies": 198,
+          "trendsAvg": null,
+          "from_cluster": "ecommerce"
+        },
+        {
+          "query": "как продавать на маркетплейсе",
+          "vacancies": 193,
+          "trendsAvg": null,
+          "from_cluster": "ecommerce"
+        },
+        {
+          "query": "интернет-магазин под ключ",
+          "vacancies": 37,
+          "trendsAvg": null,
+          "from_cluster": "ecommerce"
+        },
+        {
+          "query": "оформление карточек",
+          "vacancies": 0,
+          "trendsAvg": null,
+          "from_cluster": "ecommerce"
+        },
+        {
+          "query": "как выбрать маркетплейс",
+          "vacancies": 0,
+          "trendsAvg": null,
+          "from_cluster": "ecommerce"
+        }
+      ],
+      "contributors": [
+        "ecommerce"
+      ],
+      "cluster": "ecommerce",
+      "total_roots": 30
+    },
+    "crm": {
+      "roots": [
+        {
+          "query": "управление продажами",
+          "vacancies": 37068,
+          "trendsAvg": 0,
+          "from_cluster": "ecommerce"
+        },
+        {
+          "query": "crm для продаж",
+          "vacancies": 26788,
+          "trendsAvg": 2.4,
+          "from_cluster": "crm"
+        },
+        {
+          "query": "crm система",
+          "vacancies": 17904,
+          "trendsAvg": 9.3,
+          "from_cluster": "crm"
+        },
+        {
+          "query": "bitrix24",
+          "vacancies": 10474,
+          "trendsAvg": 24.1,
+          "from_cluster": "crm"
+        },
+        {
+          "query": "crm для отдела продаж",
+          "vacancies": 9788,
+          "trendsAvg": 0.2,
+          "from_cluster": "crm"
+        },
+        {
+          "query": "автоматизация продаж",
+          "vacancies": 5227,
+          "trendsAvg": 0.4,
+          "from_cluster": "leadgen"
+        },
+        {
+          "query": "аналитика в crm",
+          "vacancies": 4823,
+          "trendsAvg": 0.1,
+          "from_cluster": "crm"
+        },
+        {
+          "query": "crm для маркетинга",
+          "vacancies": 4485,
+          "trendsAvg": 0,
+          "from_cluster": "crm"
+        },
+        {
+          "query": "внедрение crm",
+          "vacancies": 2552,
+          "trendsAvg": 1.2,
+          "from_cluster": "crm"
+        },
+        {
+          "query": "автоматизация продаж crm",
+          "vacancies": 1872,
+          "trendsAvg": 1,
+          "from_cluster": "crm"
+        },
+        {
+          "query": "автоматизация продаж в crm",
+          "vacancies": 1872,
+          "trendsAvg": null,
+          "from_cluster": "crm"
+        },
+        {
+          "query": "интеграция crm",
+          "vacancies": 1536,
+          "trendsAvg": 21.4,
+          "from_cluster": "crm"
+        },
+        {
+          "query": "настройка crm",
+          "vacancies": 1322,
+          "trendsAvg": 0.1,
+          "from_cluster": "crm"
+        },
+        {
+          "query": "внедрение bitrix24",
+          "vacancies": 1066,
+          "trendsAvg": 1.8,
+          "from_cluster": "crm"
+        },
+        {
+          "query": "bitrix24 настройка",
+          "vacancies": 756,
+          "trendsAvg": 2,
+          "from_cluster": "crm"
+        },
+        {
+          "query": "amo crm",
+          "vacancies": 480,
+          "trendsAvg": 45.8,
+          "from_cluster": "crm"
+        },
+        {
+          "query": "настройка amo crm",
+          "vacancies": 32,
+          "trendsAvg": 1.9,
+          "from_cluster": "crm"
+        },
+        {
+          "query": "amo crm настройка",
+          "vacancies": 32,
+          "trendsAvg": null,
+          "from_cluster": "crm"
+        },
+        {
+          "query": "внедрение amo crm",
+          "vacancies": 22,
+          "trendsAvg": null,
+          "from_cluster": "crm"
+        },
+        {
+          "query": "crm",
+          "vacancies": 0,
+          "trendsAvg": 77.1,
+          "from_cluster": "crm"
+        },
+        {
+          "query": "crm система для бизнеса",
+          "vacancies": 0,
+          "trendsAvg": null,
+          "from_cluster": "crm"
+        }
+      ],
+      "contributors": [
+        "ecommerce",
+        "leadgen",
+        "crm"
+      ],
+      "cluster": "crm",
+      "total_roots": 21
+    },
+    "seo": {
+      "roots": [
+        {
+          "query": "продвижение сайта",
+          "vacancies": 2447,
+          "trendsAvg": 60.5,
+          "from_cluster": "seo"
+        },
+        {
+          "query": "продвижение в яндексе",
+          "vacancies": 2030,
+          "trendsAvg": 3.8,
+          "from_cluster": "seo"
+        },
+        {
+          "query": "seo продвижение",
+          "vacancies": 1844,
+          "trendsAvg": 33.3,
+          "from_cluster": "seo"
+        },
+        {
+          "query": "продвижение в google",
+          "vacancies": 1528,
+          "trendsAvg": 2.2,
+          "from_cluster": "seo"
+        },
+        {
+          "query": "оптимизация сайта",
+          "vacancies": 1456,
+          "trendsAvg": 8.9,
+          "from_cluster": "seo"
+        },
+        {
+          "query": "seo услуги",
+          "vacancies": 1400,
+          "trendsAvg": 29.3,
+          "from_cluster": "seo"
+        },
+        {
+          "query": "seo продвижение сайтов",
+          "vacancies": 942,
+          "trendsAvg": 53.6,
+          "from_cluster": "seo"
+        },
+        {
+          "query": "аудит сайта",
+          "vacancies": 620,
+          "trendsAvg": 51.7,
+          "from_cluster": "seo"
+        },
+        {
+          "query": "продвижение в нейросетях",
+          "vacancies": 618,
+          "trendsAvg": 0.6,
+          "from_cluster": "seo"
+        },
+        {
+          "query": "оптимизация сайта под нейросети",
+          "vacancies": 60,
+          "trendsAvg": 0,
+          "from_cluster": "seo"
+        },
+        {
+          "query": "техническое сео",
+          "vacancies": 33,
+          "trendsAvg": null,
+          "from_cluster": "seo"
+        },
+        {
+          "query": "попасть в ответы нейросети",
+          "vacancies": 5,
+          "trendsAvg": null,
+          "from_cluster": "seo"
+        },
+        {
+          "query": "geo оптимизация",
+          "vacancies": 0,
+          "trendsAvg": null,
+          "from_cluster": "seo"
+        }
+      ],
+      "contributors": [
+        "seo"
+      ],
+      "cluster": "seo",
+      "total_roots": 13
+    },
+    "leadgen": {
+      "roots": [
+        {
+          "query": "привлечение клиентов",
+          "vacancies": 31458,
+          "trendsAvg": 16.3,
+          "from_cluster": "leadgen"
+        },
+        {
+          "query": "холодные звонки",
+          "vacancies": 12668,
+          "trendsAvg": 21.4,
+          "from_cluster": "leadgen"
+        },
+        {
+          "query": "воронка продаж",
+          "vacancies": 8693,
+          "trendsAvg": 59.4,
+          "from_cluster": "leadgen"
+        },
+        {
+          "query": "обработка заявок",
+          "vacancies": 7945,
+          "trendsAvg": 0.1,
+          "from_cluster": "leadgen"
+        },
+        {
+          "query": "продвижение бизнеса",
+          "vacancies": 6140,
+          "trendsAvg": 22.8,
+          "from_cluster": "leadgen"
+        },
+        {
+          "query": "скрипты продаж",
+          "vacancies": 5809,
+          "trendsAvg": 0.1,
+          "from_cluster": "leadgen"
+        },
+        {
+          "query": "привлечение клиентов в интернет",
+          "vacancies": 3732,
+          "trendsAvg": 0.2,
+          "from_cluster": "leadgen"
+        },
+        {
+          "query": "лиды",
+          "vacancies": 2568,
+          "trendsAvg": 70.8,
+          "from_cluster": "leadgen"
+        },
+        {
+          "query": "заявки с сайта",
+          "vacancies": 2252,
+          "trendsAvg": null,
+          "from_cluster": "leadgen"
+        },
+        {
+          "query": "как привлекать клиентов",
+          "vacancies": 2105,
+          "trendsAvg": null,
+          "from_cluster": "leadgen"
+        },
+        {
+          "query": "лидогенерация",
+          "vacancies": 1479,
+          "trendsAvg": 16.1,
+          "from_cluster": "leadgen"
+        },
+        {
+          "query": "воронка продаж в интернете",
+          "vacancies": 1063,
+          "trendsAvg": null,
+          "from_cluster": "leadgen"
+        },
+        {
+          "query": "конверсия в заявку",
+          "vacancies": 975,
+          "trendsAvg": null,
+          "from_cluster": "leadgen"
+        },
+        {
+          "query": "привлечение целевой аудитории",
+          "vacancies": 878,
+          "trendsAvg": null,
+          "from_cluster": "leadgen"
+        },
+        {
+          "query": "лид менеджер",
+          "vacancies": 563,
+          "trendsAvg": null,
+          "from_cluster": "leadgen"
+        },
+        {
+          "query": "генерация заявок",
+          "vacancies": 139,
+          "trendsAvg": null,
+          "from_cluster": "leadgen"
+        },
+        {
+          "query": "перфоманс маркетинг",
+          "vacancies": 38,
+          "trendsAvg": null,
+          "from_cluster": "leadgen"
+        }
+      ],
+      "contributors": [
+        "leadgen"
+      ],
+      "cluster": "leadgen",
+      "total_roots": 17
+    },
+    "smm": {
+      "roots": [
+        {
+          "query": "контент план",
+          "vacancies": 3959,
+          "trendsAvg": 6.2,
+          "from_cluster": "smm"
+        },
+        {
+          "query": "smm",
+          "vacancies": 3896,
+          "trendsAvg": 62.9,
+          "from_cluster": "smm"
+        },
+        {
+          "query": "контент для соцсетей",
+          "vacancies": 3117,
+          "trendsAvg": 0,
+          "from_cluster": "smm"
+        },
+        {
+          "query": "ведение соцсетей",
+          "vacancies": 3090,
+          "trendsAvg": 0.1,
+          "from_cluster": "smm"
+        },
+        {
+          "query": "продвижение в соцсетях",
+          "vacancies": 2200,
+          "trendsAvg": 0.2,
+          "from_cluster": "smm"
+        },
+        {
+          "query": "smm продвижение",
+          "vacancies": 2176,
+          "trendsAvg": 27.4,
+          "from_cluster": "smm"
+        },
+        {
+          "query": "съёмка контента",
+          "vacancies": 1733,
+          "trendsAvg": 0,
+          "from_cluster": "smm"
+        },
+        {
+          "query": "smm услуги",
+          "vacancies": 1266,
+          "trendsAvg": 4.3,
+          "from_cluster": "smm"
+        },
+        {
+          "query": "дизайн для соцсетей",
+          "vacancies": 828,
+          "trendsAvg": 0,
+          "from_cluster": "smm"
+        },
+        {
+          "query": "ведение telegram канала",
+          "vacancies": 188,
+          "trendsAvg": 0,
+          "from_cluster": "smm"
+        },
+        {
+          "query": "ведение инстаграм",
+          "vacancies": 69,
+          "trendsAvg": null,
+          "from_cluster": "smm"
+        },
+        {
+          "query": "таргет в инстаграм",
+          "vacancies": 0,
+          "trendsAvg": null,
+          "from_cluster": "smm"
+        }
+      ],
+      "contributors": [
+        "smm"
+      ],
+      "cluster": "smm",
+      "total_roots": 12
+    },
+    "advertising": {
+      "roots": [
+        {
+          "query": "ведение рекламы",
+          "vacancies": 3918,
+          "trendsAvg": 2.7,
+          "from_cluster": "advertising"
+        },
+        {
+          "query": "реклама в интернете",
+          "vacancies": 3309,
+          "trendsAvg": 3.4,
+          "from_cluster": "advertising"
+        },
+        {
+          "query": "контекстная реклама",
+          "vacancies": 1159,
+          "trendsAvg": 21.1,
+          "from_cluster": "advertising"
+        },
+        {
+          "query": "яндекс директ",
+          "vacancies": 1157,
+          "trendsAvg": 79.6,
+          "from_cluster": "advertising"
+        },
+        {
+          "query": "настройка рекламы",
+          "vacancies": 1110,
+          "trendsAvg": 7.2,
+          "from_cluster": "advertising"
+        },
+        {
+          "query": "реклама в telegram",
+          "vacancies": 836,
+          "trendsAvg": 4.6,
+          "from_cluster": "advertising"
+        },
+        {
+          "query": "таргетированная реклама",
+          "vacancies": 646,
+          "trendsAvg": 62.6,
+          "from_cluster": "advertising"
+        },
+        {
+          "query": "аудит рекламы",
+          "vacancies": 427,
+          "trendsAvg": 2.2,
+          "from_cluster": "advertising"
+        },
+        {
+          "query": "медиаплан",
+          "vacancies": 426,
+          "trendsAvg": 2.7,
+          "from_cluster": "advertising"
+        },
+        {
+          "query": "настройка яндекс директ",
+          "vacancies": 393,
+          "trendsAvg": 40,
+          "from_cluster": "advertising"
+        },
+        {
+          "query": "реклама в вк",
+          "vacancies": 218,
+          "trendsAvg": null,
+          "from_cluster": "advertising"
+        }
+      ],
+      "contributors": [
+        "advertising"
+      ],
+      "cluster": "advertising",
+      "total_roots": 11
+    },
+    "landing": {
+      "roots": [
+        {
+          "query": "корпоративный сайт",
+          "vacancies": 4550,
+          "trendsAvg": 5,
+          "from_cluster": "landing"
+        },
+        {
+          "query": "разработка сайта",
+          "vacancies": 3683,
+          "trendsAvg": 48.2,
+          "from_cluster": "landing"
+        },
+        {
+          "query": "сайт для бизнеса",
+          "vacancies": 3027,
+          "trendsAvg": 6.5,
+          "from_cluster": "landing"
+        },
+        {
+          "query": "создание сайта",
+          "vacancies": 2648,
+          "trendsAvg": 59,
+          "from_cluster": "landing"
+        },
+        {
+          "query": "дизайн сайта",
+          "vacancies": 1304,
+          "trendsAvg": 17.2,
+          "from_cluster": "landing"
+        },
+        {
+          "query": "интернет-магазин сайт",
+          "vacancies": 697,
+          "trendsAvg": 63.5,
+          "from_cluster": "landing"
+        },
+        {
+          "query": "разработка лендинга",
+          "vacancies": 394,
+          "trendsAvg": 1.2,
+          "from_cluster": "landing"
+        },
+        {
+          "query": "вёрстка сайта",
+          "vacancies": 315,
+          "trendsAvg": 0,
+          "from_cluster": "landing"
+        },
+        {
+          "query": "прототип сайта",
+          "vacancies": 120,
+          "trendsAvg": 0.3,
+          "from_cluster": "landing"
+        },
+        {
+          "query": "лендинг под ключ",
+          "vacancies": 19,
+          "trendsAvg": 6.3,
+          "from_cluster": "landing"
+        }
+      ],
+      "contributors": [
+        "landing"
+      ],
+      "cluster": "landing",
+      "total_roots": 10
+    }
+  },
+  "blog": "информационные темы (blogs)",
+  "blog_topics": [
+    {
+      "query": "воронка продаж что это",
+      "vacancies": 2512,
+      "from_cluster": "leadgen"
+    },
+    {
+      "query": "bitrix24 что это",
+      "vacancies": 2154,
+      "from_cluster": "crm"
+    },
+    {
+      "query": "как привлекать клиентов",
+      "vacancies": 2105,
+      "from_cluster": "leadgen"
+    },
+    {
+      "query": "как продавать на маркетплейсе",
+      "vacancies": 193,
+      "from_cluster": "ecommerce"
+    },
+    {
+      "query": "smm что входит",
+      "vacancies": 170,
+      "from_cluster": "smm"
+    },
+    {
+      "query": "медиаплан что это",
+      "vacancies": 82,
+      "from_cluster": "advertising"
+    },
+    {
+      "query": "вёрстка сайта что это",
+      "vacancies": 57,
+      "from_cluster": "landing"
+    },
+    {
+      "query": "geo оптимизация что это",
+      "vacancies": 45,
+      "from_cluster": "seo"
+    },
+    {
+      "query": "прототип сайта что это",
+      "vacancies": 40,
+      "from_cluster": "landing"
+    },
+    {
+      "query": "выгрузка товаров в тсд что это",
+      "vacancies": 15,
+      "from_cluster": "ecommerce"
+    },
+    {
+      "query": "инфографика для маркетплейсов как сделать самому",
+      "vacancies": 0,
+      "from_cluster": "ecommerce"
+    },
+    {
+      "query": "инфографика для маркетплейсов что это",
+      "vacancies": 0,
+      "from_cluster": "ecommerce"
+    },
+    {
+      "query": "инфографика для маркетплейсов что это такое",
+      "vacancies": 0,
+      "from_cluster": "ecommerce"
+    },
+    {
+      "query": "инфографика для маркетплейсов что это такое простыми",
+      "vacancies": 0,
+      "from_cluster": "ecommerce"
+    },
+    {
+      "query": "инфографика для маркетплейсов это что такое",
+      "vacancies": 0,
+      "from_cluster": "ecommerce"
+    },
+    {
+      "query": "как выбрать нишу для маркетплейсов",
+      "vacancies": 0,
+      "from_cluster": "ecommerce"
+    },
+    {
+      "query": "как выбрать нишу на маркетплейсах",
+      "vacancies": 0,
+      "from_cluster": "ecommerce"
+    },
+    {
+      "query": "как выбрать товар для продажи на маркетплейсах",
+      "vacancies": 0,
+      "from_cluster": "ecommerce"
+    },
+    {
+      "query": "как на маркетплейсе продавать свой товар",
+      "vacancies": 0,
+      "from_cluster": "ecommerce"
+    },
+    {
+      "query": "как начать продавать на маркетплейсе",
+      "vacancies": 0,
+      "from_cluster": "ecommerce"
+    },
+    {
+      "query": "как продавать вещи на маркетплейсе маджестик",
+      "vacancies": 0,
+      "from_cluster": "ecommerce"
+    },
+    {
+      "query": "как продавать на маркетплейсе маджестик",
+      "vacancies": 0,
+      "from_cluster": "ecommerce"
+    },
+    {
+      "query": "как продавать на маркетплейсе маджестик рп",
+      "vacancies": 0,
+      "from_cluster": "ecommerce"
+    },
+    {
+      "query": "как продавать предметы на маркетплейсе в маджестик рп",
+      "vacancies": 0,
+      "from_cluster": "ecommerce"
+    },
+    {
+      "query": "как продавать свой товар на маркетплейсе",
+      "vacancies": 0,
+      "from_cluster": "ecommerce"
+    },
+    {
+      "query": "карточки для маркетплейсов как делать",
+      "vacancies": 0,
+      "from_cluster": "ecommerce"
+    },
+    {
+      "query": "карточки для маркетплейсов как создавать",
+      "vacancies": 0,
+      "from_cluster": "ecommerce"
+    },
+    {
+      "query": "карточки для маркетплейсов что это",
+      "vacancies": 0,
+      "from_cluster": "ecommerce"
+    },
+    {
+      "query": "карточки товаров для маркетплейсов что это",
+      "vacancies": 0,
+      "from_cluster": "ecommerce"
+    },
+    {
+      "query": "карточки товаров как делать",
+      "vacancies": 0,
+      "from_cluster": "ecommerce"
+    },
+    {
+      "query": "маркетплейс алешка что это",
+      "vacancies": 0,
+      "from_cluster": "ecommerce"
+    },
+    {
+      "query": "маркетплейс как пишется",
+      "vacancies": 0,
+      "from_cluster": "ecommerce"
+    },
+    {
+      "query": "маркетплейс как пишется правильно",
+      "vacancies": 0,
+      "from_cluster": "ecommerce"
+    },
+    {
+      "query": "аудит сайта что это",
+      "vacancies": 0,
+      "from_cluster": "seo"
+    },
+    {
+      "query": "оптимизация сайта что это",
+      "vacancies": 0,
+      "from_cluster": "seo"
+    },
+    {
+      "query": "оптимизация сайта что это такое",
+      "vacancies": 0,
+      "from_cluster": "seo"
+    },
+    {
+      "query": "оптимизация сайта seo что это",
+      "vacancies": 0,
+      "from_cluster": "seo"
+    },
+    {
+      "query": "продвижение сайта в яндексе сколько стоит",
+      "vacancies": 0,
+      "from_cluster": "seo"
+    },
+    {
+      "query": "продвижение сайта как называется",
+      "vacancies": 0,
+      "from_cluster": "seo"
+    },
+    {
+      "query": "продвижение сайта что это такое",
+      "vacancies": 0,
+      "from_cluster": "seo"
+    },
+    {
+      "query": "seo продвижение сайтов что это",
+      "vacancies": 0,
+      "from_cluster": "seo"
+    },
+    {
+      "query": "seo продвижение сайтов что это такое",
+      "vacancies": 0,
+      "from_cluster": "seo"
+    },
+    {
+      "query": "seo продвижение что такое",
+      "vacancies": 0,
+      "from_cluster": "seo"
+    },
+    {
+      "query": "seo продвижение что это",
+      "vacancies": 0,
+      "from_cluster": "seo"
+    },
+    {
+      "query": "seo продвижение что это простыми словами",
+      "vacancies": 0,
+      "from_cluster": "seo"
+    },
+    {
+      "query": "seo продвижение что это такое",
+      "vacancies": 0,
+      "from_cluster": "seo"
+    },
+    {
+      "query": "seo продвижение яндекс что это",
+      "vacancies": 0,
+      "from_cluster": "seo"
+    },
+    {
+      "query": "seo услуги что это",
+      "vacancies": 0,
+      "from_cluster": "seo"
+    },
+    {
+      "query": "воронка продаж для чего нужна",
+      "vacancies": 0,
+      "from_cluster": "leadgen"
+    },
+    {
+      "query": "воронка продаж из чего состоит",
+      "vacancies": 0,
+      "from_cluster": "leadgen"
+    },
+    {
+      "query": "воронка продаж как выглядит",
+      "vacancies": 0,
+      "from_cluster": "leadgen"
+    },
+    {
+      "query": "воронка продаж как построить",
+      "vacancies": 0,
+      "from_cluster": "leadgen"
+    },
+    {
+      "query": "воронка продаж как сделать",
+      "vacancies": 0,
+      "from_cluster": "leadgen"
+    },
+    {
+      "query": "воронка продаж на маркетплейсах что это",
+      "vacancies": 0,
+      "from_cluster": "leadgen"
+    },
+    {
+      "query": "воронка продаж что такое",
+      "vacancies": 0,
+      "from_cluster": "leadgen"
+    },
+    {
+      "query": "воронка продаж что это простыми",
+      "vacancies": 0,
+      "from_cluster": "leadgen"
+    },
+    {
+      "query": "воронка продаж что это простыми словами",
+      "vacancies": 0,
+      "from_cluster": "leadgen"
+    },
+    {
+      "query": "воронка продаж что это такое",
+      "vacancies": 0,
+      "from_cluster": "leadgen"
+    },
+    {
+      "query": "как привлекать клиентов в вк",
+      "vacancies": 0,
+      "from_cluster": "leadgen"
+    },
+    {
+      "query": "как привлекать клиентов в салон красоты",
+      "vacancies": 0,
+      "from_cluster": "leadgen"
+    },
+    {
+      "query": "как привлекать клиентов на маникюр",
+      "vacancies": 0,
+      "from_cluster": "leadgen"
+    },
+    {
+      "query": "как привлекать клиентов на массаж",
+      "vacancies": 0,
+      "from_cluster": "leadgen"
+    },
+    {
+      "query": "как привлекать клиентов через социальные сети",
+      "vacancies": 0,
+      "from_cluster": "leadgen"
+    },
+    {
+      "query": "лид менеджер что это",
+      "vacancies": 0,
+      "from_cluster": "leadgen"
+    },
+    {
+      "query": "лидогенерация для бизнеса что это",
+      "vacancies": 0,
+      "from_cluster": "leadgen"
+    },
+    {
+      "query": "лидогенерация как сделать",
+      "vacancies": 0,
+      "from_cluster": "leadgen"
+    },
+    {
+      "query": "лидогенерация что это в маркетинге",
+      "vacancies": 0,
+      "from_cluster": "leadgen"
+    },
+    {
+      "query": "лидогенерация что это простыми",
+      "vacancies": 0,
+      "from_cluster": "leadgen"
+    },
+    {
+      "query": "лидогенерация что это простыми словами",
+      "vacancies": 0,
+      "from_cluster": "leadgen"
+    },
+    {
+      "query": "лидогенерация что это такое",
+      "vacancies": 0,
+      "from_cluster": "leadgen"
+    },
+    {
+      "query": "лидогенерация что это такое простыми",
+      "vacancies": 0,
+      "from_cluster": "leadgen"
+    },
+    {
+      "query": "ведение соцсетей как называется",
+      "vacancies": 0,
+      "from_cluster": "smm"
+    },
+    {
+      "query": "ведение соцсетей как называется профессия",
+      "vacancies": 0,
+      "from_cluster": "smm"
+    },
+    {
+      "query": "ведение соцсетей сколько стоит",
+      "vacancies": 0,
+      "from_cluster": "smm"
+    },
+    {
+      "query": "как настроить таргет в инстаграм",
+      "vacancies": 0,
+      "from_cluster": "smm"
+    },
+    {
+      "query": "как снимать контент для соцсетей",
+      "vacancies": 0,
+      "from_cluster": "smm"
+    },
+    {
+      "query": "как создавать контент для соцсетей",
+      "vacancies": 0,
+      "from_cluster": "smm"
+    },
+    {
+      "query": "как создать вирусный контент для соцсетей",
+      "vacancies": 0,
+      "from_cluster": "smm"
+    },
+    {
+      "query": "контент план как выглядит",
+      "vacancies": 0,
+      "from_cluster": "smm"
+    },
+    {
+      "query": "контент план как должен выглядеть",
+      "vacancies": 0,
+      "from_cluster": "smm"
+    },
+    {
+      "query": "контент план как пишется",
+      "vacancies": 0,
+      "from_cluster": "smm"
+    },
+    {
+      "query": "контент план как сделать",
+      "vacancies": 0,
+      "from_cluster": "smm"
+    },
+    {
+      "query": "контент план как составить",
+      "vacancies": 0,
+      "from_cluster": "smm"
+    },
+    {
+      "query": "контент план что это",
+      "vacancies": 0,
+      "from_cluster": "smm"
+    },
+    {
+      "query": "контент план это что такое",
+      "vacancies": 0,
+      "from_cluster": "smm"
+    },
+    {
+      "query": "продвижение в соцсетях как называется профессия",
+      "vacancies": 0,
+      "from_cluster": "smm"
+    },
+    {
+      "query": "таргет в инстаграм как настроить",
+      "vacancies": 0,
+      "from_cluster": "smm"
+    },
+    {
+      "query": "таргет в инстаграм что это",
+      "vacancies": 0,
+      "from_cluster": "smm"
+    },
+    {
+      "query": "таргет в инстаграме как настроить",
+      "vacancies": 0,
+      "from_cluster": "smm"
+    },
+    {
+      "query": "услуги smm что это",
+      "vacancies": 0,
+      "from_cluster": "smm"
+    },
+    {
+      "query": "smm агентство что это",
+      "vacancies": 0,
+      "from_cluster": "smm"
+    },
+    {
+      "query": "smm и маркетолог разница",
+      "vacancies": 0,
+      "from_cluster": "smm"
+    },
+    {
+      "query": "smm и pr разница",
+      "vacancies": 0,
+      "from_cluster": "smm"
+    },
+    {
+      "query": "smm как переводится",
+      "vacancies": 0,
+      "from_cluster": "smm"
+    },
+    {
+      "query": "smm как расшифровывается",
+      "vacancies": 0,
+      "from_cluster": "smm"
+    },
+    {
+      "query": "контекстная реклама и сео разница",
+      "vacancies": 0,
+      "from_cluster": "advertising"
+    },
+    {
+      "query": "контекстная реклама и seo разница",
+      "vacancies": 0,
+      "from_cluster": "advertising"
+    },
+    {
+      "query": "контекстная реклама как выглядит",
+      "vacancies": 0,
+      "from_cluster": "advertising"
+    },
+    {
+      "query": "контекстная реклама как запустить",
+      "vacancies": 0,
+      "from_cluster": "advertising"
+    },
+    {
+      "query": "контекстная реклама как настроить",
+      "vacancies": 0,
+      "from_cluster": "advertising"
+    },
+    {
+      "query": "контекстная реклама отличие от таргетированной",
+      "vacancies": 0,
+      "from_cluster": "advertising"
+    },
+    {
+      "query": "контекстная реклама примеры объявлений",
+      "vacancies": 0,
+      "from_cluster": "advertising"
+    },
+    {
+      "query": "контекстная реклама сколько стоит",
+      "vacancies": 0,
+      "from_cluster": "advertising"
+    },
+    {
+      "query": "контекстная реклама сколько стоит в месяц",
+      "vacancies": 0,
+      "from_cluster": "advertising"
+    },
+    {
+      "query": "контекстная реклама чем отличается от таргетированной",
+      "vacancies": 0,
+      "from_cluster": "advertising"
+    },
+    {
+      "query": "контекстная реклама что такое",
+      "vacancies": 0,
+      "from_cluster": "advertising"
+    },
+    {
+      "query": "контекстная реклама что это",
+      "vacancies": 0,
+      "from_cluster": "advertising"
+    },
+    {
+      "query": "контекстная реклама что это простыми словами",
+      "vacancies": 0,
+      "from_cluster": "advertising"
+    },
+    {
+      "query": "контекстная реклама что это такое",
+      "vacancies": 0,
+      "from_cluster": "advertising"
+    },
+    {
+      "query": "контекстная реклама что это такое простыми",
+      "vacancies": 0,
+      "from_cluster": "advertising"
+    },
+    {
+      "query": "контекстная реклама яндекс директ как настроить",
+      "vacancies": 0,
+      "from_cluster": "advertising"
+    },
+    {
+      "query": "контекстная реклама яндекс директ что это",
+      "vacancies": 0,
+      "from_cluster": "advertising"
+    },
+    {
+      "query": "контекстная реклама яндекс что это",
+      "vacancies": 0,
+      "from_cluster": "advertising"
+    },
+    {
+      "query": "медиаплан и контент-план разница",
+      "vacancies": 0,
+      "from_cluster": "advertising"
+    },
+    {
+      "query": "медиаплан или медиа-план как писать",
+      "vacancies": 0,
+      "from_cluster": "advertising"
+    },
+    {
+      "query": "медиаплан как выглядит",
+      "vacancies": 0,
+      "from_cluster": "advertising"
+    },
+    {
+      "query": "медиаплан как пишется",
+      "vacancies": 0,
+      "from_cluster": "advertising"
+    },
+    {
+      "query": "медиаплан как пишется правильно",
+      "vacancies": 0,
+      "from_cluster": "advertising"
+    },
+    {
+      "query": "медиаплан как составить",
+      "vacancies": 0,
+      "from_cluster": "advertising"
+    },
+    {
+      "query": "вёрстка сайта что это простыми словами",
+      "vacancies": 0,
+      "from_cluster": "landing"
+    },
+    {
+      "query": "дизайн сайта как называется",
+      "vacancies": 0,
+      "from_cluster": "landing"
+    },
+    {
+      "query": "дизайн сайта как сделать",
+      "vacancies": 0,
+      "from_cluster": "landing"
+    },
+    {
+      "query": "дизайн сайта примеры оформления",
+      "vacancies": 0,
+      "from_cluster": "landing"
+    },
+    {
+      "query": "корпоративный сайт примеры сайтов",
+      "vacancies": 0,
+      "from_cluster": "landing"
+    },
+    {
+      "query": "корпоративный сайт что это",
+      "vacancies": 0,
+      "from_cluster": "landing"
+    },
+    {
+      "query": "разработка лендинга что это",
+      "vacancies": 0,
+      "from_cluster": "landing"
+    },
+    {
+      "query": "разработка сайта сколько стоит",
+      "vacancies": 0,
+      "from_cluster": "landing"
+    },
+    {
+      "query": "сколько стоит лендинг под ключ",
+      "vacancies": 0,
+      "from_cluster": "landing"
+    },
+    {
+      "query": "сколько стоит разработка лендинга",
+      "vacancies": 0,
+      "from_cluster": "landing"
+    },
+    {
+      "query": "создание сайта как сделать сайт",
+      "vacancies": 0,
+      "from_cluster": "landing"
+    },
+    {
+      "query": "что такое вёрстка сайта",
+      "vacancies": 0,
+      "from_cluster": "landing"
+    },
+    {
+      "query": "crm система что это",
+      "vacancies": 0,
+      "from_cluster": "crm"
+    },
+    {
+      "query": "внедрение crm системы что это",
+      "vacancies": 0,
+      "from_cluster": "crm"
+    },
+    {
+      "query": "внедрение crm что это",
+      "vacancies": 0,
+      "from_cluster": "crm"
+    },
+    {
+      "query": "интеграция с crm что это",
+      "vacancies": 0,
+      "from_cluster": "crm"
+    },
+    {
+      "query": "интеграция crm что это",
+      "vacancies": 0,
+      "from_cluster": "crm"
+    },
+    {
+      "query": "настройка crm что это",
+      "vacancies": 0,
+      "from_cluster": "crm"
+    },
+    {
+      "query": "сколько стоит crm система для бизнеса",
+      "vacancies": 0,
+      "from_cluster": "crm"
+    },
+    {
+      "query": "что такое интеграция с crm",
+      "vacancies": 0,
+      "from_cluster": "crm"
+    },
+    {
+      "query": "amo crm как читается",
+      "vacancies": 0,
+      "from_cluster": "crm"
+    },
+    {
+      "query": "amo crm системы что это",
+      "vacancies": 0,
+      "from_cluster": "crm"
+    },
+    {
+      "query": "amo crm что это такое",
+      "vacancies": 0,
+      "from_cluster": "crm"
+    },
+    {
+      "query": "bitrix24 как пользоваться",
+      "vacancies": 0,
+      "from_cluster": "crm"
+    },
+    {
+      "query": "bitrix24 что такое",
+      "vacancies": 0,
+      "from_cluster": "crm"
+    },
+    {
+      "query": "bitrix24 что это за программа",
+      "vacancies": 0,
+      "from_cluster": "crm"
+    },
+    {
+      "query": "bitrix24 что это такое",
+      "vacancies": 0,
+      "from_cluster": "crm"
+    },
+    {
+      "query": "bitrix24 что это такое простыми",
+      "vacancies": 0,
+      "from_cluster": "crm"
+    },
+    {
+      "query": "crm аналитика что это",
+      "vacancies": 0,
+      "from_cluster": "crm"
+    },
+    {
+      "query": "crm битрикс 24 что это",
+      "vacancies": 0,
+      "from_cluster": "crm"
+    },
+    {
+      "query": "crm битрикс24 что это такое",
+      "vacancies": 0,
+      "from_cluster": "crm"
+    },
+    {
+      "query": "crm в авиации что это",
+      "vacancies": 0,
+      "from_cluster": "crm"
+    },
+    {
+      "query": "crm для продаж что это",
+      "vacancies": 0,
+      "from_cluster": "crm"
+    },
+    {
+      "query": "crm и erp системы разница",
+      "vacancies": 0,
+      "from_cluster": "crm"
+    },
+    {
+      "query": "crm как произносится по русски",
+      "vacancies": 0,
+      "from_cluster": "crm"
+    },
+    {
+      "query": "crm как расшифровывается",
+      "vacancies": 0,
+      "from_cluster": "crm"
+    }
+  ],
+  "collisions": [],
+  "home": {
+    "note": "главная не соревнуется за коммерческие корни: только бренд и 2–3 главных услуги"
+  }
+}
