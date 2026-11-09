@@ -15,6 +15,7 @@ import { kontentPlanDlyaSotssetey } from './kontent-plan-dlya-sotssetey';
 import { lendingIliSayt } from './lending-ili-sayt';
 import { kakNachatProdavatNaMarketpleysah } from './kak-nachat-prodavat-na-marketpleysah';
 import { zayavkiTeryayutsya } from './zayavki-teryayutsya';
+import { crmIErpRaznica } from './crm-i-erp-raznica';
 
 export const ARTICLES: Article[] = [
   kakVybratKanal,
@@ -25,6 +26,7 @@ export const ARTICLES: Article[] = [
   lendingIliSayt,
   kakNachatProdavatNaMarketpleysah,
   zayavkiTeryayutsya,
+  crmIErpRaznica,
 ];
 
 export type { Article };
