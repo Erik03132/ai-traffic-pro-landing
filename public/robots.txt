@@ -1,10 +1,14 @@
 User-agent: *
 Allow: /
 
-# /privacy/ и /consent/ намеренно не индексируются, но НЕ блокируются здесь:
-# страницы отдают <meta name="robots" content="noindex, follow">. Правило
-# «noindex + Disallow» противоречиво — робот не читает noindex с закрытого
-# URL, и в Search Console навсегда висит «Заблокировано файлом robots.txt».
-# Оставляем только noindex, чтобы Google сам исключил страницы из индекса.
+# Правило: страницу исключаем из индекса только через <meta name="robots"
+# content="noindex">, а не через Disallow. «noindex + Disallow» противоречиво —
+# робот не читает noindex с закрытого URL, и в Search Console навсегда висит
+# «Заблокировано файлом robots.txt» без возможности выйти из индекса.
+#
+# Сейчас:
+#   /consent/ — noindex, вне sitemap (приложение к политике);
+#   /privacy/ — индексируется, в sitemap (noindex снят 09.11, чтобы страница
+#               могла попасть в индекс как самостоятельный документ).
 
 Sitemap: https://ai-traffic-pro.ru/sitemap.xml

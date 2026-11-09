@@ -44,13 +44,13 @@ const CONTENT_LASTMOD: Record<string, string> = {
 };
 
 const SERVICE_LASTMOD: Record<string, string> = {
-  '/services/leadgen/': '2026-11-04',
-  '/services/seo/': '2026-11-04',
-  '/services/smm/': '2026-11-04',
-  '/services/advertising/': '2026-11-04',
+  '/services/leadgen/': '2026-11-09',
+  '/services/seo/': '2026-11-09',
+  '/services/smm/': '2026-11-09',
+  '/services/advertising/': '2026-11-09',
   '/services/landing/': '2026-11-04',
   '/services/crm/': '2026-11-04',
-  '/services/ecommerce/': '2026-11-04',
+  '/services/ecommerce/': '2026-11-09',
 };
 
 /**
