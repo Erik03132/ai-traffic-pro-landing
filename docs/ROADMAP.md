@@ -15,10 +15,10 @@
 | --------------------------------- | ------ | --------------------------------------------------------------------------------------------------------------------------- |
 | Домен + HTTPS                     | ✅     | `https://ai-traffic-pro.ru` → 200, Cloudflare Pages (NS зоны на Cloudflare)                                                 |
 | Сборка и деплой                   | ✅     | Astro 7 → GitHub Actions → `dist/`; прод на Cloudflare Pages (ручной `wrangler pages deploy`, пока нет `CLOUDFLARE_API_TOKEN`) |
-| Sitemap / robots / llms.txt       | ✅     | все три отдают 200, **9 URL в sitemap** (7 услуг + главная + реквизиты)                                                     |
+| Sitemap / robots / llms.txt       | ✅     | все три отдают 200, **19 URL в sitemap** (главная + реквизиты + политика + блог + 7 услуг + 8 статей)                     |
 | Schema.org                        | ✅     | ProfessionalService, **7×Service**, FAQPage (8 Q&A на главной, 5 на услуге), WebSite, ContactPoint                          |
 | Canonical                         | ✅     | корректный на каждой странице, включая `/privacy/`                                                                          |
-| Юридический блок                  | ✅     | privacy (+noindex), consent, requisites                                                                                     |
+| Юридический блок                  | ✅     | privacy (в индексе с 09.11), consent (noindex), requisites                                                                  |
 | Приём заявок                      | ✅     | форма → API на Cloudflare Worker → Telegram (`/api/health` → `{"ok":true,"telegram":true,"ai":true}`), резерв — Node на VPS |
 | Редирект marketplace → e-commerce | ✅     | `/services/marketplace/` → meta-refresh на `/services/ecommerce/` (живёт в проде)                                           |
 | SSoT контента                     | ⚠️     | `docs/CONTENT_SPEC.md` объявлен SSoT, но фактически тексты лежат в `src/data/site.ts` + `src/data/services/*.ts` — см. дырку «два источника правды» |
