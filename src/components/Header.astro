@@ -128,13 +128,15 @@ const otherNavItems = NAV.filter((item) => item.label !== 'Услуги');
         <span>ONLINE</span>
       </div>
 
-      <a
-        href={href('#contact')}
-        class="inline-flex items-center gap-2 px-4 py-2 bg-stone-900 hover:bg-stone-800 text-white text-xs font-medium rounded-full transition-all"
-      >
-        ОБСУДИТЬ ПРОЕКТ
-        <span class="material-symbols-outlined text-[14px]">arrow_outward</span>
-      </a>
+      {!isHome && (
+        <a
+          href={href('#contact')}
+          class="inline-flex items-center gap-2 px-4 py-2 bg-stone-900 hover:bg-stone-800 text-white text-xs font-medium rounded-full transition-all"
+        >
+          ОБСУДИТЬ ПРОЕКТ
+          <span class="material-symbols-outlined text-[14px]">arrow_outward</span>
+        </a>
+      )}
 
       <button
         type="button"

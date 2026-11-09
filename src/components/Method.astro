@@ -54,34 +54,32 @@ const filters = [
       </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-6 mb-6 sm:mb-8">
       {filters.map((f, i) => (
         <div
-          class="p-3.5 sm:p-8 rounded-3xl bg-white border border-stone-200 editorial-shadow flex flex-col justify-between"
+          class="p-3 sm:p-8 rounded-3xl bg-white border border-stone-200 editorial-shadow flex flex-col justify-between"
         >
           <div>
-            <div
-              class="flex items-center justify-between pb-4 mb-4 border-b border-stone-200"
-            >
+            <div class="flex items-center gap-2 mb-1.5">
               <span
-                class="w-8 h-8 rounded-full border-2 border-stone-900 text-stone-900 font-mono text-xs font-semibold flex items-center justify-center shrink-0 leading-none"
+                class="w-6 h-6 sm:w-7 sm:h-7 rounded-full border-2 border-stone-900 text-stone-900 font-mono text-[11px] sm:text-xs font-semibold flex items-center justify-center shrink-0 leading-none"
               >
                 {i + 1}
               </span>
+              <span class={`font-mono text-xs font-semibold ${f.color} tracking-wider uppercase`}>
+                {f.tag}
+              </span>
               <span
-                class="w-8 h-8 rounded-full border border-stone-200 bg-stone-100 flex items-center justify-center shrink-0"
+                class="ml-auto w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-stone-200 bg-stone-100 flex items-center justify-center shrink-0"
                 title={f.tag}
               >
-                <span class="material-symbols-outlined text-[16px] text-stone-500">{f.icon}</span>
+                <span class="material-symbols-outlined text-[14px] text-stone-500">{f.icon}</span>
               </span>
             </div>
-            <div class={`font-mono text-xs font-semibold ${f.color} mb-2 tracking-wider uppercase`}>
-              {f.tag}
-            </div>
-            <h3 class="text-lg font-semibold text-stone-900 mb-2">{f.title}</h3>
+            <h3 class="text-lg font-semibold text-stone-900 mb-1.5">{f.title}</h3>
             <p class="text-sm text-stone-700 leading-relaxed font-normal">{f.text}</p>
           </div>
-          <div class="pt-6 mt-8 border-t border-sage-500/30 font-mono text-[11px] text-stone-400">
+          <div class="pt-3 mt-4 sm:pt-6 sm:mt-8 border-t border-sage-500/30 font-mono text-[11px] text-stone-400">
             {f.foot}
           </div>
         </div>
