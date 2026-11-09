@@ -20,9 +20,9 @@ interface Props {
 const { items, title, eyebrow, lead, id = 'faq' } = Astro.props;
 ---
 
-<section class="w-full py-14 md:py-24 bg-stone-50" id={id}>
+<section class="w-full py-8 md:py-24 bg-stone-50" id={id}>
   <div class="max-w-4xl mx-auto px-6 lg:px-12">
-    <div class="text-center mb-10 md:mb-16">
+    <div class="text-center mb-5 md:mb-16">
       {eyebrow && (
         <div class="font-mono text-xs font-medium text-terracotta-600 uppercase tracking-widest mb-3">
           {eyebrow}
@@ -40,7 +40,7 @@ const { items, title, eyebrow, lead, id = 'faq' } = Astro.props;
       {items.map((item) => (
         <details class="group bg-white rounded-2xl border border-stone-200 overflow-hidden editorial-shadow">
           <summary
-            class="faq-summary w-full px-6 py-5 flex items-center justify-between gap-4 text-stone-900 font-medium text-base cursor-pointer list-none transition-colors hover:text-terracotta-600"
+            class="faq-summary w-full px-3.5 py-3.5 sm:px-6 sm:py-5 flex items-center justify-between gap-4 text-stone-900 font-medium text-base cursor-pointer list-none transition-colors hover:text-terracotta-600"
           >
             <span>{item.q}</span>
             <span

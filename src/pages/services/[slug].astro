@@ -85,7 +85,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
 
   <!-- Hero -->
   <section class="w-full border-b border-stone-200 bg-white">
-    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop py-16 md:py-24">
+    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop py-12 md:py-24">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
         <div class="lg:col-span-8">
           <div class="flex items-center gap-3 mb-6">
@@ -179,7 +179,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
   </section>
 
   <!-- С какой проблемой приходят -->
-  <section class="w-full border-b border-stone-200 bg-stone-50 py-14 md:py-28">
+  <section class="w-full border-b border-stone-200 bg-stone-50 py-8 md:py-28">
     <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
       <div class="mb-14">
         <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
@@ -209,7 +209,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
   </section>
 
   <!-- Как это работает -->
-  <section class="w-full border-b border-stone-200 bg-white py-14 md:py-28">
+  <section class="w-full border-b border-stone-200 bg-white py-8 md:py-28">
     <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
       <div class="mb-14">
         <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
@@ -257,7 +257,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
   </section>
 
   <!-- Как решаем -->
-  <section class="w-full border-b border-stone-200 bg-white py-14 md:py-28">
+  <section class="w-full border-b border-stone-200 bg-white py-8 md:py-28">
     <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
       <div class="mb-14">
         <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
@@ -290,9 +290,9 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
 
   <!-- GEO-слой (только для SEO) -->
   {service.slug === 'seo' && (
-    <section class="w-full border-b border-stone-200 bg-stone-50 py-14 md:py-28">
+    <section class="w-full border-b border-stone-200 bg-stone-50 py-8 md:py-28">
       <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-16">
           <div class="lg:col-span-5">
             <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
               [03.7 / GEO-СЛОЙ]
@@ -360,9 +360,9 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
 
   <!-- ИНТЕГРАЦИОННЫЙ СЛОЙ (только для CRM) -->
   {service.slug === 'crm' && (
-    <section class="w-full border-b border-stone-200 bg-stone-50 py-14 md:py-28">
+    <section class="w-full border-b border-stone-200 bg-stone-50 py-8 md:py-28">
       <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-16">
           <div class="lg:col-span-5">
             <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
               [03.5 / ИНТЕГРАЦИОННЫЙ СЛОЙ]
@@ -430,7 +430,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
 
   <!-- ТЕХНОЛОГИЧЕСКИЙ СТЕК (только для CRM) -->
   {service.slug === 'crm' && (
-    <section class="w-full border-b border-stone-200 bg-white py-14 md:py-28">
+    <section class="w-full border-b border-stone-200 bg-white py-8 md:py-28">
       <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
         <div class="mb-14">
           <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
@@ -481,7 +481,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
 
   <!-- ПЛОЩАДКИ ПРОДАЖ (только для ecommerce) -->
   {service.slug === 'ecommerce' && service.salesChannels && (
-    <section class="w-full border-b border-stone-200 bg-white py-14 md:py-28">
+    <section class="w-full border-b border-stone-200 bg-white py-8 md:py-28">
       <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
         <div class="mb-14">
           <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
@@ -513,9 +513,9 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
 
   <!-- ИЗ ЧЕГО СОСТОИТ КАРТОЧКА (только для ecommerce) -->
   {service.slug === 'ecommerce' && service.cardParts && (
-    <section class="w-full border-b border-stone-200 bg-stone-50 py-14 md:py-28">
+    <section class="w-full border-b border-stone-200 bg-stone-50 py-8 md:py-28">
       <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-16">
           <div class="lg:col-span-5">
             <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
               [03.6 / КАРТОЧКА ТОВАРА]
@@ -552,7 +552,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
 
   <!-- СИНХРОНИЗАЦИЯ ДАННЫХ (только для ecommerce) -->
   {service.slug === 'ecommerce' && service.dataSync && (
-    <section class="w-full border-b border-stone-200 bg-white py-14 md:py-28">
+    <section class="w-full border-b border-stone-200 bg-white py-8 md:py-28">
       <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
         <div class="mb-14">
           <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
@@ -584,7 +584,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
 
   <!-- ЭТАПЫ ВОРОНКИ (только для leadgen) -->
   {service.slug === 'leadgen' && service.funnelStages && (
-    <section class="w-full border-b border-stone-200 bg-white py-14 md:py-28">
+    <section class="w-full border-b border-stone-200 bg-white py-8 md:py-28">
       <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
         <div class="mb-14">
           <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
@@ -627,7 +627,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
 
   <!-- КАНАЛЫ ПРИВЛЕЧЕНИЯ (только для leadgen) -->
   {service.slug === 'leadgen' && service.leadChannels && (
-    <section class="w-full border-b border-stone-200 bg-stone-50 py-14 md:py-28">
+    <section class="w-full border-b border-stone-200 bg-stone-50 py-8 md:py-28">
       <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
         <div class="mb-14">
           <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
@@ -656,9 +656,9 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
 
   <!-- КВАЛИФИКАЦИЯ ОБРАЩЕНИЙ (только для leadgen) -->
   {service.slug === 'leadgen' && service.qualification && (
-    <section class="w-full border-b border-stone-200 bg-white py-14 md:py-28">
+    <section class="w-full border-b border-stone-200 bg-white py-8 md:py-28">
       <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-16">
           <div class="lg:col-span-5">
             <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
               [03.7 / КВАЛИФИКАЦИЯ]
@@ -695,7 +695,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
 
   <!-- ТИПЫ САЙТОВ (только для landing) -->
   {service.slug === 'landing' && service.siteTypes && (
-    <section class="w-full border-b border-stone-200 bg-white py-14 md:py-28">
+    <section class="w-full border-b border-stone-200 bg-white py-8 md:py-28">
       <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
         <div class="mb-14">
           <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
@@ -724,7 +724,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
 
   <!-- ТЕХНОЛОГИИ (только для landing) -->
   {service.slug === 'landing' && service.techStack && (
-    <section class="w-full border-b border-stone-200 bg-stone-50 py-14 md:py-28">
+    <section class="w-full border-b border-stone-200 bg-stone-50 py-8 md:py-28">
       <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
         <div class="mb-14">
           <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
@@ -753,9 +753,9 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
 
   <!-- ЧЕК-ЛИСТ ПЕРЕД ЗАПУСКОМ (только для landing) -->
   {service.slug === 'landing' && service.launchChecks && (
-    <section class="w-full border-b border-stone-200 bg-white py-14 md:py-28">
+    <section class="w-full border-b border-stone-200 bg-white py-8 md:py-28">
       <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-16">
           <div class="lg:col-span-5">
             <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
               [03.7 / ПРОВЕРКА ПЕРЕД ЗАПУСКОМ]
@@ -792,7 +792,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
 
   <!-- ПЛОЩАДКИ (только для SMM) -->
   {service.slug === 'smm' && service.platforms && (
-    <section class="w-full border-b border-stone-200 bg-white py-14 md:py-28">
+    <section class="w-full border-b border-stone-200 bg-white py-8 md:py-28">
       <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
         <div class="mb-14">
           <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
@@ -821,9 +821,9 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
 
   <!-- ФОРМАТЫ КОНТЕНТА (только для SMM) -->
   {service.slug === 'smm' && service.contentFormats && (
-    <section class="w-full border-b border-stone-200 bg-stone-50 py-14 md:py-28">
+    <section class="w-full border-b border-stone-200 bg-stone-50 py-8 md:py-28">
       <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-16">
           <div class="lg:col-span-5">
             <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
               [03.6 / ФОРМАТЫ КОНТЕНТА]
@@ -860,7 +860,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
 
   <!-- КАНАЛЫ РЕКЛАМЫ (только для advertising) -->
   {service.slug === 'advertising' && service.channels && (
-    <section class="w-full border-b border-stone-200 bg-white py-14 md:py-28">
+    <section class="w-full border-b border-stone-200 bg-white py-8 md:py-28">
       <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
         <div class="mb-14">
           <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
@@ -889,9 +889,9 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
 
   <!-- ФОРМАТЫ И ИНСТРУМЕНТЫ (только для advertising) -->
   {service.slug === 'advertising' && service.adFormats && (
-    <section class="w-full border-b border-stone-200 bg-stone-50 py-14 md:py-28">
+    <section class="w-full border-b border-stone-200 bg-stone-50 py-8 md:py-28">
       <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-16">
           <div class="lg:col-span-5">
             <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
               [03.6 / ФОРМАТЫ И ИНСТРУМЕНТЫ]
@@ -928,7 +928,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
 
   <!-- КОНТЕНТ-ПЛАН И БЕСПЛАТНЫЕ ПОСТЫ (только для advertising) -->
   {service.slug === 'advertising' && service.contentPlan && (
-    <section class="w-full border-b border-stone-200 bg-white py-14 md:py-28">
+    <section class="w-full border-b border-stone-200 bg-white py-8 md:py-28">
       <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
         <div class="mb-14">
           <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
@@ -1023,7 +1023,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
   />
 
   <!-- Форма заявки -->
-  <section class="w-full border-t border-stone-200 bg-stone-100 py-14 md:py-28" id="lead">
+  <section class="w-full border-t border-stone-200 bg-stone-100 py-8 md:py-28" id="lead">
     <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
       <div class="border border-stone-200 bg-white rounded-2xl p-8 md:p-14">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
