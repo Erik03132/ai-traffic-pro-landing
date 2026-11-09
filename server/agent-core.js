@@ -170,7 +170,7 @@ export const SERVICE_LABELS = {
 
 /**
  * Текст заявки для Telegram.
- * @param {{name?:string, contact?:string, service?:string, business?:string, comment?:string, source?:string}} lead
+ * @param {{name?:string, contact?:string, service?:string, business?:string, comment?:string, source?:string, utmSource?:string, utmCampaign?:string, utmContent?:string}} lead
  * @returns {string}
  */
 export function formatLeadMessage(lead) {
@@ -188,6 +188,16 @@ export function formatLeadMessage(lead) {
   }
   if (lead.comment) {
     lines.push('', `📝 <b>О проекте:</b>\n${escapeHtml(lead.comment)}`);
+  }
+  // Канал перехода: Telegram и соцсети не передают referrer, поэтому кроме
+  // страницы показываем utm-метки — иначе «пришёл из Telegram» видно только
+  // в Метрике, но не в самой заявке.
+  if (lead.utmSource) {
+    const detail = [lead.utmCampaign, lead.utmContent].filter(Boolean).join(' · ');
+    lines.push(
+      '',
+      `📣 <b>Источник:</b> ${escapeHtml(lead.utmSource)}${detail ? ` · ${escapeHtml(detail)}` : ''}`,
+    );
   }
   if (lead.source) {
     lines.push('', `🔗 <b>Страница:</b> ${escapeHtml(lead.source)}`);
@@ -223,6 +233,12 @@ export function validateLead(payload) {
   const source = String(payload.source || '')
     .trim()
     .slice(0, 200);
+  // UTM-метки: только буквы, цифры, `-`, `_`, `.` — этого хватает для
+  // utm_source/utm_campaign/utm_content и не даёт протащить разметку в
+  // сообщение Telegram или в выгрузку лидов.
+  const utmSource = cleanUtm(payload.utmSource, 40);
+  const utmCampaign = cleanUtm(payload.utmCampaign, 80);
+  const utmContent = cleanUtm(payload.utmContent, 40);
   const consent =
     payload.consent === true || payload.consent === 'true' || payload.consent === 'on';
 
@@ -236,8 +252,21 @@ export function validateLead(payload) {
   return {
     ok: errors.length === 0,
     errors,
-    lead: { name, contact, service, business, comment, source },
+    lead: { name, contact, service, business, comment, source, utmSource, utmCampaign, utmContent },
   };
+}
+
+/**
+ * Нормализует значение utm-метки.
+ * @param {unknown} value
+ * @param {number} max Длина после обрезки.
+ * @returns {string}
+ */
+function cleanUtm(value, max) {
+  return String(value || '')
+    .trim()
+    .replace(/[^A-Za-z0-9._-]/g, '')
+    .slice(0, max);
 }
 
 /**

@@ -41,7 +41,7 @@ const serviceOptions = current
   action={API.lead}
   novalidate
   data-tg-bot={SITE.bot.username}
-  data-lead-fallback={API.leadFallback}
+  data-lead-fallback={API.leadFallback || undefined}
 >
   <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-6">
     <div>
@@ -224,6 +224,12 @@ const serviceOptions = current
    */
   import { postJson } from '../lib/api-post';
   import { reachGoal } from '../lib/analytics';
+  import { currentUtm, rememberUtm } from '../lib/utm';
+
+  // Метки перехода запоминаем один раз на сессию: человек пришёл из Telegram
+  // на статью, потом ходит по сайту — источник должен остаться первым.
+  // Без этого в заявке будет только страница, а канал потеряется.
+  rememberUtm(window.sessionStorage, window.location.search);
 
   const forms = document.querySelectorAll<HTMLFormElement>('form[id]');
 
@@ -257,6 +263,10 @@ const serviceOptions = current
 
     const telegramLink = (data: Record<string, string>) => {
       const bot = form.dataset.tgBot ?? 'ai_bureau_new_bot';
+      const utm = currentUtm(window.sessionStorage);
+      const utmLine = utm.source
+        ? `Источник: ${[utm.source, utm.campaign, utm.content].filter(Boolean).join(' / ')}`
+        : '';
       const lines = [
         `Заявка с сайта ${window.location.host}`,
         '',
@@ -265,6 +275,7 @@ const serviceOptions = current
         `Услуга: ${data.service}`,
         data.business ? `Компания / сайт: ${data.business}` : '',
         data.comment ? `О проекте: ${data.comment}` : '',
+        utmLine,
       ].filter(Boolean);
       return `https://t.me/${bot}?text=${encodeURIComponent(lines.join('\n'))}`;
     };
@@ -308,12 +319,22 @@ const serviceOptions = current
 
       try {
         // Отправка с резервом: если Worker недоступен по сети, уходим на
-        // резервный адрес (Node-сервер на VPS). Повтор делается только при
-        // сетевой ошибке — на 5xx повтор запрещён, иначе будет дубль заявки.
+        // резервный адрес — но с 10.11.2026 его нет (VPS выведен), поэтому
+        // `fallbackUrl` пустой и заявка уходит только в Worker.
+        // Повтор — лишь при сетевой ошибке: на 5xx запрещён, иначе дубль.
+        // Метки перехода идут вместе с заявкой: без них в сообщении о заявке
+        // видно страницу, но не канал (Метрика канал знает, а Telegram — нет).
+        const utm = currentUtm(window.sessionStorage);
         const result = await postJson({
           url: form.action,
           fallbackUrl: form.dataset.leadFallback || undefined,
-          payload: { ...data, source: window.location.pathname },
+          payload: {
+            ...data,
+            source: window.location.pathname,
+            utmSource: utm.source,
+            utmCampaign: utm.campaign,
+            utmContent: utm.content,
+          },
         });
 
         if (!result.ok) throw new Error('HTTP ' + result.status);

@@ -195,6 +195,79 @@ test('formatLeadMessage: неизвестная услуга не ломает �
   assert.match(text, /unknown-xyz/);
 });
 
+/* ── Источник перехода (UTM) ─────────────────────────────────────────── */
+
+test('validateLead: сохраняет utm-метки перехода', () => {
+  const result = validateLead({
+    name: 'Иван',
+    contact: '+7 999 000 00 00',
+    service: 'crm',
+    consent: true,
+    utmSource: 'telegram',
+    utmCampaign: 'crm-i-erp-raznica',
+    utmContent: 'post-1',
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(result.lead.utmSource, 'telegram');
+  assert.equal(result.lead.utmCampaign, 'crm-i-erp-raznica');
+  assert.equal(result.lead.utmContent, 'post-1');
+});
+
+test('validateLead: без меток поля пустые, заявка проходит', () => {
+  const result = validateLead({
+    name: 'Иван',
+    contact: '+7 999 000 00 00',
+    service: 'seo',
+    consent: true,
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(result.lead.utmSource, '');
+  assert.equal(result.lead.utmCampaign, '');
+});
+
+test('validateLead: чистит метки от разметки и лишних символов', () => {
+  const result = validateLead({
+    name: 'Иван',
+    contact: '+7 999 000 00 00',
+    service: 'seo',
+    consent: true,
+    utmSource: '<b>tg</b>',
+    utmCampaign: 'voronka prodazh',
+    utmContent: 'x'.repeat(100),
+  });
+
+  assert.equal(result.lead.utmSource, 'btgb');
+  assert.equal(result.lead.utmCampaign, 'voronkaprodazh');
+  assert.equal(result.lead.utmContent.length, 40);
+});
+
+test('formatLeadMessage: показывает канал, статью и пост', () => {
+  const text = formatLeadMessage({
+    name: 'Иван',
+    contact: '+7 999 000 00 00',
+    service: 'crm',
+    utmSource: 'telegram',
+    utmCampaign: 'crm-i-erp-raznica',
+    utmContent: 'post-2',
+  });
+
+  assert.match(text, /Источник:/);
+  assert.match(text, /telegram · crm-i-erp-raznica · post-2/);
+});
+
+test('formatLeadMessage: без меток строки источника нет', () => {
+  const text = formatLeadMessage({ name: 'Иван', contact: '+7999', service: 'seo', source: '/' });
+  assert.ok(!text.includes('Источник:'), 'без utm строки источника быть не должно');
+  assert.match(text, /Страница:/);
+});
+
+test('formatLeadMessage: источник только с каналом не оставляет висящий разделитель', () => {
+  const text = formatLeadMessage({ name: 'Иван', contact: '+7999', service: 'seo', utmSource: 'vk' });
+  assert.match(text, /Источник:<\/b> vk$/);
+});
+
 /* ── Промпт для LLM ──────────────────────────────────────────────────── */
 
 test('buildLlmMessages: системный промпт первый, вопрос последний', () => {
