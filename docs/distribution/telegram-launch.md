@@ -36,13 +36,9 @@
 а когда достаточно таблицы. Не «10 трендов», а конкретика: что сделали,
 что не сработало, что считать.
 
-С чего начать — две статьи:
-
-• CRM и ERP: в чём разница и что нужно вашему бизнесу
-  https://ai-traffic-pro.ru/blog/crm-i-erp-raznica/?utm_source=telegram&utm_medium=social&utm_campaign=crm-i-erp-raznica
-
-• Медиаплан и контент-план: в чём разница и что делать первым
-  https://ai-traffic-pro.ru/blog/mediaplan-i-kontent-plan-raznica/?utm_source=telegram&utm_medium=social&utm_campaign=mediaplan-i-kontent-plan-raznica
+С чего начать:
+• [CRM и ERP: в чём разница и что нужно вашему бизнесу](https://ai-traffic-pro.ru/blog/crm-i-erp-raznica/?utm_source=telegram&utm_medium=social&utm_campaign=crm-i-erp-raznica)
+• [Медиаплан и контент-план: в чём разница и что делать первым](https://ai-traffic-pro.ru/blog/mediaplan-i-kontent-plan-raznica/?utm_source=telegram&utm_medium=social&utm_campaign=mediaplan-i-kontent-plan-raznica)
 
 Полные разборы — на сайте: ai-traffic-pro.ru
 ```
@@ -62,12 +58,8 @@
 пост не выходит. Поэтому здесь будет мало текста и много разборов.
 
 Начнём с двух статей в блоге:
-
-• CRM и ERP: в чём разница и что нужно вашему бизнесу
-  https://ai-traffic-pro.ru/blog/crm-i-erp-raznica/?utm_source=telegram&utm_medium=social&utm_campaign=crm-i-erp-raznica
-
-• Медиаплан и контент-план: в чём разница и что делать первым
-  https://ai-traffic-pro.ru/blog/mediaplan-i-kontent-plan-raznica/?utm_source=telegram&utm_medium=social&utm_campaign=mediaplan-i-kontent-plan-raznica
+• [CRM и ERP: в чём разница и что нужно вашему бизнесу](https://ai-traffic-pro.ru/blog/crm-i-erp-raznica/?utm_source=telegram&utm_medium=social&utm_campaign=crm-i-erp-raznica)
+• [Медиаплан и контент-план: в чём разница и что делать первым](https://ai-traffic-pro.ru/blog/mediaplan-i-kontent-plan-raznica/?utm_source=telegram&utm_medium=social&utm_campaign=mediaplan-i-kontent-plan-raznica)
 ```
 
 ### Пост 2 — из статьи про CRM и ERP
@@ -89,9 +81,7 @@ CRM не заменяет учёт. ERP не ведёт продажи.
 заказ нужно выполнить — передаёт его в ERP. Клиент при этом не переключают
 между системами: он общается только с CRM.
 
-Что делать, если CRM уже есть, но её обходят стороной — разобрали в статье:
-
-https://ai-traffic-pro.ru/blog/crm-i-erp-raznica/?utm_source=telegram&utm_medium=social&utm_campaign=crm-i-erp-raznica
+Что делать, если CRM уже есть, но её обходят стороной, — [пошаговый разбор в блоге](https://ai-traffic-pro.ru/blog/crm-i-erp-raznica/?utm_source=telegram&utm_medium=social&utm_campaign=crm-i-erp-raznica).
 ```
 
 ### Пост 3 — из статьи про медиаплан и контент-план
@@ -112,10 +102,35 @@ https://ai-traffic-pro.ru/blog/crm-i-erp-raznica/?utm_source=telegram&utm_medium
 Порядок простой: сначала деньги, потом материалы. Контент-план пишется под
 те каналы, которые уже есть в медиаплане.
 
-Подробно — в статье:
-
-https://ai-traffic-pro.ru/blog/mediaplan-i-kontent-plan-raznica/?utm_source=telegram&utm_medium=social&utm_campaign=mediaplan-i-kontent-plan-raznica
+Подробно — [в статье про медиаплан и контент-план](https://ai-traffic-pro.ru/blog/mediaplan-i-kontent-plan-raznica/?utm_source=telegram&utm_medium=social&utm_campaign=mediaplan-i-kontent-plan-raznica).
 ```
+
+### Как вставить ссылку, чтобы не было простыни
+
+В постах выше ссылки оформлены как гиперссылки на фразу: в тексте читатель
+видит `пошаговый разбор в блоге`, а адрес с метками спрятан внутри.
+
+- **Telegram Desktop:** вставить текст поста → выделить фразу → `Cmd/Ctrl+K`
+  → вставить адрес. Либо сразу напечатать `[фраза](адрес)` — приложение
+  превратит это в ссылку.
+- **Telegram на телефоне:** выделить фразу → «Форматирование» → «Ссылка» →
+  вставить адрес.
+- **Превью статьи появится в любом случае** — Telegram подтягивает карточку с
+  обложкой по первой ссылке, даже если в тексте видна только фраза.
+
+Правила для фразы-ссылки:
+
+- Она должна называть, что человек получит: «пошаговый разбор», «как считать
+  окупаемость», «чеклист в блоге». «Узнать подробнее» и «подробнее по ссылке» —
+  хуже: не видно, зачем нажимать.
+- Одна ссылка на пост. Две и больше — читатель выбирает и не идёт никуда.
+- Сырой адрес в тексте не оставляем: он ломает строку и выглядит как спам.
+
+**Если бот есть в админах канала** (`@ai_bureau_new_bot`), пост можно
+опубликовать не руками, а через Bot API — тогда вместо гиперссылки будет
+кнопка «Читать статью» под постом, а адрес не виден вообще. Пока бот в канал
+не добавлен, работаем гиперссылкой: разница только в виде, метки и учёт
+работают одинаково.
 
 ## 5. Правила канала (чтобы не превратить в анонсы)
 
