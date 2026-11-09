@@ -32,7 +32,10 @@
   — 6 тем с привязкой к услугам и вопросам из ядра, недели 10–16 / 17–23 /
   24–30.11.** Ревизия плана — 01–02.12, по первой выгрузке из GSC.
   Темы ноября (по одной на статью, слот — `src/data/blog/<slug>.ts`):
-  1. `crm-i-erp-raznica` → crm — «CRM и ERP: разница» (неделя 1)
+  1. ✅ `crm-i-erp-raznica` → crm — «CRM и ERP: разница» — **опубликована
+     10.11.2026** (commit `7841918`), прод 200, canonical верный, `lastmod`
+     2026-11-10 в sitemap (20 URL), 1 263 слова, FAQPage, 5 ссылок на
+     `/services/crm/`. В GSC ещё не запрошено индексирование.
   2. `mediaplan-i-kontent-plan-raznica` → advertising — «Медиаплан и
      контент-план: в чём разница» (неделя 1)
   3. `voronka-prodazh-kak-postroit` → leadgen — «Воронка продаж: как построить»
