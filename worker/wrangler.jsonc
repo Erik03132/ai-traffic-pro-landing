@@ -19,6 +19,17 @@
    * Модель выбрана в коде: `@cf/meta/llama-3.1-8b-instruct-fp8-fast`.
    * `deepseek-v4-*` требуют Workers Paid ($5/мес) — не используем.
    */
+  /**
+   * Публичные настройки: сайт и канал. Секреты — отдельно, через
+   * `wrangler secret put` (в репозитории их нет).
+   * TELEGRAM_CHANNEL_ID — канал публикации постов; бот должен быть его
+   * администратором, иначе кнопка «Опубликовать» вернёт ошибку прав.
+   */
+  "vars": {
+    "SITE_URL": "https://ai-traffic-pro.ru",
+    "TELEGRAM_CHANNEL_ID": "@aitrafficpro"
+  },
+
   "ai": {
     "binding": "AI"
   },

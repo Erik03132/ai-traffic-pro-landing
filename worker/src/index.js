@@ -23,6 +23,14 @@ import {
   formatLeadMessage,
   validateLead,
 } from '../../server/agent-core.js';
+import {
+  buildLink,
+  channelKeyboard,
+  draftKeyboard,
+  isSlug,
+  parseCallback,
+  renderPost,
+} from './publish.js';
 
 /* ──────────────────────────────────────────────────────────────────────────
  * Конфигурация
@@ -172,6 +180,228 @@ async function callAi(messages, env) {
 }
 
 /* ──────────────────────────────────────────────────────────────────────────
+ * Публикация постов в канал с подтверждением
+ * ────────────────────────────────────────────────────────────────────────── */
+
+/** Сколько живёт черновик до нажатия кнопки. */
+const DRAFT_TTL = 60 * 60 * 24 * 14;
+
+/**
+ * Вызов метода Bot API. Ошибки возвращаются объектом, а не бросаются:
+ * сеть до Telegram может отвалиться, а заявку всё равно нужно обработать.
+ * @returns {Promise<{ok: boolean, result?: unknown, description?: string}>}
+ */
+async function tgCall(env, method, payload) {
+  if (!env.TELEGRAM_BOT_TOKEN) {
+    return { ok: false, description: 'TELEGRAM_BOT_TOKEN не задан' };
+  }
+
+  try {
+    const resp = await fetch(`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/${method}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    return await resp.json();
+  } catch (e) {
+    return { ok: false, description: e.message };
+  }
+}
+
+/** Эндпоинты черновиков закрыты токеном: иначе кто угодно постит в канал. */
+function publishAuthorized(request, env) {
+  if (!env.TG_PUBLISH_TOKEN) return false;
+  return request.headers.get('Authorization') === `Bearer ${env.TG_PUBLISH_TOKEN}`;
+}
+
+/**
+ * POST /api/tg/preview — отправить черновик владельцу канала.
+ * Тело: `{ slug, text, content? }`. В `text` ссылка пишется как
+ * `[фраза]({{link}})` — адрес с UTM подставит Worker.
+ */
+async function handleTgPreview(request, env, kv) {
+  if (!publishAuthorized(request, env)) {
+    return json({ error: 'unauthorized' }, request, env, 401);
+  }
+  if (!env.TELEGRAM_CHAT_ID) {
+    return json({ error: 'TELEGRAM_CHAT_ID не задан' }, request, env, 500);
+  }
+
+  const payload = await request.json().catch(() => ({}));
+  const slug = String(payload.slug || '');
+
+  if (!isSlug(slug)) return json({ error: 'плохой слаг' }, request, env, 400);
+
+  const content = String(payload.content || '')
+    .replace(/[^A-Za-z0-9._-]/g, '')
+    .slice(0, 40);
+  const linkUrl = buildLink(slug, content, env.SITE_URL);
+
+  let html;
+  try {
+    html = renderPost(payload.text, linkUrl);
+  } catch (e) {
+    return json({ error: e.message }, request, env, 400);
+  }
+
+  // Черновик в KV: по кнопке публикуем ровно тот текст, который видел человек.
+  if (kv) {
+    await kv.put(`draft:tg:${slug}`, JSON.stringify({ html, linkUrl }), {
+      expirationTtl: DRAFT_TTL,
+    });
+  }
+
+  const sent = await tgCall(env, 'sendMessage', {
+    chat_id: env.TELEGRAM_CHAT_ID,
+    text: `${html}\n\n<i>Черновик поста. Проверьте текст и нажмите кнопку.</i>`,
+    parse_mode: 'HTML',
+    reply_markup: draftKeyboard(slug),
+  });
+
+  if (!sent.ok) {
+    return json({ error: sent.description || 'telegram error' }, request, env, 502);
+  }
+
+  return json({ ok: true, slug, link: linkUrl }, request, env);
+}
+
+/**
+ * POST /api/tg/webhook — нажатия кнопок под черновиком.
+ *
+ * Публикация только по кнопке «Опубликовать»: бот не постит сам. Текст берём
+ * из KV, а не из сообщения, — так подпись не подделать правкой чата.
+ */
+async function handleTgWebhook(request, env, kv) {
+  const secret = request.headers.get('X-Telegram-Bot-Api-Secret-Token') || '';
+
+  if (!env.TELEGRAM_WEBHOOK_SECRET || secret !== env.TELEGRAM_WEBHOOK_SECRET) {
+    return json({ error: 'unauthorized' }, request, env, 401);
+  }
+
+  const update = await request.json().catch(() => ({}));
+  const query = update.callback_query;
+
+  // Прочие апдейты (сообщения боту) нас не касаются.
+  if (!query) return json({ ok: true }, request, env);
+
+  const message = query.message || {};
+  const chatId = String((message.chat || {}).id ?? '');
+
+  // Кнопки работают только в личном чате владельца: чужое нажатие игнорируем.
+  if (String(env.TELEGRAM_CHAT_ID) !== chatId) {
+    return json({ ok: true }, request, env);
+  }
+
+  const { action, slug } = parseCallback(query.data);
+
+  if (action === 'unknown') {
+    await tgCall(env, 'answerCallbackQuery', {
+      callback_query_id: query.id,
+      text: 'Кнопка устарела',
+    });
+    return json({ ok: true }, request, env);
+  }
+
+  const key = `draft:tg:${slug}`;
+  const raw = kv ? await kv.get(key) : null;
+  const draft = raw ? JSON.parse(raw) : null;
+
+  if (!draft) {
+    await tgCall(env, 'answerCallbackQuery', {
+      callback_query_id: query.id,
+      text: 'Черновик устарел — отправьте пост заново',
+    });
+    return json({ ok: true }, request, env);
+  }
+
+  if (action === 'tgdrop') {
+    if (kv) await kv.delete(key);
+    await tgCall(env, 'editMessageText', {
+      chat_id: chatId,
+      message_id: message.message_id,
+      text: `${draft.html}\n\n<i>❌ Отклонено — в канал не ушло</i>`,
+      parse_mode: 'HTML',
+      reply_markup: { inline_keyboard: [] },
+    });
+    await tgCall(env, 'answerCallbackQuery', {
+      callback_query_id: query.id,
+      text: 'Отклонено',
+    });
+    return json({ ok: true }, request, env);
+  }
+
+  if (!env.TELEGRAM_CHANNEL_ID) {
+    await tgCall(env, 'answerCallbackQuery', {
+      callback_query_id: query.id,
+      text: 'Канал не настроен',
+    });
+    return json({ error: 'TELEGRAM_CHANNEL_ID не задан' }, request, env, 500);
+  }
+
+  const posted = await tgCall(env, 'sendMessage', {
+    chat_id: env.TELEGRAM_CHANNEL_ID,
+    text: draft.html,
+    parse_mode: 'HTML',
+    reply_markup: channelKeyboard(draft.linkUrl),
+  });
+
+  if (!posted.ok) {
+    // Причина важна: обычно это «bot is not a member of the channel» или
+    // «not enough rights» — то есть бота не добавили админом.
+    await tgCall(env, 'answerCallbackQuery', {
+      callback_query_id: query.id,
+      text: `Не вышло: ${posted.description || 'ошибка Telegram'}`,
+    });
+    return json({ error: posted.description }, request, env, 502);
+  }
+
+  if (kv) await kv.delete(key);
+  await tgCall(env, 'editMessageText', {
+    chat_id: chatId,
+    message_id: message.message_id,
+    text: `${draft.html}\n\n<i>✅ Опубликовано в канале</i>`,
+    parse_mode: 'HTML',
+    reply_markup: { inline_keyboard: [] },
+  });
+  await tgCall(env, 'answerCallbackQuery', {
+    callback_query_id: query.id,
+    text: 'Опубликовано',
+  });
+
+  return json({ ok: true }, request, env);
+}
+
+/**
+ * POST /api/tg/init — регистрирует вебхук для кнопок.
+ * Вызывается один раз после деплоя: URL и секрет знает Worker, не человек.
+ */
+async function handleTgInit(request, env) {
+  if (!publishAuthorized(request, env)) {
+    return json({ error: 'unauthorized' }, request, env, 401);
+  }
+  if (!env.TELEGRAM_WEBHOOK_SECRET) {
+    return json({ error: 'TELEGRAM_WEBHOOK_SECRET не задан' }, request, env, 500);
+  }
+
+  const hook = new URL('/api/tg/webhook', request.url).toString();
+  const [hookRes, meRes] = await Promise.all([
+    tgCall(env, 'setWebhook', {
+      url: hook,
+      secret_token: env.TELEGRAM_WEBHOOK_SECRET,
+      allowed_updates: ['callback_query'],
+    }),
+    tgCall(env, 'getMe'),
+  ]);
+
+  return json(
+    { webhook: hookRes, bot: meRes.result?.username ?? null },
+    request,
+    env,
+    hookRes.ok ? 200 : 502,
+  );
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
  * Обработчики
  * ────────────────────────────────────────────────────────────────────────── */
 
@@ -270,10 +500,23 @@ export default {
           ok: true,
           telegram: Boolean(env.TELEGRAM_BOT_TOKEN && env.TELEGRAM_CHAT_ID),
           ai: Boolean(env.AI),
+          publish: Boolean(env.TG_PUBLISH_TOKEN && env.TELEGRAM_CHANNEL_ID),
         },
         request,
         env,
       );
+    }
+
+    if (request.method === 'POST' && pathname === '/api/tg/preview') {
+      return await handleTgPreview(request, env, env.LEADS);
+    }
+
+    if (request.method === 'POST' && pathname === '/api/tg/webhook') {
+      return await handleTgWebhook(request, env, env.LEADS);
+    }
+
+    if (request.method === 'POST' && pathname === '/api/tg/init') {
+      return await handleTgInit(request, env);
     }
 
     if (request.method !== 'POST' || (pathname !== '/api/chat' && pathname !== '/api/lead')) {
