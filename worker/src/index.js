@@ -27,6 +27,7 @@ import {
   buildLink,
   channelKeyboard,
   draftKeyboard,
+  draftKey,
   isSlug,
   parseCallback,
   renderPost,
@@ -246,7 +247,7 @@ async function handleTgPreview(request, env, kv) {
 
   // Черновик в KV: по кнопке публикуем ровно тот текст, который видел человек.
   if (kv) {
-    await kv.put(`draft:tg:${slug}`, JSON.stringify({ html, linkUrl }), {
+    await kv.put(draftKey(slug, content), JSON.stringify({ html, linkUrl }), {
       expirationTtl: DRAFT_TTL,
     });
   }
@@ -255,7 +256,7 @@ async function handleTgPreview(request, env, kv) {
     chat_id: env.TELEGRAM_CHAT_ID,
     text: `${html}\n\n<i>Черновик поста. Проверьте текст и нажмите кнопку.</i>`,
     parse_mode: 'HTML',
-    reply_markup: draftKeyboard(slug),
+    reply_markup: draftKeyboard(slug, content),
   });
 
   if (!sent.ok) {
@@ -292,7 +293,7 @@ async function handleTgWebhook(request, env, kv) {
     return json({ ok: true }, request, env);
   }
 
-  const { action, slug } = parseCallback(query.data);
+  const { action, slug, content } = parseCallback(query.data);
 
   if (action === 'unknown') {
     await tgCall(env, 'answerCallbackQuery', {
@@ -302,7 +303,7 @@ async function handleTgWebhook(request, env, kv) {
     return json({ ok: true }, request, env);
   }
 
-  const key = `draft:tg:${slug}`;
+  const key = draftKey(slug, content);
   const raw = kv ? await kv.get(key) : null;
   const draft = raw ? JSON.parse(raw) : null;
 
@@ -384,17 +385,37 @@ async function handleTgInit(request, env) {
   }
 
   const hook = new URL('/api/tg/webhook', request.url).toString();
-  const [hookRes, meRes] = await Promise.all([
-    tgCall(env, 'setWebhook', {
-      url: hook,
-      secret_token: env.TELEGRAM_WEBHOOK_SECRET,
-      allowed_updates: ['callback_query'],
-    }),
-    tgCall(env, 'getMe'),
-  ]);
+  const hookRes = await tgCall(env, 'setWebhook', {
+    url: hook,
+    secret_token: env.TELEGRAM_WEBHOOK_SECRET,
+    allowed_updates: ['callback_query'],
+  });
+  const meRes = await tgCall(env, 'getMe');
+  const botId = meRes.result?.id;
+
+  // Права в канале проверяем сразу: без «Публикация сообщений» кнопка
+  // «Опубликовать» будет падать, и лучше узнать это до первого поста.
+  let channel = null;
+  if (env.TELEGRAM_CHANNEL_ID) {
+    const chatRes = await tgCall(env, 'getChat', { chat_id: env.TELEGRAM_CHANNEL_ID });
+    const memberRes = botId
+      ? await tgCall(env, 'getChatMember', {
+          chat_id: env.TELEGRAM_CHANNEL_ID,
+          user_id: botId,
+        })
+      : { ok: false, description: 'бот не определён' };
+
+    channel = {
+      title: chatRes.result?.title ?? null,
+      chat_error: chatRes.ok ? null : chatRes.description,
+      status: memberRes.result?.status ?? null,
+      can_post_messages: Boolean(memberRes.result?.can_post_messages),
+      rights_error: memberRes.ok ? null : memberRes.description,
+    };
+  }
 
   return json(
-    { webhook: hookRes, bot: meRes.result?.username ?? null },
+    { webhook: hookRes, bot: meRes.result?.username ?? null, channel },
     request,
     env,
     hookRes.ok ? 200 : 502,

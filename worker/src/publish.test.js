@@ -7,6 +7,7 @@ import {
   buildLink,
   channelKeyboard,
   draftKeyboard,
+  draftKey,
   escapeHtml,
   isSlug,
   parseCallback,
@@ -94,6 +95,17 @@ test('draftKeyboard: две кнопки, callback_data в лимите', () => 
   assert.equal(dropBtn.callback_data, 'tgdrop:crm-i-erp-raznica');
 });
 
+test('draftKeyboard: метка поста различает черновики одной статьи', () => {
+  const kb = draftKeyboard('crm-i-erp-raznica', 'post-2');
+  assert.equal(kb.inline_keyboard[0][0].callback_data, 'tgpub:crm-i-erp-raznica:post-2');
+  assert.ok(kb.inline_keyboard[0][0].callback_data.length <= CALLBACK_LIMIT);
+});
+
+test('draftKey: с меткой поста и без неё', () => {
+  assert.equal(draftKey('voronka'), 'draft:tg:voronka');
+  assert.equal(draftKey('voronka', 'post-2'), 'draft:tg:voronka:post-2');
+});
+
 test('draftKeyboard: плохой слаг — ошибка, а не битая кнопка', () => {
   assert.throws(() => draftKeyboard('../../etc'), /слаг/);
 });
@@ -104,11 +116,16 @@ test('channelKeyboard: одна кнопка-ссылка на статью', ()
 });
 
 test('parseCallback: разбирает публикацию, отказ и мусор', () => {
-  assert.deepEqual(parseCallback('tgpub:voronka'), { action: 'tgpub', slug: 'voronka' });
-  assert.deepEqual(parseCallback('tgdrop:voronka'), { action: 'tgdrop', slug: 'voronka' });
-  assert.deepEqual(parseCallback('evil:voronka'), { action: 'unknown', slug: 'voronka' });
-  assert.deepEqual(parseCallback('tgpub:../../x'), { action: 'unknown', slug: '' });
-  assert.deepEqual(parseCallback(''), { action: 'unknown', slug: '' });
+  assert.deepEqual(parseCallback('tgpub:voronka'), { action: 'tgpub', slug: 'voronka', content: '' });
+  assert.deepEqual(parseCallback('tgpub:voronka:post-2'), {
+    action: 'tgpub',
+    slug: 'voronka',
+    content: 'post-2',
+  });
+  assert.deepEqual(parseCallback('tgdrop:voronka'), { action: 'tgdrop', slug: 'voronka', content: '' });
+  assert.deepEqual(parseCallback('evil:voronka'), { action: 'unknown', slug: 'voronka', content: '' });
+  assert.deepEqual(parseCallback('tgpub:../../x'), { action: 'unknown', slug: '', content: '' });
+  assert.deepEqual(parseCallback(''), { action: 'unknown', slug: '', content: '' });
 });
 
 test('escapeHtml: кавычки не ломают атрибут ссылки', () => {

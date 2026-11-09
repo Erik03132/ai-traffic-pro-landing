@@ -86,17 +86,31 @@ export function renderPost(markdown, linkUrl) {
   return html;
 }
 
-/** Клавиатура черновика: публикация или отказ. */
-export function draftKeyboard(slug) {
+/** Ключ черновика в KV: слаг плюс метка поста (`post-1`), если есть. */
+export function draftKey(slug, content = '') {
+  return content ? `draft:tg:${slug}:${content}` : `draft:tg:${slug}`;
+}
+
+/** Хвост `callback_data`: слаг и метка поста. */
+function payloadOf(slug, content = '') {
   if (!isSlug(slug)) throw new Error('плохой слаг');
-  const data = `tgpub:${slug}`;
-  if (data.length > CALLBACK_LIMIT) throw new Error('callback_data длиннее лимита');
+  const tail = content ? `${slug}:${content}` : slug;
+  if (tail.length > CALLBACK_LIMIT - 6) throw new Error('callback_data длиннее лимита');
+  return tail;
+}
+
+/**
+ * Клавиатура черновика: публикация или отказ.
+ * `content` различает несколько постов про одну статью (`post-1`, `post-2`).
+ */
+export function draftKeyboard(slug, content = '') {
+  const tail = payloadOf(slug, content);
 
   return {
     inline_keyboard: [
       [
-        { text: '✅ Опубликовать в канал', callback_data: data },
-        { text: '❌ Отклонить', callback_data: `tgdrop:${slug}` },
+        { text: '✅ Опубликовать в канал', callback_data: `tgpub:${tail}` },
+        { text: '❌ Отклонить', callback_data: `tgdrop:${tail}` },
       ],
     ],
   };
@@ -107,10 +121,10 @@ export function channelKeyboard(linkUrl) {
   return { inline_keyboard: [[{ text: 'Читать статью →', url: linkUrl }]] };
 }
 
-/** Разбирает `callback_data` вида `tgpub:<slug>`. */
+/** Разбирает `callback_data` вида `tgpub:<slug>` или `tgpub:<slug>:<post>`. */
 export function parseCallback(data) {
-  const [action, slug] = String(data || '').split(':');
-  if (!isSlug(slug)) return { action: 'unknown', slug: '' };
-  if (action !== 'tgpub' && action !== 'tgdrop') return { action: 'unknown', slug };
-  return { action, slug };
+  const [action, slug, content = ''] = String(data || '').split(':');
+  if (!isSlug(slug)) return { action: 'unknown', slug: '', content: '' };
+  if (action !== 'tgpub' && action !== 'tgdrop') return { action: 'unknown', slug, content };
+  return { action, slug, content: content.slice(0, 20) };
 }
