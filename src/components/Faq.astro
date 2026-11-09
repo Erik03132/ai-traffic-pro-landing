@@ -20,9 +20,9 @@ interface Props {
 const { items, title, eyebrow, lead, id = 'faq' } = Astro.props;
 ---
 
-<section class="w-full py-24 bg-stone-50" id={id}>
+<section class="w-full py-14 md:py-24 bg-stone-50" id={id}>
   <div class="max-w-4xl mx-auto px-6 lg:px-12">
-    <div class="text-center mb-16">
+    <div class="text-center mb-10 md:mb-16">
       {eyebrow && (
         <div class="font-mono text-xs font-medium text-terracotta-600 uppercase tracking-widest mb-3">
           {eyebrow}
