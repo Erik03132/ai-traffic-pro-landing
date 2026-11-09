@@ -10,6 +10,7 @@ export const kakNachatProdavatNaMarketpleysah: Article = {
   lead: 'Выход на маркетплейс часто начинают с фотографий и красивой карточки, а заканчивают разочарованием: заказы идут, а прибыли нет. Порядок здесь обратный — сначала экономика и данные о товаре, потом витрина и реклама. Ниже последовательность, которая снижает цену ошибки.',
   date: '2026-10-28',
   readingTime: 7,
+  image: '/blog/kak-nachat-prodavat-na-marketpleysah.jpg',
   tag: 'E-COMMERCE',
   sections: [
     {

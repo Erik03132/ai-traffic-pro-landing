@@ -78,6 +78,11 @@ const fmt = (iso: string) =>
             href={`/blog/${a.slug}/`}
             class="group rounded-2xl border border-stone-200 bg-white p-4 sm:p-8 flex flex-col hover:border-primary-container transition-colors"
           >
+            {
+              /* Обложку в карточке не показываем: текст на превью дублирует
+                 H2 ниже. Обложка живёт только в og:image — для соцсетей. */
+            }
+
             <div class="flex items-center gap-3 mb-4">
               <span class="font-mono-label text-mono-label uppercase tracking-wider text-terracotta-600">
                 {a.tag}

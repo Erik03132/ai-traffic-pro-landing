@@ -15,6 +15,12 @@ export interface PageMeta {
   type?: 'website' | 'article';
   /** Блокирует индексацию (служебные страницы) */
   noindex?: boolean;
+  /**
+   * Картинка страницы: путь от корня (например `/blog/<slug>.jpg`).
+   * Попадает в og:image и twitter:image. Без неё карточка ссылки в
+   * Telegram/VK/Дзен будет без изображения.
+   */
+  image?: string;
 }
 
 export function absoluteUrl(path: string): string {

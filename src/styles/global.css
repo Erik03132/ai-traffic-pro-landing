@@ -65,17 +65,17 @@
   --shadow-elevated: 0 24px 48px -12px rgba(24, 24, 27, 0.1);
 
   /* Шрифты */
-  --font-serif: 'Instrument Serif', Georgia, serif;
-  --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Manrope', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
-  --font-body-lg: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
-  --font-body-md: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
-  --font-body-sm: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
-  --font-headline-sm: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
-  --font-headline-md: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
-  --font-headline-lg: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
-  --font-headline-xl: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
-  --font-display-hero: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-body-lg: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+  --font-body-md: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+  --font-body-sm: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+  --font-headline-sm: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+  --font-headline-md: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+  --font-headline-lg: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+  --font-headline-xl: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+  --font-display-hero: 'Manrope', ui-sans-serif, system-ui, sans-serif;
   --font-mono-index: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
   --font-mono-label: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
 

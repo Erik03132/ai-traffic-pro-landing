@@ -74,6 +74,12 @@ const ogType = meta.type ?? 'website';
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={meta.title} />
     <meta name="twitter:description" content={meta.description} />
+    {
+      /* Картинка страницы: og:image нужен соцсетям для превью ссылки.
+         Без неё Telegram, VK и Дзен показывают карточку без изображения. */
+    }
+    {meta.image && <meta property="og:image" content={absoluteUrl(meta.image)} />}
+    {meta.image && <meta name="twitter:image" content={absoluteUrl(meta.image)} />}
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="sitemap" href="/sitemap.xml" />
@@ -82,7 +88,7 @@ const ogType = meta.type ?? 'website';
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
     />
     <link
       rel="stylesheet"

@@ -54,6 +54,7 @@ const dateLabel = new Date(article.date).toLocaleDateString('ru-RU', {
     description: article.seoDescription,
     path,
     type: 'article',
+    image: article.image,
   }}
   ld={ld}
   localFaq={true}
@@ -105,6 +106,11 @@ const dateLabel = new Date(article.date).toLocaleDateString('ru-RU', {
       <p class="font-body-lg text-body-lg text-stone-700 leading-relaxed">
         {article.lead}
       </p>
+
+      {
+        /* Обложку в шапке не показываем: она дублирует H1 и мешает чтению.
+           Картинка остаётся в og:image — для превью ссылки в соцсетях. */
+      }
     </div>
   </header>
 

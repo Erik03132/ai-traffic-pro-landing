@@ -10,6 +10,7 @@ export const geoProvizhenieChecklist: Article = {
   lead: 'Клиент всё чаще спрашивает не у поисковой строки, а у чата: «кто в городе делает вот это». В ответе — три-четыре компании, и вас может там не быть. Ниже — что проверить и дописать на сайте, чтобы нейросети было из чего собрать ответ с вашим названием.',
   date: '2026-10-28',
   readingTime: 6,
+  image: '/blog/geo-prodvizhenie-checklist.jpg',
   tag: 'SEO И GEO',
   sections: [
     {
