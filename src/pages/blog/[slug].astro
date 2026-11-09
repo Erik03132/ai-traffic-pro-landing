@@ -88,7 +88,7 @@ const dateLabel = new Date(article.date).toLocaleDateString('ru-RU', {
 
   <!-- Заголовок статьи -->
   <header class="w-full border-b border-stone-200 bg-white">
-    <div class="max-w-3xl mx-auto px-margin md:px-margin-desktop py-12 md:py-20">
+    <div class="max-w-3xl mx-auto px-margin md:px-margin-desktop py-8 md:py-20">
       <div class="flex flex-wrap items-center gap-3 mb-6">
         <span class="inline-flex items-center px-3 py-1 rounded-full border border-stone-200 bg-stone-100 font-mono-label text-mono-label uppercase tracking-wider text-terracotta-600">
           {article.tag}
@@ -109,10 +109,10 @@ const dateLabel = new Date(article.date).toLocaleDateString('ru-RU', {
   </header>
 
   <!-- Тело статьи -->
-  <article class="w-full bg-stone-50 py-12 md:py-20">
+  <article class="w-full bg-stone-50 py-8 md:py-20">
     <div class="max-w-3xl mx-auto px-margin md:px-margin-desktop">
       {article.sections.map((section, i) => (
-        <section class={i === 0 ? '' : 'mt-12'}>
+        <section class={i === 0 ? '' : 'mt-8 sm:mt-12'}>
           <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight mb-5">
             {section.title}
           </h2>
@@ -157,7 +157,7 @@ const dateLabel = new Date(article.date).toLocaleDateString('ru-RU', {
 
       <!-- Ссылка на услугу: статья → её кластер -->
       {service && (
-        <aside class="mt-14 rounded-2xl border border-stone-200 bg-stone-100 p-8">
+        <aside class="mt-8 sm:mt-14 rounded-2xl border border-stone-200 bg-stone-100 p-4 sm:p-8">
           <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
             [УСЛУГА ПО ТЕМЕ]
           </span>
@@ -185,7 +185,7 @@ const dateLabel = new Date(article.date).toLocaleDateString('ru-RU', {
   <!-- Другие статьи -->
   <section class="w-full border-t border-stone-200 bg-white py-8 md:py-24">
     <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
-      <div class="flex items-end justify-between gap-6 mb-10">
+      <div class="flex items-end justify-between gap-4 sm:gap-6 mb-6 sm:mb-10">
         <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight">
           Читать дальше
         </h2>
@@ -197,11 +197,11 @@ const dateLabel = new Date(article.date).toLocaleDateString('ru-RU', {
         </a>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
         {related.map((a) => (
           <a
             href={`/blog/${a.slug}/`}
-            class="group rounded-2xl border border-stone-200 bg-stone-50 p-6 flex flex-col hover:border-primary-container transition-colors"
+            class="group rounded-2xl border border-stone-200 bg-stone-50 p-4 sm:p-6 flex flex-col hover:border-primary-container transition-colors"
           >
             <span class="font-mono-label text-mono-label uppercase tracking-wider text-stone-400 mb-3">
               {a.tag}

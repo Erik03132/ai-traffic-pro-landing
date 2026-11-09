@@ -85,7 +85,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
 
   <!-- Hero -->
   <section class="w-full border-b border-stone-200 bg-white">
-    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop py-12 md:py-24">
+    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop py-8 md:py-24">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
         <div class="lg:col-span-8">
           <div class="flex items-center gap-3 mb-6">
@@ -137,7 +137,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
         </div>
 
         <div class="lg:col-span-4">
-          <div class="rounded-2xl border border-stone-200 bg-stone-100 p-6 space-y-5">
+          <div class="rounded-2xl border border-stone-200 bg-stone-100 p-4 sm:p-6 space-y-5">
             <div>
               <span class="font-mono-label text-mono-label uppercase text-stone-400 block mb-1">
                 Метрика
@@ -190,9 +190,9 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
         </h2>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
         {service.problem.map((p) => (
-          <div class="rounded-2xl border border-stone-200 bg-white p-8 flex flex-col">
+          <div class="rounded-2xl border border-stone-200 bg-white p-4 sm:p-8 flex flex-col">
             <span class="material-symbols-outlined text-terracotta-600 text-2xl mb-4">
               report_problem
             </span>
@@ -226,7 +226,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
         
         <div class="space-y-10 lg:space-y-16">
           {service.steps.map((s, i) => (
-            <div class="relative flex gap-6 group">
+            <div class="relative flex gap-4 sm:gap-6 group">
               <!-- Номер шага -->
               <div class="flex flex-col items-center lg:w-[140px] shrink-0 relative z-10">
                 <div class="w-14 h-14 rounded-full bg-white border-4 border-stone-200 flex items-center justify-center font-mono-index text-mono-index font-semibold text-terracotta-600 group-hover:border-terracotta-600 transition-colors duration-300 relative z-10">
@@ -268,9 +268,9 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
         </h2>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
         {service.solution.map((s, i) => (
-          <div class="rounded-2xl border border-stone-200 bg-white p-8">
+          <div class="rounded-2xl border border-stone-200 bg-white p-4 sm:p-8">
             <div class="flex items-start gap-4 mb-4">
               <div class="w-14 h-14 rounded-full bg-white border-4 border-stone-200 flex items-center justify-center font-mono-index text-mono-index font-semibold text-terracotta-600 shrink-0">
                 {i + 1}
@@ -292,7 +292,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
   {service.slug === 'seo' && (
     <section class="w-full border-b border-stone-200 bg-stone-50 py-8 md:py-28">
       <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-16">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-16">
           <div class="lg:col-span-5">
             <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
               [03.7 / GEO-СЛОЙ]
@@ -306,8 +306,8 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
           </div>
 
           <div class="lg:col-span-7">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div class="rounded-2xl border border-stone-200 bg-white p-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+              <div class="rounded-2xl border border-stone-200 bg-white p-4 sm:p-8">
                 <span class="material-symbols-outlined text-terracotta-600 text-2xl mb-4">
                   search
                 </span>
@@ -318,7 +318,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
                   На каждой ключевой странице — чёткий ответ на типичный вопрос пользователя. Нейросеть берёт именно такие фрагменты, а не общие описания.
                 </p>
               </div>
-              <div class="rounded-2xl border border-stone-200 bg-white p-8">
+              <div class="rounded-2xl border border-stone-200 bg-white p-4 sm:p-8">
                 <span class="material-symbols-outlined text-terracotta-600 text-2xl mb-4">
                   database
                 </span>
@@ -329,7 +329,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
                   JSON-LD и микроразметка, которые однозначно объясняют поисковым системам и нейросетям: что это за услуга, кто её предоставляет, на какую задачу отвечает.
                 </p>
               </div>
-              <div class="rounded-2xl border border-stone-200 bg-white p-8">
+              <div class="rounded-2xl border border-stone-200 bg-white p-4 sm:p-8">
                 <span class="material-symbols-outlined text-terracotta-600 text-2xl mb-4">
                   hub
                 </span>
@@ -340,7 +340,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
                   На страницах — конкретные цифры, условия, сроки и ограничения. Нейросети доверяют текстам, где можно проверить каждое утверждение.
                 </p>
               </div>
-              <div class="rounded-2xl border border-stone-200 bg-white p-8">
+              <div class="rounded-2xl border border-stone-200 bg-white p-4 sm:p-8">
                 <span class="material-symbols-outlined text-terracotta-600 text-2xl mb-4">
                   verified_user
                 </span>
@@ -362,7 +362,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
   {service.slug === 'crm' && (
     <section class="w-full border-b border-stone-200 bg-stone-50 py-8 md:py-28">
       <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-16">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-16">
           <div class="lg:col-span-5">
             <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
               [03.5 / ИНТЕГРАЦИОННЫЙ СЛОЙ]
@@ -376,8 +376,8 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
           </div>
 
           <div class="lg:col-span-7">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div class="rounded-2xl border border-stone-200 bg-white p-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+              <div class="rounded-2xl border border-stone-200 bg-white p-4 sm:p-8">
                 <span class="material-symbols-outlined text-terracotta-600 text-2xl mb-4">
                   web
                 </span>
@@ -388,7 +388,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
                   Формы, чат-виджеты, попапы → сразу в CRM с меткой источника и UTM. Без ручного переноса.
                 </p>
               </div>
-              <div class="rounded-2xl border border-stone-200 bg-white p-8">
+              <div class="rounded-2xl border border-stone-200 bg-white p-4 sm:p-8">
                 <span class="material-symbols-outlined text-terracotta-600 text-2xl mb-4">
                   smart_toy
                 </span>
@@ -399,7 +399,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
                   Квалификация, сбор недостающих данных, передача готового лида в CRM. Клиент в привычном мессенджере.
                 </p>
               </div>
-              <div class="rounded-2xl border border-stone-200 bg-white p-8">
+              <div class="rounded-2xl border border-stone-200 bg-white p-4 sm:p-8">
                 <span class="material-symbols-outlined text-terracotta-600 text-2xl mb-4">
                   campaign
                 </span>
@@ -410,7 +410,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
                   Яндекс Директ, VK Реклама, Telegram Ads → стоимость заявки по каналам в отчёте воронки автоматически.
                 </p>
               </div>
-              <div class="rounded-2xl border border-stone-200 bg-white p-8">
+              <div class="rounded-2xl border border-stone-200 bg-white p-4 sm:p-8">
                 <span class="material-symbols-outlined text-terracotta-600 text-2xl mb-4">
                   call
                 </span>
@@ -441,8 +441,8 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
           </h2>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="rounded-2xl border border-stone-200 bg-stone-50 p-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+          <div class="rounded-2xl border border-stone-200 bg-stone-50 p-4 sm:p-8">
             <h3 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight mb-2">
               amoCRM
             </h3>
@@ -450,7 +450,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
               Лидер для малого бизнеса, гибкие воронки, маркетплейс интеграций
             </p>
           </div>
-          <div class="rounded-2xl border border-stone-200 bg-stone-50 p-8">
+          <div class="rounded-2xl border border-stone-200 bg-stone-50 p-4 sm:p-8">
             <h3 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight mb-2">
               Битрикс24
             </h3>
@@ -458,7 +458,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
               Если нужны и CRM, и задачи, и телефония, и сайт в одной экосистеме
             </p>
           </div>
-          <div class="rounded-2xl border border-stone-200 bg-stone-50 p-8">
+          <div class="rounded-2xl border border-stone-200 bg-stone-50 p-4 sm:p-8">
             <h3 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight mb-2">
               HubSpot
             </h3>
@@ -466,7 +466,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
               Для B2B с длинным циклом, маркетинг-автоматизация и англоязычный интерфейс
             </p>
           </div>
-          <div class="rounded-2xl border border-stone-200 bg-stone-50 p-8">
+          <div class="rounded-2xl border border-stone-200 bg-stone-50 p-4 sm:p-8">
             <h3 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight mb-2">
               Другие / Кастом
             </h3>
@@ -495,9 +495,9 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
           </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {service.salesChannels.map((s) => (
-            <div class="rounded-2xl border border-stone-200 bg-stone-50 p-8">
+            <div class="rounded-2xl border border-stone-200 bg-stone-50 p-4 sm:p-8">
               <h3 class="text-xl sm:text-2xl font-light text-stone-900 tracking-tight mb-2">
                 {s.name}
               </h3>
@@ -515,7 +515,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
   {service.slug === 'ecommerce' && service.cardParts && (
     <section class="w-full border-b border-stone-200 bg-stone-50 py-8 md:py-28">
       <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-16">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-16">
           <div class="lg:col-span-5">
             <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
               [03.6 / КАРТОЧКА ТОВАРА]
@@ -529,9 +529,9 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
           </div>
 
           <div class="lg:col-span-7">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               {service.cardParts.map((c) => (
-                <div class="rounded-2xl border border-stone-200 bg-white p-8">
+                <div class="rounded-2xl border border-stone-200 bg-white p-4 sm:p-8">
                   <span class="material-symbols-outlined text-terracotta-600 text-2xl mb-4">
                     {c.icon}
                   </span>
@@ -563,9 +563,9 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
           </h2>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {service.dataSync.map((d) => (
-            <div class="rounded-2xl border border-stone-200 bg-stone-50 p-8">
+            <div class="rounded-2xl border border-stone-200 bg-stone-50 p-4 sm:p-8">
               <span class="material-symbols-outlined text-terracotta-600 text-2xl mb-4">
                 {d.icon}
               </span>
@@ -600,7 +600,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
           {service.funnelStages.map((f, i) => (
-            <div class="rounded-2xl border border-stone-200 bg-stone-50 p-6 flex flex-col">
+            <div class="rounded-2xl border border-stone-200 bg-stone-50 p-4 sm:p-6 flex flex-col">
               <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-3">
                 {String(i + 1).padStart(2, '0')}
               </span>
@@ -638,9 +638,9 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
           </h2>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {service.leadChannels.map((c) => (
-            <div class="rounded-2xl border border-stone-200 bg-white p-8">
+            <div class="rounded-2xl border border-stone-200 bg-white p-4 sm:p-8">
               <h3 class="text-xl sm:text-2xl font-light text-stone-900 tracking-tight mb-2">
                 {c.name}
               </h3>
@@ -658,7 +658,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
   {service.slug === 'leadgen' && service.qualification && (
     <section class="w-full border-b border-stone-200 bg-white py-8 md:py-28">
       <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-16">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-16">
           <div class="lg:col-span-5">
             <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
               [03.7 / КВАЛИФИКАЦИЯ]
@@ -672,9 +672,9 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
           </div>
 
           <div class="lg:col-span-7">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               {service.qualification.map((q) => (
-                <div class="rounded-2xl border border-stone-200 bg-stone-50 p-8">
+                <div class="rounded-2xl border border-stone-200 bg-stone-50 p-4 sm:p-8">
                   <span class="material-symbols-outlined text-terracotta-600 text-2xl mb-4">
                     {q.icon}
                   </span>
@@ -706,9 +706,9 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
           </h2>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           {service.siteTypes.map((t) => (
-            <div class="rounded-2xl border border-stone-200 bg-stone-50 p-8">
+            <div class="rounded-2xl border border-stone-200 bg-stone-50 p-4 sm:p-8">
               <h3 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight mb-2">
                 {t.name}
               </h3>
@@ -735,9 +735,9 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
           </h2>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           {service.techStack.map((t) => (
-            <div class="rounded-2xl border border-stone-200 bg-white p-8">
+            <div class="rounded-2xl border border-stone-200 bg-white p-4 sm:p-8">
               <h3 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight mb-2">
                 {t.name}
               </h3>
@@ -755,7 +755,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
   {service.slug === 'landing' && service.launchChecks && (
     <section class="w-full border-b border-stone-200 bg-white py-8 md:py-28">
       <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-16">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-16">
           <div class="lg:col-span-5">
             <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
               [03.7 / ПРОВЕРКА ПЕРЕД ЗАПУСКОМ]
@@ -769,9 +769,9 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
           </div>
 
           <div class="lg:col-span-7">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               {service.launchChecks.map((c) => (
-                <div class="rounded-2xl border border-stone-200 bg-stone-50 p-8">
+                <div class="rounded-2xl border border-stone-200 bg-stone-50 p-4 sm:p-8">
                   <span class="material-symbols-outlined text-terracotta-600 text-2xl mb-4">
                     {c.icon}
                   </span>
@@ -803,9 +803,9 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
           </h2>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           {service.platforms.map((p) => (
-            <div class="rounded-2xl border border-stone-200 bg-stone-50 p-8">
+            <div class="rounded-2xl border border-stone-200 bg-stone-50 p-4 sm:p-8">
               <h3 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight mb-2">
                 {p.name}
               </h3>
@@ -823,7 +823,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
   {service.slug === 'smm' && service.contentFormats && (
     <section class="w-full border-b border-stone-200 bg-stone-50 py-8 md:py-28">
       <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-16">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-16">
           <div class="lg:col-span-5">
             <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
               [03.6 / ФОРМАТЫ КОНТЕНТА]
@@ -837,9 +837,9 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
           </div>
 
           <div class="lg:col-span-7">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               {service.contentFormats.map((f) => (
-                <div class="rounded-2xl border border-stone-200 bg-white p-8">
+                <div class="rounded-2xl border border-stone-200 bg-white p-4 sm:p-8">
                   <span class="material-symbols-outlined text-terracotta-600 text-2xl mb-4">
                     {f.icon}
                   </span>
@@ -871,9 +871,9 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
           </h2>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           {service.channels.map((c) => (
-            <div class="rounded-2xl border border-stone-200 bg-stone-50 p-8">
+            <div class="rounded-2xl border border-stone-200 bg-stone-50 p-4 sm:p-8">
               <h3 class="text-xl sm:text-2xl lg:text-3xl font-light text-stone-900 tracking-tight mb-2">
                 {c.name}
               </h3>
@@ -891,7 +891,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
   {service.slug === 'advertising' && service.adFormats && (
     <section class="w-full border-b border-stone-200 bg-stone-50 py-8 md:py-28">
       <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-16">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-16">
           <div class="lg:col-span-5">
             <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
               [03.6 / ФОРМАТЫ И ИНСТРУМЕНТЫ]
@@ -905,9 +905,9 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
           </div>
 
           <div class="lg:col-span-7">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               {service.adFormats.map((f) => (
-                <div class="rounded-2xl border border-stone-200 bg-white p-8">
+                <div class="rounded-2xl border border-stone-200 bg-white p-4 sm:p-8">
                   <span class="material-symbols-outlined text-terracotta-600 text-2xl mb-4">
                     {f.icon}
                   </span>
@@ -945,15 +945,15 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
               <h3 class="text-2xl sm:text-3xl font-light text-stone-900 tracking-tight mb-4">
                 {cp.title}
               </h3>
-              <p class="font-body-lg text-body-lg text-stone-700 leading-relaxed mb-10">
+              <p class="font-body-lg text-body-lg text-stone-700 leading-relaxed mb-6 sm:mb-10">
                 {cp.text}
               </p>
             </div>
 
             <!-- Площадки и форматы -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
               {cp.platforms.map((p) => (
-                <div class="rounded-2xl border border-stone-200 bg-stone-50 p-8">
+                <div class="rounded-2xl border border-stone-200 bg-stone-50 p-4 sm:p-8">
                   <h4 class="text-lg sm:text-xl font-medium text-stone-900 mb-3">
                     {p.name}
                   </h4>
@@ -1025,7 +1025,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
   <!-- Форма заявки -->
   <section class="w-full border-t border-stone-200 bg-stone-100 py-8 md:py-28" id="lead">
     <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
-      <div class="border border-stone-200 bg-white rounded-2xl p-8 md:p-14">
+      <div class="border border-stone-200 bg-white rounded-2xl p-4 sm:p-8 md:p-14">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           <div class="lg:col-span-5">
             <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-3">
@@ -1038,7 +1038,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
               Расскажите о задаче — вернёмся с конкретным планом и оценкой. Без обязательств.
             </p>
 
-            <div class="p-6 rounded-2xl border border-stone-200 bg-stone-100 space-y-4">
+            <div class="p-4 sm:p-6 rounded-2xl border border-stone-200 bg-stone-100 space-y-4">
               <div class="flex items-start gap-3">
                 <span class="material-symbols-outlined text-sage-600 text-xl mt-0.5">
                   check_circle

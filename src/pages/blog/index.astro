@@ -54,7 +54,7 @@ const fmt = (iso: string) =>
 
   <!-- Заголовок -->
   <header class="w-full border-b border-stone-200 bg-white">
-    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop py-12 md:py-24">
+    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop py-8 md:py-24">
       <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-3">
         [БЛОГ]
       </span>
@@ -70,13 +70,13 @@ const fmt = (iso: string) =>
   </header>
 
   <!-- Список статей -->
-  <section class="w-full bg-stone-50 py-12 md:py-24">
+  <section class="w-full bg-stone-50 py-8 md:py-24">
     <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         {articles.map((a) => (
           <a
             href={`/blog/${a.slug}/`}
-            class="group rounded-2xl border border-stone-200 bg-white p-8 flex flex-col hover:border-primary-container transition-colors"
+            class="group rounded-2xl border border-stone-200 bg-white p-4 sm:p-8 flex flex-col hover:border-primary-container transition-colors"
           >
             <div class="flex items-center gap-3 mb-4">
               <span class="font-mono-label text-mono-label uppercase tracking-wider text-terracotta-600">
@@ -106,7 +106,7 @@ const fmt = (iso: string) =>
   <!-- CTA -->
   <section class="w-full border-t border-stone-200 bg-stone-100 py-8 md:py-24">
     <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
-      <div class="rounded-2xl border border-stone-200 bg-white p-8 md:p-14 text-center">
+      <div class="rounded-2xl border border-stone-200 bg-white p-4 sm:p-8 md:p-14 text-center">
         <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight mb-4">
           Не нашли свою задачу?
         </h2>
