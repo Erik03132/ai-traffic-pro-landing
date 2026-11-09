@@ -64,11 +64,38 @@ Worker, резервный — Node-сервер на VPS (см. ADR-001):
 | `POST /api/lead/`  | Заявка с формы → Telegram + резервный JSONL-файл |
 | `POST /api/chat/`  | Вопрос из виджета → база знаний, иначе LLM       |
 | `GET /api/health/` | Проверка живости (`{"ok":true,"telegram":true}`) |
+| `POST /api/tg/webhook/` | Апдейты Telegram: кнопки публикации и сообщения боту |
+| `GET /api/tg/sources/`  | Отчёт «сколько пришло с какой метки» (токен) |
+| `POST /api/tg/init/`    | Перерегистрировать webhook (токен) |
 
 Telegram настроен: бот `@ai_bureau_new_bot`, заявки приходят в чат владельца.
 Если токен недоступен или Telegram вернул ошибку — заявка не теряется: Worker
 пишет её в Workers KV (binding `LEADS`) **до** отправки в Telegram, Node-сервер
 на VPS — в `server/leads/YYYY-MM-DD.jsonl`, и оба отвечают успехом.
+
+### Бот и метки источников
+
+Ссылка с сайта — `https://t.me/ai_bureau_new_bot?start=ai_traffic_pro`. Метка
+после `?start=` приходит боту в `/start <метка>` и запоминается в KV под ключом
+`ref:<user_id>`. Запоминается **первый** источник: повторный заход из рекламы не
+затирает органику, иначе отчёт врёт.
+
+- `/start` без метки → `direct`.
+- Вопрос клиента бот не консультирует: пересылает в чат владельца, клиенту
+  отвечает «вопрос получили». Молчание дороже плохого ответа.
+- Бот не может написать первым: чтобы уведомления доходили, владелец должен
+  один раз нажать Start в `@ai_bureau_new_bot`.
+
+Отчёт по источникам (секрет `TG_PUBLISH_TOKEN`):
+
+```bash
+curl -H "Authorization: Bearer $TG_PUBLISH_TOKEN" \
+  https://ai-traffic-pro-api.erik03132.workers.dev/api/tg/sources
+# {"total":12,"sources":[{"label":"ai_traffic_pro","count":9},{"label":"direct","count":3}]}
+```
+
+Считается по записям KV, а не счётчиком: инкремент в KV не атомарный, а ошибку в
+счётчике не восстановить.
 
 LLM отвечает на вопросы вне базы знаний. На Worker это **Workers AI**
 (`@cf/meta/llama-3.1-8b-instruct-fp8-fast`) — внешние провайдеры с российского IP
@@ -215,8 +242,10 @@ Webvisor выключен осознанно (формы собирают тел
 
 | Секрет             | Назначение                                      |
 | ------------------ | ----------------------------------------------- |
-| `TELEGRAM_BOT_TOKEN` | отправка заявок в чат владельца               |
-| `TELEGRAM_CHAT_ID` | чат-владелец                                    |
+| `TELEGRAM_BOT_TOKEN` | отправка заявок в чат владельца, приём `/start` |
+| `TELEGRAM_CHAT_ID` | чат-владелец (заявки, уведомления о входах)     |
+| `TELEGRAM_WEBHOOK_SECRET` | подпись апдейтов Telegram (`X-Telegram-Bot-Api-Secret-Token`) |
+| `TG_PUBLISH_TOKEN` | токен эндпоинтов публикации и отчёта по меткам  |
 | `ALLOWED_ORIGINS`  | белый список origin'ов (CORS)                  |
 
 Биндинги (в `wrangler.jsonc`): `LEADS` (Workers KV — бэкап заявок), `AI`

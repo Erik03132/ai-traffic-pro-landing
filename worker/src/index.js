@@ -266,8 +266,170 @@ async function handleTgPreview(request, env, kv) {
   return json({ ok: true, slug, link: linkUrl }, request, env);
 }
 
+/* ──────────────────────────────────────────────────────────────────────────
+ * Атрибуция входа: `t.me/<бот>?start=<метка>`
+ *
+ * Telegram отдаёт метку в `message.text` как `/start <метка>`. Запоминаем
+ * только ПЕРВЫЙ источник пользователя: иначе повторный заход из рекламы
+ * затрёт органику и отчёт начнёт врать.
+ * ────────────────────────────────────────────────────────────────────────── */
+
+/** Префикс ключа KV: одна запись на пользователя. */
+const REF_PREFIX = 'ref:';
+
+/** Telegram ограничивает payload диплинка 64 символами. */
+const REF_LABEL_MAX = 64;
+
 /**
- * POST /api/tg/webhook — нажатия кнопок под черновиком.
+ * Разбор `/start` и `/start <метка>`.
+ * @param {string} text текст сообщения
+ * @returns {{label: string} | null} `null`, если это не команда старта
+ */
+function parseStart(text) {
+  const match = /^\/start(?:@[A-Za-z0-9_]+)?(?:\s+(\S+))?/.exec(String(text || '').trim());
+  if (!match) return null;
+  return { label: (match[1] || '').slice(0, REF_LABEL_MAX) };
+}
+
+/**
+ * Клавиатура первого ответа. Только ссылки: цен и обещаний в боте нет.
+ * @param {string} siteUrl база сайта
+ */
+function startKeyboard(siteUrl) {
+  const base = String(siteUrl || 'https://ai-traffic-pro.ru').replace(/\/+$/, '');
+  return {
+    inline_keyboard: [
+      [
+        { text: 'Сайт', url: `${base}/` },
+        { text: 'Оставить заявку', url: `${base}/#lead` },
+      ],
+    ],
+  };
+}
+
+/**
+ * Запоминает первый источник пользователя и уведомляет владельца.
+ * @param {Record<string, unknown>} env
+ * @param {KVNamespace | undefined} kv
+ * @param {{id: number, username?: string, first_name?: string, last_name?: string}} from
+ * @param {string} label метка из диплинка (пустая = прямой заход)
+ */
+async function rememberRef(env, kv, from, label) {
+  const key = `${REF_PREFIX}${from.id}`;
+  const seen = kv ? await kv.get(key) : null;
+
+  const record = {
+    label: label || 'direct',
+    user_id: from.id,
+    username: from.username || null,
+    name: [from.first_name, from.last_name].filter(Boolean).join(' ') || null,
+    ts: new Date().toISOString(),
+  };
+
+  if (!seen && kv) await kv.put(key, JSON.stringify(record));
+
+  const owner = String(env.TELEGRAM_CHAT_ID || '');
+  if (owner) {
+    await tgCall(env, 'sendMessage', {
+      chat_id: owner,
+      text:
+        `Вход в бота: ${record.label}${seen ? ' (повторный)' : ''}\n` +
+        `${record.name || 'без имени'} @${record.username || '—'} id ${record.user_id}`,
+      disable_web_page_preview: true,
+    });
+  }
+
+  return { first: !seen, record };
+}
+
+/**
+ * Сообщения боту: `/start` с меткой и вопросы клиента.
+ *
+ * Бот не консультант — он не отвечает по существу. Вопрос пересылается
+ * владельцу, клиенту уходит подтверждение: молчание дороже плохого ответа.
+ */
+async function handleTgMessage(env, kv, msg) {
+  const chat = msg.chat || {};
+  const from = msg.from || {};
+
+  // В группах и каналах не работаем: там метка не наша, а шум общий.
+  if (chat.type !== 'private' || from.is_bot) return;
+
+  const text = String(msg.text || '');
+  const started = parseStart(text);
+
+  if (started) {
+    await rememberRef(env, kv, from, started.label);
+    await tgCall(env, 'sendMessage', {
+      chat_id: chat.id,
+      text:
+        'Здравствуйте! Это AI-Traffic PRO: трафик, реклама, сайты и аналитика.\n\n' +
+        'Напишите вопрос одним сообщением — ответим здесь же.',
+      reply_markup: startKeyboard(env.SITE_URL),
+      disable_web_page_preview: true,
+    });
+    return;
+  }
+
+  if (!text.trim()) return;
+
+  const owner = String(env.TELEGRAM_CHAT_ID || '');
+  if (owner) {
+    const who = [from.first_name, from.last_name].filter(Boolean).join(' ') || 'без имени';
+    await tgCall(env, 'sendMessage', {
+      chat_id: owner,
+      text:
+        `Вопрос из бота от ${who} (@${from.username || 'без ника'}, id ${from.id}):\n\n` +
+        text.slice(0, 3000),
+      disable_web_page_preview: true,
+    });
+  }
+
+  await tgCall(env, 'sendMessage', {
+    chat_id: chat.id,
+    text: 'Спасибо, вопрос получили. Ответим здесь же, в этом чате.',
+  });
+}
+
+/**
+ * GET /api/tg/sources — отчёт по источникам входа.
+ *
+ * Считаем по записям KV, а не счётчиком: инкремент в KV не атомарный, а
+ * ошибка в счётчике не восстанавливается. Запись на пользователя — истина.
+ */
+async function handleTgSources(request, env, kv) {
+  if (!publishAuthorized(request, env)) {
+    return json({ error: 'unauthorized' }, request, env, 401);
+  }
+
+  const counts = new Map();
+  let cursor;
+  let total = 0;
+
+  do {
+    const page = kv
+      ? await kv.list({ prefix: REF_PREFIX, cursor })
+      : { keys: [], list_complete: true };
+    for (const key of page.keys || []) {
+      const raw = await kv.get(key.name);
+      if (!raw) continue;
+      const record = JSON.parse(raw);
+      counts.set(record.label, (counts.get(record.label) || 0) + 1);
+      total += 1;
+    }
+    cursor = page.list_complete ? undefined : page.cursor;
+  } while (cursor);
+
+  const sources = [...counts.entries()]
+    // При равном количестве — по алфавиту: отчёт должен быть воспроизводимым.
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .map(([label, count]) => ({ label, count }));
+
+  return json({ total, sources }, request, env);
+}
+
+/**
+ * POST /api/tg/webhook — кнопки под черновиком и сообщения боту.
  *
  * Публикация только по кнопке «Опубликовать»: бот не постит сам. Текст берём
  * из KV, а не из сообщения, — так подпись не подделать правкой чата.
@@ -280,9 +442,15 @@ async function handleTgWebhook(request, env, kv) {
   }
 
   const update = await request.json().catch(() => ({}));
+
+  if (update.message) {
+    await handleTgMessage(env, kv, update.message);
+    return json({ ok: true }, request, env);
+  }
+
   const query = update.callback_query;
 
-  // Прочие апдейты (сообщения боту) нас не касаются.
+  // Прочие апдейты (правки сообщений, участники чата) нас не касаются.
   if (!query) return json({ ok: true }, request, env);
 
   const message = query.message || {};
@@ -388,7 +556,7 @@ async function handleTgInit(request, env) {
   const hookRes = await tgCall(env, 'setWebhook', {
     url: hook,
     secret_token: env.TELEGRAM_WEBHOOK_SECRET,
-    allowed_updates: ['callback_query'],
+    allowed_updates: ['callback_query', 'message'],
   });
   const meRes = await tgCall(env, 'getMe');
   const botId = meRes.result?.id;
@@ -534,6 +702,10 @@ export default {
 
     if (request.method === 'POST' && pathname === '/api/tg/webhook') {
       return await handleTgWebhook(request, env, env.LEADS);
+    }
+
+    if (request.method === 'GET' && pathname === '/api/tg/sources') {
+      return await handleTgSources(request, env, env.LEADS);
     }
 
     if (request.method === 'POST' && pathname === '/api/tg/init') {

@@ -33,6 +33,18 @@ function mockKv() {
     async get(key) {
       return store.get(key) ?? null;
     },
+    /** `list` как у настоящего KV: префикс + постраничная выдача. */
+    async list({ prefix = '', cursor } = {}) {
+      const names = [...store.keys()].filter((k) => k.startsWith(prefix)).sort();
+      const from = cursor ? Number(cursor) : 0;
+      const page = names.slice(from, from + 100);
+      const complete = from + 100 >= names.length;
+      return {
+        keys: page.map((name) => ({ name })),
+        list_complete: complete,
+        cursor: complete ? undefined : String(from + 100),
+      };
+    },
   };
 }
 
@@ -302,4 +314,117 @@ test('rate limit: баки чата и заявок раздельные', async
     env,
   );
   assert.equal(lead.status, 200);
+});
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * Бот: диплинк-метка (`?start=`) и вопросы клиента
+ * ────────────────────────────────────────────────────────────────────────── */
+
+/** Апдейт «сообщение боту» в личном чате. */
+function tgMessage(text, { userId = 555, chatType = 'private', username = 'client' } = {}) {
+  return {
+    update_id: 1,
+    message: {
+      message_id: 1,
+      date: 1762000000,
+      chat: { id: userId, type: chatType },
+      from: { id: userId, is_bot: false, first_name: 'Клиент', username },
+      text,
+    },
+  };
+}
+
+/** Окружение с секретом вебхука и токеном отчёта. */
+function botEnv() {
+  const env = makeEnv();
+  env.TELEGRAM_WEBHOOK_SECRET = 'hook-secret';
+  env.TG_PUBLISH_TOKEN = 'report-token';
+  env.SITE_URL = 'https://ai-traffic-pro.ru';
+  return env;
+}
+
+/** POST вебхука с секретом Telegram. */
+function tgPost(update, secret = 'hook-secret') {
+  return post(update, { 'X-Telegram-Bot-Api-Secret-Token': secret });
+}
+
+test('webhook: без секрета → 401 и метка не пишется', async () => {
+  const env = botEnv();
+  const res = await call('/api/tg/webhook/', post(tgMessage('/start ai_traffic_pro')), env);
+  assert.equal(res.status, 401);
+  assert.equal(env.LEADS.store.size, 0);
+});
+
+test('webhook: /start с меткой пишет первый источник', async () => {
+  const env = botEnv();
+  const res = await call('/api/tg/webhook/', tgPost(tgMessage('/start ai_traffic_pro')), env);
+  assert.equal(res.status, 200);
+
+  const record = JSON.parse(env.LEADS.store.get('ref:555'));
+  assert.equal(record.label, 'ai_traffic_pro');
+  assert.equal(record.user_id, 555);
+  assert.equal(record.username, 'client');
+});
+
+test('webhook: повторный /start не затирает первый источник', async () => {
+  const env = botEnv();
+  await call('/api/tg/webhook/', tgPost(tgMessage('/start ai_traffic_pro')), env);
+  await call('/api/tg/webhook/', tgPost(tgMessage('/start yandex_direct')), env);
+
+  const record = JSON.parse(env.LEADS.store.get('ref:555'));
+  assert.equal(record.label, 'ai_traffic_pro');
+});
+
+test('webhook: /start без метки → direct', async () => {
+  const env = botEnv();
+  await call('/api/tg/webhook/', tgPost(tgMessage('/start')), env);
+  assert.equal(JSON.parse(env.LEADS.store.get('ref:555')).label, 'direct');
+});
+
+test('webhook: /start@bot с меткой тоже распознаётся', async () => {
+  const env = botEnv();
+  await call('/api/tg/webhook/', tgPost(tgMessage('/start@ai_bureau_new_bot ai_traffic_pro')), env);
+  assert.equal(JSON.parse(env.LEADS.store.get('ref:555')).label, 'ai_traffic_pro');
+});
+
+test('webhook: вопрос клиента не создаёт запись источника', async () => {
+  const env = botEnv();
+  const res = await call('/api/tg/webhook/', tgPost(tgMessage('Сколько стоит продвижение?')), env);
+  assert.equal(res.status, 200);
+  assert.equal(env.LEADS.store.size, 0);
+});
+
+test('webhook: сообщение из группы игнорируется', async () => {
+  const env = botEnv();
+  await call('/api/tg/webhook/', tgPost(tgMessage('/start ai_traffic_pro', { chatType: 'group' })), env);
+  assert.equal(env.LEADS.store.size, 0);
+});
+
+test('GET /api/tg/sources: без токена → 401', async () => {
+  const env = botEnv();
+  const res = await call('/api/tg/sources', {}, env);
+  assert.equal(res.status, 401);
+});
+
+test('GET /api/tg/sources: считает по меткам', async () => {
+  const env = botEnv();
+  await call('/api/tg/webhook/', tgPost(tgMessage('/start ai_traffic_pro', { userId: 1 })), env);
+  await call('/api/tg/webhook/', tgPost(tgMessage('/start ai_traffic_pro', { userId: 2 })), env);
+  await call('/api/tg/webhook/', tgPost(tgMessage('/start yandex_direct', { userId: 3 })), env);
+  await call('/api/tg/webhook/', tgPost(tgMessage('/start', { userId: 4 })), env);
+
+  const res = await call(
+    '/api/tg/sources',
+    { headers: { Authorization: 'Bearer report-token' } },
+    env,
+  );
+  assert.equal(res.status, 200);
+
+  const data = await res.json();
+  assert.equal(data.total, 4);
+  assert.deepEqual(data.sources, [
+    { label: 'ai_traffic_pro', count: 2 },
+    { label: 'direct', count: 1 },
+    { label: 'yandex_direct', count: 1 },
+  ]);
 });
