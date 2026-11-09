@@ -1,8 +1,10 @@
 User-agent: *
 Allow: /
 
-# Служебные страницы — черновики документов, в индексацию не идут.
-Disallow: /privacy/
-Disallow: /consent/
+# /privacy/ и /consent/ намеренно не индексируются, но НЕ блокируются здесь:
+# страницы отдают <meta name="robots" content="noindex, follow">. Правило
+# «noindex + Disallow» противоречиво — робот не читает noindex с закрытого
+# URL, и в Search Console навсегда висит «Заблокировано файлом robots.txt».
+# Оставляем только noindex, чтобы Google сам исключил страницы из индекса.
 
 Sitemap: https://ai-traffic-pro.ru/sitemap.xml
