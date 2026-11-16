@@ -24,10 +24,12 @@ import {
   validateLead,
 } from '../../server/agent-core.js';
 import {
+  CAPTION_LIMIT,
   buildLink,
   channelKeyboard,
   draftKeyboard,
   draftKey,
+  isPhotoUrl,
   isSlug,
   parseCallback,
   renderPost,
@@ -245,16 +247,39 @@ async function handleTgPreview(request, env, kv) {
     return json({ error: e.message }, request, env, 400);
   }
 
+  // Картинка — необязательная часть поста. В канале она поднимает заметность,
+  // но и без неё пост выходит: фото не должно быть условием публикации.
+  const photo = String(payload.photo || '');
+  if (photo && !isPhotoUrl(photo)) {
+    return json({ error: 'плохой адрес картинки' }, request, env, 400);
+  }
+
+  const preview = `${html}\n\n<i>Черновик поста. Проверьте текст и нажмите кнопку.</i>`;
+  if (photo && preview.length > CAPTION_LIMIT) {
+    return json(
+      {
+        error:
+          `для поста с картинкой текст ограничен ${CAPTION_LIMIT} знаками, ` +
+          `сейчас ${preview.length} — сократите`,
+      },
+      request,
+      env,
+      400,
+    );
+  }
+
   // Черновик в KV: по кнопке публикуем ровно тот текст, который видел человек.
   if (kv) {
-    await kv.put(draftKey(slug, content), JSON.stringify({ html, linkUrl }), {
+    await kv.put(draftKey(slug, content), JSON.stringify({ html, linkUrl, photo }), {
       expirationTtl: DRAFT_TTL,
     });
   }
 
-  const sent = await tgCall(env, 'sendMessage', {
+  const sent = await tgCall(env, photo ? 'sendPhoto' : 'sendMessage', {
     chat_id: env.TELEGRAM_CHAT_ID,
-    text: `${html}\n\n<i>Черновик поста. Проверьте текст и нажмите кнопку.</i>`,
+    ...(photo
+      ? { photo, caption: preview }
+      : { text: preview }),
     parse_mode: 'HTML',
     reply_markup: draftKeyboard(slug, content),
   });
@@ -471,6 +496,39 @@ function countList(counts) {
  * Публикация только по кнопке «Опубликовать»: бот не постит сам. Текст берём
  * из KV, а не из сообщения, — так подпись не подделать правкой чата.
  */
+/**
+ * Правит сообщение с черновиком после нажатия кнопки.
+ *
+ * У поста с картинкой меняется подпись, а не текст: `editMessageText` на
+ * фото-сообщении Telegram отклоняет, и кнопки остались бы висеть живыми.
+ *
+ * @param {Record<string, unknown>} env
+ * @param {string} chatId
+ * @param {number} messageId
+ * @param {{html: string, photo?: string}} draft
+ * @param {string} note пометка «опубликовано» / «отклонено»
+ */
+async function editDraftMessage(env, chatId, messageId, draft, note) {
+  const text = `${draft.html}\n\n${note}`;
+  const base = { chat_id: chatId, message_id: messageId, parse_mode: 'HTML' };
+
+  if (draft.photo) {
+    // Подпись к фото ограничена 1024 знаками — в крайнем случае оставляем
+    // только пометку, но факт нажатия не теряется.
+    return tgCall(env, 'editMessageCaption', {
+      ...base,
+      caption: text.length > CAPTION_LIMIT ? note : text,
+      reply_markup: { inline_keyboard: [] },
+    });
+  }
+
+  return tgCall(env, 'editMessageText', {
+    ...base,
+    text,
+    reply_markup: { inline_keyboard: [] },
+  });
+}
+
 async function handleTgWebhook(request, env, kv) {
   const secret = request.headers.get('X-Telegram-Bot-Api-Secret-Token') || '';
 
@@ -548,13 +606,7 @@ async function handleTgWebhook(request, env, kv) {
 
   if (action === 'tgdrop') {
     if (kv) await kv.delete(key);
-    await tgCall(env, 'editMessageText', {
-      chat_id: chatId,
-      message_id: message.message_id,
-      text: `${draft.html}\n\n<i>❌ Отклонено — в канал не ушло</i>`,
-      parse_mode: 'HTML',
-      reply_markup: { inline_keyboard: [] },
-    });
+    await editDraftMessage(env, chatId, message.message_id, draft, '<i>❌ Отклонено — в канал не ушло</i>');
     await tgCall(env, 'answerCallbackQuery', {
       callback_query_id: query.id,
       text: 'Отклонено',
@@ -570,9 +622,12 @@ async function handleTgWebhook(request, env, kv) {
     return json({ error: 'TELEGRAM_CHANNEL_ID не задан' }, request, env, 500);
   }
 
-  const posted = await tgCall(env, 'sendMessage', {
+  // Черновик мог быть создан с картинкой или без — публикуем тем же способом,
+  // каким он пришёл владельцу: иначе фото потеряется при «Опубликовать».
+  const photo = isPhotoUrl(draft.photo) ? draft.photo : '';
+  const posted = await tgCall(env, photo ? 'sendPhoto' : 'sendMessage', {
     chat_id: env.TELEGRAM_CHANNEL_ID,
-    text: draft.html,
+    ...(photo ? { photo, caption: draft.html } : { text: draft.html }),
     parse_mode: 'HTML',
     reply_markup: channelKeyboard(draft.linkUrl),
   });
@@ -606,13 +661,7 @@ async function handleTgWebhook(request, env, kv) {
       console.error('pub:last: не записался', e.message);
     }
   }
-  await tgCall(env, 'editMessageText', {
-    chat_id: chatId,
-    message_id: message.message_id,
-    text: `${draft.html}\n\n<i>✅ Опубликовано в канале</i>`,
-    parse_mode: 'HTML',
-    reply_markup: { inline_keyboard: [] },
-  });
+  await editDraftMessage(env, chatId, message.message_id, draft, '<i>✅ Опубликовано в канале</i>');
   await tgCall(env, 'answerCallbackQuery', {
     callback_query_id: query.id,
     text: 'Опубликовано',

@@ -3,12 +3,14 @@ import test from 'node:test';
 
 import {
   CALLBACK_LIMIT,
+  CAPTION_LIMIT,
   POST_LIMIT,
   buildLink,
   channelKeyboard,
   draftKeyboard,
   draftKey,
   escapeHtml,
+  isPhotoUrl,
   isSlug,
   parseCallback,
   renderPost,
@@ -130,4 +132,24 @@ test('parseCallback: разбирает публикацию, отказ и му
 
 test('escapeHtml: кавычки не ломают атрибут ссылки', () => {
   assert.equal(escapeHtml('a "b" & c'), 'a &quot;b&quot; &amp; c');
+});
+
+/* ── Картинка в посте (17.11.2026) ───────────────────────────────────── */
+
+test('isPhotoUrl: пропускает https и http, отсекает остальное', () => {
+  assert.equal(isPhotoUrl('https://ai-traffic-pro.ru/blog/test.jpg'), true);
+  assert.equal(isPhotoUrl('http://example.com/a.png'), true);
+
+  for (const bad of ['', 'blog/test.jpg', '/blog/test.jpg', 'data:image/png;base64,AAA', 'ftp://x/y.png', 'javascript:alert(1)']) {
+    assert.equal(isPhotoUrl(bad), false, `должно быть отсечено: ${bad}`);
+  }
+});
+
+test('isPhotoUrl: слишком длинный адрес не пропускается', () => {
+  assert.equal(isPhotoUrl(`https://x.ru/${'a'.repeat(600)}`), false);
+});
+
+test('CAPTION_LIMIT меньше лимита сообщения: подпись к фото короче', () => {
+  assert.ok(CAPTION_LIMIT < POST_LIMIT);
+  assert.equal(CAPTION_LIMIT, 1024);
 });

@@ -892,3 +892,184 @@ test('GET /api/chat/log?format=text: пустой день говорит «пу
   assert.equal(res.status, 200);
   assert.match(await res.text(), /пусто/);
 });
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * Пост с картинкой (17.11.2026)
+ *
+ * Статьи блога переупаковываются в посты канала. Текст в ленте короткий, и
+ * пост с обложкой заметнее — но у подписи к фото свой лимит (1024 знака),
+ * и публиковать нужно тем же способом, каким черновик пришёл владельцу.
+ * ────────────────────────────────────────────────────────────────────────── */
+
+/** Подмена Telegram: запоминает метод и тело каждого запроса. */
+function captureCalls() {
+  const calls = [];
+  const realFetch = globalThis.fetch;
+  globalThis.fetch = async (url, init) => {
+    calls.push({ method: String(url).split('/').pop(), body: JSON.parse(init.body) });
+    return new Response(JSON.stringify({ ok: true, result: { message_id: 42 } }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  };
+  return { calls, restore: () => (globalThis.fetch = realFetch) };
+}
+
+/** Среда для превью: токен публикации и канал настроены. */
+function previewEnv() {
+  const env = makeEnv({ token: 'test-token' });
+  env.TELEGRAM_WEBHOOK_SECRET = 'hook-secret';
+  env.TG_PUBLISH_TOKEN = 'report-token';
+  env.SITE_URL = 'https://ai-traffic-pro.ru';
+  env.TELEGRAM_CHANNEL_ID = '@aitrafficpro';
+  return env;
+}
+
+const PREVIEW_AUTH = { Authorization: 'Bearer report-token' };
+
+test('preview: с картинкой уходит sendPhoto с подписью и кнопками', async () => {
+  const env = previewEnv();
+  const tg = captureCalls();
+  let data;
+  try {
+    const res = await call(
+      '/api/tg/preview',
+      post(
+        {
+          slug: 'test',
+          text: 'Окупаемость рекламы считают до запуска, а не после.',
+          photo: 'https://ai-traffic-pro.ru/blog/test.jpg',
+        },
+        PREVIEW_AUTH,
+      ),
+      env,
+    );
+    data = await res.json();
+  } finally {
+    tg.restore();
+  }
+
+  assert.equal(data.ok, true);
+  const sent = tg.calls.find((c) => c.method === 'sendPhoto');
+  assert.ok(sent, 'пост с картинкой уходит как фото');
+  assert.equal(sent.body.photo, 'https://ai-traffic-pro.ru/blog/test.jpg');
+  assert.match(sent.body.caption, /Окупаемость рекламы/);
+  assert.match(sent.body.caption, /Черновик поста/);
+  assert.match(sent.body.reply_markup.inline_keyboard[0][0].callback_data, /tgpub:test/);
+
+  // Черновик запомнил картинку: иначе «Опубликовать» потеряет фото.
+  const draft = JSON.parse(env.LEADS.store.get('draft:tg:test'));
+  assert.equal(draft.photo, 'https://ai-traffic-pro.ru/blog/test.jpg');
+});
+
+test('preview: без картинки остаётся обычным сообщением', async () => {
+  const env = previewEnv();
+  const tg = captureCalls();
+  try {
+    await call(
+      '/api/tg/preview',
+      post({ slug: 'test', text: 'Пост без картинки' }, PREVIEW_AUTH),
+      env,
+    );
+  } finally {
+    tg.restore();
+  }
+
+  assert.equal(tg.calls.some((c) => c.method === 'sendPhoto'), false);
+  const sent = tg.calls.find((c) => c.method === 'sendMessage');
+  assert.ok(sent, 'без картинки — обычный текст');
+  assert.match(sent.body.text, /Пост без картинки/);
+  assert.equal(JSON.parse(env.LEADS.store.get('draft:tg:test')).photo, '');
+});
+
+test('preview: плохой адрес картинки — 400, в Telegram не уходит', async () => {
+  const env = previewEnv();
+  const tg = captureCalls();
+  let res;
+  try {
+    res = await call(
+      '/api/tg/preview',
+      post({ slug: 'test', text: 'Пост', photo: 'blog/test.jpg' }, PREVIEW_AUTH),
+      env,
+    );
+  } finally {
+    tg.restore();
+  }
+
+  assert.equal(res.status, 400);
+  assert.equal(tg.calls.length, 0);
+});
+
+test('preview: текст длиннее подписи к фото — 400 с причиной, а не отказ Telegram', async () => {
+  const env = previewEnv();
+  const tg = captureCalls();
+  let res;
+  let data;
+  try {
+    res = await call(
+      '/api/tg/preview',
+      post(
+        {
+          slug: 'test',
+          text: 'Слово '.repeat(300),
+          photo: 'https://ai-traffic-pro.ru/blog/test.jpg',
+        },
+        PREVIEW_AUTH,
+      ),
+      env,
+    );
+    data = await res.json();
+  } finally {
+    tg.restore();
+  }
+
+  assert.equal(res.status, 400);
+  assert.match(data.error, /1024/);
+  assert.match(data.error, /сократите/);
+  assert.equal(tg.calls.length, 0);
+});
+
+test('callback: черновик с картинкой публикуется в канал как фото', async () => {
+  const env = previewEnv();
+  const link = 'https://ai-traffic-pro.ru/blog/test/?utm_source=telegram';
+  await env.LEADS.put(
+    'draft:tg:test',
+    JSON.stringify({ html: '<b>Пост</b>', linkUrl: link, photo: 'https://ai-traffic-pro.ru/blog/test.jpg' }),
+  );
+
+  const tg = captureCalls();
+  try {
+    await call(
+      '/api/tg/webhook/',
+      {
+        method: 'POST',
+        headers: { 'X-Telegram-Bot-Api-Secret-Token': 'hook-secret' },
+        body: JSON.stringify({
+          update_id: 20,
+          callback_query: {
+            id: 'q2',
+            data: 'tgpub:test',
+            message: { message_id: 7, chat: { id: '123' } },
+          },
+        }),
+      },
+      env,
+    );
+  } finally {
+    tg.restore();
+  }
+
+  const posted = tg.calls.find((c) => c.method === 'sendPhoto' && c.body.chat_id === '@aitrafficpro');
+  assert.ok(posted, 'в канал уходит фото, а не текст');
+  assert.equal(posted.body.photo, 'https://ai-traffic-pro.ru/blog/test.jpg');
+  assert.match(posted.body.caption, /<b>Пост<\/b>/);
+  assert.equal(posted.body.reply_markup.inline_keyboard[0][0].url, link);
+
+  // Подтверждение владельцу правит подпись, а не текст: иначе Telegram
+  // отклонит правку фото-сообщения и кнопки останутся живыми.
+  assert.ok(tg.calls.some((c) => c.method === 'editMessageCaption'));
+  assert.equal(tg.calls.some((c) => c.method === 'editMessageText'), false);
+
+  assert.equal(env.LEADS.store.get('draft:tg:test'), undefined, 'черновик удалён');
+  assert.ok(JSON.parse(env.LEADS.store.get('pub:last')).message_id, 'след публикации записан');
+});

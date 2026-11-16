@@ -12,6 +12,15 @@
 /** Лимит Telegram на текст сообщения. */
 export const POST_LIMIT = 4096;
 
+/**
+ * Лимит Telegram на подпись к фото.
+ *
+ * Отдельная константа, а не «тот же 4096»: пост с картинкой физически короче,
+ * и это не баг, а формат ленты. Проверяем заранее, чтобы не узнать об этом
+ * от Telegram после нажатия «Опубликовать».
+ */
+export const CAPTION_LIMIT = 1024;
+
 /** Лимит Telegram на `callback_data`. */
 export const CALLBACK_LIMIT = 64;
 
@@ -27,6 +36,24 @@ const LINK_RE = /\[([^\]\n]+)\]\(([^)\s]+)\)/g;
 /** Проверяет, что слаг безопасен для ключа KV и `callback_data`. */
 export function isSlug(value) {
   return SLUG_RE.test(String(value || ''));
+}
+
+/**
+ * Проверяет адрес картинки для поста.
+ *
+ * Только http(s) и только абсолютный адрес: Telegram сам скачивает файл по
+ * ссылке, поэтому локальный путь или `data:` не сработают. Длина ограничена —
+ * адрес уезжает в `callback_data`-соседа (ключ черновика) и в запрос к API.
+ */
+export function isPhotoUrl(value) {
+  const raw = String(value || '');
+  if (!raw || raw.length > 500) return false;
+  try {
+    const url = new URL(raw);
+    return url.protocol === 'https:' || url.protocol === 'http:';
+  } catch {
+    return false;
+  }
 }
 
 /** Экранирует текст для `parse_mode: HTML`. */
