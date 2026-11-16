@@ -168,6 +168,15 @@ import { SITE, API } from '../data/site';
 
   let busy = false;
 
+  /**
+   * Хвост диалога для модели. Без него каждый вопрос был первым: на «я имею в
+   * виду создание лендинга» бот отвечал общим списком услуг, потому что не
+   * видел предыдущей реплики. Шесть последних ходов — компромисс между
+   * памятью и размером запроса.
+   */
+  const turns: { role: 'user' | 'bot'; text: string }[] = [];
+  const HISTORY_TURNS = 6;
+
   const setOpen = (open: boolean) => {
     toggle?.setAttribute('aria-expanded', String(open));
     panel?.classList.toggle('hidden', !open);
@@ -338,13 +347,19 @@ import { SITE, API } from '../data/site';
         fallbackUrl: API_CHAT_FALLBACK || undefined,
         payload: {
           message: question,
+          // История — до текущего вопроса: сервер сам добавит его последним.
+          messages: turns.slice(-HISTORY_TURNS),
           context: { page: window.location.pathname, source: 'widget' },
         },
       });
       if (!result.ok) throw new Error('HTTP ' + result.status);
 
       pending.remove();
-      addBubble(result.data?.reply || 'Ответ пришёл пустым — уточните вопрос.', 'bot');
+      const replyText = result.data?.reply || 'Ответ пришёл пустым — уточните вопрос.';
+      // В историю попадает ровно то, что человек видел: без этого модель
+      // отвечает на второй вопрос как на первый.
+      turns.push({ role: 'user', text: question }, { role: 'bot', text: replyText });
+      addBubble(replyText, 'bot');
 
       // Модель не справилась — её текст уже отправляет в Telegram, но кнопки
       // не было: человек читал «напишите» и не мог нажать.

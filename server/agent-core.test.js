@@ -17,6 +17,7 @@ import {
   EMPTY_REPLY,
   FALLBACK_REPLY,
   KNOWLEDGE,
+  SYSTEM_PROMPT,
   buildLlmMessages,
   escapeHtml,
   findKnowledge,
@@ -298,4 +299,18 @@ test('buildLlmMessages: промпт запрещает выдумывать ц�
 test('fallback-тексты предлагают написать в Telegram', () => {
   assert.match(FALLBACK_REPLY, /Telegram/);
   assert.match(EMPTY_REPLY, /Telegram/);
+});
+
+
+/* ── Промпт: ранний контакт вместо интервью ──────────────────────────────── */
+
+test('SYSTEM_PROMPT: просит контакт раньше подробностей', () => {
+  assert.match(SYSTEM_PROMPT, /оставьте контакт/i);
+  assert.match(SYSTEM_PROMPT, /Контакт нужен раньше, чем подробности/i);
+});
+
+test('SYSTEM_PROMPT: запрещает допрос и списки этапов', () => {
+  assert.match(SYSTEM_PROMPT, /не больше одного уточняющего вопроса/i);
+  assert.match(SYSTEM_PROMPT, /Не проси описание компании/i);
+  assert.match(SYSTEM_PROMPT, /Не перечисляй этапы работ/i);
 });

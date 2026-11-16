@@ -1192,3 +1192,73 @@ test('media: без токена — 401, с плохим адресом кар�
   );
   assert.equal(badPhoto.status, 400);
 });
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * Диалог виджета: история и ранний переход к контакту
+ *
+ * Тестовый диалог 16.11.2026: на «я имею в виду создание лендинга» бот выдал
+ * общий список услуг, а потом интервью из четырёх пунктов. Причина — виджет
+ * не присылал историю, а намерение «нужен лендинг» не считалось горячим.
+ * ────────────────────────────────────────────────────────────────────────── */
+
+test('chat: история диалога доходит до модели', async () => {
+  const captured = [];
+  const env = makeEnv();
+  env.AI = {
+    async run(model, options) {
+      captured.push(options.messages);
+      return { response: 'Ок' };
+    },
+  };
+
+  await call(
+    '/api/chat',
+    post({
+      // Без ключевых слов базы знаний — иначе ответ придёт без модели.
+      message: 'И что дальше?',
+      messages: [
+        { role: 'user', text: 'В какие сроки вы делаете лендинг?' },
+        { role: 'bot', text: 'Лендинг — от 1,5–2 недель.' },
+      ],
+    }),
+    env,
+  );
+
+  const messages = captured[0];
+  assert.equal(messages.at(-1).content, 'И что дальше?', 'текущий вопрос последний');
+  assert.ok(
+    messages.some((m) => m.role === 'assistant' && /1,5–2 недель/.test(m.content)),
+    'прошлый ответ бота попал в контекст как assistant',
+  );
+  assert.ok(
+    messages.some((m) => m.role === 'user' && /сроки/.test(m.content)),
+    'и прошлый вопрос человека тоже',
+  );
+});
+
+test('chat: «нужен лендинг» — контакт просят сразу, без слов о цене', async () => {
+  const env = makeEnv({ token: 'test-token' });
+  let body;
+  try {
+    const res = await call('/api/chat', post({ message: 'Нужен лендинг под ключ' }), env);
+    body = await res.json();
+  } finally {
+    /* Telegram здесь не нужен: проверяем сигнал виджету. */
+  }
+
+  assert.equal(body.askContact, true, 'намерение заказать — это уже заявка');
+});
+
+test('chat: «что для этого требуется» — тоже момент для контакта', async () => {
+  const env = makeEnv();
+  const res = await call('/api/chat', post({ message: 'А что для этого требуется от меня?' }), env);
+  const body = await res.json();
+  assert.equal(body.askContact, true, 'человек примеряет работу на себя — берём контакт');
+});
+
+test('chat: «как выбрать канал» — обычный вопрос, контакт не просят', async () => {
+  const env = makeEnv();
+  const res = await call('/api/chat', post({ message: 'Как выбрать канал продвижения?' }), env);
+  const body = await res.json();
+  assert.equal(body.askContact, false);
+});
