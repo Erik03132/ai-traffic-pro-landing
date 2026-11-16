@@ -181,6 +181,8 @@ export function articleLd(article: {
   date: string;
   service: string;
   author?: { name: string; role: string };
+  /** Путь от корня: `/blog/<slug>.jpg` — та же картинка, что в og:image. */
+  image?: string;
 }) {
   const url = `${SITE_URL}/blog/${article.slug}/`;
   const service = ALL_SERVICES.find((s) => s.slug === article.service);
@@ -204,6 +206,20 @@ export function articleLd(article: {
         }
       : { '@id': `${SITE_URL}/#organization` },
     publisher: { '@id': `${SITE_URL}/#organization` },
+    // Обложка в разметке: Google и AI-краулеры подтягивают её в карточку
+    // результата. Берём тот же файл, что в og:image, — вторая картинка на
+    // статью не появляется, вес страницы не растёт.
+    ...(article.image
+      ? {
+          image: {
+            '@type': 'ImageObject',
+            url: absoluteUrl(article.image),
+            width: 1200,
+            height: 630,
+            caption: article.title,
+          },
+        }
+      : {}),
     ...(service
       ? {
           about: {
