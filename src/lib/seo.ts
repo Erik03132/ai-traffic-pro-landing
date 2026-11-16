@@ -180,6 +180,7 @@ export function articleLd(article: {
   seoDescription: string;
   date: string;
   service: string;
+  author?: { name: string; role: string };
 }) {
   const url = `${SITE_URL}/blog/${article.slug}/`;
   const service = ALL_SERVICES.find((s) => s.slug === article.service);
@@ -195,7 +196,13 @@ export function articleLd(article: {
     inLanguage: 'ru-RU',
     mainEntityOfPage: { '@type': 'WebPage', '@id': url },
     url,
-    author: { '@id': `${SITE_URL}/#organization` },
+    author: article.author
+      ? {
+          '@type': 'Person',
+          name: article.author.name,
+          jobTitle: article.author.role,
+        }
+      : { '@id': `${SITE_URL}/#organization` },
     publisher: { '@id': `${SITE_URL}/#organization` },
     ...(service
       ? {

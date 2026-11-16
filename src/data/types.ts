@@ -94,12 +94,23 @@ export interface Service {
 export interface ArticleBlock {
   /** Заголовок раздела (h2). */
   title: string;
-  /** Абзацы. */
+  /** Абзацы. Можно вставлять ссылки тегом <a href="…">. */
   paragraphs?: string[];
   /** Маркированный список. */
   list?: string[];
   /** Нумерованные шаги (для инструкций). */
   steps?: string[];
+  /** Подразделы (h3) внутри раздела — нужны для цитирования по пассажу. */
+  sub?: {
+    title: string;
+    paragraphs?: string[];
+    list?: string[];
+  }[];
+  /** Таблица сравнения. Модели выдёргивают таблицу целиком — это главный GEO-блок. */
+  table?: {
+    head: string[];
+    rows: string[][];
+  };
 }
 
 /**
@@ -134,4 +145,17 @@ export interface Article {
   sections: ArticleBlock[];
   /** Вопросы в конце статьи (3 штуки). */
   faq: { q: string; a: string }[];
+  /**
+   * Автор-человек. Нужен для E-E-A-T и для разметки Person: ИИ и Яндекс
+   * доверяют подписанному тексту больше, чем «написала организация».
+   */
+  author?: {
+    name: string;
+    role: string;
+  };
+  /** Первоисточники: на них ссылаются утверждения и цифры в тексте. */
+  sources?: {
+    label: string;
+    url: string;
+  }[];
 }

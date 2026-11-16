@@ -107,6 +107,16 @@ const dateLabel = new Date(article.date).toLocaleDateString('ru-RU', {
         {article.lead}
       </p>
 
+      {article.author && (
+        <div class="mt-6 flex items-center gap-3 border-t border-stone-200 pt-4">
+          <span class="material-symbols-outlined text-stone-400 text-xl">person</span>
+          <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
+            <span class="text-stone-900 font-semibold">{article.author.name}</span>
+            <span class="text-stone-500"> — {article.author.role}</span>
+          </p>
+        </div>
+      )}
+
       {
         /* Обложку в шапке не показываем: она дублирует H1 и мешает чтению.
            Картинка остаётся в og:image — для превью ссылки в соцсетях. */
@@ -124,10 +134,40 @@ const dateLabel = new Date(article.date).toLocaleDateString('ru-RU', {
           </h2>
 
           {section.paragraphs?.map((p) => (
-            <p class="font-body-md text-body-md text-stone-700 leading-relaxed mb-5">
-              {p}
-            </p>
+            <p class="font-body-md text-body-md text-stone-700 leading-relaxed mb-5" set:html={p} />
           ))}
+
+          {section.table && (
+            <div class="my-6 -mx-margin md:mx-0 overflow-x-auto">
+              <table class="w-full min-w-[34rem] border-collapse text-left">
+                <thead>
+                  <tr class="border-b-2 border-stone-300">
+                    {section.table.head.map((h) => (
+                      <th class="py-3 pr-4 font-mono-label text-mono-label uppercase tracking-widest text-stone-500 font-semibold align-bottom">
+                        {h}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {section.table.rows.map((row) => (
+                    <tr class="border-b border-stone-200 align-top">
+                      {row.map((cell, ci) => (
+                        <td
+                          class:list={[
+                            'py-3 pr-4 font-body-sm text-body-sm leading-relaxed',
+                            ci === 0 ? 'text-stone-900 font-semibold' : 'text-stone-700',
+                          ]}
+                        >
+                          {cell}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
 
           {section.list && (
             <ul class="space-y-3 my-6">
@@ -158,6 +198,29 @@ const dateLabel = new Date(article.date).toLocaleDateString('ru-RU', {
               ))}
             </ol>
           )}
+
+          {section.sub?.map((s) => (
+            <div class="mt-8">
+              <h3 class="text-xl sm:text-2xl font-light text-stone-900 tracking-tight leading-tight mb-3">
+                {s.title}
+              </h3>
+              {s.paragraphs?.map((p) => (
+                <p class="font-body-md text-body-md text-stone-700 leading-relaxed mb-5" set:html={p} />
+              ))}
+              {s.list && (
+                <ul class="space-y-2 my-5">
+                  {s.list.map((item) => (
+                    <li class="flex items-start gap-3">
+                      <span class="material-symbols-outlined text-terracotta-600 text-lg mt-1 shrink-0">
+                        check_circle
+                      </span>
+                      <span class="font-body-md text-body-md text-stone-900 leading-relaxed" set:html={item} />
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          ))}
         </section>
       ))}
 
@@ -181,6 +244,30 @@ const dateLabel = new Date(article.date).toLocaleDateString('ru-RU', {
             <span class="material-symbols-outlined text-base">arrow_forward</span>
           </a>
         </aside>
+      )}
+
+      <!-- Первоисточники: на них опираются утверждения и цифры в тексте -->
+      {article.sources?.length && (
+        <section class="mt-8 sm:mt-14 border-t border-stone-200 pt-6">
+          <span class="font-mono-label text-mono-label uppercase text-stone-500 tracking-widest font-semibold block mb-3">
+            [ИСТОЧНИКИ]
+          </span>
+          <ol class="space-y-2">
+            {article.sources.map((s, n) => (
+              <li class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
+                <span class="text-stone-500 mr-2">{n + 1}.</span>
+                <a
+                  href={s.url}
+                  target="_blank"
+                  rel="noopener noreferrer nofollow"
+                  class="underline decoration-stone-300 underline-offset-2 hover:decoration-terracotta-600"
+                >
+                  {s.label}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </section>
       )}
     </div>
   </article>

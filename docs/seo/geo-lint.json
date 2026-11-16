@@ -1,0 +1,846 @@
+{
+  "generated_at": "2026-11-16T07:03:47+00:00",
+  "query": "",
+  "site": {},
+  "results": [
+    {
+      "url": "https://ai-traffic-pro.ru/blog/",
+      "words": 467,
+      "words_before_first_h2": 40,
+      "tables": 0,
+      "images": 1,
+      "numbers": 0,
+      "entities": [],
+      "external_links": 0,
+      "internal_links": 12,
+      "h2": 11,
+      "h3": 0,
+      "comparative": false,
+      "score": 26,
+      "blocks": {
+        "answer": {
+          "label": "Ответ в начале",
+          "score": 12,
+          "max": 12
+        },
+        "depth": {
+          "label": "Объём",
+          "score": 0,
+          "max": 10
+        },
+        "table": {
+          "label": "Таблица сравнения",
+          "score": 0,
+          "max": 14
+        },
+        "numbers": {
+          "label": "Цифры с единицами",
+          "score": 0,
+          "max": 14
+        },
+        "entities": {
+          "label": "Названные системы",
+          "score": 0,
+          "max": 14
+        },
+        "sources": {
+          "label": "Внешние источники",
+          "score": 0,
+          "max": 10
+        },
+        "structure": {
+          "label": "Структура и перелинковка",
+          "score": 9,
+          "max": 12
+        },
+        "schema": {
+          "label": "Разметка и автор",
+          "score": 5,
+          "max": 14
+        }
+      },
+      "fixes": [
+        "Объём 467 слов — мало для конкуренции. Довести до 1200–1800, не разбавляя водой.",
+        "Добавить настоящую <table> сравнения (8–10 строк), а не список с галочками.",
+        "Чисел с единицами 0 (нужно ≥3): сроки внедрения, цены лицензий, проценты провалов.",
+        "Назвать системы по именам с привязкой к ситуации: 1С, Битрикс24, amoCRM, Odoo, SAP.",
+        "Внешних источников 0 (нужно ≥2): первоисточники по теме, ссылка в том же предложении.",
+        "H3 внутри H2: сейчас 0. Без подразделов страницу не выдёргивают по пассажу.",
+        "Нет FAQPage — добавить 3–5 вопросов с короткими ответами.",
+        "Автор — организация. Указать человека с одной строкой опыта: это E-E-A-T и доверие ИИ."
+      ],
+      "meta": {
+        "title": "Блог: SEO, GEO, реклама и соцсети | AI-Traffic PRO",
+        "title_len": 50,
+        "description_len": 150,
+        "canonical": "https://ai-traffic-pro.ru/blog/",
+        "author": "",
+        "has_person": false,
+        "has_blogposting": true,
+        "has_faqpage": false
+      }
+    },
+    {
+      "url": "https://ai-traffic-pro.ru/blog/kak-vybrat-kanal-prodvizheniya/",
+      "words": 955,
+      "words_before_first_h2": 0,
+      "tables": 0,
+      "images": 1,
+      "numbers": 0,
+      "entities": [],
+      "external_links": 0,
+      "internal_links": 3,
+      "h2": 9,
+      "h3": 0,
+      "comparative": false,
+      "score": 35,
+      "blocks": {
+        "answer": {
+          "label": "Ответ в начале",
+          "score": 12,
+          "max": 12
+        },
+        "depth": {
+          "label": "Объём",
+          "score": 5,
+          "max": 10
+        },
+        "table": {
+          "label": "Таблица сравнения",
+          "score": 0,
+          "max": 14
+        },
+        "numbers": {
+          "label": "Цифры с единицами",
+          "score": 0,
+          "max": 14
+        },
+        "entities": {
+          "label": "Названные системы",
+          "score": 0,
+          "max": 14
+        },
+        "sources": {
+          "label": "Внешние источники",
+          "score": 0,
+          "max": 10
+        },
+        "structure": {
+          "label": "Структура и перелинковка",
+          "score": 9,
+          "max": 12
+        },
+        "schema": {
+          "label": "Разметка и автор",
+          "score": 9,
+          "max": 14
+        }
+      },
+      "fixes": [
+        "Объём 955 слов — мало для конкуренции. Довести до 1200–1800, не разбавляя водой.",
+        "Добавить настоящую <table> сравнения (8–10 строк), а не список с галочками.",
+        "Чисел с единицами 0 (нужно ≥3): сроки внедрения, цены лицензий, проценты провалов.",
+        "Назвать системы по именам с привязкой к ситуации: 1С, Битрикс24, amoCRM, Odoo, SAP.",
+        "Внешних источников 0 (нужно ≥2): первоисточники по теме, ссылка в том же предложении.",
+        "H3 внутри H2: сейчас 0. Без подразделов страницу не выдёргивают по пассажу.",
+        "Автор — организация. Указать человека с одной строкой опыта: это E-E-A-T и доверие ИИ."
+      ],
+      "meta": {
+        "title": "Как выбрать канал продвижения: 6 вопросов | AI-Traffic PRO",
+        "title_len": 58,
+        "description_len": 142,
+        "canonical": "https://ai-traffic-pro.ru/blog/kak-vybrat-kanal-prodvizheniya/",
+        "author": "",
+        "has_person": false,
+        "has_blogposting": true,
+        "has_faqpage": true
+      }
+    },
+    {
+      "url": "https://ai-traffic-pro.ru/blog/kak-sostavit-brif-na-prodvizhenie/",
+      "words": 911,
+      "words_before_first_h2": 0,
+      "tables": 0,
+      "images": 1,
+      "numbers": 0,
+      "entities": [],
+      "external_links": 0,
+      "internal_links": 3,
+      "h2": 8,
+      "h3": 0,
+      "comparative": false,
+      "score": 35,
+      "blocks": {
+        "answer": {
+          "label": "Ответ в начале",
+          "score": 12,
+          "max": 12
+        },
+        "depth": {
+          "label": "Объём",
+          "score": 5,
+          "max": 10
+        },
+        "table": {
+          "label": "Таблица сравнения",
+          "score": 0,
+          "max": 14
+        },
+        "numbers": {
+          "label": "Цифры с единицами",
+          "score": 0,
+          "max": 14
+        },
+        "entities": {
+          "label": "Названные системы",
+          "score": 0,
+          "max": 14
+        },
+        "sources": {
+          "label": "Внешние источники",
+          "score": 0,
+          "max": 10
+        },
+        "structure": {
+          "label": "Структура и перелинковка",
+          "score": 9,
+          "max": 12
+        },
+        "schema": {
+          "label": "Разметка и автор",
+          "score": 9,
+          "max": 14
+        }
+      },
+      "fixes": [
+        "Объём 911 слов — мало для конкуренции. Довести до 1200–1800, не разбавляя водой.",
+        "Добавить настоящую <table> сравнения (8–10 строк), а не список с галочками.",
+        "Чисел с единицами 0 (нужно ≥3): сроки внедрения, цены лицензий, проценты провалов.",
+        "Назвать системы по именам с привязкой к ситуации: 1С, Битрикс24, amoCRM, Odoo, SAP.",
+        "Внешних источников 0 (нужно ≥2): первоисточники по теме, ссылка в том же предложении.",
+        "H3 внутри H2: сейчас 0. Без подразделов страницу не выдёргивают по пассажу.",
+        "Автор — организация. Указать человека с одной строкой опыта: это E-E-A-T и доверие ИИ."
+      ],
+      "meta": {
+        "title": "Бриф на продвижение: что подготовить | AI-Traffic PRO",
+        "title_len": 53,
+        "description_len": 146,
+        "canonical": "https://ai-traffic-pro.ru/blog/kak-sostavit-brif-na-prodvizhenie/",
+        "author": "",
+        "has_person": false,
+        "has_blogposting": true,
+        "has_faqpage": true
+      }
+    },
+    {
+      "url": "https://ai-traffic-pro.ru/blog/kak-schitat-okupaemost-reklamy/",
+      "words": 1119,
+      "words_before_first_h2": 0,
+      "tables": 0,
+      "images": 1,
+      "numbers": 0,
+      "entities": [],
+      "external_links": 0,
+      "internal_links": 3,
+      "h2": 8,
+      "h3": 0,
+      "comparative": false,
+      "score": 35,
+      "blocks": {
+        "answer": {
+          "label": "Ответ в начале",
+          "score": 12,
+          "max": 12
+        },
+        "depth": {
+          "label": "Объём",
+          "score": 5,
+          "max": 10
+        },
+        "table": {
+          "label": "Таблица сравнения",
+          "score": 0,
+          "max": 14
+        },
+        "numbers": {
+          "label": "Цифры с единицами",
+          "score": 0,
+          "max": 14
+        },
+        "entities": {
+          "label": "Названные системы",
+          "score": 0,
+          "max": 14
+        },
+        "sources": {
+          "label": "Внешние источники",
+          "score": 0,
+          "max": 10
+        },
+        "structure": {
+          "label": "Структура и перелинковка",
+          "score": 9,
+          "max": 12
+        },
+        "schema": {
+          "label": "Разметка и автор",
+          "score": 9,
+          "max": 14
+        }
+      },
+      "fixes": [
+        "Объём 1119 слов — мало для конкуренции. Довести до 1200–1800, не разбавляя водой.",
+        "Добавить настоящую <table> сравнения (8–10 строк), а не список с галочками.",
+        "Чисел с единицами 0 (нужно ≥3): сроки внедрения, цены лицензий, проценты провалов.",
+        "Назвать системы по именам с привязкой к ситуации: 1С, Битрикс24, amoCRM, Odoo, SAP.",
+        "Внешних источников 0 (нужно ≥2): первоисточники по теме, ссылка в том же предложении.",
+        "H3 внутри H2: сейчас 0. Без подразделов страницу не выдёргивают по пассажу.",
+        "Автор — организация. Указать человека с одной строкой опыта: это E-E-A-T и доверие ИИ."
+      ],
+      "meta": {
+        "title": "ROMI и ДРР: окупается ли реклама | AI-Traffic PRO",
+        "title_len": 49,
+        "description_len": 149,
+        "canonical": "https://ai-traffic-pro.ru/blog/kak-schitat-okupaemost-reklamy/",
+        "author": "",
+        "has_person": false,
+        "has_blogposting": true,
+        "has_faqpage": true
+      }
+    },
+    {
+      "url": "https://ai-traffic-pro.ru/blog/geo-prodvizhenie-checklist/",
+      "words": 950,
+      "words_before_first_h2": 0,
+      "tables": 0,
+      "images": 1,
+      "numbers": 0,
+      "entities": [
+        "1с"
+      ],
+      "external_links": 0,
+      "internal_links": 3,
+      "h2": 9,
+      "h3": 0,
+      "comparative": false,
+      "score": 39,
+      "blocks": {
+        "answer": {
+          "label": "Ответ в начале",
+          "score": 12,
+          "max": 12
+        },
+        "depth": {
+          "label": "Объём",
+          "score": 5,
+          "max": 10
+        },
+        "table": {
+          "label": "Таблица сравнения",
+          "score": 0,
+          "max": 14
+        },
+        "numbers": {
+          "label": "Цифры с единицами",
+          "score": 0,
+          "max": 14
+        },
+        "entities": {
+          "label": "Названные системы",
+          "score": 4,
+          "max": 14
+        },
+        "sources": {
+          "label": "Внешние источники",
+          "score": 0,
+          "max": 10
+        },
+        "structure": {
+          "label": "Структура и перелинковка",
+          "score": 9,
+          "max": 12
+        },
+        "schema": {
+          "label": "Разметка и автор",
+          "score": 9,
+          "max": 14
+        }
+      },
+      "fixes": [
+        "Объём 950 слов — мало для конкуренции. Довести до 1200–1800, не разбавляя водой.",
+        "Добавить настоящую <table> сравнения (8–10 строк), а не список с галочками.",
+        "Чисел с единицами 0 (нужно ≥3): сроки внедрения, цены лицензий, проценты провалов.",
+        "Назвать системы по именам с привязкой к ситуации: 1С, Битрикс24, amoCRM, Odoo, SAP.",
+        "Внешних источников 0 (нужно ≥2): первоисточники по теме, ссылка в том же предложении.",
+        "H3 внутри H2: сейчас 0. Без подразделов страницу не выдёргивают по пассажу.",
+        "Автор — организация. Указать человека с одной строкой опыта: это E-E-A-T и доверие ИИ."
+      ],
+      "meta": {
+        "title": "Чек-лист GEO: попасть в ответы нейросетей | AI-Traffic PRO",
+        "title_len": 58,
+        "description_len": 141,
+        "canonical": "https://ai-traffic-pro.ru/blog/geo-prodvizhenie-checklist/",
+        "author": "",
+        "has_person": false,
+        "has_blogposting": true,
+        "has_faqpage": true
+      }
+    },
+    {
+      "url": "https://ai-traffic-pro.ru/blog/kontent-plan-dlya-sotssetey/",
+      "words": 1069,
+      "words_before_first_h2": 0,
+      "tables": 0,
+      "images": 1,
+      "numbers": 0,
+      "entities": [],
+      "external_links": 0,
+      "internal_links": 3,
+      "h2": 9,
+      "h3": 0,
+      "comparative": false,
+      "score": 35,
+      "blocks": {
+        "answer": {
+          "label": "Ответ в начале",
+          "score": 12,
+          "max": 12
+        },
+        "depth": {
+          "label": "Объём",
+          "score": 5,
+          "max": 10
+        },
+        "table": {
+          "label": "Таблица сравнения",
+          "score": 0,
+          "max": 14
+        },
+        "numbers": {
+          "label": "Цифры с единицами",
+          "score": 0,
+          "max": 14
+        },
+        "entities": {
+          "label": "Названные системы",
+          "score": 0,
+          "max": 14
+        },
+        "sources": {
+          "label": "Внешние источники",
+          "score": 0,
+          "max": 10
+        },
+        "structure": {
+          "label": "Структура и перелинковка",
+          "score": 9,
+          "max": 12
+        },
+        "schema": {
+          "label": "Разметка и автор",
+          "score": 9,
+          "max": 14
+        }
+      },
+      "fixes": [
+        "Объём 1069 слов — мало для конкуренции. Довести до 1200–1800, не разбавляя водой.",
+        "Добавить настоящую <table> сравнения (8–10 строк), а не список с галочками.",
+        "Чисел с единицами 0 (нужно ≥3): сроки внедрения, цены лицензий, проценты провалов.",
+        "Назвать системы по именам с привязкой к ситуации: 1С, Битрикс24, amoCRM, Odoo, SAP.",
+        "Внешних источников 0 (нужно ≥2): первоисточники по теме, ссылка в том же предложении.",
+        "H3 внутри H2: сейчас 0. Без подразделов страницу не выдёргивают по пассажу.",
+        "Автор — организация. Указать человека с одной строкой опыта: это E-E-A-T и доверие ИИ."
+      ],
+      "meta": {
+        "title": "Контент-план для соцсетей за вечер | AI-Traffic PRO",
+        "title_len": 51,
+        "description_len": 150,
+        "canonical": "https://ai-traffic-pro.ru/blog/kontent-plan-dlya-sotssetey/",
+        "author": "",
+        "has_person": false,
+        "has_blogposting": true,
+        "has_faqpage": true
+      }
+    },
+    {
+      "url": "https://ai-traffic-pro.ru/blog/lending-ili-sayt/",
+      "words": 920,
+      "words_before_first_h2": 0,
+      "tables": 0,
+      "images": 1,
+      "numbers": 0,
+      "entities": [],
+      "external_links": 0,
+      "internal_links": 3,
+      "h2": 9,
+      "h3": 0,
+      "comparative": false,
+      "score": 35,
+      "blocks": {
+        "answer": {
+          "label": "Ответ в начале",
+          "score": 12,
+          "max": 12
+        },
+        "depth": {
+          "label": "Объём",
+          "score": 5,
+          "max": 10
+        },
+        "table": {
+          "label": "Таблица сравнения",
+          "score": 0,
+          "max": 14
+        },
+        "numbers": {
+          "label": "Цифры с единицами",
+          "score": 0,
+          "max": 14
+        },
+        "entities": {
+          "label": "Названные системы",
+          "score": 0,
+          "max": 14
+        },
+        "sources": {
+          "label": "Внешние источники",
+          "score": 0,
+          "max": 10
+        },
+        "structure": {
+          "label": "Структура и перелинковка",
+          "score": 9,
+          "max": 12
+        },
+        "schema": {
+          "label": "Разметка и автор",
+          "score": 9,
+          "max": 14
+        }
+      },
+      "fixes": [
+        "Объём 920 слов — мало для конкуренции. Довести до 1200–1800, не разбавляя водой.",
+        "Добавить настоящую <table> сравнения (8–10 строк), а не список с галочками.",
+        "Чисел с единицами 0 (нужно ≥3): сроки внедрения, цены лицензий, проценты провалов.",
+        "Назвать системы по именам с привязкой к ситуации: 1С, Битрикс24, amoCRM, Odoo, SAP.",
+        "Внешних источников 0 (нужно ≥2): первоисточники по теме, ссылка в том же предложении.",
+        "H3 внутри H2: сейчас 0. Без подразделов страницу не выдёргивают по пассажу.",
+        "Автор — организация. Указать человека с одной строкой опыта: это E-E-A-T и доверие ИИ."
+      ],
+      "meta": {
+        "title": "Лендинг или сайт: что выбрать | AI-Traffic PRO",
+        "title_len": 46,
+        "description_len": 146,
+        "canonical": "https://ai-traffic-pro.ru/blog/lending-ili-sayt/",
+        "author": "",
+        "has_person": false,
+        "has_blogposting": true,
+        "has_faqpage": true
+      }
+    },
+    {
+      "url": "https://ai-traffic-pro.ru/blog/kak-nachat-prodavat-na-marketpleysah/",
+      "words": 1132,
+      "words_before_first_h2": 0,
+      "tables": 0,
+      "images": 1,
+      "numbers": 0,
+      "entities": [],
+      "external_links": 0,
+      "internal_links": 3,
+      "h2": 9,
+      "h3": 0,
+      "comparative": false,
+      "score": 35,
+      "blocks": {
+        "answer": {
+          "label": "Ответ в начале",
+          "score": 12,
+          "max": 12
+        },
+        "depth": {
+          "label": "Объём",
+          "score": 5,
+          "max": 10
+        },
+        "table": {
+          "label": "Таблица сравнения",
+          "score": 0,
+          "max": 14
+        },
+        "numbers": {
+          "label": "Цифры с единицами",
+          "score": 0,
+          "max": 14
+        },
+        "entities": {
+          "label": "Названные системы",
+          "score": 0,
+          "max": 14
+        },
+        "sources": {
+          "label": "Внешние источники",
+          "score": 0,
+          "max": 10
+        },
+        "structure": {
+          "label": "Структура и перелинковка",
+          "score": 9,
+          "max": 12
+        },
+        "schema": {
+          "label": "Разметка и автор",
+          "score": 9,
+          "max": 14
+        }
+      },
+      "fixes": [
+        "Объём 1132 слов — мало для конкуренции. Довести до 1200–1800, не разбавляя водой.",
+        "Добавить настоящую <table> сравнения (8–10 строк), а не список с галочками.",
+        "Чисел с единицами 0 (нужно ≥3): сроки внедрения, цены лицензий, проценты провалов.",
+        "Назвать системы по именам с привязкой к ситуации: 1С, Битрикс24, amoCRM, Odoo, SAP.",
+        "Внешних источников 0 (нужно ≥2): первоисточники по теме, ссылка в том же предложении.",
+        "H3 внутри H2: сейчас 0. Без подразделов страницу не выдёргивают по пассажу.",
+        "Автор — организация. Указать человека с одной строкой опыта: это E-E-A-T и доверие ИИ."
+      ],
+      "meta": {
+        "title": "Как начать продавать на маркетплейсах | AI-Traffic PRO",
+        "title_len": 54,
+        "description_len": 153,
+        "canonical": "https://ai-traffic-pro.ru/blog/kak-nachat-prodavat-na-marketpleysah/",
+        "author": "",
+        "has_person": false,
+        "has_blogposting": true,
+        "has_faqpage": true
+      }
+    },
+    {
+      "url": "https://ai-traffic-pro.ru/blog/zayavki-teryayutsya/",
+      "words": 997,
+      "words_before_first_h2": 0,
+      "tables": 0,
+      "images": 1,
+      "numbers": 0,
+      "entities": [],
+      "external_links": 0,
+      "internal_links": 3,
+      "h2": 9,
+      "h3": 0,
+      "comparative": false,
+      "score": 35,
+      "blocks": {
+        "answer": {
+          "label": "Ответ в начале",
+          "score": 12,
+          "max": 12
+        },
+        "depth": {
+          "label": "Объём",
+          "score": 5,
+          "max": 10
+        },
+        "table": {
+          "label": "Таблица сравнения",
+          "score": 0,
+          "max": 14
+        },
+        "numbers": {
+          "label": "Цифры с единицами",
+          "score": 0,
+          "max": 14
+        },
+        "entities": {
+          "label": "Названные системы",
+          "score": 0,
+          "max": 14
+        },
+        "sources": {
+          "label": "Внешние источники",
+          "score": 0,
+          "max": 10
+        },
+        "structure": {
+          "label": "Структура и перелинковка",
+          "score": 9,
+          "max": 12
+        },
+        "schema": {
+          "label": "Разметка и автор",
+          "score": 9,
+          "max": 14
+        }
+      },
+      "fixes": [
+        "Объём 997 слов — мало для конкуренции. Довести до 1200–1800, не разбавляя водой.",
+        "Добавить настоящую <table> сравнения (8–10 строк), а не список с галочками.",
+        "Чисел с единицами 0 (нужно ≥3): сроки внедрения, цены лицензий, проценты провалов.",
+        "Назвать системы по именам с привязкой к ситуации: 1С, Битрикс24, amoCRM, Odoo, SAP.",
+        "Внешних источников 0 (нужно ≥2): первоисточники по теме, ссылка в том же предложении.",
+        "H3 внутри H2: сейчас 0. Без подразделов страницу не выдёргивают по пассажу.",
+        "Автор — организация. Указать человека с одной строкой опыта: это E-E-A-T и доверие ИИ."
+      ],
+      "meta": {
+        "title": "Заявки теряются: порядок в обработке | AI-Traffic PRO",
+        "title_len": 53,
+        "description_len": 151,
+        "canonical": "https://ai-traffic-pro.ru/blog/zayavki-teryayutsya/",
+        "author": "",
+        "has_person": false,
+        "has_blogposting": true,
+        "has_faqpage": true
+      }
+    },
+    {
+      "url": "https://ai-traffic-pro.ru/blog/crm-i-erp-raznica/",
+      "words": 840,
+      "words_before_first_h2": 0,
+      "tables": 0,
+      "images": 1,
+      "numbers": 1,
+      "entities": [],
+      "external_links": 0,
+      "internal_links": 3,
+      "h2": 7,
+      "h3": 0,
+      "comparative": false,
+      "score": 37,
+      "blocks": {
+        "answer": {
+          "label": "Ответ в начале",
+          "score": 12,
+          "max": 12
+        },
+        "depth": {
+          "label": "Объём",
+          "score": 2,
+          "max": 10
+        },
+        "table": {
+          "label": "Таблица сравнения",
+          "score": 0,
+          "max": 14
+        },
+        "numbers": {
+          "label": "Цифры с единицами",
+          "score": 5,
+          "max": 14
+        },
+        "entities": {
+          "label": "Названные системы",
+          "score": 0,
+          "max": 14
+        },
+        "sources": {
+          "label": "Внешние источники",
+          "score": 0,
+          "max": 10
+        },
+        "structure": {
+          "label": "Структура и перелинковка",
+          "score": 9,
+          "max": 12
+        },
+        "schema": {
+          "label": "Разметка и автор",
+          "score": 9,
+          "max": 14
+        }
+      },
+      "fixes": [
+        "Объём 840 слов — мало для конкуренции. Довести до 1200–1800, не разбавляя водой.",
+        "Добавить настоящую <table> сравнения (8–10 строк), а не список с галочками.",
+        "Чисел с единицами 1 (нужно ≥3): сроки внедрения, цены лицензий, проценты провалов.",
+        "Назвать системы по именам с привязкой к ситуации: 1С, Битрикс24, amoCRM, Odoo, SAP.",
+        "Внешних источников 0 (нужно ≥2): первоисточники по теме, ссылка в том же предложении.",
+        "H3 внутри H2: сейчас 0. Без подразделов страницу не выдёргивают по пассажу.",
+        "Автор — организация. Указать человека с одной строкой опыта: это E-E-A-T и доверие ИИ."
+      ],
+      "meta": {
+        "title": "CRM и ERP: в чём разница и что выбрать | AI-Traffic PRO",
+        "title_len": 55,
+        "description_len": 143,
+        "canonical": "https://ai-traffic-pro.ru/blog/crm-i-erp-raznica/",
+        "author": "",
+        "has_person": false,
+        "has_blogposting": true,
+        "has_faqpage": true
+      }
+    },
+    {
+      "url": "https://ai-traffic-pro.ru/blog/mediaplan-i-kontent-plan-raznica/",
+      "words": 841,
+      "words_before_first_h2": 0,
+      "tables": 0,
+      "images": 1,
+      "numbers": 0,
+      "entities": [],
+      "external_links": 0,
+      "internal_links": 3,
+      "h2": 9,
+      "h3": 0,
+      "comparative": false,
+      "score": 32,
+      "blocks": {
+        "answer": {
+          "label": "Ответ в начале",
+          "score": 12,
+          "max": 12
+        },
+        "depth": {
+          "label": "Объём",
+          "score": 2,
+          "max": 10
+        },
+        "table": {
+          "label": "Таблица сравнения",
+          "score": 0,
+          "max": 14
+        },
+        "numbers": {
+          "label": "Цифры с единицами",
+          "score": 0,
+          "max": 14
+        },
+        "entities": {
+          "label": "Названные системы",
+          "score": 0,
+          "max": 14
+        },
+        "sources": {
+          "label": "Внешние источники",
+          "score": 0,
+          "max": 10
+        },
+        "structure": {
+          "label": "Структура и перелинковка",
+          "score": 9,
+          "max": 12
+        },
+        "schema": {
+          "label": "Разметка и автор",
+          "score": 9,
+          "max": 14
+        }
+      },
+      "fixes": [
+        "Объём 841 слов — мало для конкуренции. Довести до 1200–1800, не разбавляя водой.",
+        "Добавить настоящую <table> сравнения (8–10 строк), а не список с галочками.",
+        "Чисел с единицами 0 (нужно ≥3): сроки внедрения, цены лицензий, проценты провалов.",
+        "Назвать системы по именам с привязкой к ситуации: 1С, Битрикс24, amoCRM, Odoo, SAP.",
+        "Внешних источников 0 (нужно ≥2): первоисточники по теме, ссылка в том же предложении.",
+        "H3 внутри H2: сейчас 0. Без подразделов страницу не выдёргивают по пассажу.",
+        "Автор — организация. Указать человека с одной строкой опыта: это E-E-A-T и доверие ИИ."
+      ],
+      "meta": {
+        "title": "Медиаплан и контент-план: в чём разница | AI-Traffic PRO",
+        "title_len": 56,
+        "description_len": 160,
+        "canonical": "https://ai-traffic-pro.ru/blog/mediaplan-i-kontent-plan-raznica/",
+        "author": "",
+        "has_person": false,
+        "has_blogposting": true,
+        "has_faqpage": true
+      }
+    }
+  ]
+}
