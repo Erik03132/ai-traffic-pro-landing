@@ -17,6 +17,7 @@ import { kakNachatProdavatNaMarketpleysah } from './kak-nachat-prodavat-na-marke
 import { zayavkiTeryayutsya } from './zayavki-teryayutsya';
 import { crmIErpRaznica } from './crm-i-erp-raznica';
 import { mediaplanIKontentPlanRaznica } from './mediaplan-i-kontent-plan-raznica';
+import { voronkaProdazhKakPostroit } from './voronka-prodazh-kak-postroit';
 
 export const ARTICLES: Article[] = [
   kakVybratKanal,
@@ -29,6 +30,7 @@ export const ARTICLES: Article[] = [
   zayavkiTeryayutsya,
   crmIErpRaznica,
   mediaplanIKontentPlanRaznica,
+  voronkaProdazhKakPostroit,
 ];
 
 export type { Article };
