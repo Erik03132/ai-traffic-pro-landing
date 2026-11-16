@@ -71,10 +71,12 @@ def fit_cover(img: Image.Image, size: tuple[int, int]) -> Image.Image:
 
 
 def tracked(draw: ImageDraw.ImageDraw, xy, text, fnt, fill, spacing=3):
+    """Пишет текст с разрядкой. Возвращает X после последнего символа."""
     x, y = xy
     for ch in text:
         draw.text((x, y), ch, font=fnt, fill=fill)
         x += draw.textlength(ch, font=fnt) + spacing
+    return x - spacing
 
 
 def wrap(draw, text, fnt, max_width):
@@ -220,8 +222,9 @@ def _poster(size_name: str, title: str, tag: str, date: str, texture: Path, out:
 def _accent(size_name: str, title: str, tag: str, date: str, texture: Path, out: Path) -> Path:
     """Светлый фон + крупный терракотовый блок: цвет сайта работает пятном.
 
-    Пятно цвета держит глаз в ленте, а заголовок остаётся чёрным на светлом —
-    это самый читаемый вариант для длинных русских заголовков.
+    Деталей на обложке ровно две — имя и заголовок. Рубрика, дата и адрес
+    сайта убраны: в ленте они не читаются, а место занимают. Рубрика и дата
+    живут в тексте поста, адрес — в кнопке под ним.
     """
     w, h = SIZES[size_name]
     canvas = Image.new("RGB", (w, h), IVORY)
@@ -241,32 +244,28 @@ def _accent(size_name: str, title: str, tag: str, date: str, texture: Path, out:
         band = [round(w * 0.70), 0, w, h]
     draw.rectangle(band, fill=ACCENT)
 
-    mono = font(FONTS / "JetBrainsMono.ttf", max(15, round(w * 0.0155)), "Bold")
-    mark = max(12, round(w * 0.012))
-    draw.rectangle([pad, pad, pad + mark, pad + mark], fill=INK)
-    tracked(draw, (pad + mark + round(w * 0.015), pad + round(w * 0.003)),
-            "AI-TRAFFIC PRO", mono, INK, spacing=max(2, round(w * 0.0028)))
+    # Имя и терракотовая линия под ним — единственная «марка» обложки.
+    brand = font(FONTS / "JetBrainsMono.ttf", max(24, round(w * 0.028)), "Bold")
+    brand_end = tracked(draw, (pad, pad), "AI-TRAFFIC-PRO", brand, INK,
+                        spacing=max(2, round(w * 0.004)))
+    # Линия идёт до правого края: это не подчёркивание слова, а «горизонт»,
+    # отбивающий марку от заголовка. На терракотовой плашке она меняет цвет
+    # на бежевый — иначе оранжевое на оранжевом исчезает.
+    line_y = pad + round(brand.size * 1.42)
+    line_w = max(6, round(h * 0.0085))
+    band_x = band[0] if band[0] > 0 else w
+    draw.line([(pad, line_y), (band_x, line_y)], fill=ACCENT, width=line_w)
+    if band_x < w:
+        draw.line([(band_x, line_y), (w, line_y)], fill=IVORY, width=line_w)
 
-    tracked(draw, (pad, pad + round(h * 0.115)), tag.upper(), mono, TERRACOTTA,
-            spacing=max(2, round(w * 0.003)))
-
-    # 0.58 от ширины — это ~20 px воздуха до плашки: раньше заголовок
-    # прилипал к цветному блоку и на превью казался обрезанным.
+    # Заголовок — главный объект: 0.52 ширины оставляет воздух до плашки.
     box_w = round(w * (0.52 if size_name != "square" else 0.85))
     fnt, lines, size = fit_title(draw, title, box_w, 4,
-                                 start=round(w * 0.098), floor=round(w * 0.058))
-    y = round(h * 0.36) if size_name != "square" else round(h * 0.38)
+                                 start=round(w * 0.105), floor=round(w * 0.058))
+    y = round(h * 0.34) if size_name != "square" else round(h * 0.36)
     for line in lines:
         draw.text((pad, y), line, font=fnt, fill=INK)
         y += round(size * 1.1)
-
-    # Адрес — на светлой части, чтобы не спорить с блоком
-    site_y = h - pad - round(h * 0.03) if size_name != "square" else round(h * 0.80)
-    draw.line([(pad, site_y - round(h * 0.045)), (pad + round(w * 0.14), site_y - round(h * 0.045))],
-              fill=TERRACOTTA, width=max(3, round(h * 0.005)))
-    tracked(draw, (pad, site_y), "AI-TRAFFIC-PRO.RU",
-            font(FONTS / "JetBrainsMono.ttf", max(13, round(w * 0.0135)), "Medium"), INK,
-            spacing=max(1, round(w * 0.0017)))
 
     return _save(canvas, out)
 
