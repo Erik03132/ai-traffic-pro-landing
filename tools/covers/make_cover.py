@@ -33,9 +33,13 @@ ROOT = Path(__file__).resolve().parents[2]
 FONTS = ROOT / "assets" / "fonts"
 DEFAULT_TEXTURE = ROOT / "assets" / "covers" / "texture-paper.jpg"
 
-IVORY = (244, 239, 232)
-INK = (43, 41, 38)
-TERRACOTTA = (184, 92, 56)
+# Палитра сайта (src/styles/global.css): stone-900 #18181b, terracotta-500
+# #ea580c, terracotta-700 #c2410c. Раньше обложки жили на приглушённом
+# кирпичном #b85c38 — он не совпадал с кнопками сайта и выглядел пыльно.
+IVORY = (247, 243, 238)
+INK = (24, 24, 27)
+TERRACOTTA = (194, 65, 12)
+ACCENT = (234, 88, 12)
 MUTED = (122, 114, 105)
 
 SIZES = {
@@ -87,7 +91,30 @@ def wrap(draw, text, fnt, max_width):
     return lines
 
 
-def build(size_name: str, title: str, tag: str, date: str, texture: Path, out: Path) -> Path:
+def fit_title(draw, title: str, max_width: float, max_lines: int,
+              start: int, floor: int, ratio: float = 1.1, path: Path | None = None):
+    """Подбирает кегль так, чтобы заголовок влез в max_lines строк.
+
+    Кегль — главный инструмент читаемости: в ленте Telegram обложка видна
+    шириной ~300 px, поэтому всё мельче 40 px исходных 1200 превращается
+    в серую пыль.
+    """
+    size = start
+    lines: list[str] = []
+    while size >= floor:
+        fnt = font(path or (FONTS / "PlayfairDisplay.ttf"), size)
+        lines = wrap(draw, title, fnt, max_width)
+        # Проверяем и длину строк: длинное слово не переносится, и без этой
+        # проверки «Окупаемость» вылезает за блок и наезжает на плашку.
+        widest = max((draw.textlength(line, font=fnt) for line in lines), default=0)
+        if len(lines) <= max_lines and widest <= max_width:
+            return fnt, lines, size
+        size -= 4
+    fnt = font(path or (FONTS / "PlayfairDisplay.ttf"), floor)
+    return fnt, wrap(draw, title, fnt, max_width), floor
+
+
+def _paper(size_name: str, title: str, tag: str, date: str, texture: Path, out: Path) -> Path:
     w, h = SIZES[size_name]
     canvas = Image.new("RGB", (w, h), IVORY)
 
@@ -136,9 +163,193 @@ def build(size_name: str, title: str, tag: str, date: str, texture: Path, out: P
     tracked(draw, (pad, rule_y + round(h * 0.013)), "AI-TRAFFIC-PRO.RU", site, MUTED,
             spacing=max(1, round(w * 0.0016)))
 
+    return _save(canvas, out)
+
+
+def _poster(size_name: str, title: str, tag: str, date: str, texture: Path, out: Path) -> Path:
+    """Тёмный плакат: крупный заголовок, высокая контрастность в ленте.
+
+    Проблема светлой обложки в Telegram: она сливается с фоном ленты, а
+    мелкие надписи превращаются в пыль на превью шириной 300 px. Здесь фон
+    тёмно-серый (цвет сайта), заголовок — самый крупный объект.
+    """
+    w, h = SIZES[size_name]
+    canvas = Image.new("RGB", (w, h), INK)
+
+    if texture.exists():
+        tex = Image.open(texture).convert("RGB")
+        tex = fit_cover(tex, (w, h)).filter(ImageFilter.GaussianBlur(0.4))
+        canvas = Image.blend(canvas, tex, 0.06)
+
+    draw = ImageDraw.Draw(canvas)
+    pad = round(w * 0.075)
+    mono = font(FONTS / "JetBrainsMono.ttf", max(17, round(w * 0.018)), "Bold")
+    site_size = max(14, round(w * 0.014))
+
+    # Марка и имя: контраст «светлое на тёмном»
+    mark = max(12, round(w * 0.012))
+    draw.rectangle([pad, pad, pad + mark, pad + mark], fill=TERRACOTTA)
+    tracked(draw, (pad + mark + round(w * 0.015), pad + round(w * 0.003)),
+            "AI-TRAFFIC PRO", mono, IVORY, spacing=max(2, round(w * 0.003)))
+
+    # Рубрика терракотой — единственный акцент сверху
+    tracked(draw, (pad, pad + round(h * 0.105)), tag.upper(), mono, ACCENT,
+            spacing=max(2, round(w * 0.003)))
+
+    # Заголовок: 3 строки, крупно
+    box_w = round(w * (0.84 if size_name != "square" else 0.86))
+    fnt, lines, size = fit_title(
+        draw, title, box_w, 3,
+        start=round(w * 0.125), floor=round(w * 0.072),
+    )
+    y = round(h * 0.33) if size_name != "square" else round(h * 0.36)
+    for line in lines:
+        draw.text((pad, y), line, font=fnt, fill=IVORY)
+        y += round(size * 1.08)
+
+    rule_y = h - pad - round(h * 0.05)
+    draw.line([(pad, rule_y), (pad + round(w * 0.22), rule_y)],
+              fill=TERRACOTTA, width=max(3, round(h * 0.006)))
+    tracked(draw, (pad, rule_y + round(h * 0.018)), "AI-TRAFFIC-PRO.RU",
+            font(FONTS / "JetBrainsMono.ttf", site_size, "Medium"), (196, 186, 176),
+            spacing=max(1, round(w * 0.0018)))
+
+    return _save(canvas, out)
+
+
+def _accent(size_name: str, title: str, tag: str, date: str, texture: Path, out: Path) -> Path:
+    """Светлый фон + крупный терракотовый блок: цвет сайта работает пятном.
+
+    Пятно цвета держит глаз в ленте, а заголовок остаётся чёрным на светлом —
+    это самый читаемый вариант для длинных русских заголовков.
+    """
+    w, h = SIZES[size_name]
+    canvas = Image.new("RGB", (w, h), IVORY)
+
+    if texture.exists():
+        tex = Image.open(texture).convert("RGB")
+        tex = fit_cover(tex, (w, h)).filter(ImageFilter.GaussianBlur(0.4))
+        canvas = Image.blend(tex, Image.new("RGB", (w, h), IVORY), 0.90)
+
+    draw = ImageDraw.Draw(canvas)
+    pad = round(w * 0.075)
+
+    # Блок цвета: справа у «широких» размеров, снизу у квадрата.
+    if size_name == "square":
+        band = [0, round(h * 0.76), w, h]
+    else:
+        band = [round(w * 0.70), 0, w, h]
+    draw.rectangle(band, fill=ACCENT)
+
+    mono = font(FONTS / "JetBrainsMono.ttf", max(15, round(w * 0.0155)), "Bold")
+    mark = max(12, round(w * 0.012))
+    draw.rectangle([pad, pad, pad + mark, pad + mark], fill=INK)
+    tracked(draw, (pad + mark + round(w * 0.015), pad + round(w * 0.003)),
+            "AI-TRAFFIC PRO", mono, INK, spacing=max(2, round(w * 0.0028)))
+
+    tracked(draw, (pad, pad + round(h * 0.115)), tag.upper(), mono, TERRACOTTA,
+            spacing=max(2, round(w * 0.003)))
+
+    # 0.58 от ширины — это ~20 px воздуха до плашки: раньше заголовок
+    # прилипал к цветному блоку и на превью казался обрезанным.
+    box_w = round(w * (0.52 if size_name != "square" else 0.85))
+    fnt, lines, size = fit_title(draw, title, box_w, 4,
+                                 start=round(w * 0.098), floor=round(w * 0.058))
+    y = round(h * 0.36) if size_name != "square" else round(h * 0.38)
+    for line in lines:
+        draw.text((pad, y), line, font=fnt, fill=INK)
+        y += round(size * 1.1)
+
+    # Адрес — на светлой части, чтобы не спорить с блоком
+    site_y = h - pad - round(h * 0.03) if size_name != "square" else round(h * 0.80)
+    draw.line([(pad, site_y - round(h * 0.045)), (pad + round(w * 0.14), site_y - round(h * 0.045))],
+              fill=TERRACOTTA, width=max(3, round(h * 0.005)))
+    tracked(draw, (pad, site_y), "AI-TRAFFIC-PRO.RU",
+            font(FONTS / "JetBrainsMono.ttf", max(13, round(w * 0.0135)), "Medium"), INK,
+            spacing=max(1, round(w * 0.0017)))
+
+    return _save(canvas, out)
+
+
+def _figure(size_name: str, title: str, tag: str, date: str, texture: Path, out: Path,
+            figure: str = "") -> Path:
+    """Тёмный фон и огромная цифра: пост про конкретный результат.
+
+    Предмет статьи у многих материалов — число (ROMI, срок, доля). Крупная
+    цифра читается даже в крошечном превью, где заголовок уже не разобрать.
+    """
+    w, h = SIZES[size_name]
+    canvas = Image.new("RGB", (w, h), INK)
+
+    if texture.exists():
+        tex = Image.open(texture).convert("RGB")
+        tex = fit_cover(tex, (w, h)).filter(ImageFilter.GaussianBlur(0.4))
+        canvas = Image.blend(canvas, tex, 0.06)
+
+    draw = ImageDraw.Draw(canvas)
+    pad = round(w * 0.075)
+    mono = font(FONTS / "JetBrainsMono.ttf", max(17, round(w * 0.018)), "Bold")
+
+    mark = max(12, round(w * 0.012))
+    draw.rectangle([pad, pad, pad + mark, pad + mark], fill=TERRACOTTA)
+    tracked(draw, (pad + mark + round(w * 0.015), pad + round(w * 0.003)),
+            "AI-TRAFFIC PRO", mono, IVORY, spacing=max(2, round(w * 0.0028)))
+    tracked(draw, (pad, pad + round(h * 0.10)), tag.upper(), mono, ACCENT,
+            spacing=max(2, round(w * 0.003)))
+
+    if figure:
+        # Цифра главная: кегль подбирается по ширине и высоте, не по строкам.
+        number = figure.strip()
+        size = round(h * 0.46)
+        fnt = font(FONTS / "PlayfairDisplay.ttf", size)
+        while draw.textlength(number, font=fnt) > w * 0.86 and size > 40:
+            size -= 6
+            fnt = font(FONTS / "PlayfairDisplay.ttf", size)
+        ny = round(h * 0.47) - round(size * 0.52) if size_name != "square" else round(h * 0.52)
+        draw.text((pad, ny), number, font=fnt, fill=ACCENT)
+
+    # Заголовок — ниже цифры, короткими строками
+    box_w = round(w * 0.78)
+    fnt, lines, size = fit_title(draw, title, box_w, 2,
+                                 start=round(w * 0.058), floor=round(w * 0.04))
+    # Ставим по нижнему краю: иначе на узких размерах заголовок уходит под срез.
+    block = round(len(lines) * size * 1.08)
+    y = h - round(h * 0.14) - block
+    for line in lines:
+        draw.text((pad, y), line, font=fnt, fill=IVORY)
+        y += round(size * 1.1)
+
+    tracked(draw, (w - pad - draw.textlength("AI-TRAFFIC-PRO.RU",
+                                             font=font(FONTS / "JetBrainsMono.ttf", max(13, round(w * 0.013)), "Medium")) - round(w * 0.004),
+                   h - pad - round(h * 0.035)),
+            "AI-TRAFFIC-PRO.RU", font(FONTS / "JetBrainsMono.ttf", max(13, round(w * 0.013)), "Medium"),
+            (196, 186, 176), spacing=max(1, round(w * 0.0016)))
+
+    return _save(canvas, out)
+
+
+def _save(canvas: Image.Image, out: Path) -> Path:
     out.parent.mkdir(parents=True, exist_ok=True)
     canvas.save(out, "JPEG", quality=90, optimize=True, progressive=True)
     return out
+
+
+STYLE_BUILDERS = {
+    "paper": _paper,
+    "poster": _poster,
+    "accent": _accent,
+    "figure": _figure,
+}
+
+
+def build(size_name: str, title: str, tag: str, date: str, texture: Path, out: Path,
+          style: str = "paper", figure: str = "") -> Path:
+    builder = STYLE_BUILDERS.get(style)
+    if builder is None:
+        raise SystemExit(f"неизвестный стиль: {style} (есть: {', '.join(STYLE_BUILDERS)})")
+    if style == "figure":
+        return builder(size_name, title, tag, date, texture, out, figure)
+    return builder(size_name, title, tag, date, texture, out)
 
 
 def main() -> int:
@@ -152,6 +363,9 @@ def main() -> int:
     ap.add_argument("--tag", default="БЛОГ", help="рубрика, капсом")
     ap.add_argument("--date", default="", help="дата для угла, напр. 09.11.2026")
     ap.add_argument("--texture", default=str(DEFAULT_TEXTURE), help="фоновая текстура")
+    ap.add_argument("--style", default="paper", choices=sorted(STYLE_BUILDERS),
+                    help="paper (светлая) | poster (тёмная) | accent (пятно цвета) | figure (крупная цифра)")
+    ap.add_argument("--figure", default="", help="цифра для стиля figure, напр. 215%%")
     ap.add_argument("--size", action="append", choices=sorted(SIZES), help="og | square | dzen (можно несколько)")
     ap.add_argument("--out-dir", default=str(ROOT / "public" / "blog"), help="куда положить файлы")
     ap.add_argument("--dry-run", action="store_true", help="показать план и выйти")
@@ -171,7 +385,8 @@ def main() -> int:
         return 0
 
     for s, p in plan:
-        print(build(s, args.title, args.tag, args.date, Path(args.texture), p))
+        print(build(s, args.title, args.tag, args.date, Path(args.texture), p,
+                    style=args.style, figure=args.figure))
     return 0
 
 
