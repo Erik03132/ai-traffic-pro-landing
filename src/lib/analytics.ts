@@ -12,7 +12,7 @@
  */
 
 /** Имена целей. Совпадают с целями, заведёнными в счётчике. */
-export type Goal = 'lead_submit' | 'phone_click' | 'chat_open' | 'scroll_75';
+export type Goal = 'lead_submit' | 'phone_click' | 'chat_open' | 'scroll_75' | 'widget_lead';
 
 type YmFn = (counterId: number, action: string, ...rest: unknown[]) => void;
 

@@ -253,6 +253,7 @@ curl -s -o /dev/null -w "%{http_code}\n" https://ai-traffic-pro.ru/blog/   # 200
 | `phone_click` | клик по любой ссылке `tel:` (считается каждый клик)     | `Analytics.astro`                |
 | `chat_open`   | первое открытие виджета за страницу                     | `ChatWidget.astro`               |
 | `scroll_75`   | дочитал до 75 % высоты прокрутки (один раз за страницу) | `Analytics.astro`                |
+| `widget_lead` | контакт оставлен прямо в виджете (ответ `/api/lead` ок) | `ChatWidget.astro`               |
 
 Проверка после деплоя: `/webvisor/` не нужен — откройте
 `https://ai-traffic-pro.ru/?_ym_debug=1`, в консоли выполните `window.ym
