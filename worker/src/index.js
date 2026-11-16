@@ -412,15 +412,22 @@ async function handleTgMessage(env, kv, msg) {
  *
  * Считаем по записям KV, а не счётчиком: инкремент в KV не атомарный, а
  * ошибка в счётчике не восстанавливается. Запись на пользователя — истина.
+ *
+ * Два среза: `sources` — первое касание (навсегда за человеком, не
+ * перезаписывается), `lastTouch` — последнее (видно, какая кампания вернула
+ * человека обратно). Без второго среза клиент, пришедший из закладки и потом
+ * кликнувший рекламу, не засчитывается рекламе никогда.
  */
 async function handleTgSources(request, env, kv) {
   if (!publishAuthorized(request, env)) {
     return json({ error: 'unauthorized' }, request, env, 401);
   }
 
-  const counts = new Map();
+  const firsts = new Map();
+  const lasts = new Map();
   let cursor;
   let total = 0;
+  let returning = 0;
 
   do {
     const page = kv
@@ -430,18 +437,32 @@ async function handleTgSources(request, env, kv) {
       const raw = await kv.get(key.name);
       if (!raw) continue;
       const record = JSON.parse(raw);
-      counts.set(record.label, (counts.get(record.label) || 0) + 1);
+      firsts.set(record.label, (firsts.get(record.label) || 0) + 1);
       total += 1;
+      if (record.last_label) {
+        lasts.set(record.last_label, (lasts.get(record.last_label) || 0) + 1);
+        returning += 1;
+      }
     }
     cursor = page.list_complete ? undefined : page.cursor;
   } while (cursor);
 
-  const sources = [...counts.entries()]
-    // При равном количестве — по алфавиту: отчёт должен быть воспроизводимым.
+  return json(
+    { total, returning, sources: countList(firsts), lastTouch: countList(lasts) },
+    request,
+    env,
+  );
+}
+
+/**
+ * Map метка → количество в массив {label, count}.
+ * При равном количестве — по алфавиту: отчёт должен быть воспроизводимым.
+ * @param {Map<string, number>} counts
+ */
+function countList(counts) {
+  return [...counts.entries()]
     .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
     .map(([label, count]) => ({ label, count }));
-
-  return json({ total, sources }, request, env);
 }
 
 /**

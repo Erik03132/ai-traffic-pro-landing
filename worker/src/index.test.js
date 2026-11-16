@@ -445,11 +445,38 @@ test('GET /api/tg/sources: считает по меткам', async () => {
 
   const data = await res.json();
   assert.equal(data.total, 4);
+  assert.equal(data.returning, 0);
   assert.deepEqual(data.sources, [
     { label: 'ai_traffic_pro', count: 2 },
     { label: 'direct', count: 1 },
     { label: 'yandex_direct', count: 1 },
   ]);
+  assert.deepEqual(data.lastTouch, []);
+});
+
+test('GET /api/tg/sources: lastTouch показывает возвраты из кампаний', async () => {
+  const env = botEnv();
+  // Первый вход — прямой, потом человек вернулся по рекламной метке.
+  await call('/api/tg/webhook/', tgPost(tgMessage('/start', { userId: 1 })), env);
+  await call('/api/tg/webhook/', tgPost(tgMessage('/start ai_traffic_pro', { userId: 1 })), env);
+  // Второй пользователь пришёл по метке сразу: первое касание = реклама.
+  await call('/api/tg/webhook/', tgPost(tgMessage('/start ai_traffic_pro', { userId: 2 })), env);
+
+  const res = await call(
+    '/api/tg/sources',
+    { headers: { Authorization: 'Bearer report-token' } },
+    env,
+  );
+  const data = await res.json();
+
+  assert.equal(data.total, 2);
+  // Возврат считается один: у второго пользователя last_label нет.
+  assert.equal(data.returning, 1);
+  assert.deepEqual(data.sources, [
+    { label: 'ai_traffic_pro', count: 1 },
+    { label: 'direct', count: 1 },
+  ]);
+  assert.deepEqual(data.lastTouch, [{ label: 'ai_traffic_pro', count: 1 }]);
 });
 
 test('webhook: повторный вход из кампании пишет last_label, первый остаётся', async () => {
