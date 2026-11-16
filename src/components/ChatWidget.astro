@@ -111,6 +111,8 @@ import { SITE, API } from '../data/site';
     aria-controls="chat-panel"
     data-chat-api={API.chat}
     data-chat-api-fallback={API.chatFallback}
+    data-api-lead={API.lead}
+    data-api-lead-fallback={API.leadFallback}
     data-tg-bot={SITE.bot.username}
   >
     <span class="material-symbols-outlined text-[26px]" id="chat-icon">
@@ -157,6 +159,9 @@ import { SITE, API } from '../data/site';
   const API_CHAT = toggle?.dataset.chatApi ?? '/api/chat/';
   // Резервный адрес: если Worker недоступен по сети, идём на Node-сервер.
   const API_CHAT_FALLBACK = toggle?.dataset.chatApiFallback ?? '';
+  // Куда уходит заявка, если человек оставил контакт прямо в виджете.
+  const API_LEAD = toggle?.dataset.apiLead ?? '/api/lead/';
+  const API_LEAD_FALLBACK = toggle?.dataset.apiLeadFallback ?? '';
   // Username бота приходит из разметки: клиентский <script> не видит серверные
   // импорты, поэтому конфигурация передаётся через data-атрибут.
   const TG_BOT = toggle?.dataset.tgBot ?? '';
@@ -210,6 +215,115 @@ import { SITE, API } from '../data/site';
     return el;
   };
 
+  /**
+   * Показать путь к живому человеку: кнопка Telegram с готовым текстом вопроса.
+   * Дёргаем в двух случаях — сеть отказала и модель не смогла ответить
+   * (`source: 'fallback'`). Раньше второй случай терялся: текст отправлял в
+   * Telegram, а кнопки не было.
+   */
+  const showTelegramCta = (question: string) => {
+    errorBox?.classList.remove('hidden');
+    const tg = document.getElementById('chat-telegram') as HTMLAnchorElement | null;
+    if (tg) tg.href = `https://t.me/${TG_BOT}?text=${encodeURIComponent(question)}`;
+  };
+
+  /**
+   * Панель «оставьте контакт». Показывается один раз за страницу и только по
+   * сигналу сервера `askContact` — то есть на вопросе про цену, сроки или
+   * заявку. На каждый вопрос такое спрашивать нельзя: консультация должна
+   * оставаться консультацией.
+   */
+  let contactAsked = false;
+
+  const askContact = (question: string) => {
+    if (contactAsked || !log) return;
+    contactAsked = true;
+
+    const box = document.createElement('div');
+    box.className =
+      'chat-bubble-bot font-body-sm text-body-sm text-stone-900 bg-stone-100 border border-stone-200 rounded-2xl rounded-tl-sm px-3.5 py-2.5 leading-relaxed';
+
+    const title = document.createElement('p');
+    title.textContent =
+      'Чтобы вернуться с расчётом, оставьте телефон или @telegram — напишем в рабочее время.';
+    box.appendChild(title);
+
+    const leadForm = document.createElement('form');
+    leadForm.className = 'mt-2 flex flex-col gap-2';
+
+    const contactInput = document.createElement('input');
+    contactInput.type = 'text';
+    contactInput.name = 'contact';
+    contactInput.placeholder = 'Телефон или @telegram';
+    contactInput.autocomplete = 'tel';
+    contactInput.className =
+      'w-full rounded-lg border border-stone-200 bg-white px-3 py-2 font-body-sm text-body-sm focus:border-terracotta-500 focus:outline-none';
+    contactInput.setAttribute('aria-label', 'Телефон или Telegram');
+    leadForm.appendChild(contactInput);
+
+    const consentLabel = document.createElement('label');
+    consentLabel.className = 'flex items-start gap-2 text-xs text-stone-600';
+    const consentBox = document.createElement('input');
+    consentBox.type = 'checkbox';
+    consentBox.className = 'mt-0.5 shrink-0';
+    const consentText = document.createElement('span');
+    consentText.innerHTML =
+      'Согласен на обработку персональных данных — <a class="underline" href="/privacy/">политика</a>';
+    consentLabel.append(consentBox, consentText);
+    leadForm.appendChild(consentLabel);
+
+    const sendBtn = document.createElement('button');
+    sendBtn.type = 'submit';
+    sendBtn.className =
+      'self-start rounded-lg bg-stone-900 px-3 py-1.5 text-white font-body-sm text-body-sm hover:bg-stone-900-hover transition-colors disabled:opacity-60';
+    sendBtn.textContent = 'Отправить';
+    leadForm.appendChild(sendBtn);
+
+    box.appendChild(leadForm);
+    log.appendChild(box);
+    scroll();
+
+    leadForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const contact = contactInput.value.trim();
+      if (contact.length < 5) {
+        contactInput.focus();
+        return;
+      }
+      if (!consentBox.checked) {
+        consentLabel.classList.add('text-terracotta-700');
+        return;
+      }
+
+      sendBtn.disabled = true;
+      sendBtn.textContent = 'Отправляю…';
+
+      const result = await postJson({
+        url: API_LEAD,
+        fallbackUrl: API_LEAD_FALLBACK || undefined,
+        payload: {
+          // Имя виджет не спрашивает: лишнее поле на этом шаге дороже, чем
+          // «клиент из виджета» в карточке. Уточним при разговоре.
+          name: 'Клиент из виджета',
+          contact,
+          service: 'Виджет-консультант',
+          comment: `Вопрос: ${question}\nСтраница: ${window.location.pathname}`,
+          consent: true,
+          source: 'widget',
+        },
+      });
+
+      box.remove();
+      if (result.ok) {
+        addBubble('Спасибо, свяжемся в рабочее время.', 'bot');
+        reachGoal('widget_lead', { page: window.location.pathname });
+      } else {
+        addBubble('Не получилось отправить. Напишите в Telegram — там ответит человек.', 'error');
+        showTelegramCta(question);
+      }
+    });
+  };
+
   const ask = async (question: string) => {
     if (busy || !question.trim()) return;
     busy = true;
@@ -219,7 +333,7 @@ import { SITE, API } from '../data/site';
     const pending = typing();
     try {
       // Резерв при сетевой ошибке: Worker может быть недоступен из РФ.
-      const result = await postJson<{ reply?: string; source?: string }>({
+      const result = await postJson<{ reply?: string; source?: string; askContact?: boolean }>({
         url: API_CHAT,
         fallbackUrl: API_CHAT_FALLBACK || undefined,
         payload: {
@@ -231,6 +345,13 @@ import { SITE, API } from '../data/site';
 
       pending.remove();
       addBubble(result.data?.reply || 'Ответ пришёл пустым — уточните вопрос.', 'bot');
+
+      // Модель не справилась — её текст уже отправляет в Telegram, но кнопки
+      // не было: человек читал «напишите» и не мог нажать.
+      if (result.data?.source === 'fallback') showTelegramCta(question);
+
+      // Горячий вопрос — самый дешёвый момент взять контакт.
+      if (result.data?.askContact) askContact(question);
     } catch (err) {
       console.error('Chat request failed:', err);
       pending.remove();
@@ -238,11 +359,7 @@ import { SITE, API } from '../data/site';
         'Не получилось получить ответ. Напишите в Telegram — там ответит человек.',
         'error',
       );
-      errorBox?.classList.remove('hidden');
-      const tg = document.getElementById('chat-telegram') as HTMLAnchorElement | null;
-      if (tg) {
-        tg.href = `https://t.me/${TG_BOT}?text=${encodeURIComponent(question)}`;
-      }
+      showTelegramCta(question);
     } finally {
       busy = false;
     }

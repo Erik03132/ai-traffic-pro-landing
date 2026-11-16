@@ -767,17 +767,18 @@ function isHotQuestion(question) {
 /**
  * Записывает вопрос в KV. Ошибка записи не должна ломать ответ клиенту.
  * @param {KVNamespace | undefined} kv
- * @param {string} question
- * @param {string} source откуда ушёл ответ: knowledge, llm, fallback
+ * @param {{q: string, source: string, page?: string}} record
  */
-async function logChatQuestion(kv, question, source) {
+async function logChatQuestion(kv, record) {
   if (!kv) return;
   try {
     const ts = new Date().toISOString();
     const key = `${CHAT_LOG_PREFIX}${ts}:${crypto.randomUUID().slice(0, 8)}`;
-    await kv.put(key, JSON.stringify({ q: question.slice(0, 500), source, ts }), {
-      expirationTtl: CHAT_LOG_TTL,
-    });
+    await kv.put(
+      key,
+      JSON.stringify({ ...record, q: record.q.slice(0, 500), ts }),
+      { expirationTtl: CHAT_LOG_TTL },
+    );
   } catch (e) {
     console.error('❌ Не удалось записать вопрос виджета в KV:', e.message);
   }
@@ -793,8 +794,9 @@ async function logChatQuestion(kv, question, source) {
  * @param {KVNamespace | undefined} kv
  * @param {string} question
  * @param {string} source
+ * @param {string} page страница сайта, с которой спросили
  */
-async function notifyHotQuestion(env, kv, question, source) {
+async function notifyHotQuestion(env, kv, question, source, page) {
   const owner = String(env.TELEGRAM_CHAT_ID || '');
   if (!env.TELEGRAM_BOT_TOKEN || !owner) return;
 
@@ -815,7 +817,9 @@ async function notifyHotQuestion(env, kv, question, source) {
     text:
       '🔥 Вопрос из виджета — похоже на клиента\n\n' +
       `${question.slice(0, 600)}\n\n` +
-      `Ответил: ${answered}. Если человек не оставил заявку — самое время написать.`,
+      `Страница: ${page || 'не передана'}\n` +
+      `Ответил: ${answered}. Контакт виджет спросил сам — если человек его ` +
+      'оставил, заявка придёт отдельным сообщением.',
     disable_web_page_preview: true,
   });
 }
@@ -835,6 +839,14 @@ async function handleChat(request, env, kv, ctx) {
   if (!message) {
     return json({ error: 'empty message' }, request, env, 400);
   }
+
+  // Контекст страницы виджет присылает с каждым вопросом. Без него в пуше не
+  // понять, про какую услугу спросили, — а это половина смысла уведомления.
+  const rawContext = payload.context && typeof payload.context === 'object' ? payload.context : {};
+  const page = typeof rawContext.page === 'string' ? rawContext.page.slice(0, 200) : '';
+
+  // Раз горячий вопрос — виджету есть смысл спросить контакт сразу.
+  const hot = isHotQuestion(message);
 
   let reply = '';
   let source = 'llm';
@@ -864,13 +876,14 @@ async function handleChat(request, env, kv, ctx) {
   // Лог и пуш — после ответа: клиент не должен ждать Telegram.
   // В проде есть ctx.waitUntil; в тестах его нет — ждём, чтобы видеть запись.
   const remember = async () => {
-    await logChatQuestion(kv, message, source);
-    if (isHotQuestion(message)) await notifyHotQuestion(env, kv, message, source);
+    await logChatQuestion(kv, { q: message, source, page });
+    if (hot) await notifyHotQuestion(env, kv, message, source, page);
   };
   if (ctx && typeof ctx.waitUntil === 'function') ctx.waitUntil(remember());
   else await remember();
 
-  return json({ reply, source }, request, env);
+  // `askContact` — сигнал виджету: спросить контакт пока человек здесь.
+  return json({ reply, source, askContact: hot }, request, env);
 }
 
 /**

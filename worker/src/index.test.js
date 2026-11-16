@@ -655,29 +655,46 @@ test('chat: вопрос попадает в лог, ответ не завис�
   assert.ok(record.ts, 'время сохранено');
 });
 
-test('chat: горячий вопрос уходит владельцу в Telegram', async () => {
+test('chat: горячий вопрос уходит владельцу в Telegram со страницей', async () => {
   const env = makeEnv({ token: 'test-token' });
   const tg = captureTelegram();
+  let body;
   try {
-    await call('/api/chat', post({ message: 'Сколько стоит продвижение в Яндекс Директе?' }), env);
+    const res = await call(
+      '/api/chat',
+      post({
+        message: 'Сколько стоит продвижение в Яндекс Директе?',
+        context: { page: '/services/advertising/', source: 'widget' },
+      }),
+      env,
+    );
+    body = await res.json();
   } finally {
     tg.restore();
   }
 
+  assert.equal(body.askContact, true, 'на горячий вопрос виджет спрашивает контакт');
   assert.equal(tg.sent.length, 1, 'горячий вопрос уведомляет сразу');
   assert.equal(tg.sent[0].url, 'sendMessage');
   assert.match(tg.sent[0].text, /Сколько стоит/);
+  assert.match(tg.sent[0].text, /Страница: \/services\/advertising\//);
+
+  const record = JSON.parse(env.LEADS.store.get(chatKeys(env)[0]));
+  assert.equal(record.page, '/services/advertising/', 'страница сохраняется в логе');
 });
 
-test('chat: обычный вопрос владельцу не уходит', async () => {
+test('chat: обычный вопрос владельцу не уходит и контакт не просит', async () => {
   const env = makeEnv({ token: 'test-token' });
   const tg = captureTelegram();
+  let body;
   try {
-    await call('/api/chat', post({ message: 'Чем отличается CRM от ERP?' }), env);
+    const res = await call('/api/chat', post({ message: 'Чем отличается CRM от ERP?' }), env);
+    body = await res.json();
   } finally {
     tg.restore();
   }
 
+  assert.equal(body.askContact, false);
   assert.equal(tg.sent.length, 0, 'не каждый вопрос будильник');
   assert.equal(chatKeys(env).length, 1, 'но в лог он всё равно попадает');
 });
