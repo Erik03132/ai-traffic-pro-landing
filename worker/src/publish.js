@@ -79,6 +79,34 @@ export function buildLink(slug, content = '', site = DEFAULT_SITE) {
 }
 
 /**
+ * Склеивает жёсткие переносы внутри абзаца и внутри пункта списка.
+ *
+ * Зачем: текст поста пишется в редакторе и переносится по 78 знаков, а
+ * Telegram показывает перенос как есть — пост превращается в рваный столбик.
+ * Абзац отделяется пустой строкой; строки, начинающиеся с маркера списка,
+ * остаются отдельными пунктами, их «хвосты» приклеиваются к пункту.
+ *
+ * @param {string} text черновик как его написали
+ * @returns {string} текст, где перенос значит смысловой разрыв, а не вёрстку
+ */
+export function reflow(text) {
+  return String(text ?? '')
+    .replace(/\r\n/g, '\n')
+    .split(/\n{2,}/)
+    .map((block) => {
+      const lines = block.split('\n').map((l) => l.trim()).filter(Boolean);
+      const out = [];
+      for (const line of lines) {
+        const isItem = /^([•*\-–—]|\d+[.)])\s+/.test(line);
+        if (isItem || out.length === 0) out.push(line);
+        else out[out.length - 1] += ` ${line}`;
+      }
+      return out.join('\n');
+    })
+    .join('\n\n');
+}
+
+/**
  * Превращает черновик в HTML для Telegram.
  *
  * Разметка намеренно бедная: `[фраза]({{link}})` — единственное, что нужно
@@ -90,7 +118,7 @@ export function buildLink(slug, content = '', site = DEFAULT_SITE) {
  * @throws {Error} если текст длиннее лимита или ссылка не https.
  */
 export function renderPost(markdown, linkUrl) {
-  const src = String(markdown ?? '').trim();
+  const src = reflow(String(markdown ?? '').trim());
 
   if (!src) throw new Error('пустой пост');
   if (src.length > POST_LIMIT) throw new Error(`пост длиннее ${POST_LIMIT} символов`);
