@@ -765,20 +765,29 @@ function isHotQuestion(question) {
 }
 
 /**
- * Записывает вопрос в KV. Ошибка записи не должна ломать ответ клиенту.
+ * Записывает вопрос и ответ в KV. Ошибка записи не должна ломать ответ клиенту.
+ *
+ * Ответ лежит в той же записи, а не отдельной: записей от этого не больше
+ * (KV на Free считает именно записи), растёт только размер значения — 2-4 КБ
+ * на вопрос. Без ответа лог отвечает на «о чём спрашивают», но не на «что
+ * человек ушёл читать».
+ *
  * @param {KVNamespace | undefined} kv
- * @param {{q: string, source: string, page?: string}} record
+ * @param {{q: string, a?: string, source: string, page?: string}} record
  */
 async function logChatQuestion(kv, record) {
   if (!kv) return;
   try {
     const ts = new Date().toISOString();
     const key = `${CHAT_LOG_PREFIX}${ts}:${crypto.randomUUID().slice(0, 8)}`;
-    await kv.put(
-      key,
-      JSON.stringify({ ...record, q: record.q.slice(0, 500), ts }),
-      { expirationTtl: CHAT_LOG_TTL },
-    );
+    const entry = {
+      ...record,
+      q: record.q.slice(0, 500),
+      // 1000 символов хватает: ответы длиннее — уже простыня, её не читают.
+      a: typeof record.a === 'string' ? record.a.slice(0, 1000) : '',
+      ts,
+    };
+    await kv.put(key, JSON.stringify(entry), { expirationTtl: CHAT_LOG_TTL });
   } catch (e) {
     console.error('❌ Не удалось записать вопрос виджета в KV:', e.message);
   }
@@ -876,7 +885,7 @@ async function handleChat(request, env, kv, ctx) {
   // Лог и пуш — после ответа: клиент не должен ждать Telegram.
   // В проде есть ctx.waitUntil; в тестах его нет — ждём, чтобы видеть запись.
   const remember = async () => {
-    await logChatQuestion(kv, { q: message, source, page });
+    await logChatQuestion(kv, { q: message, a: reply, source, page });
     if (hot) await notifyHotQuestion(env, kv, message, source, page);
   };
   if (ctx && typeof ctx.waitUntil === 'function') ctx.waitUntil(remember());
@@ -886,11 +895,69 @@ async function handleChat(request, env, kv, ctx) {
   return json({ reply, source, askContact: hot }, request, env);
 }
 
+/** Москва: сутки считаем по МСК, иначе «день» рвётся в 03:00 по местному. */
+const MSK_OFFSET_MS = 3 * 60 * 60 * 1000;
+
+/** Человеческие названия источников ответа для текстового вида. */
+const SOURCE_RU = { knowledge: 'база знаний', llm: 'модель', fallback: 'заглушка' };
+
 /**
- * GET /api/chat/log — последние вопросы из виджета (по токену).
+ * День по Москве для ISO-времени (`2026-11-16`).
+ * @param {string} iso
+ */
+function mskDay(iso) {
+  const t = Date.parse(iso);
+  if (!Number.isFinite(t)) return '';
+  // Сдвигаем и берём дату из UTC-строки — так же, как считает `Date` в GET.
+  const shifted = new Date(t + MSK_OFFSET_MS).toISOString();
+  return shifted.slice(0, 10);
+}
+
+/**
+ * Время по Москве, `ЧЧ:ММ`.
+ * @param {string} iso
+ */
+function mskTime(iso) {
+  const t = Date.parse(iso);
+  return Number.isFinite(t) ? new Date(t + MSK_OFFSET_MS).toISOString().slice(11, 16) : '--:--';
+}
+
+/**
+ * Читаемый вид лога: один вопрос = время, страница, источник, «?» и «→».
+ *
+ * JSON удобен скриптам, но «что спрашивали и что отвечали» человек читает
+ * глазами. Записи идут по времени вверх — так диалог читается как диалог.
+ *
+ * @param {Array<{q: string, a?: string, source?: string, page?: string, ts: string}>} records
+ * @param {string} day день в формате `YYYY-MM-DD` или пусто
+ */
+function chatLogText(records, day) {
+  const title = day
+    ? `Вопросы из виджета за ${day.split('-').reverse().join('.')}`
+    : 'Вопросы из виджета';
+
+  if (!records.length) return `${title}: пусто.\n`;
+
+  const blocks = records.map((r) => {
+    const page = r.page || '—';
+    const src = SOURCE_RU[r.source] || r.source || '—';
+    // Старые записи (до 16.11.2026) ответа не содержат — честно говорим это,
+    // а не показываем пустую строку.
+    const answer = (r.a || '').trim() || '(ответ не сохранялся — запись старше 16.11.2026)';
+    return `${mskTime(r.ts)}  ${page}  [${src}]\n  ? ${r.q}\n  → ${answer}`;
+  });
+
+  return `${title} — ${records.length}\n\n${blocks.join('\n\n')}\n`;
+}
+
+/**
+ * GET /api/chat/log — вопросы из виджета (по токену).
  *
  * Ключи начинаются с ISO-времени, поэтому сортировка по имени = по времени.
- * Отдаём новые первыми: старые вопросы нужны редко.
+ * Параметры:
+ *   `limit=N`      сколько записей отдать (1..200; по умолчанию 50, для дня — 200);
+ *   `day=YYYY-MM-DD` только этот день по Москве;
+ *   `format=text`  читаемый диалог «вопрос → ответ» вместо JSON.
  *
  * @param {Request} request
  * @param {Record<string, unknown>} env
@@ -902,8 +969,15 @@ async function handleChatLog(request, env, kv) {
   }
 
   const url = new URL(request.url);
+  const wantText = url.searchParams.get('format') === 'text';
+  const day = (url.searchParams.get('day') || '').trim();
   const asked = Number(url.searchParams.get('limit'));
-  const limit = Math.min(Math.max(Number.isFinite(asked) && asked > 0 ? asked : 50, 1), 200);
+  // За день читают целиком, а не первые 50: иначе часть дня просто не видна.
+  const fallbackLimit = day || wantText ? 200 : 50;
+  const limit = Math.min(
+    Math.max(Number.isFinite(asked) && asked > 0 ? asked : fallbackLimit, 1),
+    200,
+  );
 
   const names = [];
   let cursor;
@@ -916,10 +990,25 @@ async function handleChatLog(request, env, kv) {
   } while (cursor);
 
   const items = [];
-  for (const name of names.sort().reverse().slice(0, limit)) {
+  for (const name of names.sort().reverse()) {
+    if (items.length >= limit) break;
     const raw = await kv.get(name);
     if (!raw) continue;
-    items.push(JSON.parse(raw));
+    let record;
+    try {
+      record = JSON.parse(raw);
+    } catch {
+      continue;
+    }
+    if (day && mskDay(record.ts) !== day) continue;
+    items.push(record);
+  }
+
+  if (wantText) {
+    return new Response(chatLogText([...items].reverse(), day), {
+      status: 200,
+      headers: { 'Content-Type': 'text/plain; charset=utf-8', ...corsHeaders(request, env) },
+    });
   }
 
   return json({ total: names.length, items }, request, env);

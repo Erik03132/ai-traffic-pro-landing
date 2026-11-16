@@ -791,3 +791,104 @@ test('cron: пустой день — сообщение не отправляе
 
   assert.equal(tg.sent.length, 0);
 });
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * Ответ в логе и читаемый вид (16.11.2026)
+ *
+ * Вопрос без ответа отвечает на «о чём спрашивают», но не на «что человек
+ * ушёл читать». Ответ пишется в ту же запись — записей от этого не больше.
+ * ────────────────────────────────────────────────────────────────────────── */
+
+test('chat: ответ сохраняется вместе с вопросом', async () => {
+  const env = makeEnv();
+  await call('/api/chat', post({ message: 'Что такое GEO?' }), env);
+
+  const record = JSON.parse(env.LEADS.store.get(chatKeys(env)[0]));
+  assert.ok(record.a, 'ответ записан в ту же запись');
+  assert.ok(record.a.length > 10, 'ответ не пустая заглушка');
+  assert.equal(record.a, record.a.slice(0, 1000), 'длинный ответ обрезается до 1000 символов');
+});
+
+test('GET /api/chat/log?format=text: диалог «вопрос → ответ»', async () => {
+  const env = makeEnv();
+  env.TG_PUBLISH_TOKEN = 'report-token';
+  await env.LEADS.put(
+    'chat:q:2026-11-16T09:00:00.000Z:aaaa1111',
+    JSON.stringify({
+      q: 'Сколько стоит сайт?',
+      a: 'Стоимость — по запросу.',
+      source: 'knowledge',
+      page: '/services/web/',
+      ts: '2026-11-16T09:00:00.000Z',
+    }),
+  );
+  await env.LEADS.put(
+    'chat:q:2026-11-16T10:00:00.000Z:bbbb2222',
+    JSON.stringify({
+      q: 'Чем отличается CRM от ERP?',
+      a: 'CRM про клиентов, ERP про ресурсы.',
+      source: 'llm',
+      ts: '2026-11-16T10:00:00.000Z',
+    }),
+  );
+
+  const res = await call(
+    '/api/chat/log?format=text',
+    { headers: { Authorization: 'Bearer report-token' } },
+    env,
+  );
+  const body = await res.text();
+
+  assert.equal(res.status, 200);
+  assert.match(res.headers.get('Content-Type'), /text\/plain/);
+  assert.match(body, /Вопросы из виджета — 2/);
+  assert.match(body, /\? Сколько стоит сайт\?/);
+  assert.match(body, /→ Стоимость — по запросу\./);
+  assert.match(body, /база знаний/);
+  assert.match(body, /модель/);
+
+  // Внутри дня — по времени вверх: диалог читается как диалог.
+  assert.ok(body.indexOf('Сколько стоит сайт?') < body.indexOf('Чем отличается CRM'));
+  // 12:00 МСК, а не 09:00 UTC.
+  assert.match(body, /12:00/);
+});
+
+test('GET /api/chat/log?format=text&day=: только указанный день по Москве', async () => {
+  const env = makeEnv();
+  env.TG_PUBLISH_TOKEN = 'report-token';
+  // 21:30 UTC 16-го = 00:30 МСК 17-го: по Москве это уже следующий день,
+  // хотя по UTC — ещё 16-е. Именно здесь ошибается наивный фильтр по UTC.
+  await env.LEADS.put(
+    'chat:q:2026-11-16T21:30:00.000Z:cccc3333',
+    JSON.stringify({ q: 'поздний вопрос', a: 'ответ', source: 'llm', ts: '2026-11-16T21:30:00.000Z' }),
+  );
+  await env.LEADS.put(
+    'chat:q:2026-11-16T09:00:00.000Z:dddd4444',
+    JSON.stringify({ q: 'дневной вопрос', a: 'ответ', source: 'llm', ts: '2026-11-16T09:00:00.000Z' }),
+  );
+
+  const res = await call(
+    '/api/chat/log?format=text&day=2026-11-16',
+    { headers: { Authorization: 'Bearer report-token' } },
+    env,
+  );
+  const body = await res.text();
+
+  assert.match(body, /16\.11\.2026/);
+  assert.match(body, /дневной вопрос/);
+  assert.doesNotMatch(body, /поздний вопрос/);
+});
+
+test('GET /api/chat/log?format=text: пустой день говорит «пусто», а не молчит', async () => {
+  const env = makeEnv();
+  env.TG_PUBLISH_TOKEN = 'report-token';
+
+  const res = await call(
+    '/api/chat/log?format=text&day=2026-01-01',
+    { headers: { Authorization: 'Bearer report-token' } },
+    env,
+  );
+
+  assert.equal(res.status, 200);
+  assert.match(await res.text(), /пусто/);
+});
