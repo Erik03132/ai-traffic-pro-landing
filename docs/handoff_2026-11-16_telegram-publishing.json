@@ -1,0 +1,67 @@
+{
+  "project": "AI-Traffic PRO (ai-marketing)",
+  "date": "2026-11-16",
+  "task": "Утвердить обложки блога, поставить публикацию статей в канал @aitrafficpro и починить формат постов",
+  "status": "Fixed (обложки, публикация, формат — на проде; тексты 7 постов не написаны, «Воронка» ждёт кнопки) Продолжение этой же сессии — docs/handoff_2026-11-16_content-distribution.json (дистрибуция: RSS, реестр, cron-черновики, этапы 0-2 на проде).",
+  "context": "Обложки приведены к палитре сайта и утверждены: стиль accent (светлый фон + терракотовая плашка), на обложке только марка AI-TRAFFIC-PRO, линия до правого края с инверсией на плашке, заголовок; 11 статей пересобраны парами og 1200x630 + square 1080x1080 (tools/covers/make_all.py). Обложки на сайте не показываются ни в статье, ни в карточках /blog/ — только метатеги, и articleLd отдаёт image как ImageObject. Для правки фото в уже опубликованном посте добавлен POST /api/tg/media (editMessageMedia, message_id из pub:last, чужой слаг -> 409). Шаблон публикации: текст поста в docs/distribution/posts/<slug>.post-N.md -> POST /api/tg/preview -> черновик владельцу в личку с обложкой и кнопкой tgpub:<slug> -> «Опубликовать» в канал. Найдена и исправлена причина «столбиков» в постах: тексты верстались вручную по ~78 знаков, а Telegram показывает перенос как есть; добавлен reflow() в worker/src/publish.js, тексты переписаны одной строкой на абзац, у CRM-поста {{link}} был без подписи (в канале остался бы литерал). Новый страж tests/posts.test.js. Виджет: история 6 ходов + промпт «контакт раньше подробностей» + новые горячие паттерны. Темп публикаций согласован: 3 поста в неделю (пн/ср/пт), порядок от общего к прикладному.",
+  "files": [
+    "tools/covers/make_cover.py",
+    "tools/covers/make_all.py",
+    "worker/src/publish.js",
+    "worker/src/publish.test.js",
+    "worker/src/index.js",
+    "server/agent-core.js",
+    "src/components/ChatWidget.astro",
+    "src/lib/seo.ts",
+    "docs/distribution/posts/*.md",
+    "tests/posts.test.js",
+    "ACTIVE_TASKS.md",
+    "SESSION_LATEST.md"
+  ],
+  "metrics": {
+    "covers_rebuilt": "11 статей x 2 формата (1200x630 + 1080x1080)",
+    "tests": "169/169 pass",
+    "astro_check_errors": 0,
+    "pages_built": 25,
+    "posts_published": 1,
+    "posts_written": "4 файла (окупаемость + 3 новых), 560-678 знаков",
+    "worker_version": "e0ce54f1",
+    "commits": [
+      "89fa44b",
+      "02eb25a",
+      "e764c53",
+      "d532e42",
+      "81e6755",
+      "21d9740",
+      "0e998fb"
+    ],
+    "prod": "https://ai-traffic-pro.ru",
+    "channel": "@aitrafficpro",
+    "channel_message_id": 5
+  },
+  "open_items": [
+    "«Воронка продаж» — черновик отправлен владельцу, кнопка не нажата; после публикации записать message_id в docs/distribution/posts/voronka-prodazh-kak-postroit.post-1.md",
+    "Семь текстов постов не написаны: бриф, медиаплан, контент-план, лендинг, CRM/ERP, GEO, маркетплейсы (CRM-пост 2 и интро уже приведены к формату)",
+    "Цель widget_lead в Метрике не заведена — действие владельца: https://metrika.yandex.ru/goals?id=114006019, тип «JavaScript-событие», идентификатор widget_lead",
+    "Нет заголовков безопасности (CSP/HSTS) после переезда на GitHub Pages",
+    "PUBLIC_API_FALLBACK_URL не передаётся в сборку — резервный API не подключён",
+    "finish_day.sh --help запускает полный прогон (нарушение CP-1)"
+  ],
+  "next_steps": [
+    "1. Проверить, опубликована ли «Воронка» (кнопка в Telegram); если да — забрать message_id из /api/tg/last и записать в файл поста",
+    "2. Отправить черновик «Как выбрать канал» (POST /api/tg/preview) и следом «Заявки теряются» по графику пн/ср/пт",
+    "3. Написать тексты 4-6: бриф на продвижение, медиаплан и контент-план, контент-план для соцсетей; каждый прогонять через node --test tests/posts.test.js",
+    "4. Напомнить владельцу про цель widget_lead и проверить тестовым обращением, что событие ловится",
+    "5. По закрытию недели — сверить охваты постов в канале и решить, держать ли темп 3 в неделю"
+  ],
+  "skills": [
+    "action-first",
+    "brand-voice"
+  ],
+  "escalation": false,
+  "secrets_set": [
+    "TG_PUBLISH_TOKEN",
+    "TG_BOT_TOKEN",
+    "TG_CHANNEL_ID"
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "project": "AI-Traffic PRO (ai-marketing)",
+  "date": "2026-11-16",
+  "task": "Контент-машина сайта: RSS-лента, реестр дистрибуции и автоматическая подготовка черновиков постов по cron (ADR-005, этапы 0–2)",
+  "status": "Verified (этапы 0–2 на проде: /rss.xml, /distribution/manifest.json, Worker 04400ea4 с cron 0 7 * * *; проверено живыми запросами). Хвосты зафиксированы коммитом docs(dist) от 16.11.2026: package.json (worker:* -> npx), ACTIVE_TASKS.md, docs/distribution/README.md, SESSION_LATEST.md, оба handoff-файла. Ждёт первого автоматического черновика 19.11 ~10:00 МСК.",
+  "context": "Решение — docs/adr/ADR-005-content-distribution.md (одна статья -> несколько постов -> несколько площадок; порядок Telegram -> MAX -> VK -> Дзен(RSS) -> ОК). Этап 0: /rss.xml с полным текстом, enclosure-обложками, guid = канонический адрес, pubDate/lastBuildDate из поля date статьи (пересборка сайта не должна 'обновлять' все посты в чужой ленте), автодискавери в <head>, гейт в CI (файл + xmllint), тесты src/lib/feed.test.ts (13). Этап 1: docs/distribution/registry.json — 11 публикаций (5 posted, 6 queued), статусы только вперёд, failed без причины запрещён; tools/publish/render.py рендерит пост под канал и проверяет лимит по ГОТОВОМУ тексту (UTM-ссылка добавляет 60-90 знаков), tools/publish/registry.py — загрузка/валидация/переходы; 34 python-теста; гейты npm run dist:check в CI и в npm test. Написаны 6 постов к 6 статьям без постов (GEO, маркетплейсы, бриф, контент-план, лендинг/сайт, медиаплан), 805-961 знак, расписание 19.11, 22.11, 25.11, 28.11, 01.12, 04.12. Ритм изменён пользователем на один пост раз в три дня (было 3 в неделю), часть постов потом пишется отдельно вне ленты блога. Этап 2: src/pages/distribution/manifest.json.ts собирает /distribution/manifest.json на билде (поправка к ADR: у Worker нет доступа к git, копий текстов в KV нет — копия расходится с оригиналом молча); в Worker добавлены deliverDraft (общий путь ручной отправки и cron — иначе ручной и автоматический пост разъезжаются по лимитам и клавиатуре), prepareDueDraft, handleDistRun (POST /api/dist/run, ?force=1 — взять ближайшую запись не глядя на дату), в worker/src/publish.js — duePublications/todayMsk (cron живёт в UTC, без пересчёта пост уходил бы днём раньше)/sent:tg:<id> (TTL 3 дня, иначе cron повторял бы черновик каждое утро)/pub:tg:<id> (ставится кнопкой 'Опубликовать', иначе вышедший пост предлагался бы снова); второй waitUntil в scheduled не блокирует дайджест лидов. Деплой: 5ee847a запушен в main (github.com/Erik03132/ai-traffic-pro-landing), CI + Pages + Cloudflare Pages зелёные; manifest 200 (11 записей, 6 в очереди), rss.xml 200 application/xml, xmllint чист, 11 item; npx wrangler deploy -> версия 04400ea4, cron 0 7 * * *; /api/health -> publish:true; /api/dist/run без токена 401, с токеном {\"ok\":true,\"skipped\":\"очередь пуста\"}; ?force=1 -> {\"ok\":true,\"id\":\"geo-prodvizhenie-checklist:post-1:telegram\"} и черновик в личке; повторный ?force=1 -> skipped 'черновик уже отправлен'. Поймано и исправлено: ручной прогон поставил sent:tg:<id> с TTL 3 дня до 19.11 23:00 МСК — позже утреннего cron, пост 19.11 не ушёл бы; метка удалена из KV (черновик под кнопку оставлен). Попутно: dist/ в .gitignore съедал tools/dist/ — заякорен на /dist/, инструменты в tools/publish/; npm run worker:deploy падал (wrangler не в зависимостях) — скрипты переведены на npx --yes wrangler. Тесты: 196 в npm test (70 Worker + 28 publish + 34 python + остальные наборы), astro check 0 ошибок.",
+  "files": [
+    "docs/adr/ADR-005-content-distribution.md",
+    "docs/distribution/registry.json",
+    "docs/distribution/README.md",
+    "docs/distribution/posts/geo-prodvizhenie-checklist.post-1.md",
+    "docs/distribution/posts/kak-nachat-prodavat-na-marketpleysah.post-1.md",
+    "docs/distribution/posts/kak-sostavit-brif-na-prodvizhenie.post-1.md",
+    "docs/distribution/posts/kontent-plan-dlya-sotssetey.post-1.md",
+    "docs/distribution/posts/lending-ili-sayt.post-1.md",
+    "docs/distribution/posts/mediaplan-i-kontent-plan-raznica.post-1.md",
+    "src/pages/distribution/manifest.json.ts",
+    "src/pages/rss.xml.ts",
+    "src/lib/feed.ts",
+    "src/lib/feed.test.ts",
+    "worker/src/index.js",
+    "worker/src/index.test.js",
+    "worker/src/publish.js",
+    "worker/src/publish.test.js",
+    "tools/publish/registry.py",
+    "tools/publish/render.py",
+    "tools/publish/test_publish.py",
+    ".github/workflows/ci.yml",
+    "package.json",
+    "public/robots.txt",
+    "ACTIVE_TASKS.md",
+    "SESSION_LATEST.md"
+  ],
+  "skills": [
+    "workflow",
+    "deployment",
+    "action-first"
+  ],
+  "next_steps": [
+    "1. 19.11 после ~10:00 МСК проверить, что черновик GEO пришёл сам (это приёмка cron). Если тишина — npx --yes wrangler tail --config worker/wrangler.jsonc и GET https://ai-traffic-pro.ru/distribution/manifest.json.",
+    "2. Решить по GEO-черновику, который уже лежит в личке: публиковать сейчас по кнопке или дождаться 19.11 (метка sent:tg снята, пост придёт заново).",
+    "3. После каждой публикации двигать реестр руками: python3 tools/publish/render.py --id <id> --mark posted --message-id <N> --url <ссылка> (git из Worker не обновляется — осознанный хвост ADR-005).",
+    "4. Закоммитить хвосты: package.json (worker:* -> npx --yes wrangler), ACTIVE_TASKS.md, docs/distribution/README.md, SESSION_LATEST.md, docs/handoff_2026-11-16_content-distribution.json.",
+    "5. Написать последний пост из старого списка (CRM/ERP) и решить, что делать после 04.12 — очередь кончается: post-2 к вышедшим статьям или новые статьи.",
+    "6. Перейти к этапу 3 (MAX: POST https://platform-api2.max.ru/messages) и этапу 4 (VK/ОК — проверить права) по ADR-005; Дзен только через RSS."
+  ],
+  "escalation": false,
+  "deadline": "2026-11-19T10:00:00+03:00"
+}
