@@ -7,7 +7,7 @@
 ## Контакты
 
 - Сайт: https://ai-traffic-pro.ru/
-- Telegram: https://t.me/ai_bureau_new_bot
+- Telegram: https://t.me/aitraffic_publish_bot
 - Исполнитель: ИП Марченко Дмитрий Николаевич
 - ИНН: 770304789944
 - ОГРНИП: 326508100653064

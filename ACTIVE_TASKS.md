@@ -152,14 +152,17 @@
     отчёт `GET /api/tg/sources` (по токену) считает входы по меткам. Тесты
     покрывают разбор `/start`, первый/повторный вход и отчёт — 27 в
     `worker/src/index.test.js`.
-    ⚠️ **Расхождение после переезда 16.11:** вебхук теперь у
-    `@aitraffic_publish_bot`, а сайт и документация по-прежнему ведут на
-    `@ai_bureau_new_bot` — `src/components/LeadForm.astro:265`,
-    `public/llms.txt:10`, `README.md`, `docs/CONTENT_SPEC.md`,
-    `tools/tg-publish/README.md`. Пока бот не выбран один, `/start` на старом
-    боте в отчёт `/api/tg/sources` не попадёт. Решение владельца: оставить
-    один контактный бот и обновить ссылки, либо вернуть старому рабочий токен
-    и разделить роли (контакт — один бот, публикация — другой).
+    ✅ **Закрыто 16.11.2026.** Решение владельца: один бот на две роли —
+    `@aitraffic_publish_bot` (публикация в канал + приём вопросов с сайта).
+    Обновлены: `src/data/site.ts` (`legal.telegram`, `bot.username/link/askLink`),
+    `src/components/LeadForm.astro` (fallback `data-tg-bot`), `public/llms.txt`,
+    `README.md`, `docs/CONTENT_SPEC.md`, `docs/distribution/telegram-launch.md`,
+    `tools/tg-publish/README.md`. В `worker/src/index.test.js` тест переведён на
+    реальное имя бота + добавлен тест «имя бота в `/start@` не важно».
+    Цена решения честно: отчёт `/api/tg/sources` смешивает входы клиентов и
+    служебные `/start` владельца канала — разделять их нечем, пока бот один.
+    Исторический снимок `docs/reviews/2026-11-10-content-spec.md` не правился —
+    это датированное ревью прошлого состояния, а не инструкция.
 
 - [x] **1.9 Аудит индексируемости 18 URL** — ✅ **закрыто 09.11.2026 (Verified
   curl'ом по проду).** Все 18 URL из sitemap → **200**, `canonical` совпадает с

@@ -262,7 +262,7 @@ const serviceOptions = current
     };
 
     const telegramLink = (data: Record<string, string>) => {
-      const bot = form.dataset.tgBot ?? 'ai_bureau_new_bot';
+      const bot = form.dataset.tgBot ?? 'aitraffic_publish_bot';
       const utm = currentUtm(window.sessionStorage);
       const utmLine = utm.source
         ? `Источник: ${[utm.source, utm.campaign, utm.content].filter(Boolean).join(' / ')}`

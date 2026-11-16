@@ -386,8 +386,14 @@ test('webhook: /start без метки → direct', async () => {
 
 test('webhook: /start@bot с меткой тоже распознаётся', async () => {
   const env = botEnv();
-  await call('/api/tg/webhook/', tgPost(tgMessage('/start@ai_bureau_new_bot ai_traffic_pro')), env);
+  await call('/api/tg/webhook/', tgPost(tgMessage('/start@aitraffic_publish_bot ai_traffic_pro')), env);
   assert.equal(JSON.parse(env.LEADS.store.get('ref:555')).label, 'ai_traffic_pro');
+});
+
+test('webhook: имя бота в /start@ не важно — метка отделяется', async () => {
+  const env = botEnv();
+  await call('/api/tg/webhook/', tgPost(tgMessage('/start@some_other_bot yandex')), env);
+  assert.equal(JSON.parse(env.LEADS.store.get('ref:555')).label, 'yandex');
 });
 
 /** Ключи источников в mock-KV: `dbg:` (диагностика) не в счёт. */
