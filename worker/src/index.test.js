@@ -1073,3 +1073,122 @@ test('callback: черновик с картинкой публикуется в
   assert.equal(env.LEADS.store.get('draft:tg:test'), undefined, 'черновик удалён');
   assert.ok(JSON.parse(env.LEADS.store.get('pub:last')).message_id, 'след публикации записан');
 });
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * Правка медиа в опубликованном посте (POST /api/tg/media)
+ *
+ * Обложка переделывается чаще, чем выходит пост. Правим картинку и подпись
+ * по message_id из `pub:last`, чтобы не публиковать статью второй раз.
+ * ────────────────────────────────────────────────────────────────────────── */
+
+/** Кладёт в KV след последней публикации — от него зависит правка. */
+async function seedPublished(env, slug = 'test', messageId = 5) {
+  await env.LEADS.put(
+    'pub:last',
+    JSON.stringify({
+      slug,
+      content: '',
+      message_id: messageId,
+      link: `https://ai-traffic-pro.ru/blog/${slug}/?utm_source=telegram`,
+      ts: '2026-11-16T11:19:16.993Z',
+    }),
+  );
+}
+
+test('media: заменяет фото и подпись, место в ленте сохраняется', async () => {
+  const env = previewEnv();
+  await seedPublished(env);
+  const tg = captureCalls();
+  let data;
+  try {
+    const res = await call(
+      '/api/tg/media',
+      post(
+        {
+          slug: 'test',
+          text: 'Окупаемость рекламы считают до запуска, а не после.',
+          photo: 'https://ai-traffic-pro.ru/blog/test.jpg',
+        },
+        PREVIEW_AUTH,
+      ),
+      env,
+    );
+    data = await res.json();
+  } finally {
+    tg.restore();
+  }
+
+  assert.equal(data.ok, true);
+  assert.equal(data.message_id, 5);
+
+  const edit = tg.calls.find((c) => c.method === 'editMessageMedia');
+  assert.ok(edit, 'правка идёт через editMessageMedia');
+  assert.equal(edit.body.message_id, 5, 'тот же пост, а не новый');
+  assert.equal(edit.body.chat_id, '@aitrafficpro');
+  assert.equal(edit.body.media.type, 'photo');
+  assert.equal(edit.body.media.media, 'https://ai-traffic-pro.ru/blog/test.jpg');
+  assert.match(edit.body.media.caption, /Окупаемость рекламы/);
+  assert.equal(edit.body.media.parse_mode, 'HTML');
+  assert.match(edit.body.reply_markup.inline_keyboard[0][0].url, /utm_source=telegram/);
+
+  const last = JSON.parse(await env.LEADS.get('pub:last'));
+  assert.equal(last.photo, 'https://ai-traffic-pro.ru/blog/test.jpg');
+  assert.equal(last.message_id, 5, 'message_id не меняется после правки');
+});
+
+test('media: чужой слаг — 409, канал не трогаем', async () => {
+  const env = previewEnv();
+  await seedPublished(env, 'drugaya-statya');
+  const tg = captureCalls();
+  let res;
+  let data;
+  try {
+    res = await call(
+      '/api/tg/media',
+      post(
+        { slug: 'test', text: 'Текст', photo: 'https://ai-traffic-pro.ru/blog/test.jpg' },
+        PREVIEW_AUTH,
+      ),
+      env,
+    );
+    data = await res.json();
+  } finally {
+    tg.restore();
+  }
+
+  assert.equal(res.status, 409);
+  assert.match(data.error, /drugaya-statya/);
+  assert.equal(tg.calls.length, 0);
+});
+
+test('media: без публикации править нечего — 409', async () => {
+  const env = previewEnv();
+  const res = await call(
+    '/api/tg/media',
+    post(
+      { slug: 'test', text: 'Текст', photo: 'https://ai-traffic-pro.ru/blog/test.jpg' },
+      PREVIEW_AUTH,
+    ),
+    env,
+  );
+  assert.equal(res.status, 409);
+});
+
+test('media: без токена — 401, с плохим адресом картинки — 400', async () => {
+  const env = previewEnv();
+  await seedPublished(env);
+
+  const noAuth = await call(
+    '/api/tg/media',
+    post({ slug: 'test', text: 'Текст', photo: 'https://ai-traffic-pro.ru/blog/test.jpg' }),
+    env,
+  );
+  assert.equal(noAuth.status, 401);
+
+  const badPhoto = await call(
+    '/api/tg/media',
+    post({ slug: 'test', text: 'Текст', photo: 'javascript:alert(1)' }, PREVIEW_AUTH),
+    env,
+  );
+  assert.equal(badPhoto.status, 400);
+});

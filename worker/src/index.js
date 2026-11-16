@@ -291,6 +291,92 @@ async function handleTgPreview(request, env, kv) {
   return json({ ok: true, slug, link: linkUrl }, request, env);
 }
 
+/**
+ * POST /api/tg/media — заменить картинку и подпись в уже опубликованном посте.
+ * Тело: `{ slug, text, photo }`. `message_id` берётся из `pub:last`, а не из
+ * запроса: правим только тот пост, который сами опубликовали, — иначе эндпоинт
+ * с токеном превращается в «отредактируй любой пост канала».
+ *
+ * Зачем: обложка статьи переделывается чаще, чем выходит пост. Правка медиа
+ * сохраняет `message_id` и место в ленте, дубля в канале не появляется.
+ */
+async function handleTgMedia(request, env, kv) {
+  if (!publishAuthorized(request, env)) {
+    return json({ error: 'unauthorized' }, request, env, 401);
+  }
+  if (!env.TELEGRAM_CHANNEL_ID) {
+    return json({ error: 'TELEGRAM_CHANNEL_ID не задан' }, request, env, 500);
+  }
+
+  const payload = await request.json().catch(() => ({}));
+  const slug = String(payload.slug || '');
+  if (!isSlug(slug)) return json({ error: 'плохой слаг' }, request, env, 400);
+
+  const photo = String(payload.photo || '');
+  if (!isPhotoUrl(photo)) {
+    return json({ error: 'плохой адрес картинки' }, request, env, 400);
+  }
+
+  const raw = kv ? await kv.get('pub:last') : null;
+  const last = raw ? JSON.parse(raw) : null;
+  if (!last || !last.message_id) {
+    return json({ error: 'ещё ничего не публиковалось' }, request, env, 409);
+  }
+  if (last.slug !== slug) {
+    return json(
+      { error: `последний пост в канале — «${last.slug}», а не «${slug}»` },
+      request,
+      env,
+      409,
+    );
+  }
+
+  // Ссылку собираем тем же способом, что при публикации: UTM-метки не должны
+  // разъехаться между постом и подписью, иначе статистика начнёт врать.
+  const linkUrl = buildLink(slug, String(last.content || ''), env.SITE_URL);
+
+  let html;
+  try {
+    html = renderPost(payload.text, linkUrl);
+  } catch (e) {
+    return json({ error: e.message }, request, env, 400);
+  }
+  if (html.length > CAPTION_LIMIT) {
+    return json(
+      { error: `подпись к фото ограничена ${CAPTION_LIMIT} знаками, сейчас ${html.length}` },
+      request,
+      env,
+      400,
+    );
+  }
+
+  const edited = await tgCall(env, 'editMessageMedia', {
+    chat_id: env.TELEGRAM_CHANNEL_ID,
+    message_id: last.message_id,
+    media: { type: 'photo', media: photo, caption: html, parse_mode: 'HTML' },
+    reply_markup: channelKeyboard(linkUrl),
+  });
+
+  if (!edited.ok) {
+    return json({ error: edited.description || 'telegram error' }, request, env, 502);
+  }
+
+  if (kv) {
+    await kv.put(
+      'pub:last',
+      JSON.stringify({
+        ...last,
+        photo,
+        link: linkUrl,
+        media_ts: new Date().toISOString(),
+      }),
+      { expirationTtl: 60 * 60 * 24 * 90 },
+    );
+  }
+
+  return json({ ok: true, slug, message_id: last.message_id, photo }, request, env);
+}
+
 /* ──────────────────────────────────────────────────────────────────────────
  * Атрибуция входа: `t.me/<бот>?start=<метка>`
  *
@@ -1152,6 +1238,10 @@ export default {
 
     if (request.method === 'POST' && pathname === '/api/tg/webhook') {
       return await handleTgWebhook(request, env, env.LEADS);
+    }
+
+    if (request.method === 'POST' && pathname === '/api/tg/media') {
+      return await handleTgMedia(request, env, env.LEADS);
     }
 
     if (request.method === 'GET' && pathname === '/api/tg/sources') {
