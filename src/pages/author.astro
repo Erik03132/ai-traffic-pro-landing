@@ -1,0 +1,160 @@
+---
+/**
+ * Страница автора блога.
+ *
+ * Зачем: подпись без страницы — «автор-призрак», и поисковик с AI-моделью не
+ * могут связать тексты с человеком. Здесь собирается всё, что подтверждает
+ * авторство: кто пишет, о чём, какие тексты уже вышли. Разметка — Person +
+ * ProfilePage, ссылки на профили добавляются в `sameAs` в `src/data/authors.ts`.
+ *
+ * Псевдоним: имя выбрано владельцем проекта, персональные данные не раскрываются.
+ */
+import Base from '../layouts/Base.astro';
+import { ARTICLES } from '../data/blog';
+import { ERIC_MERKULOV } from '../data/authors';
+import { SITE, SITE_URL } from '../data/site';
+import { absoluteUrl } from '../lib/seo';
+
+const author = ERIC_MERKULOV;
+const posts = ARTICLES.filter((a) => a.author?.name === author.name).sort((a, b) =>
+  b.date.localeCompare(a.date),
+);
+
+const description =
+  'Эрик Меркулов — автор блога AI-Traffic PRO: маркетинг с цифрами и AI-агенты, которых можно измерить. Как считаются воронки, откуда берутся потери в заявках и что реально работает.';
+
+const personLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: author.name,
+  jobTitle: author.role,
+  description,
+  url: absoluteUrl('/author/'),
+  worksFor: {
+    '@type': 'Organization',
+    name: SITE.name,
+    url: SITE_URL,
+  },
+};
+
+const profileLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  url: absoluteUrl('/author/'),
+  mainEntity: {
+    '@type': 'Person',
+    name: author.name,
+    jobTitle: author.role,
+  },
+};
+
+const initials = author.name
+  .split(' ')
+  .map((part) => part[0])
+  .join('');
+
+const dateLabel = (iso: string) =>
+  new Date(iso).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+
+<Base
+  meta={{
+    title: `Автор: ${author.name} | AI-Traffic PRO`,
+    description,
+    path: '/author/',
+    type: 'website',
+  }}
+  ld={[personLd, profileLd]}
+>
+  <article class="max-w-3xl mx-auto px-margin md:px-margin-desktop py-8 md:py-24">
+    <span
+      class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-3"
+    >
+      [АВТОР]
+    </span>
+
+    <div class="flex items-center gap-4 sm:gap-6 mb-6">
+      <div
+        class="w-16 h-16 sm:w-20 sm:h-20 shrink-0 rounded-2xl border border-stone-300 bg-stone-100 flex items-center justify-center"
+        aria-hidden="true"
+      >
+        <span class="text-2xl sm:text-3xl font-light text-stone-900 tracking-tight">{initials}</span>
+      </div>
+      <div>
+        <h1
+          class="text-4xl sm:text-5xl lg:text-6xl font-light text-stone-900 tracking-tight leading-[1.06]"
+        >
+          {author.name}
+        </h1>
+        <p class="font-mono-index text-mono-index text-stone-500 mt-2">{author.role}</p>
+      </div>
+    </div>
+
+    <div class="space-y-4 font-body-lg text-body-lg text-stone-700 leading-relaxed">
+      <p>
+        Пишет про маркетинг, в котором есть цифры, и про AI-агентов, которых можно проверить. Не
+        «мы креативные», а что сделали, что не сработало и что теперь измеряем: конверсии между
+        этапами воронки, стоимость обращения, длину цикла сделки.
+      </p>
+      <p>
+        Вторая тема — агенты и нейросети в работе, а не в презентации: поиск по своим документам,
+        маршрутизация запросов между моделями, наборы проверок, которые ловят деградацию после
+        смены промпта или модели. Тот же принцип, что и в маркетинге: сначала измеримое, потом
+        красивое.
+      </p>
+      <p>
+        Правило текстов простое: если из разбора нельзя вынести один конкретный вывод — текст не
+        выходит. Поэтому в блоге мало общих слов и много таблиц, цифр и ссылок на первоисточники.
+      </p>
+    </div>
+
+    <p class="font-body-sm text-body-sm text-stone-500 leading-relaxed mt-6">
+      {author.name} — псевдоним автора блога AI-Traffic PRO. За текстами стоит команда проекта;
+      персональные данные автора не раскрываются.
+    </p>
+
+    {
+      posts.length > 0 && (
+        <section class="mt-10 sm:mt-14 border-t border-stone-200 pt-6 sm:pt-8">
+          <h2 class="text-2xl sm:text-3xl font-light text-stone-900 tracking-tight mb-4">
+            Тексты автора
+          </h2>
+          <ul class="space-y-4">
+            {posts.map((post) => (
+              <li class="border-b border-stone-100 pb-4 last:border-0 last:pb-0">
+                <a
+                  href={`/blog/${post.slug}/`}
+                  class="group block hover:text-terracotta-600 transition-colors"
+                >
+                  <span class="text-lg sm:text-xl font-light text-stone-900 group-hover:text-terracotta-600 transition-colors">
+                    {post.title}
+                  </span>
+                </a>
+                <p class="font-mono-index text-mono-index text-stone-400 mt-1">
+                  {dateLabel(post.date)} · {post.readingTime} мин чтения
+                </p>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    <section class="mt-10 sm:mt-14 rounded-2xl border border-stone-200 bg-stone-100 p-5 sm:p-7">
+      <h2 class="text-xl sm:text-2xl font-light text-stone-900 tracking-tight mb-2">
+        Нужен разбор вашей воронки?
+      </h2>
+      <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed mb-4">
+        Смотрим, где теряются обращения, и считаем стоимость заявки по каналам — без обещаний
+        «вырасти в 10 раз».
+      </p>
+      <a
+        href="/services/leadgen/"
+        class="inline-flex items-center gap-2 font-body-sm text-body-sm font-semibold text-terracotta-600 hover:text-terracotta-700 transition-colors"
+      >
+        Настройка воронки и обработки заявок
+        <span class="material-symbols-outlined text-base">arrow_forward</span>
+      </a>
+    </section>
+  </article>
+</Base>

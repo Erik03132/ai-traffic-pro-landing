@@ -111,7 +111,12 @@ const dateLabel = new Date(article.date).toLocaleDateString('ru-RU', {
         <div class="mt-6 flex items-center gap-3 border-t border-stone-200 pt-4">
           <span class="material-symbols-outlined text-stone-400 text-xl">person</span>
           <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
-            <span class="text-stone-900 font-semibold">{article.author.name}</span>
+            <a
+              href="/author/"
+              class="text-stone-900 font-semibold hover:text-terracotta-600 transition-colors"
+            >
+              {article.author.name}
+            </a>
             <span class="text-stone-500"> — {article.author.role}</span>
           </p>
         </div>
