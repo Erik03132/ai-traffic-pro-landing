@@ -7,21 +7,21 @@
  * авторство: кто пишет, о чём, какие тексты уже вышли. Разметка — Person +
  * ProfilePage, ссылки на профили добавляются в `sameAs` в `src/data/authors.ts`.
  *
- * Псевдоним: имя выбрано владельцем проекта, персональные данные не раскрываются.
+ * Имя настоящее (16.11.2026): псевдоним убран по решению владельца проекта.
  */
 import Base from '../layouts/Base.astro';
 import { ARTICLES } from '../data/blog';
-import { ERIC_MERKULOV } from '../data/authors';
+import { IGOR_VASIN } from '../data/authors';
 import { SITE, SITE_URL } from '../data/site';
 import { absoluteUrl } from '../lib/seo';
 
-const author = ERIC_MERKULOV;
+const author = IGOR_VASIN;
 const posts = ARTICLES.filter((a) => a.author?.name === author.name).sort((a, b) =>
   b.date.localeCompare(a.date),
 );
 
 const description =
-  'Эрик Меркулов — автор блога AI-Traffic PRO: маркетинг с цифрами и AI-агенты, которых можно измерить. Как считаются воронки, откуда берутся потери в заявках и что реально работает.';
+  'Игорь Васин — автор блога AI-Traffic PRO: маркетинг с цифрами и AI-агенты, которых можно измерить. Как считаются воронки, откуда берутся потери в заявках и что реально работает.';
 
 const personLd = {
   '@context': 'https://schema.org',
@@ -30,6 +30,8 @@ const personLd = {
   jobTitle: author.role,
   description,
   url: absoluteUrl('/author/'),
+  image: absoluteUrl(author.photo2x),
+  sameAs: [...author.sameAs],
   worksFor: {
     '@type': 'Organization',
     name: SITE.name,
@@ -45,13 +47,9 @@ const profileLd = {
     '@type': 'Person',
     name: author.name,
     jobTitle: author.role,
+    image: absoluteUrl(author.photo2x),
   },
 };
-
-const initials = author.name
-  .split(' ')
-  .map((part) => part[0])
-  .join('');
 
 const dateLabel = (iso: string) =>
   new Date(iso).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -63,6 +61,7 @@ const dateLabel = (iso: string) =>
     description,
     path: '/author/',
     type: 'website',
+    image: author.photo2x,
   }}
   ld={[personLd, profileLd]}
 >
@@ -74,12 +73,15 @@ const dateLabel = (iso: string) =>
     </span>
 
     <div class="flex items-center gap-4 sm:gap-6 mb-6">
-      <div
-        class="w-16 h-16 sm:w-20 sm:h-20 shrink-0 rounded-2xl border border-stone-300 bg-stone-100 flex items-center justify-center"
-        aria-hidden="true"
-      >
-        <span class="text-2xl sm:text-3xl font-light text-stone-900 tracking-tight">{initials}</span>
-      </div>
+      <img
+        src={author.photo}
+        srcset={`${author.photo} 1x, ${author.photo2x} 2x`}
+        width="192"
+        height="192"
+        alt={author.name}
+        decoding="async"
+        class="w-20 h-20 sm:w-24 sm:h-24 shrink-0 rounded-2xl object-cover border border-stone-200 bg-stone-100"
+      />
       <div>
         <h1
           class="text-4xl sm:text-5xl lg:text-6xl font-light text-stone-900 tracking-tight leading-[1.06]"
@@ -109,8 +111,8 @@ const dateLabel = (iso: string) =>
     </div>
 
     <p class="font-body-sm text-body-sm text-stone-500 leading-relaxed mt-6">
-      {author.name} — псевдоним автора блога AI-Traffic PRO. За текстами стоит команда проекта;
-      персональные данные автора не раскрываются.
+      Имя и фото — настоящие. За сайт отвечает оператор, его данные — в разделе
+      <a href="/requisites/" class="text-stone-700 underline decoration-stone-300 underline-offset-2 hover:text-terracotta-600 transition-colors">«Реквизиты»</a>.
     </p>
 
     {

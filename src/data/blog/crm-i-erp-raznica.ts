@@ -1,5 +1,5 @@
 import type { Article } from '../types';
-import { ERIC_MERKULOV } from '../authors';
+import { IGOR_VASIN } from '../authors';
 
 export const crmIErpRaznica: Article = {
   slug: 'crm-i-erp-raznica',
@@ -14,8 +14,8 @@ export const crmIErpRaznica: Article = {
   image: '/blog/crm-i-erp-raznica.jpg',
   tag: 'CRM И АВТОМАТИЗАЦИЯ',
   author: {
-    name: ERIC_MERKULOV.name,
-    role: ERIC_MERKULOV.role,
+    name: IGOR_VASIN.name,
+    role: IGOR_VASIN.role,
   },
   sections: [
     {

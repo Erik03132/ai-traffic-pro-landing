@@ -1,5 +1,5 @@
 import type { Article } from '../types';
-import { ERIC_MERKULOV } from '../authors';
+import { IGOR_VASIN } from '../authors';
 
 export const voronkaProdazhKakPostroit: Article = {
   slug: 'voronka-prodazh-kak-postroit',
@@ -14,8 +14,8 @@ export const voronkaProdazhKakPostroit: Article = {
   image: '/blog/voronka-prodazh-kak-postroit.jpg',
   tag: 'ПРОДАЖИ',
   author: {
-    name: ERIC_MERKULOV.name,
-    role: ERIC_MERKULOV.role,
+    name: IGOR_VASIN.name,
+    role: IGOR_VASIN.role,
   },
   sections: [
     {
