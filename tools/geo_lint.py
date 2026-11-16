@@ -108,6 +108,7 @@ class Page(HTMLParser):
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
         self.skip = 0
+        self.icon = 0
         self.art = 0
         self.main = 0
         self.buf_art: list[str] = []
@@ -136,6 +137,11 @@ class Page(HTMLParser):
             self.skip += 1
         elif tag in self.SKIP:
             self.skip += 1
+        elif self.is_icon(tag, a):
+            # Внутри иконки лежит имя лигатуры (check_circle, arrow_forward):
+            # это оформление, а не текст. Без пропуска оно приклеивается к
+            # следующему слову и ломает границы («check_circleretailcrm»).
+            self.icon += 1
         elif tag == "article":
             self.art += 1
             self.saw_article = True
@@ -163,7 +169,17 @@ class Page(HTMLParser):
         elif tag == "link" and "canonical" in (a.get("rel") or ""):
             self.canonical = a.get("href", "")
 
+    def is_icon(self, tag: str, a: dict) -> bool:
+        """Декоративная иконка: её содержимое не считается содержимым страницы."""
+        cls = a.get("class") or ""
+        return tag in ("span", "i", "em") and (
+            "material-symbols" in cls or "material-icons" in cls
+        )
+
     def handle_endtag(self, tag):
+        if tag in ("span", "i", "em") and self.icon:
+            self.icon -= 1
+            return
         if tag in self.SKIP and self.skip:
             self.skip -= 1
             if tag == "script":
@@ -191,7 +207,7 @@ class Page(HTMLParser):
         if self.in_ld and self.ldjson:
             self.ldjson[-1] += data
             return
-        if self.skip:
+        if self.skip or self.icon:
             return
         if self.cur_h is not None:
             self.cur_h[1].append(data)
