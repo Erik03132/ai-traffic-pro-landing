@@ -728,10 +728,102 @@ async function handleLead(request, env, kv) {
   return json({ ok: sent }, request, env, sent ? 200 : 502);
 }
 
+/* ──────────────────────────────────────────────────────────────────────────
+ * Лог вопросов из виджета
+ *
+ * Виджет отвечает сам и ничего не помнит. Без лога владелец не видит, о чём
+ * спрашивают, — а «сколько стоит» в виджете это лид, который дошёл до диалога
+ * и не дошёл до формы. Поэтому: вопрос пишем в KV с TTL, «горячий» — сразу
+ * в Telegram. Вопросы пишем без ответов: KV на Free не резиновый, а
+ * аналитическая ценность в формулировке клиента, не в пересказе модели.
+ * ────────────────────────────────────────────────────────────────────────── */
+
+/** Префикс ключа: `chat:q:<ISO>:<rand>` — сортируется по времени. */
+const CHAT_LOG_PREFIX = 'chat:q:';
+
+/** 30 дней хранения: дальше вопросы теряют ценность, а квота — нет. */
+const CHAT_LOG_TTL = 60 * 60 * 24 * 30;
+
+/** Потолок пушей в час: виджет публичный, спам не должен заливать чат. */
+const HOT_LIMIT_PER_HOUR = 20;
+
+/** Признаки «горячего» вопроса: цена, сроки, договор, заявка. */
+const HOT_PATTERNS = [
+  /цен[аыуе]|стоимост|сколько\s+стоит|прайс|бюджет/i,
+  /срок|когда\s+(начн|запуст|старт)|за\s+сколько\s+дн/i,
+  /договор|счёт|счет|оплат|предоплат|реквизит/i,
+  /заявк|заказ|консультац|созвон|перезвон|коммерческ/i,
+];
+
+/**
+ * Считается ли вопрос «горячим».
+ * @param {string} question
+ * @returns {boolean}
+ */
+function isHotQuestion(question) {
+  return HOT_PATTERNS.some((re) => re.test(question));
+}
+
+/**
+ * Записывает вопрос в KV. Ошибка записи не должна ломать ответ клиенту.
+ * @param {KVNamespace | undefined} kv
+ * @param {string} question
+ * @param {string} source откуда ушёл ответ: knowledge, llm, fallback
+ */
+async function logChatQuestion(kv, question, source) {
+  if (!kv) return;
+  try {
+    const ts = new Date().toISOString();
+    const key = `${CHAT_LOG_PREFIX}${ts}:${crypto.randomUUID().slice(0, 8)}`;
+    await kv.put(key, JSON.stringify({ q: question.slice(0, 500), source, ts }), {
+      expirationTtl: CHAT_LOG_TTL,
+    });
+  } catch (e) {
+    console.error('❌ Не удалось записать вопрос виджета в KV:', e.message);
+  }
+}
+
+/**
+ * Пуш владельцу по «горячему» вопросу.
+ *
+ * Не чаще HOT_LIMIT_PER_HOUR в час: счётчик best-effort (инкремент в KV не
+ * атомарный), задача — не залить чат спамом, а не точная бухгалтерия.
+ *
+ * @param {Record<string, unknown>} env
+ * @param {KVNamespace | undefined} kv
+ * @param {string} question
+ * @param {string} source
+ */
+async function notifyHotQuestion(env, kv, question, source) {
+  const owner = String(env.TELEGRAM_CHAT_ID || '');
+  if (!env.TELEGRAM_BOT_TOKEN || !owner) return;
+
+  if (kv) {
+    try {
+      const key = `chat:hot:${new Date().toISOString().slice(0, 13)}`;
+      const used = Number((await kv.get(key)) || 0);
+      if (used >= HOT_LIMIT_PER_HOUR) return;
+      await kv.put(key, String(used + 1), { expirationTtl: 60 * 60 * 2 });
+    } catch {
+      // Счётчик не сработал — лучше уведомить, чем промолчать.
+    }
+  }
+
+  const answered = source === 'knowledge' ? 'база знаний' : source === 'llm' ? 'модель' : 'заглушка';
+  await tgCall(env, 'sendMessage', {
+    chat_id: owner,
+    text:
+      '🔥 Вопрос из виджета — похоже на клиента\n\n' +
+      `${question.slice(0, 600)}\n\n` +
+      `Ответил: ${answered}. Если человек не оставил заявку — самое время написать.`,
+    disable_web_page_preview: true,
+  });
+}
+
 /**
  * POST /api/chat — вопрос из виджета.
  */
-async function handleChat(request, env) {
+async function handleChat(request, env, kv, ctx) {
   let payload;
   try {
     payload = await request.json();
@@ -744,32 +836,131 @@ async function handleChat(request, env) {
     return json({ error: 'empty message' }, request, env, 400);
   }
 
+  let reply = '';
+  let source = 'llm';
+
   // 1. База знаний — дешёвый и точный путь.
   const known = findKnowledge(message);
   if (known) {
-    return json({ reply: known, source: 'knowledge' }, request, env);
+    reply = known;
+    source = 'knowledge';
+  } else {
+    // 2. Workers AI — если база не помогла.
+    const history = Array.isArray(payload.messages) ? payload.messages.slice(-8) : [];
+    try {
+      reply = await callAi(buildLlmMessages(history, message), env);
+    } catch (e) {
+      console.error('❌ Workers AI недоступен:', e.message);
+      source = 'fallback';
+      reply = FALLBACK_REPLY;
+    }
+
+    if (!reply) {
+      source = 'fallback';
+      reply = EMPTY_REPLY;
+    }
   }
 
-  // 2. Workers AI — если база не помогла.
-  const history = Array.isArray(payload.messages) ? payload.messages.slice(-8) : [];
-  const llmMessages = buildLlmMessages(history, message);
-
-  let reply = '';
-  let source = 'llm';
-  try {
-    reply = await callAi(llmMessages, env);
-  } catch (e) {
-    console.error('❌ Workers AI недоступен:', e.message);
-    source = 'fallback';
-    reply = FALLBACK_REPLY;
-  }
-
-  if (!reply) {
-    source = 'fallback';
-    reply = EMPTY_REPLY;
-  }
+  // Лог и пуш — после ответа: клиент не должен ждать Telegram.
+  // В проде есть ctx.waitUntil; в тестах его нет — ждём, чтобы видеть запись.
+  const remember = async () => {
+    await logChatQuestion(kv, message, source);
+    if (isHotQuestion(message)) await notifyHotQuestion(env, kv, message, source);
+  };
+  if (ctx && typeof ctx.waitUntil === 'function') ctx.waitUntil(remember());
+  else await remember();
 
   return json({ reply, source }, request, env);
+}
+
+/**
+ * GET /api/chat/log — последние вопросы из виджета (по токену).
+ *
+ * Ключи начинаются с ISO-времени, поэтому сортировка по имени = по времени.
+ * Отдаём новые первыми: старые вопросы нужны редко.
+ *
+ * @param {Request} request
+ * @param {Record<string, unknown>} env
+ * @param {KVNamespace | undefined} kv
+ */
+async function handleChatLog(request, env, kv) {
+  if (!publishAuthorized(request, env)) {
+    return json({ error: 'unauthorized' }, request, env, 401);
+  }
+
+  const url = new URL(request.url);
+  const asked = Number(url.searchParams.get('limit'));
+  const limit = Math.min(Math.max(Number.isFinite(asked) && asked > 0 ? asked : 50, 1), 200);
+
+  const names = [];
+  let cursor;
+  do {
+    const page = kv
+      ? await kv.list({ prefix: CHAT_LOG_PREFIX, cursor })
+      : { keys: [], list_complete: true };
+    for (const key of page.keys || []) names.push(key.name);
+    cursor = page.list_complete ? undefined : page.cursor;
+  } while (cursor);
+
+  const items = [];
+  for (const name of names.sort().reverse().slice(0, limit)) {
+    const raw = await kv.get(name);
+    if (!raw) continue;
+    items.push(JSON.parse(raw));
+  }
+
+  return json({ total: names.length, items }, request, env);
+}
+
+/**
+ * Суточный дайджест вопросов из виджета — по cron.
+ *
+ * Лог без напоминания не читают. Дайджест шлём только когда вопросы были:
+ * пустое сообщение «0 вопросов» через неделю начнут игнорировать.
+ *
+ * @param {Record<string, unknown>} env
+ * @param {KVNamespace | undefined} kv
+ * @returns {Promise<{sent: number} | null>} сколько вопросов вошло в дайджест
+ */
+async function sendChatDigest(env, kv) {
+  const owner = String(env.TELEGRAM_CHAT_ID || '');
+  if (!env.TELEGRAM_BOT_TOKEN || !owner || !kv) return null;
+
+  const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+  const counted = new Map();
+  let total = 0;
+  let cursor;
+
+  do {
+    const page = await kv.list({ prefix: CHAT_LOG_PREFIX, cursor });
+    for (const key of page.keys || []) {
+      // Фильтр по времени — из самого ключа, без чтения значений там, где не надо.
+      if (key.name.slice(CHAT_LOG_PREFIX.length) < since) continue;
+      const raw = await kv.get(key.name);
+      if (!raw) continue;
+      const record = JSON.parse(raw);
+      const phrase = String(record.q || '').toLowerCase().trim().slice(0, 120);
+      counted.set(phrase, (counted.get(phrase) || 0) + 1);
+      total += 1;
+    }
+    cursor = page.list_complete ? undefined : page.cursor;
+  } while (cursor);
+
+  if (!total) return null;
+
+  const top = [...counted.entries()]
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .slice(0, 10)
+    .map(([phrase, count]) => `${count}× ${phrase}`)
+    .join('\n');
+
+  await tgCall(env, 'sendMessage', {
+    chat_id: owner,
+    text: `Вопросы из виджета за сутки: ${total}\n\n${top}`,
+    disable_web_page_preview: true,
+  });
+
+  return { sent: total };
 }
 
 /* ──────────────────────────────────────────────────────────────────────────
@@ -781,7 +972,7 @@ async function handleChat(request, env) {
  * @param {Record<string, unknown>} env
  */
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
     // Astro добавляет trailing slash (`trailingSlash: 'always'`), приводим к
     // единому виду — иначе /api/chat/ не найдёт эндпоинт.
@@ -820,6 +1011,10 @@ export default {
       return await handleTgLast(request, env, env.LEADS);
     }
 
+    if (request.method === 'GET' && pathname === '/api/chat/log') {
+      return await handleChatLog(request, env, env.LEADS);
+    }
+
     if (request.method === 'POST' && pathname === '/api/tg/init') {
       return await handleTgInit(request, env);
     }
@@ -851,10 +1046,18 @@ export default {
       if (pathname === '/api/lead') {
         return await handleLead(request, env, env.LEADS);
       }
-      return await handleChat(request, env);
+      return await handleChat(request, env, env.LEADS, ctx);
     } catch (e) {
       console.error('❌ Ошибка сервера:', e.message);
       return json({ error: 'server error' }, request, env, 500);
     }
+  },
+
+  /**
+   * Cron: суточный дайджест вопросов из виджета (10:00 МСК).
+   * Расписание — `triggers.crons` в `worker/wrangler.jsonc`.
+   */
+  async scheduled(event, env, ctx) {
+    ctx.waitUntil(sendChatDigest(env, env.LEADS));
   },
 };

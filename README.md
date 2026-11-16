@@ -63,6 +63,7 @@ Worker, резервный — Node-сервер на VPS (см. ADR-001):
 | ------------------ | ------------------------------------------------ |
 | `POST /api/lead/`  | Заявка с формы → Telegram + резервный JSONL-файл |
 | `POST /api/chat/`  | Вопрос из виджета → база знаний, иначе LLM       |
+| `GET /api/chat/log/` | Последние вопросы из виджета (токен)           |
 | `GET /api/health/` | Проверка живости (`{"ok":true,"telegram":true}`) |
 | `POST /api/tg/webhook/` | Апдейты Telegram: кнопки публикации и сообщения боту |
 | `GET /api/tg/sources/`  | Отчёт «сколько пришло с какой метки» (токен) |
@@ -98,11 +99,32 @@ Telegram настроен: бот `@aitraffic_publish_bot`, заявки при�
 ```bash
 curl -H "Authorization: Bearer $TG_PUBLISH_TOKEN" \
   https://ai-traffic-pro-api.erik03132.workers.dev/api/tg/sources
-# {"total":12,"sources":[{"label":"ai_traffic_pro","count":9},{"label":"direct","count":3}]}
+# {"total":12,"returning":4,
+#  "sources":[{"label":"ai_traffic_pro","count":9},{"label":"direct","count":3}],
+#  "lastTouch":[{"label":"ai_traffic_pro","count":4}]}
 ```
 
 Считается по записям KV, а не счётчиком: инкремент в KV не атомарный, а ошибку в
-счётчике не восстановить.
+счётчике не восстановить. Два среза: `sources` — первое касание (не
+перезаписывается), `lastTouch` — последнее (видно, какая кампания вернула
+человека), `returning` — сколько вернулись.
+
+### Вопросы из виджета
+
+Виджет отвечает сам, поэтому каждый вопрос пишется в KV с TTL 30 дней —
+`chat:q:<время>:<id>`. Вопросы, похожие на клиента (цена, сроки, договор,
+заявка), сразу уходят в Telegram владельцу; остальные — суточным дайджестом в
+10:00 МСК (cron `0 7 * * *` UTC). Потолок пушей — 20 в час, чтобы публичный
+виджет не залил чат спамом.
+
+```bash
+curl -H "Authorization: Bearer $TG_PUBLISH_TOKEN" \
+  "https://ai-traffic-pro-api.erik03132.workers.dev/api/chat/log?limit=20"
+# {"total":3,"items":[{"q":"Сколько стоит сайт?","source":"knowledge","ts":"…"}]}
+```
+
+`source` в записи — откуда ушёл ответ: `knowledge`, `llm` или `fallback`. Если
+`fallback` часто — база знаний не покрывает то, о чём спрашивают.
 
 LLM отвечает на вопросы вне базы знаний. На Worker это **Workers AI**
 (`@cf/meta/llama-3.1-8b-instruct-fp8-fast`) — внешние провайдеры с российского IP

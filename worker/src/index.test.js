@@ -614,3 +614,163 @@ test('webhook: неудачная отправка не пишет pub:last', as
   assert.equal(env.LEADS.store.get('pub:last'), undefined, 'ложный след публикации не пишем');
   assert.ok(env.LEADS.store.get('draft:tg:test'), 'черновик остаётся, можно повторить');
 });
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * Лог вопросов из виджета (16.11.2026)
+ *
+ * Виджет отвечает сам и ничего не помнит: без лога владелец не видит, о чём
+ * спрашивают, а «сколько стоит» — это лид, не дошедший до формы.
+ * ────────────────────────────────────────────────────────────────────────── */
+
+/** Подмена Telegram: собирает тексты отправленных сообщений. */
+function captureTelegram() {
+  const sent = [];
+  const realFetch = globalThis.fetch;
+  globalThis.fetch = async (url, init) => {
+    sent.push({ url: String(url).split('/').pop(), text: JSON.parse(init.body).text });
+    return new Response(JSON.stringify({ ok: true, result: { message_id: 1 } }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  };
+  return { sent, restore: () => (globalThis.fetch = realFetch) };
+}
+
+/** Ключи лога вопросов в mock-KV. */
+function chatKeys(env) {
+  return [...env.LEADS.store.keys()].filter((k) => k.startsWith('chat:q:'));
+}
+
+test('chat: вопрос попадает в лог, ответ не зависит от Telegram', async () => {
+  const env = makeEnv();
+  const res = await call('/api/chat', post({ message: 'Что такое GEO?' }), env);
+  assert.equal(res.status, 200);
+
+  const keys = chatKeys(env);
+  assert.equal(keys.length, 1, 'вопрос должен записаться в KV');
+
+  const record = JSON.parse(env.LEADS.store.get(keys[0]));
+  assert.equal(record.q, 'Что такое GEO?');
+  assert.ok(record.source, 'источник ответа сохранён');
+  assert.ok(record.ts, 'время сохранено');
+});
+
+test('chat: горячий вопрос уходит владельцу в Telegram', async () => {
+  const env = makeEnv({ token: 'test-token' });
+  const tg = captureTelegram();
+  try {
+    await call('/api/chat', post({ message: 'Сколько стоит продвижение в Яндекс Директе?' }), env);
+  } finally {
+    tg.restore();
+  }
+
+  assert.equal(tg.sent.length, 1, 'горячий вопрос уведомляет сразу');
+  assert.equal(tg.sent[0].url, 'sendMessage');
+  assert.match(tg.sent[0].text, /Сколько стоит/);
+});
+
+test('chat: обычный вопрос владельцу не уходит', async () => {
+  const env = makeEnv({ token: 'test-token' });
+  const tg = captureTelegram();
+  try {
+    await call('/api/chat', post({ message: 'Чем отличается CRM от ERP?' }), env);
+  } finally {
+    tg.restore();
+  }
+
+  assert.equal(tg.sent.length, 0, 'не каждый вопрос будильник');
+  assert.equal(chatKeys(env).length, 1, 'но в лог он всё равно попадает');
+});
+
+test('chat: потолок пушей в час не пробивается', async () => {
+  const env = makeEnv({ token: 'test-token' });
+  const hour = new Date().toISOString().slice(0, 13);
+  await env.LEADS.put(`chat:hot:${hour}`, '20');
+
+  const tg = captureTelegram();
+  try {
+    await call('/api/chat', post({ message: 'Нужна цена и сроки' }), env);
+  } finally {
+    tg.restore();
+  }
+
+  assert.equal(tg.sent.length, 0, 'после 20 пушей в час — только лог');
+});
+
+test('GET /api/chat/log: без токена → 401', async () => {
+  const res = await call('/api/chat/log', {}, makeEnv());
+  assert.equal(res.status, 401);
+});
+
+test('GET /api/chat/log: отдаёт новые вопросы первыми', async () => {
+  const env = makeEnv();
+  env.TG_PUBLISH_TOKEN = 'report-token';
+  await env.LEADS.put(
+    'chat:q:2026-11-15T09:00:00.000Z:aaaa1111',
+    JSON.stringify({ q: 'старый вопрос', source: 'llm', ts: '2026-11-15T09:00:00.000Z' }),
+  );
+  await env.LEADS.put(
+    'chat:q:2026-11-16T09:00:00.000Z:bbbb2222',
+    JSON.stringify({ q: 'новый вопрос', source: 'knowledge', ts: '2026-11-16T09:00:00.000Z' }),
+  );
+
+  const res = await call(
+    '/api/chat/log',
+    { headers: { Authorization: 'Bearer report-token' } },
+    env,
+  );
+  const data = await res.json();
+
+  assert.equal(res.status, 200);
+  assert.equal(data.total, 2);
+  assert.deepEqual(
+    data.items.map((i) => i.q),
+    ['новый вопрос', 'старый вопрос'],
+  );
+});
+
+test('cron: дайджест шлёт топ вопросов за сутки, пустой день молчит', async () => {
+  const env = makeEnv({ token: 'test-token' });
+  const fresh = new Date().toISOString();
+  await env.LEADS.put(
+    `chat:q:${fresh}:cccc3333`,
+    JSON.stringify({ q: 'Сколько стоит сайт?', source: 'llm', ts: fresh }),
+  );
+  await env.LEADS.put(
+    `chat:q:${fresh}:dddd4444`,
+    JSON.stringify({ q: 'Сколько стоит сайт?', source: 'llm', ts: fresh }),
+  );
+  // Старше суток — в дайджест не попадает.
+  await env.LEADS.put(
+    'chat:q:2026-01-01T00:00:00.000Z:eeee5555',
+    JSON.stringify({ q: 'древний вопрос', source: 'llm', ts: '2026-01-01T00:00:00.000Z' }),
+  );
+
+  const tg = captureTelegram();
+  try {
+    const pending = [];
+    await worker.scheduled({}, env, { waitUntil: (p) => pending.push(p) });
+    await Promise.all(pending);
+  } finally {
+    tg.restore();
+  }
+
+  assert.equal(tg.sent.length, 1);
+  assert.match(tg.sent[0].text, /за сутки: 2/);
+  assert.match(tg.sent[0].text, /2× сколько стоит сайт\?/);
+  assert.doesNotMatch(tg.sent[0].text, /древний/);
+});
+
+test('cron: пустой день — сообщение не отправляется', async () => {
+  const env = makeEnv({ token: 'test-token' });
+  const tg = captureTelegram();
+  try {
+    const pending = [];
+    await worker.scheduled({}, env, { waitUntil: (p) => pending.push(p) });
+    await Promise.all(pending);
+  } finally {
+    tg.restore();
+  }
+
+  assert.equal(tg.sent.length, 0);
+});
