@@ -65,6 +65,29 @@
 (Википедия, web.dev, Google Search Central, Schema.org), 8 H3, чек-лист из
 пяти вопросов, автор — Игорь Васин. `geo_lint` **100/100** (было 35).
 Осталось: `zayavki-teryayutsya` — та же процедура.
+
+Переписаны ещё две: `zayavki-teryayutsya` (35 → **100**, 1 514 слов, таблица
+пяти разрывов, 8 систем, 4 источника, расчёт потерь в деньгах) и
+`mediaplan-i-kontent-plan-raznica` (32 → **100**, 1 515 слов, таблица
+различий по 10 признакам, 7 систем, 3 источника, пример месяца на два
+документа).
+
+Пачка из пяти (commit `0f6b0eb`): `mediaplan-i-kontent-plan-raznica` 32 → 100,
+`kak-sostavit-brif-na-prodvizhenie` 35 → 100 (1 513 слов, 14 вопросов, раздел
+«что делать, если клиент не может ответить»), `kak-schitat-okupaemost-reklamy`
+35 → 100 (1 506 слов, ROMI 215%, CAC 5 000 руб, LTV/CAC 6,3, срок окупаемости
+через маржу), `kontent-plan-dlya-sotssetey` 35 → 100 (1 702 слова, две
+таблицы), `kak-vybrat-kanal-prodvizheniya` 35 → 100 (1 812 слов, 14 H3).
+Остались `kak-nachat-prodavat-na-marketpleysah` и `geo-prodvizhenie-checklist`
+— на доработке по объёму (98/100).
+
+Пачка из трёх (commit `—`): `kak-nachat-prodavat-na-marketpleysah` 35 → 100
+(1 538 слов, таблица FBO/FBS на 9 строк, раздел про возвраты и обратную
+логистику, 7 систем, 4 источника), `geo-prodvizhenie-checklist` 39 → 100
+(1 512 слов, таблица «классическая выдача против AI-ответа», 13 H3, раздел
+«пять ошибок, из-за которых чек-лист не работает», 6 систем, 4 источника),
+`crm-i-erp-raznica` 94 → 100 (1 561 слово, раздел «сколько стоит ошибка
+выбора» с бюджетами и сроками). **Весь блог: 11 статей — 100/100.**
   4. `kak-nastroit-yandex-direkt` → advertising — «Яндекс Директ: как настроить»
      (неделя 2)
   5. `crm-sistema-kak-polzovatsya` → crm — «CRM-система: как пользоваться»
