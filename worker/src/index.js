@@ -328,6 +328,22 @@ async function rememberRef(env, kv, from, label) {
 
   if (!seen && kv) await kv.put(key, JSON.stringify(record));
 
+  // Первый источник не перезаписываем, но последнее касание фиксируем:
+  // по нему видно, какая кампания вернула человека обратно.
+  if (seen && kv && label) {
+    try {
+      const prev = JSON.parse(seen);
+      if (label !== prev.label) {
+        await kv.put(
+          key,
+          JSON.stringify({ ...prev, last_label: label, last_ts: record.ts }),
+        );
+      }
+    } catch {
+      // Битая запись не повод терять вход: приветствие важнее.
+    }
+  }
+
   const owner = String(env.TELEGRAM_CHAT_ID || '');
   if (owner) {
     await tgCall(env, 'sendMessage', {
@@ -443,6 +459,32 @@ async function handleTgWebhook(request, env, kv) {
 
   const update = await request.json().catch(() => ({}));
 
+  // Наблюдаемость: без записи «бот молчит» не отличить от «апдейт не дошёл».
+  // Держим один ключ-последний, а не ключ на каждый апдейт: читается одной
+  // командой через GET /api/tg/last и не засоряет KV.
+  if (kv) {
+    try {
+      const message = update.message || {};
+      await kv.put(
+        'dbg:last',
+        JSON.stringify({
+          ts: new Date().toISOString(),
+          update_id: update.update_id ?? null,
+          kind:
+            Object.keys(update)
+              .filter((k) => k !== 'update_id')
+              .join(',') || 'пусто',
+          chat: (message.chat || {}).type ?? null,
+          from_id: (message.from || {}).id ?? null,
+          text: String(message.text ?? '').slice(0, 120),
+        }),
+        { expirationTtl: 60 * 60 * 24 },
+      );
+    } catch (e) {
+      console.error('dbg: не записался', e.message);
+    }
+  }
+
   if (update.message) {
     await handleTgMessage(env, kv, update.message);
     return json({ ok: true }, request, env);
@@ -525,6 +567,24 @@ async function handleTgWebhook(request, env, kv) {
   }
 
   if (kv) await kv.delete(key);
+  // След публикации: чтобы факт «пост ушёл» проверялся командой, а не глазами
+  // владельца канала. message_id потом пригодится и для правок, и для удаления.
+  if (kv) {
+    try {
+      await kv.put(
+        'pub:last',
+        JSON.stringify({
+          slug,
+          content: content ?? null,
+          message_id: posted.result?.message_id ?? null,
+          link: draft.linkUrl,
+          ts: new Date().toISOString(),
+        }),
+      );
+    } catch (e) {
+      console.error('pub:last: не записался', e.message);
+    }
+  }
   await tgCall(env, 'editMessageText', {
     chat_id: chatId,
     message_id: message.message_id,
@@ -538,6 +598,33 @@ async function handleTgWebhook(request, env, kv) {
   });
 
   return json({ ok: true }, request, env);
+}
+
+/**
+ * GET /api/tg/last — что произошло последним: публикация и последний апдейт.
+ * Нужен, чтобы «пост ушёл?» проверялось командой, а не глазами в канале.
+ */
+async function handleTgLast(request, env, kv) {
+  if (!publishAuthorized(request, env)) {
+    return json({ error: 'unauthorized' }, request, env, 401);
+  }
+
+  const read = async (key) => {
+    if (!kv) return null;
+    const raw = await kv.get(key);
+    if (!raw) return null;
+    try {
+      return JSON.parse(raw);
+    } catch {
+      return null;
+    }
+  };
+
+  return json(
+    { publish: await read('pub:last'), update: await read('dbg:last') },
+    request,
+    env,
+  );
 }
 
 /**
@@ -706,6 +793,10 @@ export default {
 
     if (request.method === 'GET' && pathname === '/api/tg/sources') {
       return await handleTgSources(request, env, env.LEADS);
+    }
+
+    if (request.method === 'GET' && pathname === '/api/tg/last') {
+      return await handleTgLast(request, env, env.LEADS);
     }
 
     if (request.method === 'POST' && pathname === '/api/tg/init') {

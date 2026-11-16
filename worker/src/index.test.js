@@ -33,6 +33,9 @@ function mockKv() {
     async get(key) {
       return store.get(key) ?? null;
     },
+    async delete(key) {
+      store.delete(key);
+    },
     /** `list` как у настоящего KV: префикс + постраничная выдача. */
     async list({ prefix = '', cursor } = {}) {
       const names = [...store.keys()].filter((k) => k.startsWith(prefix)).sort();
@@ -387,17 +390,31 @@ test('webhook: /start@bot с меткой тоже распознаётся', as
   assert.equal(JSON.parse(env.LEADS.store.get('ref:555')).label, 'ai_traffic_pro');
 });
 
+/** Ключи источников в mock-KV: `dbg:` (диагностика) не в счёт. */
+function refKeys(env) {
+  return [...env.LEADS.store.keys()].filter((k) => k.startsWith('ref:'));
+}
+
 test('webhook: вопрос клиента не создаёт запись источника', async () => {
   const env = botEnv();
   const res = await call('/api/tg/webhook/', tgPost(tgMessage('Сколько стоит продвижение?')), env);
   assert.equal(res.status, 200);
-  assert.equal(env.LEADS.store.size, 0);
+  assert.deepEqual(refKeys(env), []);
 });
 
 test('webhook: сообщение из группы игнорируется', async () => {
   const env = botEnv();
   await call('/api/tg/webhook/', tgPost(tgMessage('/start ai_traffic_pro', { chatType: 'group' })), env);
-  assert.equal(env.LEADS.store.size, 0);
+  assert.deepEqual(refKeys(env), []);
+});
+
+test('webhook: диагностическая запись пишется на каждый апдейт', async () => {
+  const env = botEnv();
+  await call('/api/tg/webhook/', tgPost(tgMessage('/start ai_traffic_pro')), env);
+
+  const keys = [...env.LEADS.store.keys()].filter((k) => k.startsWith('dbg:'));
+  assert.deepEqual(keys, ['dbg:last'], 'держим один ключ-последний, а не по ключу на апдейт');
+  assert.equal(JSON.parse(env.LEADS.store.get('dbg:last')).chat, 'private');
 });
 
 test('GET /api/tg/sources: без токена → 401', async () => {
@@ -427,4 +444,140 @@ test('GET /api/tg/sources: считает по меткам', async () => {
     { label: 'direct', count: 1 },
     { label: 'yandex_direct', count: 1 },
   ]);
+});
+
+test('webhook: повторный вход из кампании пишет last_label, первый остаётся', async () => {
+  const env = botEnv();
+  await call('/api/tg/webhook/', tgPost(tgMessage('/start ai_traffic_pro')), env);
+  await call('/api/tg/webhook/', tgPost(tgMessage('/start yandex_direct')), env);
+
+  const record = JSON.parse(env.LEADS.store.get('ref:555'));
+  assert.equal(record.label, 'ai_traffic_pro', 'первый источник не меняется');
+  assert.equal(record.last_label, 'yandex_direct', 'последнее касание фиксируется');
+});
+
+/* ── След публикации: GET /api/tg/last ─────────────────────────────────── */
+
+test('GET /api/tg/last: без токена → 401', async () => {
+  const res = await call('/api/tg/last', {}, makeEnv());
+  assert.equal(res.status, 401);
+});
+
+test('GET /api/tg/last: пустая история → null, а не ошибка', async () => {
+  const env = makeEnv();
+  env.TG_PUBLISH_TOKEN = 'pub-token';
+
+  const res = await call('/api/tg/last', { headers: { Authorization: 'Bearer pub-token' } }, env);
+  assert.equal(res.status, 200);
+  assert.deepEqual(await res.json(), { publish: null, update: null });
+});
+
+test('GET /api/tg/last: отдаёт последнюю публикацию и последний апдейт', async () => {
+  const env = makeEnv();
+  env.TG_PUBLISH_TOKEN = 'pub-token';
+  await env.LEADS.put('pub:last', JSON.stringify({ slug: 'test', message_id: 42 }));
+  await env.LEADS.put('dbg:last', JSON.stringify({ kind: 'callback_query' }));
+
+  const res = await call('/api/tg/last', { headers: { Authorization: 'Bearer pub-token' } }, env);
+  const data = await res.json();
+  assert.equal(data.publish.slug, 'test');
+  assert.equal(data.publish.message_id, 42);
+  assert.equal(data.update.kind, 'callback_query');
+});
+
+test('webhook: успешная публикация пишет pub:last и убирает черновик', async () => {
+  const env = makeEnv({ token: 'test-token' });
+  env.TELEGRAM_WEBHOOK_SECRET = 'hook-secret';
+  env.TELEGRAM_CHANNEL_ID = '@aitrafficpro';
+
+  const link = 'https://ai-traffic-pro.ru/blog/test/?utm_source=telegram';
+  await env.LEADS.put(
+    'draft:tg:test',
+    JSON.stringify({ html: '<b>Пост</b>', linkUrl: link }),
+  );
+
+  const realFetch = globalThis.fetch;
+  const methods = [];
+  globalThis.fetch = async (url) => {
+    methods.push(String(url).split('/').pop());
+    return new Response(JSON.stringify({ ok: true, result: { message_id: 777 } }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  };
+
+  let res;
+  try {
+    res = await call(
+      '/api/tg/webhook/',
+      {
+        method: 'POST',
+        headers: { 'X-Telegram-Bot-Api-Secret-Token': 'hook-secret' },
+        body: JSON.stringify({
+          update_id: 10,
+          callback_query: {
+            id: 'q1',
+            data: 'tgpub:test',
+            message: { message_id: 5, chat: { id: '123' } },
+          },
+        }),
+      },
+      env,
+    );
+  } finally {
+    globalThis.fetch = realFetch;
+  }
+
+  assert.equal(res.status, 200);
+  assert.ok(methods.includes('sendMessage'), 'пост должен уйти в канал');
+  assert.equal(env.LEADS.store.get('draft:tg:test'), undefined, 'черновик удаляется');
+
+  const saved = JSON.parse(env.LEADS.store.get('pub:last'));
+  assert.equal(saved.slug, 'test');
+  assert.equal(saved.message_id, 777);
+  assert.equal(saved.link, link);
+  assert.ok(saved.ts, 'время публикации записано');
+});
+
+test('webhook: неудачная отправка не пишет pub:last', async () => {
+  const env = makeEnv({ token: 'test-token' });
+  env.TELEGRAM_WEBHOOK_SECRET = 'hook-secret';
+  env.TELEGRAM_CHANNEL_ID = '@aitrafficpro';
+  await env.LEADS.put(
+    'draft:tg:test',
+    JSON.stringify({ html: '<b>Пост</b>', linkUrl: 'https://ai-traffic-pro.ru/blog/test/' }),
+  );
+
+  const realFetch = globalThis.fetch;
+  globalThis.fetch = async () =>
+    new Response(JSON.stringify({ ok: false, description: 'chat not found' }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+  let res;
+  try {
+    res = await call(
+      '/api/tg/webhook/',
+      {
+        method: 'POST',
+        headers: { 'X-Telegram-Bot-Api-Secret-Token': 'hook-secret' },
+        body: JSON.stringify({
+          update_id: 11,
+          callback_query: {
+            id: 'q2',
+            data: 'tgpub:test',
+            message: { message_id: 6, chat: { id: '123' } },
+          },
+        }),
+      },
+      env,
+    );
+  } finally {
+    globalThis.fetch = realFetch;
+  }
+
+  assert.equal(res.status, 502);
+  assert.equal(env.LEADS.store.get('pub:last'), undefined, 'ложный след публикации не пишем');
+  assert.ok(env.LEADS.store.get('draft:tg:test'), 'черновик остаётся, можно повторить');
 });
