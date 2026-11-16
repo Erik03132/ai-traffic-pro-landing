@@ -1,6 +1,6 @@
 # Сборка
-dist/
-.astro/
+/dist/
+/.astro/
 
 # Зависимости
 node_modules/

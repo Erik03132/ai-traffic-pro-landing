@@ -1,5 +1,8 @@
 User-agent: *
 Allow: /
+# Служебный манифест очереди публикаций (ADR-005): его читает cron Worker,
+# поисковику он не нужен.
+Disallow: /distribution/
 
 # Правило: страницу исключаем из индекса только через <meta name="robots"
 # content="noindex">, а не через Disallow. «noindex + Disallow» противоречиво —

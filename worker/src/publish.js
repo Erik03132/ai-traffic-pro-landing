@@ -183,3 +183,67 @@ export function parseCallback(data) {
   if (action !== 'tgpub' && action !== 'tgdrop') return { action: 'unknown', slug, content };
   return { action, slug, content: content.slice(0, 20) };
 }
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * Очередь публикаций (ADR-005, этап 2)
+ * ────────────────────────────────────────────────────────────────────────── */
+
+/** Адрес манифеста очереди на сайте. */
+export function manifestUrl(site = DEFAULT_SITE) {
+  return `${String(site || DEFAULT_SITE).replace(/\/+$/, '')}/distribution/manifest.json`;
+}
+
+/**
+ * Сегодняшняя дата по Москве.
+ *
+ * Cron Cloudflare живёт в UTC: в 00:00 UTC в Москве уже 03:00, а в 21:00 UTC —
+ * ещё сегодня. Планы в реестре записаны по МСК, поэтому сравнивать их с
+ * `toISOString()` напрямую нельзя — пост ушёл бы днём раньше.
+ */
+export function todayMsk(now = new Date()) {
+  return new Date(now.getTime() + 3 * 60 * 60 * 1000).toISOString().slice(0, 10);
+}
+
+/** id публикации так, как он записан в реестре: канал в id входит. */
+export function publicationId(slug, content = '') {
+  return `${slug}${content ? `:${content}` : ''}:telegram`;
+}
+
+/** Ключ «черновик уже отправлен»: защита от ежедневного повтора. */
+export function draftSentKey(id) {
+  return `sent:tg:${id}`;
+}
+
+/** Ключ «пост уже вышел»: защита от повторной публикации. */
+export function publishedKey(id) {
+  return `pub:tg:${id}`;
+}
+
+/** Статусы, которые ждут выхода в канал. */
+const DUE_STATUSES = new Set(['queued', 'approved']);
+
+/**
+ * Что публиковать сегодня.
+ *
+ * Условия: статус ждёт выхода, дата наступила (или прошла), текст в манифесте
+ * есть. Публикации без `plannedAt` в очередь не попадают: реестр с пустой
+ * датой — это «ещё не решили», а не «опубликуй сейчас».
+ *
+ * Сортировка по дате, затем по id — cron берёт первую, остальные ждут
+ * следующего запуска: два поста в один день не выходят.
+ */
+export function duePublications(items, today) {
+  if (!Array.isArray(items)) return [];
+  return items
+    .filter((item) => item && typeof item === 'object')
+    .filter((item) => DUE_STATUSES.has(String(item.status || '')))
+    .filter((item) => String(item.channel || 'telegram') === 'telegram')
+    .filter((item) => typeof item.text === 'string' && item.text.trim().length > 0)
+    .filter((item) => item.plannedAt && String(item.plannedAt) <= today)
+    .sort((a, b) => {
+      const left = String(a.plannedAt);
+      const right = String(b.plannedAt);
+      if (left !== right) return left < right ? -1 : 1;
+      return String(a.id) < String(b.id) ? -1 : 1;
+    });
+}

@@ -11,8 +11,11 @@
 src/
   data/site.ts        ← канон, контакты, реквизиты, API, тексты главной
   data/services/*.ts  ← тексты страниц услуг: 7 файлов по одной услуге
-  data/types.ts       ← тип `Service`: какие поля обязательны, какие опциональны
-  layouts/Base.astro  ← обвязка: мета, canonical, OG, JSON-LD, скрипты
+  data/blog/*.ts      ← статьи блога: одна статья — один файл
+  data/types.ts       ← типы `Service`, `Article`, `ArticleBlock`
+  lib/feed.ts         ← сборка `/rss.xml`: полный текст, обложки, стабильный guid
+  pages/rss.xml.ts    ← лента блога (вход для Дзена и читалок, ADR-005)
+  layouts/Base.astro  ← обвязка: мета, canonical, OG, JSON-LD, автодискавери ленты
   components/         ← Header, Hero, Services, Approach, Process, Method,
                          ContactSection, LeadForm, Faq, Footer, ChatWidget
   pages/
@@ -31,9 +34,12 @@ worker/
   wrangler.jsonc    ← биндинги: KV лидов, Workers AI, rate limit, секреты
 src/lib/api-post.ts ← POST с резервным адресом: повтор только при сетевой ошибке
 docs/CONTENT_SPEC.md  ← спека контента с обоснованиями
+docs/distribution/    ← реестр публикаций и тексты постов (ADR-005)
 docs/adr/            ← архитектурные решения (ADR-001: API на Worker,
                        ADR-002: единый шаблон страницы услуги,
-                       ADR-003: редизайн одним релизом + план отката)
+                       ADR-003: редизайн одним релизом + план отката,
+                       ADR-004: аналитика и контракт целей,
+                       ADR-005: дистрибуция контента — реестр, очередь, адаптеры)
 docs/design/SPEC-multi-landing.md ← стандарт страницы услуги: H1, типографика,
                       палитра, компоненты, модель данных, чек-лист
 CONTEXT.md           ← доменные термины: метрики, каналы, e-commerce, стек
@@ -66,8 +72,24 @@ Worker, резервный — Node-сервер на VPS (см. ADR-001):
 | `GET /api/chat/log/` | Вопросы и ответы из виджета (токен; `format=text` — читаемо) |
 | `GET /api/health/` | Проверка живости (`{"ok":true,"telegram":true}`) |
 | `POST /api/tg/webhook/` | Апдейты Telegram: кнопки публикации и сообщения боту |
+| `POST /api/tg/preview/` | Черновик поста в личку владельцу (токен) |
+| `POST /api/tg/media/`   | Заменить обложку и подпись уже вышедшего поста (токен) |
 | `GET /api/tg/sources/`  | Отчёт «сколько пришло с какой метки» (токен) |
 | `POST /api/tg/init/`    | Перерегистрировать webhook (токен) |
+| `POST /api/dist/run/`   | Прогнать очередь публикаций вручную (токен) |
+
+**Очередь публикаций (ADR-005).** `src/pages/distribution/manifest.json.ts`
+собирает из реестра и текстов постов служебный манифест
+`/distribution/manifest.json`. Cron Worker каждое утро берёт первую запись,
+у которой наступила дата, и присылает черновик в личку владельцу — в канал
+пост уходит только по кнопке. Повторная отправка защищена метками в KV:
+`sent:tg:<id>` (черновик уже ушёл) и `pub:tg:<id>` (пост уже вышел).
+Прогнать очередь, не дожидаясь утра:
+
+```bash
+curl -X POST https://ai-traffic-pro-api.erik03132.workers.dev/api/dist/run \
+  -H "Authorization: Bearer $TG_PUBLISH_TOKEN"
+```
 
 Telegram настроен: бот `@aitraffic_publish_bot`, заявки приходят в чат владельца.
 Если токен недоступен или Telegram вернул ошибку — заявка не теряется: Worker
@@ -162,6 +184,33 @@ LLM отвечает на вопросы вне базы знаний. На Work
 Общая логика (база знаний, валидация заявки, формат сообщения Telegram) лежит в
 `server/agent-core.js` — это один источник истины для Worker и Node-сервера,
 чтобы резерв не отвечал иначе, чем основной путь.
+
+## Блог и RSS-лента
+
+Статьи блога лежат в `src/data/blog/*.ts` (одна статья — один файл), собираются
+в страницы `/blog/<slug>/` и в ленту `/rss.xml`.
+
+Лента отдаёт **полный текст** статьи, обложку (`enclosure`), автора, дату и
+`guid`, равный каноническому адресу. Даты берутся из поля `date` статьи, а
+`lastBuildDate` — дата самой свежей публикации: пересборка сайта не выглядит
+для читалок как «вышло 11 новых статей».
+
+Зачем: это вход в Дзен (у него нет API публикации, только трансляция RSS),
+агрегаторы и RSS-читалки. Требования Дзена к ленте (`content:encoded`,
+`enclosure`, ≥ 700 px обложка, ≥ 10 материалов в первой подаче) соблюдены
+заранее — см. [ADR-005](docs/adr/ADR-005-content-distribution.md).
+
+Проверка:
+
+```bash
+npm run build && xmllint --noout dist/rss.xml && grep -c '<item>' dist/rss.xml
+node --test src/lib/feed.test.ts
+```
+
+`<link rel="alternate" type="application/rss+xml">` стоит в `<head>` всех
+страниц, поэтому ридеры находят ленту сами. Разметка у каждой статьи — в
+`<item>`: изменить состав полей можно только в `src/lib/feed.ts`, шаблоны
+страниц на ленту не влияют.
 
 ## Деплой
 

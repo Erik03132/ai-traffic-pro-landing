@@ -41,6 +41,12 @@ jobs:
       - name: Тесты
         run: npm test
 
+      # Реестр дистрибуции: статусы согласованы, файлы текстов на месте, каждый
+      # пост влезает в лимит площадки. Без этого гейта cron (этап 2) может
+      # готовить к отправке то, чего в реестре уже нет.
+      - name: Реестр дистрибуции
+        run: npm run dist:check
+
       # Сборка с теми же переменными, что и в проде: пустой адрес API даёт
       # относительные URL и молча ломает форму в бою.
       - name: Сборка
@@ -59,3 +65,10 @@ jobs:
           test -f dist/_redirects || { echo "::error::dist/_redirects отсутствует"; exit 1; }
           test -f dist/404.html    || { echo "::error::dist/404.html отсутствует — будет soft-404"; exit 1; }
           test -f dist/favicon.svg || { echo "::error::dist/favicon.svg отсутствует"; exit 1; }
+          # Лента — единственный программный путь в Дзен (ADR-005). Пропала
+          # из сборки — площадки и читалки получат 404, и узнаем мы об этом
+          # не из CI, а из чужой статистики.
+          test -f dist/rss.xml || { echo "::error::dist/rss.xml отсутствует"; exit 1; }
+          command -v xmllint >/dev/null && xmllint --noout dist/rss.xml
+          # Манифест очереди читает cron Worker. Нет файла — автопостинг молчит.
+          test -f dist/distribution/manifest.json || { echo "::error::dist/distribution/manifest.json отсутствует"; exit 1; }

@@ -1262,3 +1262,207 @@ test('chat: «как выбрать канал» — обычный вопрос
   const body = await res.json();
   assert.equal(body.askContact, false);
 });
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * Очередь публикаций (ADR-005, этап 2)
+ *
+ * Cron каждое утро смотрит манифест на сайте и готовит черновик на сегодня.
+ * Проверяем то, из-за чего эта схема обычно и ломается: повторная отправка
+ * одного и того же черновика, пост после публикации, молчание при сбое
+ * манифеста.
+ * ────────────────────────────────────────────────────────────────────────── */
+
+/** Манифест с одной публикацией, дата которой уже наступила. */
+function dueManifest(patch = {}) {
+  return {
+    publications: [
+      {
+        id: 'test-slug:post-1:telegram',
+        slug: 'test-slug',
+        post: 'post-1',
+        channel: 'telegram',
+        status: 'queued',
+        plannedAt: '2026-11-01',
+        text: 'Текст поста, разбор → [разбор]({{link}})',
+        photo: 'https://ai-traffic-pro.ru/blog/test-slug.jpg',
+        ...patch,
+      },
+    ],
+  };
+}
+
+/** fetch, который отдаёт манифест и притворяется Telegram. */
+function mockDistFetch({ manifest = dueManifest(), manifestStatus = 200, telegram = { ok: true, result: { message_id: 901 } } } = {}) {
+  const realFetch = globalThis.fetch;
+  const calls = [];
+  globalThis.fetch = async (url, init = {}) => {
+    const target = String(url);
+    const body = init.body ? JSON.parse(init.body) : null;
+    calls.push({ url: target, body });
+    if (target.includes('/distribution/manifest.json')) {
+      return new Response(JSON.stringify(manifest), {
+        status: manifestStatus,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+    return new Response(JSON.stringify(telegram), { status: 200, headers: { 'Content-Type': 'application/json' } });
+  };
+  return { calls, restore: () => (globalThis.fetch = realFetch) };
+}
+
+function distEnv() {
+  const env = makeEnv({ kv: true });
+  env.TELEGRAM_BOT_TOKEN = 'bot-token';
+  env.TELEGRAM_CHAT_ID = '123';
+  env.TELEGRAM_PUBLISH = 'token';
+  env.TG_PUBLISH_TOKEN = 'publish-token';
+  env.TELEGRAM_CHANNEL_ID = '@testchannel';
+  env.SITE_URL = 'https://ai-traffic-pro.ru';
+  return env;
+}
+
+const DIST_AUTH = { Authorization: 'Bearer publish-token' };
+
+test('POST /api/dist/run без токена — 401 и ни одного запроса к Telegram', async () => {
+  const env = distEnv();
+  const res = await call('/api/dist/run', post({}), env);
+  assert.equal(res.status, 401);
+});
+
+test('POST /api/dist/run отправляет черновик на сегодня и ставит метку', async () => {
+  const env = distEnv();
+  const mock = mockDistFetch();
+  let res;
+  try {
+    res = await call('/api/dist/run', post({}, DIST_AUTH), env);
+  } finally {
+    mock.restore();
+  }
+
+  assert.equal(res.status, 200);
+  const data = await res.json();
+  assert.equal(data.ok, true);
+  assert.equal(data.id, 'test-slug:post-1:telegram');
+
+  const telegramCalls = mock.calls.filter((c) => c.url.includes('api.telegram.org'));
+  assert.equal(telegramCalls.length, 1, 'ровно одно сообщение владельцу');
+  assert.ok(telegramCalls[0].url.includes('sendPhoto'), 'пост с обложкой уходит картинкой');
+  assert.ok(telegramCalls[0].body.caption.includes('Текст поста'));
+  assert.ok(telegramCalls[0].body.caption.includes('utm_source=telegram'), 'ссылка с метками');
+  assert.equal(telegramCalls[0].body.chat_id, '123', 'черновик — владельцу, не в канал');
+
+  assert.ok(
+    env.LEADS.store.get('sent:tg:test-slug:post-1:telegram'),
+    'метка «черновик отправлен» записана до нажатия кнопки',
+  );
+  assert.ok(env.LEADS.store.get('draft:tg:test-slug:post-1'), 'черновик лежит в KV под кнопку');
+});
+
+test('повторный run не дублирует черновик', async () => {
+  const env = distEnv();
+  const mock = mockDistFetch();
+  try {
+    await call('/api/dist/run', post({}, DIST_AUTH), env);
+    const second = await call('/api/dist/run', post({}, DIST_AUTH), env);
+    const data = await second.json();
+    assert.equal(data.skipped, 'черновик уже отправлен');
+    assert.equal(mock.calls.filter((c) => c.url.includes('api.telegram.org')).length, 1);
+  } finally {
+    mock.restore();
+  }
+});
+
+test('run пропускает публикацию, которая уже вышла в канал', async () => {
+  const env = distEnv();
+  await env.LEADS.put('pub:tg:test-slug:post-1:telegram', '{"message_id":5}');
+  const mock = mockDistFetch();
+  try {
+    const res = await call('/api/dist/run', post({}, DIST_AUTH), env);
+    const data = await res.json();
+    assert.equal(data.ok, true);
+    assert.equal(data.skipped, 'все уже отправлены');
+    assert.equal(mock.calls.filter((c) => c.url.includes('api.telegram.org')).length, 0);
+  } finally {
+    mock.restore();
+  }
+});
+
+test('run: пустая очередь — не ошибка и не молчание', async () => {
+  const env = distEnv();
+  const mock = mockDistFetch({ manifest: { publications: [] } });
+  try {
+    const res = await call('/api/dist/run', post({}, DIST_AUTH), env);
+    const data = await res.json();
+    assert.equal(data.ok, true);
+    assert.equal(data.skipped, 'очередь пуста');
+  } finally {
+    mock.restore();
+  }
+});
+
+test('run: недоступный манифест даёт 502 с причиной, а не тихий успех', async () => {
+  const env = distEnv();
+  const mock = mockDistFetch({ manifestStatus: 500 });
+  try {
+    const res = await call('/api/dist/run', post({}, DIST_AUTH), env);
+    assert.equal(res.status, 502);
+    const data = await res.json();
+    assert.equal(data.ok, false);
+    assert.match(data.reason, /манифест 500/);
+  } finally {
+    mock.restore();
+  }
+});
+
+test('cron: scheduled готовит черновик на сегодня', async () => {
+  const env = distEnv();
+  const mock = mockDistFetch();
+  const pending = [];
+  try {
+    await worker.scheduled({ cron: '0 7 * * *' }, env, {
+      waitUntil: (promise) => pending.push(promise),
+    });
+    await Promise.all(pending);
+  } finally {
+    mock.restore();
+  }
+
+  assert.ok(
+    mock.calls.some((c) => c.url.includes('sendPhoto')),
+    'утренний cron отправил черновик',
+  );
+});
+
+test('cron: сбой очереди не мешает дайджесту лидов', async () => {
+  const env = distEnv();
+  const mock = mockDistFetch({ manifestStatus: 503 });
+  const pending = [];
+  try {
+    await worker.scheduled({ cron: '0 7 * * *' }, env, {
+      waitUntil: (promise) => pending.push(promise),
+    });
+    await Promise.allSettled(pending);
+  } finally {
+    mock.restore();
+  }
+  // Дайджест живёт своей жизнью: очередь упала, но promise-ы не отклонились.
+  assert.equal(pending.length, 2);
+});
+
+test('run?force=1 отправляет ближайший пост, не дожидаясь даты', async () => {
+  const env = distEnv();
+  const future = dueManifest({ plannedAt: '2099-01-01' });
+  const mock = mockDistFetch({ manifest: future });
+  try {
+    const plain = await call('/api/dist/run', post({}, DIST_AUTH), env);
+    assert.equal((await plain.json()).skipped, 'очередь пуста');
+
+    const forced = await call('/api/dist/run?force=1', post({}, DIST_AUTH), env);
+    const data = await forced.json();
+    assert.equal(data.ok, true);
+    assert.equal(data.id, 'test-slug:post-1:telegram');
+    assert.equal(mock.calls.filter((c) => c.url.includes('api.telegram.org')).length, 1);
+  } finally {
+    mock.restore();
+  }
+});

@@ -29,10 +29,16 @@ import {
   channelKeyboard,
   draftKeyboard,
   draftKey,
+  draftSentKey,
+  duePublications,
   isPhotoUrl,
   isSlug,
+  manifestUrl,
   parseCallback,
+  publicationId,
+  publishedKey,
   renderPost,
+  todayMsk,
 } from './publish.js';
 
 /* ──────────────────────────────────────────────────────────────────────────
@@ -218,54 +224,40 @@ function publishAuthorized(request, env) {
 }
 
 /**
- * POST /api/tg/preview — отправить черновик владельцу канала.
- * Тело: `{ slug, text, content? }`. В `text` ссылка пишется как
- * `[фраза]({{link}})` — адрес с UTM подставит Worker.
+ * Собирает и отправляет черновик владельцу канала.
+ *
+ * Одна функция на два входа — ручную отправку (`POST /api/tg/preview`) и cron
+ * (этап 2, ADR-005). Разнести их значит получить два разных вида поста: в
+ * ручном и в автоматическом текст начнёт расходиться — то лимиты, то
+ * клавиатура, то подстановка ссылки.
+ *
+ * @returns {Promise<{ok: boolean, status: number, error?: string, link?: string}>}
  */
-async function handleTgPreview(request, env, kv) {
-  if (!publishAuthorized(request, env)) {
-    return json({ error: 'unauthorized' }, request, env, 401);
-  }
-  if (!env.TELEGRAM_CHAT_ID) {
-    return json({ error: 'TELEGRAM_CHAT_ID не задан' }, request, env, 500);
-  }
-
-  const payload = await request.json().catch(() => ({}));
-  const slug = String(payload.slug || '');
-
-  if (!isSlug(slug)) return json({ error: 'плохой слаг' }, request, env, 400);
-
-  const content = String(payload.content || '')
-    .replace(/[^A-Za-z0-9._-]/g, '')
-    .slice(0, 40);
+async function deliverDraft(env, kv, { slug, content = '', text, photo = '' }) {
   const linkUrl = buildLink(slug, content, env.SITE_URL);
 
   let html;
   try {
-    html = renderPost(payload.text, linkUrl);
+    html = renderPost(text, linkUrl);
   } catch (e) {
-    return json({ error: e.message }, request, env, 400);
+    return { ok: false, status: 400, error: e.message };
   }
 
   // Картинка — необязательная часть поста. В канале она поднимает заметность,
   // но и без неё пост выходит: фото не должно быть условием публикации.
-  const photo = String(payload.photo || '');
   if (photo && !isPhotoUrl(photo)) {
-    return json({ error: 'плохой адрес картинки' }, request, env, 400);
+    return { ok: false, status: 400, error: 'плохой адрес картинки' };
   }
 
   const preview = `${html}\n\n<i>Черновик поста. Проверьте текст и нажмите кнопку.</i>`;
   if (photo && preview.length > CAPTION_LIMIT) {
-    return json(
-      {
-        error:
-          `для поста с картинкой текст ограничен ${CAPTION_LIMIT} знаками, ` +
-          `сейчас ${preview.length} — сократите`,
-      },
-      request,
-      env,
-      400,
-    );
+    return {
+      ok: false,
+      status: 400,
+      error:
+        `для поста с картинкой текст ограничен ${CAPTION_LIMIT} знаками, ` +
+        `сейчас ${preview.length} — сократите`,
+    };
   }
 
   // Черновик в KV: по кнопке публикуем ровно тот текст, который видел человек.
@@ -285,10 +277,115 @@ async function handleTgPreview(request, env, kv) {
   });
 
   if (!sent.ok) {
-    return json({ error: sent.description || 'telegram error' }, request, env, 502);
+    return { ok: false, status: 502, error: sent.description || 'telegram error' };
   }
 
-  return json({ ok: true, slug, link: linkUrl }, request, env);
+  return { ok: true, status: 200, link: linkUrl };
+}
+
+/**
+ * POST /api/tg/preview — отправить черновик владельцу канала.
+ * Тело: `{ slug, text, content?, photo? }`. В `text` ссылка пишется как
+ * `[фраза]({{link}})` — адрес с UTM подставит Worker.
+ */
+async function handleTgPreview(request, env, kv) {
+  if (!publishAuthorized(request, env)) {
+    return json({ error: 'unauthorized' }, request, env, 401);
+  }
+  if (!env.TELEGRAM_CHAT_ID) {
+    return json({ error: 'TELEGRAM_CHAT_ID не задан' }, request, env, 500);
+  }
+
+  const payload = await request.json().catch(() => ({}));
+  const slug = String(payload.slug || '');
+
+  if (!isSlug(slug)) return json({ error: 'плохой слаг' }, request, env, 400);
+
+  const content = String(payload.content || '')
+    .replace(/[^A-Za-z0-9._-]/g, '')
+    .slice(0, 40);
+
+  const result = await deliverDraft(env, kv, {
+    slug,
+    content,
+    text: payload.text,
+    photo: String(payload.photo || ''),
+  });
+
+  if (!result.ok) return json({ error: result.error }, request, env, result.status);
+
+  return json({ ok: true, slug, link: result.link }, request, env);
+}
+
+/**
+ * Cron: черновик ближайшей публикации, у которой наступила дата (этап 2).
+ *
+ * Очередь приходит манифестом с сайта (`/dist/manifest.json`), а не из KV:
+ * тексты постов живут в git, и копия в KV разошлась бы с оригиналом молча.
+ * Порядок и условия отбора — в `duePublications`.
+ *
+ * Идемпотентность двойная: `pub:tg:<id>` — пост уже вышел, `sent:tg:<id>` —
+ * черновик уже отправлен. Без второй метки cron присылал бы один и тот же
+ * черновик каждое утро, пока его не опубликуют.
+ */
+async function prepareDueDraft(env, kv, { force = false } = {}) {
+  if (!env.TELEGRAM_CHAT_ID || !kv) return { ok: false, reason: 'не настроено' };
+
+  let manifest;
+  try {
+    const resp = await fetch(manifestUrl(env.SITE_URL));
+    if (!resp.ok) return { ok: false, reason: `манифест ${resp.status}` };
+    manifest = await resp.json();
+  } catch (e) {
+    return { ok: false, reason: `манифест недоступен: ${e.message}` };
+  }
+
+  // `force` — это «отправить ближайший пост сейчас, не ждать даты»: нужно для
+  // проверки после деплоя и для случая «владелец хочет выйти сегодня».
+  const queue = duePublications(manifest.publications, force ? '9999-12-31' : todayMsk());
+
+  for (const pub of queue) {
+    if (await kv.get(publishedKey(pub.id))) continue;
+    if (await kv.get(draftSentKey(pub.id))) {
+      return { ok: true, skipped: 'черновик уже отправлен', id: pub.id };
+    }
+
+    const result = await deliverDraft(env, kv, {
+      slug: pub.slug,
+      content: pub.post,
+      text: pub.text,
+      photo: pub.photo || '',
+    });
+
+    if (!result.ok) {
+      console.error(`dist: черновик ${pub.id} не ушёл: ${result.error}`);
+      return { ok: false, id: pub.id, reason: result.error };
+    }
+
+    await kv.put(draftSentKey(pub.id), new Date().toISOString(), {
+      expirationTtl: 60 * 60 * 24 * 3,
+    });
+    return { ok: true, id: pub.id };
+  }
+
+  return { ok: true, skipped: queue.length ? 'все уже отправлены' : 'очередь пуста' };
+}
+
+/**
+ * POST /api/dist/run — прогнать очередь вручную.
+ *
+ * Нужен, чтобы не ждать утренний cron: проверить настройку сразу после деплоя,
+ * дослать черновик после сбоя. Закрыт тем же токеном, что и отправка:
+ * иначе любой желающий дёргает бота и получает черновики в личку владельца.
+ */
+async function handleDistRun(request, env, kv) {
+  if (!publishAuthorized(request, env)) {
+    return json({ error: 'unauthorized' }, request, env, 401);
+  }
+  // `?force=1` — взять ближайшую запись, не глядя на дату.
+  const force = new URL(request.url).searchParams.get('force') === '1';
+  const result = await prepareDueDraft(env, kv, { force });
+  return json(result, request, env, result.ok ? 200 : 502);
 }
 
 /**
@@ -738,6 +835,17 @@ async function handleTgWebhook(request, env, kv) {
         JSON.stringify({
           slug,
           content: content ?? null,
+          message_id: posted.result?.message_id ?? null,
+          link: draft.linkUrl,
+          ts: new Date().toISOString(),
+        }),
+      );
+      // Метка для cron (этап 2, ADR-005): этот пост уже вышел, очередь его
+      // больше не предлагает. Без неё реестр и манифест «забыли» бы факт
+      // публикации до ручной правки registry.json.
+      await kv.put(
+        publishedKey(publicationId(slug, content ?? '')),
+        JSON.stringify({
           message_id: posted.result?.message_id ?? null,
           link: draft.linkUrl,
           ts: new Date().toISOString(),
@@ -1269,6 +1377,10 @@ export default {
       return await handleTgInit(request, env);
     }
 
+    if (request.method === 'POST' && pathname === '/api/dist/run') {
+      return await handleDistRun(request, env, env.LEADS);
+    }
+
     if (request.method !== 'POST' || (pathname !== '/api/chat' && pathname !== '/api/lead')) {
       return json({ error: 'not found' }, request, env, 404);
     }
@@ -1308,6 +1420,16 @@ export default {
    * Расписание — `triggers.crons` в `worker/wrangler.jsonc`.
    */
   async scheduled(event, env, ctx) {
+    // Два независимых дела в одном триггере: дайджест лидов и подготовка
+    // черновика на сегодня (ADR-005). Падение одного не должно останавливать
+    // другое — поэтому отдельные обещания, а не последовательность.
     ctx.waitUntil(sendChatDigest(env, env.LEADS));
+    ctx.waitUntil(
+      prepareDueDraft(env, env.LEADS)
+        .then((result) => {
+          if (!result.ok) console.error('dist: очередь не отработала', result.reason);
+        })
+        .catch((e) => console.error('dist: очередь упала', e.message)),
+    );
   },
 };

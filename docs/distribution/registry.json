@@ -1,0 +1,131 @@
+{
+  "version": 1,
+  "note": "Реестр дистрибуции (ADR-005). id = <slug>:post-N:<channel>. Статусы: draft (текст поста не написан) -> queued (текст есть, проверен по лимитам) -> approved (владелец подтвердил) -> posted (вышел в канал); failed (причина обязательна). Порядок только вперёд; из posted назад нельзя. Правки — руками или tools/publish/render.py --mark.",
+  "publications": [
+    {
+      "id": "kak-schitat-okupaemost-reklamy:post-1:telegram",
+      "slug": "kak-schitat-okupaemost-reklamy",
+      "post": "post-1",
+      "channel": "telegram",
+      "status": "posted",
+      "plannedAt": "2026-11-16",
+      "messageId": 5,
+      "url": "https://t.me/aitrafficpro/5",
+      "error": null
+    },
+    {
+      "id": "crm-i-erp-raznica:post-2:telegram",
+      "slug": "crm-i-erp-raznica",
+      "post": "post-2",
+      "channel": "telegram",
+      "status": "posted",
+      "plannedAt": "2026-11-09",
+      "messageId": null,
+      "url": null,
+      "legacyNote": "опубликовано 09.11.2026 до появления реестра, message_id не сохранён",
+      "error": null
+    },
+    {
+      "id": "kak-vybrat-kanal-prodvizheniya:post-1:telegram",
+      "slug": "kak-vybrat-kanal-prodvizheniya",
+      "post": "post-1",
+      "channel": "telegram",
+      "status": "posted",
+      "plannedAt": null,
+      "messageId": null,
+      "url": null,
+      "legacyNote": "опубликовано до появления реестра, message_id не сохранён",
+      "error": null
+    },
+    {
+      "id": "voronka-prodazh-kak-postroit:post-1:telegram",
+      "slug": "voronka-prodazh-kak-postroit",
+      "post": "post-1",
+      "channel": "telegram",
+      "status": "posted",
+      "plannedAt": null,
+      "messageId": null,
+      "url": null,
+      "legacyNote": "опубликовано до появления реестра, message_id не сохранён",
+      "error": null
+    },
+    {
+      "id": "zayavki-teryayutsya:post-1:telegram",
+      "slug": "zayavki-teryayutsya",
+      "post": "post-1",
+      "channel": "telegram",
+      "status": "posted",
+      "plannedAt": null,
+      "messageId": null,
+      "url": null,
+      "legacyNote": "опубликовано до появления реестра, message_id не сохранён",
+      "error": null
+    },
+    {
+      "id": "geo-prodvizhenie-checklist:post-1:telegram",
+      "slug": "geo-prodvizhenie-checklist",
+      "post": "post-1",
+      "channel": "telegram",
+      "status": "queued",
+      "plannedAt": "2026-11-19",
+      "messageId": null,
+      "url": null,
+      "error": null
+    },
+    {
+      "id": "kak-nachat-prodavat-na-marketpleysah:post-1:telegram",
+      "slug": "kak-nachat-prodavat-na-marketpleysah",
+      "post": "post-1",
+      "channel": "telegram",
+      "status": "queued",
+      "plannedAt": "2026-11-22",
+      "messageId": null,
+      "url": null,
+      "error": null
+    },
+    {
+      "id": "kak-sostavit-brif-na-prodvizhenie:post-1:telegram",
+      "slug": "kak-sostavit-brif-na-prodvizhenie",
+      "post": "post-1",
+      "channel": "telegram",
+      "status": "queued",
+      "plannedAt": "2026-11-25",
+      "messageId": null,
+      "url": null,
+      "error": null
+    },
+    {
+      "id": "kontent-plan-dlya-sotssetey:post-1:telegram",
+      "slug": "kontent-plan-dlya-sotssetey",
+      "post": "post-1",
+      "channel": "telegram",
+      "status": "queued",
+      "plannedAt": "2026-11-28",
+      "messageId": null,
+      "url": null,
+      "error": null
+    },
+    {
+      "id": "lending-ili-sayt:post-1:telegram",
+      "slug": "lending-ili-sayt",
+      "post": "post-1",
+      "channel": "telegram",
+      "status": "queued",
+      "plannedAt": "2026-12-01",
+      "messageId": null,
+      "url": null,
+      "error": null
+    },
+    {
+      "id": "mediaplan-i-kontent-plan-raznica:post-1:telegram",
+      "slug": "mediaplan-i-kontent-plan-raznica",
+      "post": "post-1",
+      "channel": "telegram",
+      "status": "queued",
+      "plannedAt": "2026-12-04",
+      "messageId": null,
+      "url": null,
+      "error": null
+    }
+  ]
+}

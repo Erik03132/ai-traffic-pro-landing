@@ -10,9 +10,15 @@ import {
   draftKeyboard,
   draftKey,
   escapeHtml,
+  duePublications,
   isPhotoUrl,
   isSlug,
+  manifestUrl,
   parseCallback,
+  publicationId,
+  publishedKey,
+  draftSentKey,
+  todayMsk,
   reflow,
   renderPost,
 } from './publish.js';
@@ -177,4 +183,44 @@ test('reflow: пункты списка остаются пунктами, хв�
 test('renderPost: абзац с переносами не превращается в столбик', () => {
   const html = renderPost('Первая строка поста,\nвторая строка того же абзаца.', 'https://ai-traffic-pro.ru/blog/test/');
   assert.equal(html, 'Первая строка поста, вторая строка того же абзаца.');
+});
+
+/* Очередь публикаций (ADR-005, этап 2) */
+
+test('manifestUrl: абсолютный адрес манифеста без двойного слэша', () => {
+  assert.equal(manifestUrl('https://ai-traffic-pro.ru/'), 'https://ai-traffic-pro.ru/distribution/manifest.json');
+  assert.equal(manifestUrl(''), 'https://ai-traffic-pro.ru/distribution/manifest.json');
+});
+
+test('todayMsk: в 22:00 UTC в Москве уже следующие сутки', () => {
+  assert.equal(todayMsk(new Date('2026-11-18T22:30:00Z')), '2026-11-19');
+  assert.equal(todayMsk(new Date('2026-11-18T20:30:00Z')), '2026-11-18');
+});
+
+test('publicationId и ключи идемпотентности совпадают с реестром', () => {
+  assert.equal(publicationId('voronka', 'post-1'), 'voronka:post-1:telegram');
+  assert.equal(publishedKey('a:post-1:telegram'), 'pub:tg:a:post-1:telegram');
+  assert.equal(draftSentKey('a:post-1:telegram'), 'sent:tg:a:post-1:telegram');
+});
+
+test('duePublications: берёт только наступившее, с текстом и в статусе очереди', () => {
+  const today = '2026-11-19';
+  const items = [
+    { id: 'b', slug: 'b', post: 'post-1', status: 'queued', plannedAt: '2026-11-20', text: 'x' },
+    { id: 'a', slug: 'a', post: 'post-1', status: 'queued', plannedAt: '2026-11-19', text: 'x' },
+    { id: 'old', slug: 'old', post: 'post-1', status: 'posted', plannedAt: '2026-11-01', text: 'x' },
+    { id: 'nodate', slug: 'n', post: 'post-1', status: 'queued', plannedAt: null, text: 'x' },
+    { id: 'empty', slug: 'e', post: 'post-1', status: 'queued', plannedAt: '2026-11-01', text: '   ' },
+    { id: 'nochannel', slug: 'v', post: 'post-1', status: 'approved', plannedAt: '2026-11-01', text: 'x', channel: 'vk' },
+    { id: 'late', slug: 'l', post: 'post-1', status: 'approved', plannedAt: '2026-11-10', text: 'x' },
+  ];
+  assert.deepEqual(
+    duePublications(items, today).map((item) => item.id),
+    ['late', 'a'],
+  );
+});
+
+test('duePublications: мусор на входе не роняет cron', () => {
+  assert.deepEqual(duePublications(null, '2026-11-19'), []);
+  assert.deepEqual(duePublications([null, 1, 'x'], '2026-11-19'), []);
 });
