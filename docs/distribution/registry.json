@@ -66,10 +66,10 @@
       "slug": "geo-prodvizhenie-checklist",
       "post": "post-1",
       "channel": "telegram",
-      "status": "queued",
+      "status": "posted",
       "plannedAt": "2026-11-19",
-      "messageId": null,
-      "url": null,
+      "messageId": 7,
+      "url": "https://t.me/aitrafficpro/7",
       "error": null
     },
     {

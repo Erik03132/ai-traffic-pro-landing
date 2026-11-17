@@ -65,6 +65,8 @@ const ogType = meta.type ?? 'website';
     {meta.noindex && <meta name="robots" content="noindex, follow" />}
 
     <meta property="og:type" content={ogType} />
+    {/* Подтверждение прав на сайт для Яндекс Дзена (RSS-трансляция, 17.11.2026). */}
+    <meta name="zen-verification" content="y2OimyivCZeia24z3aScj5iirK8HXaBCqIpT1oj9N5fWOhvVyPmjESAKZPxpWw4J" />
     <meta property="og:site_name" content={SITE.name} />
     <meta property="og:locale" content={SITE.locale} />
     <meta property="og:title" content={meta.title} />
