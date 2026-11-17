@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <filter id="grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch" result="noise"/>
+      <feColorMatrix in="noise" type="saturate" values="0" result="gray"/>
+      <feComponentTransfer in="gray" result="soft">
+        <feFuncA type="linear" slope="0.06"/>
+      </feComponentTransfer>
+      <feComposite in="soft" in2="SourceGraphic" operator="over"/>
+    </filter>
+    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F7F4EF"/>
+      <stop offset="0.55" stop-color="#EFEAE2"/>
+      <stop offset="1" stop-color="#E7E0D6"/>
+    </linearGradient>
+    <linearGradient id="marble" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.55"/>
+      <stop offset="0.5" stop-color="#FFFFFF" stop-opacity="0.05"/>
+      <stop offset="1" stop-color="#D8CFC2" stop-opacity="0.35"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#paper)"/>
+  <rect width="1200" height="630" fill="url(#marble)"/>
+
+  <g opacity="0.5" stroke="#CFC6B8" stroke-width="1" fill="none">
+    <path d="M40 470 C 210 420, 300 500, 470 452 S 700 400, 800 430"/>
+    <path d="M120 120 C 240 160, 320 96, 430 130"/>
+  </g>
+
+  <rect x="0" y="0" width="1200" height="630" filter="url(#grain)" fill="#000000" opacity="0.03"/>
+
+  <rect x="820" y="0" width="380" height="630" fill="#F2610C"/>
+
+  <text x="72" y="96" font-family="Helvetica Neue, Arial, sans-serif" font-size="19" font-weight="700" letter-spacing="5" fill="#1C1917">AI-TRAFFIC PRO</text>
+
+  <text x="68" y="392" font-family="Helvetica Neue, Arial, sans-serif" font-size="162" font-weight="800" letter-spacing="-5" fill="#171717">КОНТЕНТ</text>
+
+  <rect x="74" y="428" width="746" height="8" fill="#F2610C"/>
+  <rect x="820" y="428" width="380" height="8" fill="#F7F4EF"/>
+
+  <text x="74" y="500" font-family="Helvetica Neue, Arial, sans-serif" font-size="34" font-weight="400" fill="#3F3A34">собрать за вечер</text>
+  <text x="74" y="545" font-family="Helvetica Neue, Arial, sans-serif" font-size="34" font-weight="400" fill="#3F3A34">и не бросить через месяц</text>
+
+  <text x="1010" y="330" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="210" font-weight="800" letter-spacing="-4" fill="#FFFFFF">6</text>
+  <text x="1010" y="384" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="26" font-weight="600" letter-spacing="6" fill="#FFFFFF">ШАГОВ</text>
+
+  <text x="74" y="588" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" font-weight="400" letter-spacing="1" fill="#6B6459">ai-traffic-pro.ru</text>
+</svg>

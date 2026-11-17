@@ -1,0 +1,152 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//AI-Traffic PRO//Dzen publishing//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Дзен — публикации
+X-WR-TIMEZONE:Europe/Moscow
+BEGIN:VEVENT
+UID:dzen-2026-11-20@ai-traffic-pro.ru
+DTSTAMP:20261117T090000Z
+DTSTART;VALUE=DATE:20261120
+SUMMARY:Дзен: CRM или ERP — опубликовать
+DESCRIPTION:Текст: docs/distribution/dzen/crm-i-erp-raznica.md\nОбложка: public/blog/crm-i-erp-raznica-cover.png\nПолная версия: https://ai-traffic-pro.ru/blog/crm-i-erp-raznica/
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Дзен: опубликовать «CRM или ERP»
+TRIGGER;VALUE=DATE-TIME:20261120T070000Z
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:dzen-2026-11-23@ai-traffic-pro.ru
+DTSTAMP:20261117T090000Z
+DTSTART;VALUE=DATE:20261123
+SUMMARY:Дзен: продажи на маркетплейсах — опубликовать
+DESCRIPTION:Текст: docs/distribution/dzen/kak-nachat-prodavat-na-marketpleysah.md\nОбложка: public/blog/kak-nachat-prodavat-na-marketpleysah-cover.png\nПолная версия: https://ai-traffic-pro.ru/blog/kak-nachat-prodavat-na-marketpleysah/
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Дзен: опубликовать «Маркетплейсы»
+TRIGGER;VALUE=DATE-TIME:20261123T070000Z
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:dzen-2026-11-26@ai-traffic-pro.ru
+DTSTAMP:20261117T090000Z
+DTSTART;VALUE=DATE:20261126
+SUMMARY:Дзен: окупаемость рекламы — опубликовать
+DESCRIPTION:Текст: docs/distribution/dzen/kak-schitat-okupaemost-reklamy.md\nОбложка: public/blog/kak-schitat-okupaemost-reklamy-cover.png\nПолная версия: https://ai-traffic-pro.ru/blog/kak-schitat-okupaemost-reklamy/
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Дзен: опубликовать «Окупаемость рекламы»
+TRIGGER;VALUE=DATE-TIME:20261126T070000Z
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:dzen-2026-11-29@ai-traffic-pro.ru
+DTSTAMP:20261117T090000Z
+DTSTART;VALUE=DATE:20261129
+SUMMARY:Дзен: бриф на продвижение — опубликовать
+DESCRIPTION:Текст: docs/distribution/dzen/kak-sostavit-brif-na-prodvizhenie.md\nОбложка: public/blog/kak-sostavit-brif-na-prodvizhenie-cover.png\nПолная версия: https://ai-traffic-pro.ru/blog/kak-sostavit-brif-na-prodvizhenie/
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Дзен: опубликовать «Бриф»
+TRIGGER;VALUE=DATE-TIME:20261129T070000Z
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:dzen-2026-12-02@ai-traffic-pro.ru
+DTSTAMP:20261117T090000Z
+DTSTART;VALUE=DATE:20261202
+SUMMARY:Дзен: выбор канала продвижения — опубликовать
+DESCRIPTION:Текст: docs/distribution/dzen/kak-vybrat-kanal-prodvizheniya.md\nОбложка: public/blog/kak-vybrat-kanal-prodvizheniya-cover.png\nПолная версия: https://ai-traffic-pro.ru/blog/kak-vybrat-kanal-prodvizheniya/
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Дзен: опубликовать «Выбор канала»
+TRIGGER;VALUE=DATE-TIME:20261202T070000Z
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:dzen-2026-12-05@ai-traffic-pro.ru
+DTSTAMP:20261117T090000Z
+DTSTART;VALUE=DATE:20261205
+SUMMARY:Дзен: контент-план для соцсетей — опубликовать
+DESCRIPTION:Текст: docs/distribution/dzen/kontent-plan-dlya-sotssetey.md\nОбложка: public/blog/kontent-plan-dlya-sotssetey-cover.png\nПолная версия: https://ai-traffic-pro.ru/blog/kontent-plan-dlya-sotssetey/
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Дзен: опубликовать «Контент-план»
+TRIGGER;VALUE=DATE-TIME:20261205T070000Z
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:dzen-2026-12-08@ai-traffic-pro.ru
+DTSTAMP:20261117T090000Z
+DTSTART;VALUE=DATE:20261208
+SUMMARY:Дзен: лендинг или сайт — опубликовать
+DESCRIPTION:Текст: docs/distribution/dzen/lending-ili-sayt.md\nОбложка: public/blog/lending-ili-sayt-cover.png\nПолная версия: https://ai-traffic-pro.ru/blog/lending-ili-sayt/
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Дзен: опубликовать «Лендинг или сайт»
+TRIGGER;VALUE=DATE-TIME:20261208T070000Z
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:dzen-2026-12-11@ai-traffic-pro.ru
+DTSTAMP:20261117T090000Z
+DTSTART;VALUE=DATE:20261211
+SUMMARY:Дзен: медиаплан и контент-план — опубликовать
+DESCRIPTION:Текст: docs/distribution/dzen/mediaplan-i-kontent-plan-raznica.md\nОбложка: public/blog/mediaplan-i-kontent-plan-raznica-cover.png\nПолная версия: https://ai-traffic-pro.ru/blog/mediaplan-i-kontent-plan-raznica/
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Дзен: опубликовать «Медиаплан и контент-план»
+TRIGGER;VALUE=DATE-TIME:20261211T070000Z
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:dzen-2026-12-14@ai-traffic-pro.ru
+DTSTAMP:20261117T090000Z
+DTSTART;VALUE=DATE:20261214
+SUMMARY:Дзен: воронка продаж — опубликовать
+DESCRIPTION:Текст: docs/distribution/dzen/voronka-prodazh-kak-postroit.md\nОбложка: public/blog/voronka-prodazh-kak-postroit-cover.png\nПолная версия: https://ai-traffic-pro.ru/blog/voronka-prodazh-kak-postroit/
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Дзен: опубликовать «Воронка продаж»
+TRIGGER;VALUE=DATE-TIME:20261214T070000Z
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:dzen-2026-12-17@ai-traffic-pro.ru
+DTSTAMP:20261117T090000Z
+DTSTART;VALUE=DATE:20261217
+SUMMARY:Дзен: почему теряются заявки — опубликовать
+DESCRIPTION:Текст: docs/distribution/dzen/zayavki-teryayutsya.md\nОбложка: public/blog/zayavki-teryayutsya-cover.png\nПолная версия: https://ai-traffic-pro.ru/blog/zayavki-teryayutsya/
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Дзен: опубликовать «Заявки теряются»
+TRIGGER;VALUE=DATE-TIME:20261217T070000Z
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:dzen-rss-check@ai-traffic-pro.ru
+DTSTAMP:20261117T090000Z
+DTSTART;VALUE=DATE:20261124
+RRULE:FREQ=WEEKLY;INTERVAL=1;COUNT=8
+SUMMARY:Дзен: проверить подписчиков — можно ли включить RSS
+DESCRIPTION:Если подписчиков 10 и больше — Студия → Подключить RSS: https://ai-traffic-pro.ru/rss.xml. После подключения добавить фильтр в ленту, чтобы не задублировать статьи, опубликованные руками.
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Дзен: проверить подписчиков и включить RSS
+TRIGGER;VALUE=DATE-TIME:20261124T070000Z
+END:VALARM
+END:VEVENT
+END:VCALENDAR
