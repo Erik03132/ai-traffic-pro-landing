@@ -2,7 +2,7 @@
 
 Статус: готово к ручной вставке в Студию Дзена, 17.11.2026.
 Источник: `src/data/blog/voronka-prodazh-kak-postroit.ts`.
-Обложка: https://ai-traffic-pro.ru/blog/voronka-prodazh-kak-postroit.jpg (1200×630).
+Обложка: `public/blog/voronka-prodazh-kak-postroit-cover.png` (1200×630), после деплоя — https://ai-traffic-pro.ru/blog/voronka-prodazh-kak-postroit-cover.png
 **Обложка-слово:** ВОРОНКА
 **Обложка-блок:** 5 / ЭТАПОВ
 

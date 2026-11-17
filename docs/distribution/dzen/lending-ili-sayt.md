@@ -2,7 +2,7 @@
 
 Статус: готово к ручной вставке в Студию Дзена, 17.11.2026.
 Источник: `src/data/blog/lending-ili-sayt.ts`.
-Обложка: https://ai-traffic-pro.ru/blog/lending-ili-sayt.jpg (1200×630).
+Обложка: `public/blog/lending-ili-sayt-cover.png` (1200×630), после деплоя — https://ai-traffic-pro.ru/blog/lending-ili-sayt-cover.png
 **Обложка-слово:** ЛЕНДИНГ
 **Обложка-блок:** 10 / ПАРАМЕТРОВ
 

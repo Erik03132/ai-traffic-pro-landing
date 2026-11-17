@@ -2,7 +2,7 @@
 
 Статус: готово к ручной вставке в Студию Дзена, 17.11.2026.
 Источник: `src/data/blog/kak-vybrat-kanal-prodvizheniya.ts`.
-Обложка: https://ai-traffic-pro.ru/blog/kak-vybrat-kanal-prodvizheniya.jpg (1200×630).
+Обложка: `public/blog/kak-vybrat-kanal-prodvizheniya-cover.png` (1200×630), после деплоя — https://ai-traffic-pro.ru/blog/kak-vybrat-kanal-prodvizheniya-cover.png
 **Обложка-слово:** КАНАЛ
 **Обложка-блок:** 6 / ВОПРОСОВ
 

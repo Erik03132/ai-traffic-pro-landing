@@ -2,7 +2,7 @@
 
 Статус: готово к ручной вставке в Студию Дзена, 17.11.2026.
 Источник: `src/data/blog/kak-nachat-prodavat-na-marketpleysah.ts`.
-Обложка: https://ai-traffic-pro.ru/blog/kak-nachat-prodavat-na-marketpleysah.jpg (1200×630).
+Обложка: `public/blog/kak-nachat-prodavat-na-marketpleysah-cover.png` (1200×630), после деплоя — https://ai-traffic-pro.ru/blog/kak-nachat-prodavat-na-marketpleysah-cover.png
 **Обложка-слово:** FBS
 **Обложка-блок:** 6 / ШАГОВ
 

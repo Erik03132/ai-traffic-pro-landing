@@ -2,7 +2,7 @@
 
 Статус: готово к ручной вставке в Студию Дзена, 17.11.2026.
 Источник: `src/data/blog/kak-sostavit-brif-na-prodvizhenie.ts`.
-Обложка: https://ai-traffic-pro.ru/blog/kak-sostavit-brif-na-prodvizhenie.jpg (1200×630).
+Обложка: `public/blog/kak-sostavit-brif-na-prodvizhenie-cover.png` (1200×630), после деплоя — https://ai-traffic-pro.ru/blog/kak-sostavit-brif-na-prodvizhenie-cover.png
 **Обложка-слово:** БРИФ
 **Обложка-блок:** 14 / ВОПРОСОВ
 

@@ -2,7 +2,7 @@
 
 Статус: готово к ручной вставке в Студию Дзена, 17.11.2026.
 Источник: `src/data/blog/kontent-plan-dlya-sotssetey.ts`.
-Обложка: https://ai-traffic-pro.ru/blog/kontent-plan-dlya-sotssetey.jpg (1200×630).
+Обложка: `public/blog/kontent-plan-dlya-sotssetey-cover.png` (1200×630), после деплоя — https://ai-traffic-pro.ru/blog/kontent-plan-dlya-sotssetey-cover.png
 **Обложка-слово:** КОНТЕНТ
 **Обложка-блок:** 6 / ШАГОВ
 

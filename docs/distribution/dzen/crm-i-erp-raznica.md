@@ -2,7 +2,7 @@
 
 Статус: готово к ручной вставке в Студию Дзена, 17.11.2026.
 Источник: `src/data/blog/crm-i-erp-raznica.ts`.
-Обложка: https://ai-traffic-pro.ru/blog/crm-i-erp-raznica.jpg (1200×630).
+Обложка: `public/blog/crm-i-erp-raznica-cover.png` (1200×630), после деплоя — https://ai-traffic-pro.ru/blog/crm-i-erp-raznica-cover.png
 **Обложка-слово:** CRM
 **Обложка-блок:** 8 / ПАРАМЕТРОВ
 

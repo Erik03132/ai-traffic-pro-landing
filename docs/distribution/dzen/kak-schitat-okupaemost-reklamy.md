@@ -2,7 +2,7 @@
 
 Статус: готово к ручной вставке в Студию Дзена, 17.11.2026.
 Источник: `src/data/blog/kak-schitat-okupaemost-reklamy.ts`.
-Обложка: https://ai-traffic-pro.ru/blog/kak-schitat-okupaemost-reklamy.jpg (1200×630).
+Обложка: `public/blog/kak-schitat-okupaemost-reklamy-cover.png` (1200×630), после деплоя — https://ai-traffic-pro.ru/blog/kak-schitat-okupaemost-reklamy-cover.png
 **Обложка-слово:** ROMI
 **Обложка-блок:** 4 / МЕТРИКИ
 

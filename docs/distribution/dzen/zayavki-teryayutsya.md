@@ -2,7 +2,7 @@
 
 Статус: готово к ручной вставке в Студию Дзена, 17.11.2026.
 Источник: `src/data/blog/zayavki-teryayutsya.ts`.
-Обложка: https://ai-traffic-pro.ru/blog/zayavki-teryayutsya.jpg (1200×630).
+Обложка: `public/blog/zayavki-teryayutsya-cover.png` (1200×630), после деплоя — https://ai-traffic-pro.ru/blog/zayavki-teryayutsya-cover.png
 **Обложка-слово:** ЗАЯВКИ
 **Обложка-блок:** 5 / РАЗРЫВОВ
 
