@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1590" height="400" viewBox="0 0 1590 400">
+  <rect width="1590" height="400" fill="#1B1B1E"/>
+  <g opacity="0.5">
+    <path d="M0 330 L1590 250" stroke="#2A2A2E" stroke-width="1"/>
+    <path d="M0 355 L1590 275" stroke="#2A2A2E" stroke-width="1"/>
+  </g>
+  <circle cx="230" cy="200" r="110" fill="#EA580C"/>
+  <text x="230" y="256" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="160" font-weight="bold" fill="#1B1B1E">A</text>
+  <text x="395" y="185" font-family="Georgia, 'Times New Roman', serif" font-size="76" letter-spacing="2" fill="#F7F4EF">AI-TRAFFIC-PRO</text>
+  <text x="398" y="243" font-family="Helvetica, Arial, sans-serif" font-size="30" fill="#A8A29E">реклама · SEO · GEO · SMM · сайты</text>
+  <text x="398" y="292" font-family="Helvetica, Arial, sans-serif" font-size="26" fill="#EA580C">ai-traffic-pro.ru</text>
+</svg>

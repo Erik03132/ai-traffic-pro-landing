@@ -2,7 +2,7 @@
 
 Статья: `/blog/geo-prodvizhenie-checklist/`
 Обложка: `public/blog/dzen-geo-checklist.png` (1200×630)
-Статус: черновик 18.11.2026, ждёт создания сообщества VK.
+Статус: **опубликован 18.11.2026** в сообществе AI-TRAFFIC-PRO (vk.ru/club243475051).
 
 ---
 
