@@ -372,7 +372,7 @@ report_problem check_circle schedule arrow_outward error task_alt expand_more
 | `title` | название услуги, как в меню |
 | `card` | 1 предложение для карточки на главной |
 | `subtitle` | подзаголовок hero: что делаем + чем это отличается |
-| `seoTitle` / `seoDescription` | title ≤ 60 симв. + `\| AI-Traffic PRO`, description 140–170 |
+| `seoTitle` / `seoDescription` | title ≤ 60 симв. + `\| AI-TRAFFIC-PRO`, description 140–170 |
 | `h1` | 2 строки через `\|`, §2 |
 | `problem` | ровно 3 |
 | `solution` | ровно 4 |

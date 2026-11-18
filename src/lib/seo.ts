@@ -252,7 +252,7 @@ export function blogLd(
     '@context': 'https://schema.org',
     '@type': 'Blog',
     '@id': `${SITE_URL}/blog/#blog`,
-    name: 'Блог AI-Traffic PRO',
+    name: 'Блог AI-TRAFFIC-PRO',
     url: `${SITE_URL}/blog/`,
     inLanguage: 'ru-RU',
     publisher: { '@id': `${SITE_URL}/#organization` },

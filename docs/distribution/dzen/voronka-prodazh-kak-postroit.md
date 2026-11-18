@@ -129,7 +129,11 @@ Purchase funnel — Wikipedia: https://en.wikipedia.org/wiki/Purchase_funnel
 
 Полная версия — на сайте: https://ai-traffic-pro.ru/blog/voronka-prodazh-kak-postroit/
 
-AI-Traffic PRO — маркетинговое агентство полного цикла. Считаем стоимость заявки, а не клики. Разборы по рекламе, SEO и GEO — в блоге на ai-traffic-pro.ru
+AI-TRAFFIC-PRO — маркетинговое агентство полного цикла. Считаем стоимость заявки, а не клики. Разборы по рекламе, SEO и GEO — в блоге на ai-traffic-pro.ru
+
+Автор — Игорь Васин, AI-TRAFFIC-PRO. Страница автора: https://ai-traffic-pro.ru/author/
+
+#воронкапродаж #продажи #crm #бизнес
 
 ---
 

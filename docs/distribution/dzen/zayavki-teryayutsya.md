@@ -133,7 +133,11 @@ amoCRM — обзор возможностей: https://www.amocrm.ru/tour/
 
 Полная версия — на сайте: https://ai-traffic-pro.ru/blog/zayavki-teryayutsya/
 
-AI-Traffic PRO — маркетинговое агентство полного цикла. Считаем стоимость заявки, а не клики. Разборы по рекламе, SEO и GEO — в блоге на ai-traffic-pro.ru
+AI-TRAFFIC-PRO — маркетинговое агентство полного цикла. Считаем стоимость заявки, а не клики. Разборы по рекламе, SEO и GEO — в блоге на ai-traffic-pro.ru
+
+Автор — Игорь Васин, AI-TRAFFIC-PRO. Страница автора: https://ai-traffic-pro.ru/author/
+
+#заявки #crm #продажи #бизнес
 
 ---
 

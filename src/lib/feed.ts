@@ -228,7 +228,7 @@ export function buildRss(opts: FeedOptions): string {
     `    <description>${escapeXml(opts.description)}</description>`,
     `    <language>${escapeXml(opts.language ?? 'ru-RU')}</language>`,
     `    <lastBuildDate>${lastBuildDate}</lastBuildDate>`,
-    '    <generator>AI-Traffic PRO</generator>',
+    '    <generator>AI-TRAFFIC-PRO</generator>',
     `    <atom:link href="${escapeXml(feedUrl)}" rel="self" type="application/rss+xml"/>`,
   ];
 

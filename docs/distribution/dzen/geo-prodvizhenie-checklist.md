@@ -118,7 +118,11 @@ Schema.org — тип FAQPage (проверено 16.11.2026): https://schema.or
 
 Полная версия с таблицей из 14 проверок — на сайте: https://ai-traffic-pro.ru/blog/geo-prodvizhenie-checklist/
 
-AI-Traffic PRO — маркетинговое агентство полного цикла. Считаем стоимость заявки, а не клики. Разборы по рекламе, SEO и GEO — в блоге на ai-traffic-pro.ru
+AI-TRAFFIC-PRO — маркетинговое агентство полного цикла. Считаем стоимость заявки, а не клики. Разборы по рекламе, SEO и GEO — в блоге на ai-traffic-pro.ru
+
+Автор — Игорь Васин, AI-TRAFFIC-PRO. Страница автора: https://ai-traffic-pro.ru/author/
+
+#geo #seo #продвижениевинтернете #искусственныйинтеллект
 
 ---
 

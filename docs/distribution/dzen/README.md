@@ -17,8 +17,8 @@
 | 20.11 | CRM и ERP: в чём разница, что выбрать бизнесу и сколько стоит ошибка | `crm-i-erp-raznica.md` | `crm-i-erp-raznica-cover.png` |
 | 23.11 | Как начать продавать на маркетплейсах: шесть шагов от расчёта до первых заказов | `kak-nachat-prodavat-na-marketpleysah.md` | `kak-nachat-prodavat-na-marketpleysah-cover.png` |
 | 26.11 | Как считать окупаемость рекламы: ROMI, ROI, CAC и LTV с примером в рублях | `kak-schitat-okupaemost-reklamy.md` | `kak-schitat-okupaemost-reklamy-cover.png` |
-| 29.11 | Бриф на продвижение: 14 вопросов, семь блоков и пять ошибок, из-за которых его возвращают | `kak-sostavit-brif-na-prodvizhenie.md` | `kak-sostavit-brif-na-prodvizhenie-cover.png` |
-| 02.12 | Как выбрать канал продвижения: шесть вопросов до первого рубля | `kak-vybrat-kanal-prodvizheniya.md` | `kak-vybrat-kanal-prodvizheniya-cover.png` |
+| 28.11 | Бриф на продвижение: 14 вопросов, семь блоков и пять ошибок, из-за которых его возвращают | `kak-sostavit-brif-na-prodvizhenie.md` | `kak-sostavit-brif-na-prodvizhenie-cover.png` |
+| 30.11 | Как выбрать канал продвижения: шесть вопросов до первого рубля | `kak-vybrat-kanal-prodvizheniya.md` | `kak-vybrat-kanal-prodvizheniya-cover.png` |
 | 05.12 | Контент-план для соцсетей: как собрать за вечер и не бросить через месяц | `kontent-plan-dlya-sotssetey.md` | `kontent-plan-dlya-sotssetey-cover.png` |
 | 08.12 | Лендинг или сайт: что выбрать, в чём разница и когда нужен каждый | `lending-ili-sayt.md` | `lending-ili-sayt-cover.png` |
 | 11.12 | Медиаплан и контент-план: в чём разница, что внутри и в каком порядке собирать | `mediaplan-i-kontent-plan-raznica.md` | `mediaplan-i-kontent-plan-raznica-cover.png` |

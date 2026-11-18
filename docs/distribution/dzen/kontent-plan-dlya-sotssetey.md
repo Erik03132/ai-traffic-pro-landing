@@ -200,17 +200,21 @@ CRM подключают не «для порядка», а когда появ�
 
 Источники
 
-Hootsuite: как составить календарь публикаций в соцсетях: https://blog.hootsuite.com/how-to-create-a-social-media-content-calendar/
+Hootsuite: как составить календарь публикаций в соцсетях: https://blog.hootsuite.com/how-to-create-a-kontent-plan-dlya-sotssetey/
 
-Later: календарь контента для соцсетей: https://later.com/blog/social-media-content-calendar/
+Later: календарь контента для соцсетей: https://later.com/blog/kontent-plan-dlya-sotssetey/
 
 Контент-маркетинг — Википедия: https://ru.wikipedia.org/wiki/Контент-маркетинг
 
-SocialPilot: как вести контент-календарь: https://www.socialpilot.co/blog/social-media-content-calendar
+SocialPilot: как вести контент-календарь: https://www.socialpilot.co/blog/kontent-plan-dlya-sotssetey
 
 Полная версия — на сайте: https://ai-traffic-pro.ru/blog/kontent-plan-dlya-sotssetey/
 
-AI-Traffic PRO — маркетинговое агентство полного цикла. Считаем стоимость заявки, а не клики. Разборы по рекламе, SEO и GEO — в блоге на ai-traffic-pro.ru
+AI-TRAFFIC-PRO — маркетинговое агентство полного цикла. Считаем стоимость заявки, а не клики. Разборы по рекламе, SEO и GEO — в блоге на ai-traffic-pro.ru
+
+Автор — Игорь Васин, AI-TRAFFIC-PRO. Страница автора: https://ai-traffic-pro.ru/author/
+
+#контентплан #соцсети #smm #маркетинг
 
 ---
 

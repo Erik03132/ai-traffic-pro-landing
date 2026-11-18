@@ -45,29 +45,29 @@ TRIGGER;VALUE=DATE-TIME:20261126T070000Z
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:dzen-2026-11-29@ai-traffic-pro.ru
+UID:dzen-2026-11-28@ai-traffic-pro.ru
 DTSTAMP:20261117T090000Z
-DTSTART;VALUE=DATE:20261129
+DTSTART;VALUE=DATE:20261128
 SUMMARY:Дзен: бриф на продвижение — опубликовать
 DESCRIPTION:Текст: docs/distribution/dzen/kak-sostavit-brif-na-prodvizhenie.md\nОбложка: public/blog/kak-sostavit-brif-na-prodvizhenie-cover.png\nПолная версия: https://ai-traffic-pro.ru/blog/kak-sostavit-brif-na-prodvizhenie/
 TRANSP:TRANSPARENT
 BEGIN:VALARM
 ACTION:DISPLAY
 DESCRIPTION:Дзен: опубликовать «Бриф»
-TRIGGER;VALUE=DATE-TIME:20261129T070000Z
+TRIGGER;VALUE=DATE-TIME:20261128T070000Z
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:dzen-2026-12-02@ai-traffic-pro.ru
+UID:dzen-2026-11-30@ai-traffic-pro.ru
 DTSTAMP:20261117T090000Z
-DTSTART;VALUE=DATE:20261202
+DTSTART;VALUE=DATE:20261130
 SUMMARY:Дзен: выбор канала продвижения — опубликовать
 DESCRIPTION:Текст: docs/distribution/dzen/kak-vybrat-kanal-prodvizheniya.md\nОбложка: public/blog/kak-vybrat-kanal-prodvizheniya-cover.png\nПолная версия: https://ai-traffic-pro.ru/blog/kak-vybrat-kanal-prodvizheniya/
 TRANSP:TRANSPARENT
 BEGIN:VALARM
 ACTION:DISPLAY
 DESCRIPTION:Дзен: опубликовать «Выбор канала»
-TRIGGER;VALUE=DATE-TIME:20261202T070000Z
+TRIGGER;VALUE=DATE-TIME:20261130T070000Z
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT

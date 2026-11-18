@@ -146,7 +146,11 @@
 
 Полная версия — на сайте: https://ai-traffic-pro.ru/blog/mediaplan-i-kontent-plan-raznica/
 
-AI-Traffic PRO — маркетинговое агентство полного цикла. Считаем стоимость заявки, а не клики. Разборы по рекламе, SEO и GEO — в блоге на ai-traffic-pro.ru
+AI-TRAFFIC-PRO — маркетинговое агентство полного цикла. Считаем стоимость заявки, а не клики. Разборы по рекламе, SEO и GEO — в блоге на ai-traffic-pro.ru
+
+Автор — Игорь Васин, AI-TRAFFIC-PRO. Страница автора: https://ai-traffic-pro.ru/author/
+
+#медиаплан #контентплан #маркетинг #реклама
 
 ---
 

@@ -1,4 +1,4 @@
-# AI-Traffic PRO — сайт маркетингового агентства
+# AI-TRAFFIC-PRO — сайт маркетингового агентства
 
 Домен: `https://ai-traffic-pro.ru` · Стек: Astro 5+ (static) + Tailwind 4 · API: Cloudflare Worker (резерв — Node на VPS)
 

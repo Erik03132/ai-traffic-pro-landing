@@ -1,5 +1,5 @@
 /**
- * AI-Traffic PRO — ЕДИНЫЙ ИСТОЧНИК ИСТОЧНИК ИСТИНЫ ПО КОНТЕНТУ.
+ * AI-TRAFFIC-PRO — ЕДИНЫЙ ИСТОЧНИК ИСТОЧНИК ИСТИНЫ ПО КОНТЕНТУ.
  *
  * Из этого файла генерируются: страницы, `<title>`/description/canonical, sitemap,
  * robots, JSON-LD, footer, навигация, FAQ и ответы чат-бота.
@@ -53,7 +53,7 @@ export const YM_COUNTER_ID = (import.meta.env.PUBLIC_YM_COUNTER_ID ?? '').trim()
 
 export const SITE = {
   url: SITE_URL,
-  name: 'AI-Traffic PRO',
+  name: 'AI-TRAFFIC-PRO',
   tagline: 'Маркетинг, технологии и системный подход.',
   description:
     'Маркетинговое агентство полного цикла: реклама, SEO, GEO, SMM, сайты и e-commerce. Считаем стоимость заявки, а не клики. Отчётность и договор.',
@@ -320,10 +320,10 @@ export const SERVICE_OPTIONS = [
  */
 export const HOME = {
   meta: {
-    title: 'AI-Traffic PRO — реклама, SEO, SMM и сайты в РФ',
+    title: 'ai-traffic-pro — реклама, SEO, SMM и сайты в РФ',
     description:
       'Маркетинговое агентство полного цикла: реклама, SEO, GEO, SMM, сайты и e-commerce. Считаем стоимость заявки, а не клики. Отчётность и договор.',
-    ogTitle: 'AI-Traffic PRO — маркетинговое агентство полного цикла',
+    ogTitle: 'ai-traffic-pro — маркетинговое агентство полного цикла',
     ogDescription:
       'Диагностика → план → запуск → измерение. Реклама, SEO, GEO, SMM, сайты, e-commerce. Считаем стоимость заявки, а не клики.',
   },
