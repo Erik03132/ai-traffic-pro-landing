@@ -56,6 +56,10 @@ ENTITIES = [
     "sap", "oracle", "odoo", "hubspot", "dynamics", "мойсклад", "retailcrm",
     "yclients", "мегаплан", "megaplan", "планфикс", "zoho", "erpnext",
     "класс365", "аспро", "sbercrm", "битрикс", "коммерсантъ", "нетология",
+    # ИИ-поиск и аналитика: без имён статья про GEO не может быть источником
+    "ai overviews", "ai mode", "google ai", "яндекс нейро", "нейро", "алиса",
+    "chatgpt", "perplexity", "gemini", "copilot", "ahrefs", "semrush",
+    "search console", "вебмастер", "serpstat", "similarweb",
 ]
 
 # Соцсети и мессенджеры не считаем источниками — это не первоисточник.
