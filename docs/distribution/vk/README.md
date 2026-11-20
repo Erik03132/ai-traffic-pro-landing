@@ -14,21 +14,24 @@
 
 ## Порядок публикации
 
-| # | Пост | Текст | Обложка |
-| --- | --- | --- | --- |
-| 1 | GEO-продвижение: 14 проверок | `geo-prodvizhenie-checklist.md` | `public/blog/dzen-geo-checklist.png` |
-| 2 | CRM и ERP: в чём разница | `crm-i-erp-raznica.md` | `public/blog/crm-i-erp-raznica-cover.png` |
-| 3 | Маркетплейсы: шесть шагов | `kak-nachat-prodavat-na-marketpleysah.md` | `public/blog/kak-nachat-prodavat-na-marketpleysah-cover.png` |
-| 4 | Окупаемость: ROMI, CAC, LTV | `kak-schitat-okupaemost-reklamy.md` | `public/blog/kak-schitat-okupaemost-reklamy-cover.png` |
-| 5 | Бриф: семь блоков | `kak-sostavit-brif-na-prodvizhenie.md` | `public/blog/kak-sostavit-brif-na-prodvizhenie-cover.png` |
-| 6 | Выбор канала: три проверки | `kak-vybrat-kanal-prodvizheniya.md` | `public/blog/kak-vybrat-kanal-prodvizheniya-cover.png` |
-| 7 | Контент-план за вечер | `kontent-plan-dlya-sotssetey.md` | `public/blog/kontent-plan-dlya-sotssetey-cover.png` |
-| 8 | Лендинг или сайт | `lending-ili-sayt.md` | `public/blog/lending-ili-sayt-cover.png` |
-| 9 | Медиаплан и контент-план | `mediaplan-i-kontent-plan-raznica.md` | `public/blog/mediaplan-i-kontent-plan-raznica-cover.png` |
-| 10 | Воронка продаж | `voronka-prodazh-kak-postroit.md` | `public/blog/voronka-prodazh-kak-postroit-cover.png` |
-| 11 | Заявки теряются | `zayavki-teryayutsya.md` | `public/blog/zayavki-teryayutsya-cover.png` |
+График на 10:00 МСК. Статус на 18.11.2026: 1 пост вышел, 6 в очереди VK,
+5 декабрьских ждут планирования.
 
-Вне очереди: `skolko-klikov-dayut-ai-otvety.md` — новостной пост про 0,9% против 58%.
+| # | Дата | Пост | Текст | Обложка |
+| --- | --- | --- | --- | --- |
+| 1 | 18.11 ✔ | GEO-продвижение: 14 проверок | `geo-prodvizhenie-checklist.md` | `public/blog/dzen-geo-checklist.png` |
+| 2 | 19.11 ⏳ | CRM и ERP: в чём разница | `crm-i-erp-raznica.md` | `public/blog/crm-i-erp-raznica-cover.png` |
+| 3 | 21.11 ⏳ | Маркетплейсы: шесть шагов | `kak-nachat-prodavat-na-marketpleysah.md` | `public/blog/kak-nachat-prodavat-na-marketpleysah-cover.png` |
+| 4 | 24.11 ⏳ | Окупаемость: ROMI, CAC, LTV | `kak-schitat-okupaemost-reklamy.md` | `public/blog/kak-schitat-okupaemost-reklamy-cover.png` |
+| 5 | 26.11 ⏳ | Бриф: семь блоков | `kak-sostavit-brif-na-prodvizhenie.md` | `public/blog/kak-sostavit-brif-na-prodvizhenie-cover.png` |
+| 6 | 28.11 ⏳ | Выбор канала: три проверки | `kak-vybrat-kanal-prodvizheniya.md` | `public/blog/kak-vybrat-kanal-prodvizheniya-cover.png` |
+| 7 | 30.11 ⏳ | Контент-план за вечер | `kontent-plan-dlya-sotssetey.md` | `public/blog/kontent-plan-dlya-sotssetey-cover.png` |
+| 8 | 01.12 · | Лендинг или сайт | `lending-ili-sayt.md` | `public/blog/lending-ili-sayt-cover.png` |
+| 9 | 03.12 · | Медиаплан и контент-план | `mediaplan-i-kontent-plan-raznica.md` | `public/blog/mediaplan-i-kontent-plan-raznica-cover.png` |
+| 10 | 06.12 · | Воронка продаж | `voronka-prodazh-kak-postroit.md` | `public/blog/voronka-prodazh-kak-postroit-cover.png` |
+| 11 | 08.12 · | Заявки теряются | `zayavki-teryayutsya.md` | `public/blog/zayavki-teryayutsya-cover.png` |
+
+Вне очереди: `skolko-klikov-dayut-ai-otvety.md` — новостной пост про 0,9% против 58% (план 10.12 ·).
 
 ## Ритм
 
@@ -38,6 +41,12 @@
 
 ## Что осталось
 
-1. Войти в VK в браузере приложения (без этого постить некуда).
-2. Создать сообщество «AI-TRAFFIC-PRO»: название, описание, аватар, обложка.
-3. Опубликовать первые три поста вручную, дальше — по накатанной схеме.
+Сообщество создано 18.11.2026, короткий адрес `ai_traffic_pro`, аватар и обложка
+загружены, контакты заполнены. Первый пост (GEO) опубликован. Шесть постов
+запланированы на 10:00 через «Запланировать → Добавить в очередь».
+
+Осталось: запланировать пять декабрьских постов (01, 03, 06, 08, 10.12).
+При планировании дат в другом месяце композер VK перестаёт отправлять пост
+(кнопка «Добавить в очередь» не срабатывает) — планировать их отдельным проходом:
+открыть композер, выбрать дату через календарь, проверить подпись кнопки,
+и если пост не ушёл — обновить страницу и повторить.

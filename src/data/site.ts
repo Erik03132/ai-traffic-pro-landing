@@ -89,7 +89,7 @@ export const SITE = {
      */
     email: 'erik03132@gmail.com',
     phone: '+7 (495) 923-46-44',
-    telegram: 'aitraffic_publish_bot',
+    telegram: 'erik03132',
     /** Банковские реквизиты для оплаты по счёту. */
     bank: {
       name: 'ПАО Сбербанк',
@@ -107,18 +107,16 @@ export const SITE = {
   /**
    * Ссылка на Telegram-бота. Виджет в правом нижнем углу ведёт сюда.
    *
-   * Один бот на две роли, пока отдельного контактного нет: `@aitraffic_publish_bot`
-   * публикует посты в канал и он же принимает вопросы с сайта — его вебхук
-   * живёт на Worker'е (`/api/tg/webhook`), там же разбор `/start <метка>` и
-   * пересылка вопросов владельцу. Прежний `@ai_bureau_new_bot` использовать
-   * нельзя: Hermes забирает его в long polling и снимает вебхук, сообщения
-   * до Worker'а не доходят.
+   * Контакт с сайта ведёт на личный аккаунт владельца `@erik03132`
+   * (решение 18.11.2026: бот публикации `@aitraffic_publish_bot` — служебный,
+   * в подвале и виджете ему не место). Публикационный бот остаётся только
+   * для очереди постов и разбора `/start <метка>` на Worker'е.
    */
   bot: {
-    username: 'aitraffic_publish_bot',
-    link: 'https://t.me/aitraffic_publish_bot',
+    username: 'erik03132',
+    link: 'https://t.me/erik03132',
     /** Deep-link с предзаполненным сообщением — для кнопки «Задать вопрос». */
-    askLink: 'https://t.me/aitraffic_publish_bot?start=ai_traffic_pro',
+    askLink: 'https://t.me/erik03132',
   },
 } as const;
 
