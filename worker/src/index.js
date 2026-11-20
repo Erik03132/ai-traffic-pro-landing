@@ -480,6 +480,63 @@ async function handleTgMedia(request, env, kv) {
   return json({ ok: true, slug, message_id: last.message_id, photo }, request, env);
 }
 
+/**
+ * POST /api/tg/photo — поставить аватар канала.
+ *
+ * В Bot API аватар — это InputFile, а не ссылка: `setChatPhoto` принимает файл
+ * только multipart-ом. Поэтому воркер сам скачивает картинку по URL и
+ * переотправляет её в Telegram. Закрыт тем же токеном, что и публикация:
+ * иначе любой мог бы менять оформление канала.
+ *
+ * Права: бот должен быть админом канала с «изменением информации». Если прав
+ * нет, Telegram вернёт описание ошибки — оно уходит как есть.
+ *
+ * Тело: `{ photo: 'https://<сайт>/brand/avatar-800.png' }`.
+ */
+async function handleTgSetPhoto(request, env) {
+  if (!publishAuthorized(request, env)) {
+    return json({ error: 'unauthorized' }, request, env, 401);
+  }
+  if (!env.TELEGRAM_BOT_TOKEN) {
+    return json({ error: 'TELEGRAM_BOT_TOKEN не задан' }, request, env, 500);
+  }
+  if (!env.TELEGRAM_CHANNEL_ID) {
+    return json({ error: 'TELEGRAM_CHANNEL_ID не задан' }, request, env, 500);
+  }
+
+  const payload = await request.json().catch(() => ({}));
+  const photo = String(payload.photo || '');
+  if (!isPhotoUrl(photo)) {
+    return json({ error: 'плохой адрес картинки' }, request, env, 400);
+  }
+
+  let file;
+  try {
+    const resp = await fetch(photo);
+    if (!resp.ok) {
+      return json({ error: `картинка не скачалась: ${resp.status}` }, request, env, 502);
+    }
+    file = await resp.blob();
+  } catch (e) {
+    return json({ error: e.message }, request, env, 502);
+  }
+
+  const form = new FormData();
+  form.append('chat_id', env.TELEGRAM_CHANNEL_ID);
+  form.append('photo', file, 'avatar.png');
+
+  try {
+    const resp = await fetch(
+      `https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/setChatPhoto`,
+      { method: 'POST', body: form },
+    );
+    const data = await resp.json();
+    return json(data, request, env, data.ok ? 200 : 502);
+  } catch (e) {
+    return json({ ok: false, error: e.message }, request, env, 502);
+  }
+}
+
 /* ──────────────────────────────────────────────────────────────────────────
  * Атрибуция входа: `t.me/<бот>?start=<метка>`
  *
@@ -1365,6 +1422,10 @@ export default {
 
     if (request.method === 'POST' && pathname === '/api/tg/media') {
       return await handleTgMedia(request, env, env.LEADS);
+    }
+
+    if (request.method === 'POST' && pathname === '/api/tg/photo') {
+      return await handleTgSetPhoto(request, env);
     }
 
     if (request.method === 'GET' && pathname === '/api/tg/sources') {
