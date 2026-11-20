@@ -66,15 +66,18 @@ def strip_header(text: str) -> str:
     return text.strip()
 
 def default_photo(slug: str) -> str:
-    """Обложка статьи, если она уже лежит в `public/blog/`.
+    """Обложка статьи, если файл уже лежит в `public/blog/`.
 
     Telegram скачивает картинку по ссылке, поэтому локальный путь не годится:
-    берём адрес на сайте. Нет обложки — пост уйдёт текстом, это не ошибка.
+    берём адрес на сайте. Имена бывают разные — `-cover.png` у новых статей,
+    `<slug>.jpg` у старых. Проверяем те же варианты, что и манифест
+    (`src/pages/distribution/manifest.json.ts`), иначе пост уходит текстом,
+    а обложка «приезжает» превью ссылки внизу сообщения.
     """
-    relative = Path("blog") / f"{slug}-cover.png"
-    if not (BLOG_DIR / f"{slug}-cover.png").exists():
-        return ""
-    return f"{SITE}/{relative.as_posix()}"
+    for name in (f"{slug}-cover.png", f"{slug}.jpg", f"{slug}-cover.jpg"):
+        if (BLOG_DIR / name).exists():
+            return f"{SITE}/blog/{name}"
+    return ""
 
 def resolve_text(args: argparse.Namespace) -> str:
     """Текст поста: аргумент, файл или `docs/distribution/posts/<slug>.md`."""
