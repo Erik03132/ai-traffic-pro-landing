@@ -43,11 +43,12 @@
       "slug": "crm-i-erp-raznica",
       "post": "post-2",
       "channel": "vk",
-      "status": "queued",
+      "status": "posted",
       "plannedAt": "2026-11-19",
-      "messageId": null,
-      "url": null,
-      "error": null
+      "messageId": 9,
+      "url": "https://vk.ru/wall-243475051_9",
+      "error": null,
+      "legacyNote": "вышел 19.11.2026 из очереди самого VK (не через наш адаптер), поэтому статус в реестре не сдвинулся; текст в VK отличался от post-2 в репозитории на один абзац. 20.11.2026 дубль (wall-243475051_10) опубликован по ошибке и удалён"
     },
     {
       "id": "geo-prodvizhenie-checklist:post-1:telegram",
