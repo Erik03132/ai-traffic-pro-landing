@@ -21,7 +21,14 @@ const { meta } = HOME;
 ---
 
 <Base
-  meta={{ title: meta.title, description: meta.description, path: '/' }}
+  meta={{
+    title: meta.title,
+    description: meta.description,
+    path: '/',
+    /* Картинка главной: знак-мишень. Без неё карточка ссылки в Telegram,
+       VK и Дзене остаётся без картинки. */
+    image: '/brand/avatar-800.png',
+  }}
   ld={organizationLd()}
   isHome
 >
