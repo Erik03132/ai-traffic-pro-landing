@@ -954,7 +954,7 @@ test('preview: с картинкой уходит sendPhoto с подписью 
   assert.ok(sent, 'пост с картинкой уходит как фото');
   assert.equal(sent.body.photo, 'https://ai-traffic-pro.ru/blog/test.jpg');
   assert.match(sent.body.caption, /Окупаемость рекламы/);
-  assert.match(sent.body.caption, /Черновик поста/);
+  assert.match(sent.body.caption, /Черновик/);
   assert.match(sent.body.reply_markup.inline_keyboard[0][0].callback_data, /tgpub:test/);
 
   // Черновик запомнил картинку: иначе «Опубликовать» потеряет фото.

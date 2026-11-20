@@ -249,7 +249,13 @@ async function deliverDraft(env, kv, { slug, content = '', text, photo = '' }) {
     return { ok: false, status: 400, error: 'плохой адрес картинки' };
   }
 
-  const preview = `${html}\n\n<i>Черновик поста. Проверьте текст и нажмите кнопку.</i>`;
+  // Приписка о черновике — часть подписи, а подпись к фото ограничена 1024
+  // знаками. Длинная приписка съедает место у самого поста, поэтому с картинкой
+  // она короткая: кнопки под сообщением и так объясняют, что делать.
+  const note = photo
+    ? '<i>Черновик</i>'
+    : '<i>Черновик поста. Проверьте текст и нажмите кнопку.</i>';
+  const preview = `${html}\n\n${note}`;
   if (photo && preview.length > CAPTION_LIMIT) {
     return {
       ok: false,
