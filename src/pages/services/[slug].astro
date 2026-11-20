@@ -29,6 +29,15 @@ const { service } = Astro.props;
 const path = `/services/${service.slug}/`;
 const isMain = service.inMain;
 
+/**
+ * Статьи блога по этой услуге. Задача 2.7 ROADMAP (перелинковка услуги ↔ блог):
+ * из услуги должен быть вход в материал, из материала — обратно в услугу.
+ * Статьи своей услуги — первыми, остальные добираем до трёх.
+ */
+const serviceArticles = ARTICLES.filter((a) => a.service === service.slug);
+const otherArticles = ARTICLES.filter((a) => a.service !== service.slug);
+const relatedArticles = [...serviceArticles, ...otherArticles].slice(0, 3);
+
 // JSON-LD: организация + сайт (общие) + услуга + FAQ + breadcrumbs + HowTo.
 const ld = [
   ...organizationLd().filter((o) => o['@type'] !== 'Service' && o['@type'] !== 'FAQPage'),
@@ -51,6 +60,8 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
     description: service.seoDescription,
     path,
     type: 'website',
+    /* Картинка для превью ссылки в соцсетях — своя на каждое направление. */
+    image: `/og/services-${service.slug}.png`,
   }}
   ld={ld as Record<string, unknown>[]}
   localFaq
@@ -1014,10 +1025,47 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
     </section>
   )}
 
+  <!-- Статьи блога по теме (перелинковка услуга ↔ блог, задача 2.7 ROADMAP) -->
+  {
+    relatedArticles.length > 0 && (
+      <section class="w-full border-t border-stone-200 bg-white py-8 md:py-28">
+        <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+          <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-3">
+            [04 / МАТЕРИАЛЫ]
+          </span>
+          <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight mb-6">
+            Разборы по теме — <span class="accent-italic">без воды и «успешных кейсов»</span>
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-6">
+            {relatedArticles.map((a) => (
+              <a
+                href={`/blog/${a.slug}/`}
+                class="group flex flex-col justify-between gap-4 p-5 sm:p-6 rounded-2xl border border-stone-200 bg-stone-50 hover:border-stone-300 hover:bg-white transition-colors"
+              >
+                <div>
+                  <div class="font-mono text-[11px] uppercase tracking-wider text-stone-500 mb-2">
+                    {a.tag} · {a.readingTime} мин
+                  </div>
+                  <h3 class="text-lg font-light text-stone-900 leading-snug mb-3 group-hover:text-terracotta-600 transition-colors">
+                    {a.title}
+                  </h3>
+                  <p class="text-sm text-stone-600 leading-relaxed">{a.lead.slice(0, 150)}…</p>
+                </div>
+                <span class="font-mono text-[11px] uppercase tracking-wider text-terracotta-600">
+                  Читать →
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
   <!-- FAQ услуги -->
   <Faq
     items={service.faq}
-    eyebrow="[04 / ВОПРОСЫ И ОТВЕТЫ]"
+    eyebrow="[05 / ВОПРОСЫ И ОТВЕТЫ]"
     title={`Вопросы и ответы по услуге «${service.title}»`}
     id="faq"
   />
@@ -1029,7 +1077,7 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           <div class="lg:col-span-5">
             <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-3">
-              [05 / ЗАЯВКА]
+              [06 / ЗАЯВКА]
             </span>
             <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight mb-6">
               Оставьте заявку — <span class="accent-italic">свяжемся в течение рабочего дня</span>

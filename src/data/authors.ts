@@ -19,5 +19,9 @@ export const IGOR_VASIN = {
   role: 'маркетолог и инженер AI-агентов',
   photo: '/author/igor-vasin.jpg',
   photo2x: '/author/igor-vasin@2x.jpg',
-  sameAs: ['https://t.me/aitrafficpro'],
+  sameAs: [
+    'https://t.me/aitrafficpro',
+    'https://dzen.ru/ai-traffic-pro.ru',
+    'https://vk.ru/ai_traffic_pro',
+  ],
 } as const;
