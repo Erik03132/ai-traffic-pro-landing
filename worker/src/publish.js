@@ -106,12 +106,49 @@ export function reflow(text) {
     .join('\n\n');
 }
 
+/** Строка-заголовок: `#`, `##` или `###` и текст после них. */
+const HEADING_RE = /^#{1,6}\s+(.*)$/;
+
+/** `**жирный**` — единственное выделение, которое встречается в текстах. */
+const BOLD_RE = /\*\*([^*\n]+)\*\*/g;
+
+/**
+ * `**жирный**` → `<b>…</b>` на уже экранированном тексте.
+ * Порядок важен: сначала escape, потом теги — иначе `<` из текста станет тегом.
+ */
+function withBold(escaped) {
+  return escaped.replace(BOLD_RE, '<b>$1</b>');
+}
+
+/**
+ * Инлайн-разметка строки: `[фраза]({{link}})` и `**жирный**` → HTML.
+ * `{{link}}` подставляется готовым адресом с метками, чтобы слаг и UTM не
+ * дублировались в каждом тексте руками.
+ */
+function inlineToHtml(text, linkUrl) {
+  let html = '';
+  let last = 0;
+
+  for (const match of text.matchAll(LINK_RE)) {
+    const [whole, label, rawTarget] = match;
+    const target = rawTarget === '{{link}}' ? linkUrl : rawTarget;
+
+    if (!/^https:\/\//.test(target)) throw new Error('ссылка должна быть https');
+
+    html += withBold(escapeHtml(text.slice(last, match.index)));
+    html += `<a href="${escapeHtml(target)}">${withBold(escapeHtml(label))}</a>`;
+    last = match.index + whole.length;
+  }
+
+  return html + withBold(escapeHtml(text.slice(last)));
+}
+
 /**
  * Превращает черновик в HTML для Telegram.
  *
- * Разметка намеренно бедная: `[фраза]({{link}})` — единственное, что нужно
- * автору. `{{link}}` подставляется готовым адресом с метками, чтобы слаг и
- * UTM не дублировались в каждом тексте руками.
+ * Разметка намеренно бедная: ссылки `[фраза]({{link}})`, `**жирный**` и
+ * заголовки `##`. Без этого `##` уезжал в канал решётками, а выделение —
+ * звёздочками: пост в канале выглядел как необработанный черновик.
  *
  * @param {string} markdown Черновик поста.
  * @param {string} linkUrl Адрес статьи с UTM.
@@ -123,22 +160,17 @@ export function renderPost(markdown, linkUrl) {
   if (!src) throw new Error('пустой пост');
   if (src.length > POST_LIMIT) throw new Error(`пост длиннее ${POST_LIMIT} символов`);
 
-  let html = '';
-  let last = 0;
+  return src
+    .split('\n')
+    .map((line) => {
+      const heading = line.match(HEADING_RE);
+      if (!heading) return inlineToHtml(line, linkUrl);
 
-  for (const match of src.matchAll(LINK_RE)) {
-    const [whole, label, rawTarget] = match;
-    const target = rawTarget === '{{link}}' ? linkUrl : rawTarget;
-
-    if (!/^https:\/\//.test(target)) throw new Error('ссылка должна быть https');
-
-    html += escapeHtml(src.slice(last, match.index));
-    html += `<a href="${escapeHtml(target)}">${escapeHtml(label)}</a>`;
-    last = match.index + whole.length;
-  }
-
-  html += escapeHtml(src.slice(last));
-  return html;
+      const html = inlineToHtml(heading[1], linkUrl);
+      // Уже жирный — второй <b> не нужен: Telegram не любит вложенные теги.
+      return html.includes('<b>') ? html : `<b>${html}</b>`;
+    })
+    .join('\n');
 }
 
 /** Ключ черновика в KV: слаг плюс метка поста (`post-1`), если есть. */

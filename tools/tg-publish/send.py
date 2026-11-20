@@ -31,6 +31,8 @@ ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_BASE = "https://ai-traffic-pro-api.erik03132.workers.dev"
 USER_AGENT = "ai-traffic-pro-publish/1.0 (+https://ai-traffic-pro.ru)"
 POSTS_DIR = ROOT / "docs" / "distribution" / "posts"
+SITE = "https://ai-traffic-pro.ru"
+BLOG_DIR = ROOT / "public" / "blog"
 
 
 def read_token() -> str:
@@ -50,15 +52,39 @@ def read_token() -> str:
     )
 
 
+def strip_header(text: str) -> str:
+    """Отрезает служебную шапку файла — всё до первой строки `---`.
+
+    В файлах постов сверху идут название, путь статьи и статус. Раньше они
+    уезжали в канал вместе с текстом: читатель видел «# 0,9% против 58% — пост 1»
+    и «Статус: черновик». Шапка — для реестра, не для читателя.
+    """
+    lines = text.replace("\r\n", "\n").split("\n")
+    for index, line in enumerate(lines):
+        if line.strip() in {"---", "***"}:
+            return "\n".join(lines[index + 1 :]).strip()
+    return text.strip()
+
+def default_photo(slug: str) -> str:
+    """Обложка статьи, если она уже лежит в `public/blog/`.
+
+    Telegram скачивает картинку по ссылке, поэтому локальный путь не годится:
+    берём адрес на сайте. Нет обложки — пост уйдёт текстом, это не ошибка.
+    """
+    relative = Path("blog") / f"{slug}-cover.png"
+    if not (BLOG_DIR / f"{slug}-cover.png").exists():
+        return ""
+    return f"{SITE}/{relative.as_posix()}"
+
 def resolve_text(args: argparse.Namespace) -> str:
     """Текст поста: аргумент, файл или `docs/distribution/posts/<slug>.md`."""
     if args.text:
-        return args.text
+        return strip_header(args.text)
 
     path = Path(args.text_file) if args.text_file else POSTS_DIR / f"{args.slug}.md"
     if not path.exists():
         raise SystemExit(f"нет файла с текстом: {path}")
-    return path.read_text(encoding="utf-8")
+    return strip_header(path.read_text(encoding="utf-8"))
 
 
 def main() -> int:
@@ -77,6 +103,8 @@ def main() -> int:
     parser.add_argument("--text-file", help="файл с текстом поста")
     parser.add_argument("--content", help="utm_content: номер поста, например post-2")
     parser.add_argument("--base-url", default=DEFAULT_BASE, help=f"адрес Worker (по умолчанию {DEFAULT_BASE})")
+    parser.add_argument("--photo", help="адрес обложки; по умолчанию — public/blog/<slug>-cover.png")
+    parser.add_argument("--no-photo", action="store_true", help="отправить пост без обложки")
     parser.add_argument("--dry-run", action="store_true", help="показать, что будет отправлено, и выйти")
     args = parser.parse_args()
 
@@ -84,13 +112,18 @@ def main() -> int:
     if not text:
         raise SystemExit("пустой текст поста")
 
+    photo = "" if args.no_photo else (args.photo or default_photo(args.slug))
+
     payload = {"slug": args.slug, "text": text}
     if args.content:
         payload["content"] = args.content
+    if photo:
+        payload["photo"] = photo
 
     if args.dry_run:
         print(f"POST {args.base_url}/api/tg/preview")
         print(f"slug: {args.slug}  content: {args.content or '—'}")
+        print(f"обложка: {photo or '—'}")
         print(f"символов в тексте: {len(text)}")
         print("---")
         print(text)

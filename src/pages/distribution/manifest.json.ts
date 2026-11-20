@@ -30,10 +30,20 @@ function postText(slug: string, post: string): string | null {
   return (marker === -1 ? raw : raw.slice(marker + 5)).trim();
 }
 
-/** Обложка статьи: она же превью ссылки и картинка поста. */
+/**
+ * Обложка статьи: она же превью ссылки и картинка поста.
+ *
+ * Ищем те же имена, что реально лежат в `public/blog/`: `-cover.png` (основной
+ * размер) и `.jpg` (старые статьи). Раньше проверялся только `.jpg`, поэтому
+ * cron отправлял посты без обложки — файл лежал рядом, но под другим именем.
+ */
 function coverUrl(slug: string): string | null {
-  const file = path.join(process.cwd(), 'public', 'blog', `${slug}.jpg`);
-  return fs.existsSync(file) ? `${SITE_URL}/blog/${slug}.jpg` : null;
+  for (const name of [`${slug}-cover.png`, `${slug}.jpg`, `${slug}-cover.jpg`]) {
+    if (fs.existsSync(path.join(process.cwd(), 'public', 'blog', name))) {
+      return `${SITE_URL}/blog/${name}`;
+    }
+  }
+  return null;
 }
 
 interface RegistryEntry {

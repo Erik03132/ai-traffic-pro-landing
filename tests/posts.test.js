@@ -25,13 +25,40 @@ function body(path) {
 
 const files = readdirSync(DIR).filter((f) => f.endsWith('.md'));
 
+/**
+ * Посты, которые уходят в Telegram — по реестру, а не по имени файла.
+ *
+ * В той же папке лежат VK-версии (`<slug>.post-2.md`): у них ссылка полная,
+ * `{{link}}` подставляет только канал. Раньше тест проверял все файлы подряд
+ * и падал на VK-версиях — то есть мерил не то, что обещает.
+ *
+ * Файл, помеченный в реестре сразу двумя каналами (`crm-i-erp-raznica.post-2`:
+ * старый Telegram-пост и VK-версия 19.11), не проверяем: он один на двоих,
+ * и по содержимому это VK. Telegram-текст того поста уже вышел 09.11.
+ */
+function telegramPosts() {
+  const registryPath = join(DIR, '..', 'registry.json');
+  const registry = JSON.parse(readFileSync(registryPath, 'utf8'));
+  const byFile = new Map();
+  for (const entry of registry.publications) {
+    const file = `${entry.slug}.${entry.post}.md`;
+    byFile.set(file, [...(byFile.get(file) ?? []), entry.channel]);
+  }
+  return new Set(
+    [...byFile]
+      .filter(([, channels]) => channels.includes('telegram') && !channels.includes('vk'))
+      .map(([file]) => file),
+  );
+}
+
 test('файлы постов найдены', () => {
   assert.ok(files.length > 0, 'нет ни одного поста в docs/distribution/posts');
 });
 
 test('посты статей: ссылка {{link}} есть, длина подписи в лимите', () => {
+  const channel = telegramPosts();
   // Интро канала — единственный файл без статьи и ссылки.
-  for (const f of files.filter((name) => /\.post-\d+\.md$/.test(name))) {
+  for (const f of files.filter((name) => channel.has(name))) {
     const text = body(join(DIR, f));
     const links = text.match(/\{\{link\}\}/g) ?? [];
     const labelled = text.match(/\]\(\{\{link\}\}\)/g) ?? [];

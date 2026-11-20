@@ -92,6 +92,26 @@ test('renderPost: несколько ссылок и текст между ни�
   assert.match(html, /конец$/);
 });
 
+test('renderPost: `##` заголовок — жирная строка без решёток', () => {
+  const html = renderPost('## Главное\n\nАбзац.', LINK);
+
+  assert.equal(html, '<b>Главное</b>\n\nАбзац.');
+  assert.ok(!html.includes('#'));
+});
+
+test('renderPost: `**жирный**` — <b>, звёздочек в тексте не остаётся', () => {
+  const html = renderPost('Это **важно** для отдела.', LINK);
+
+  assert.equal(html, 'Это <b>важно</b> для отдела.');
+  assert.ok(!html.includes('**'));
+});
+
+test('renderPost: двойной `**` внутри заголовка не даёт вложенный <b>', () => {
+  const html = renderPost('## **Главное**', LINK);
+
+  assert.equal(html, '<b>Главное</b>');
+});
+
 /* ── Клавиатуры ──────────────────────────────────────────────────────── */
 
 test('draftKeyboard: две кнопки, callback_data в лимите', () => {
