@@ -34,16 +34,16 @@
 
   <text x="72" y="96" font-family="Helvetica Neue, Arial, sans-serif" font-size="19" font-weight="700" letter-spacing="5" fill="#1C1917">AI-TRAFFIC PRO</text>
 
-  <text x="68" y="392" font-family="Helvetica Neue, Arial, sans-serif" font-size="{{WORD_SIZE}}" font-weight="800" letter-spacing="-5" fill="#171717">{{WORD}}</text>
+  <text x="68" y="{{WORD_Y}}" font-family="Helvetica Neue, Arial, sans-serif" font-size="{{WORD_SIZE}}" font-weight="800" letter-spacing="-5" fill="#171717">{{WORD_TSPS}}</text>
 
   <rect x="74" y="428" width="746" height="8" fill="#F2610C"/>
   <rect x="820" y="428" width="380" height="8" fill="#F7F4EF"/>
 
-  <text x="74" y="500" font-family="Helvetica Neue, Arial, sans-serif" font-size="34" font-weight="400" fill="#3F3A34">{{LINE1}}</text>
-  <text x="74" y="545" font-family="Helvetica Neue, Arial, sans-serif" font-size="34" font-weight="400" fill="#3F3A34">{{LINE2}}</text>
+  <text x="74" y="500" font-family="Helvetica Neue, Arial, sans-serif" font-size="{{LINE1_SIZE}}" font-weight="400" fill="#3F3A34">{{LINE1}}</text>
+  <text x="74" y="545" font-family="Helvetica Neue, Arial, sans-serif" font-size="{{LINE2_SIZE}}" font-weight="400" fill="#3F3A34">{{LINE2}}</text>
 
   <text x="1010" y="330" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="{{NUM_SIZE}}" font-weight="800" letter-spacing="-4" fill="#FFFFFF">{{NUMBER}}</text>
-  <text x="1010" y="384" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="26" font-weight="600" letter-spacing="6" fill="#FFFFFF">{{LABEL}}</text>
+  <text x="1010" y="384" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="{{LABEL_SIZE}}" font-weight="600" letter-spacing="6" fill="#FFFFFF">{{LABEL}}</text>
 
   <text x="74" y="588" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" font-weight="400" letter-spacing="1" fill="#6B6459">ai-traffic-pro.ru</text>
 </svg>
