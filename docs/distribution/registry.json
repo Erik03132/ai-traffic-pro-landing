@@ -3,6 +3,18 @@
   "note": "Реестр дистрибуции (ADR-005). id = <slug>:post-N:<channel>. Статусы: draft (текст поста не написан) -> queued (текст есть, проверен по лимитам) -> approved (владелец подтвердил) -> posted (вышел в канал); failed (причина обязательна). Порядок только вперёд; из posted назад нельзя. Правки — руками или tools/publish/render.py --mark.",
   "publications": [
     {
+      "id": "crm-i-erp-raznica:post-1:telegram",
+      "slug": "crm-i-erp-raznica",
+      "post": "post-1",
+      "channel": "telegram",
+      "status": "posted",
+      "plannedAt": "2026-11-20",
+      "messageId": null,
+      "url": "https://t.me/aitrafficpro",
+      "error": null,
+      "legacyNote": "пересборка ленты 20.11.2026: пост опубликован заново с обложкой новой серии; id сообщения не сохранён (Bot API не отдаёт историю канала)"
+    },
+    {
       "id": "crm-i-erp-raznica:post-2:telegram",
       "slug": "crm-i-erp-raznica",
       "post": "post-2",
@@ -22,8 +34,9 @@
       "status": "posted",
       "plannedAt": "2026-11-16",
       "messageId": 5,
-      "url": "https://t.me/aitrafficpro/5",
-      "error": null
+      "url": "https://t.me/aitrafficpro",
+      "error": null,
+      "legacyNote": "пересборка ленты 20.11.2026: пост опубликован заново с обложкой новой серии; id сообщения не сохранён (Bot API не отдаёт историю канала)"
     },
     {
       "id": "crm-i-erp-raznica:post-2:vk",
@@ -44,20 +57,22 @@
       "status": "posted",
       "plannedAt": "2026-11-19",
       "messageId": 7,
-      "url": "https://t.me/aitrafficpro/7",
-      "error": null
+      "url": "https://t.me/aitrafficpro",
+      "error": null,
+      "legacyNote": "пересборка ленты 20.11.2026: пост опубликован заново с обложкой новой серии; id сообщения не сохранён (Bot API не отдаёт историю канала)"
     },
     {
       "id": "skolko-klikov-dayut-ai-otvety:post-1:telegram",
       "slug": "skolko-klikov-dayut-ai-otvety",
       "post": "post-1",
       "channel": "telegram",
-      "status": "queued",
+      "status": "posted",
       "plannedAt": "2026-11-18",
       "messageId": null,
-      "url": null,
+      "url": "https://t.me/aitrafficpro",
       "error": null,
-      "note": "опубликован 18.11.2026 и удалён владельцем: ушёл со служебной шапкой и без обложки; переотправлен после починки формата"
+      "note": "опубликован 18.11.2026 и удалён владельцем: ушёл со служебной шапкой и без обложки; переотправлен после починки формата",
+      "legacyNote": "пересборка ленты 20.11.2026: пост опубликован заново с обложкой новой серии; id сообщения не сохранён (Bot API не отдаёт историю канала)"
     },
     {
       "id": "kak-nachat-prodavat-na-marketpleysah:post-1:telegram",
@@ -232,8 +247,8 @@
       "status": "posted",
       "plannedAt": null,
       "messageId": null,
-      "url": null,
-      "legacyNote": "опубликовано до появления реестра, message_id не сохранён",
+      "url": "https://t.me/aitrafficpro",
+      "legacyNote": "пересборка ленты 20.11.2026: пост опубликован заново с обложкой новой серии; id сообщения не сохранён (Bot API не отдаёт историю канала)",
       "error": null
     },
     {
@@ -244,8 +259,8 @@
       "status": "posted",
       "plannedAt": null,
       "messageId": null,
-      "url": null,
-      "legacyNote": "опубликовано до появления реестра, message_id не сохранён",
+      "url": "https://t.me/aitrafficpro",
+      "legacyNote": "пересборка ленты 20.11.2026: пост опубликован заново с обложкой новой серии; id сообщения не сохранён (Bot API не отдаёт историю канала)",
       "error": null
     },
     {
@@ -256,8 +271,8 @@
       "status": "posted",
       "plannedAt": null,
       "messageId": null,
-      "url": null,
-      "legacyNote": "опубликовано до появления реестра, message_id не сохранён",
+      "url": "https://t.me/aitrafficpro",
+      "legacyNote": "пересборка ленты 20.11.2026: пост опубликован заново с обложкой новой серии; id сообщения не сохранён (Bot API не отдаёт историю канала)",
       "error": null
     }
   ]
