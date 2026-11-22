@@ -13,6 +13,7 @@ import Faq from '../../components/Faq.astro';
 
 import { ALL_SERVICES, SERVICES, type Service } from '../../data/site';
 import { ARTICLES } from '../../data/blog';
+import { IGOR_VASIN } from '../../data/authors';
 import { organizationLd, serviceLd, faqLd, serviceBreadcrumbLd, howToLd } from '../../lib/seo';
 
 export const getStaticPaths = (() =>
@@ -1024,6 +1025,132 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
       </div>
     </section>
   )}
+
+  <!--
+    СРАВНЕНИЕ И ИСТОЧНИКИ — главный GEO-блок страницы услуги.
+
+    Зачем отдельным блоком: нейросети и расширенные сниппеты цитируют таблицу
+    и проверяемые утверждения, а не абзацы про «системный подход». Прогон
+    `tools/geo_lint.py` 22.11.2026 показал: у страниц услуг было 0/14 за
+    таблицу и 0/10 за источники — при том, что блог набирал 96/100.
+  -->
+  {
+    (service.comparison || service.sources) && (
+      <section class="w-full border-b border-stone-200 bg-white py-8 md:py-28">
+        <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+          {service.comparison && (
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-16">
+              <div class="lg:col-span-4">
+                <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
+                  [03.8 / СРАВНЕНИЕ]
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight">
+                  {service.comparison.title}
+                </h2>
+                {service.comparison.intro && (
+                  <p class="font-body-md text-body-md text-stone-700 leading-relaxed mt-3">
+                    {service.comparison.intro}
+                  </p>
+                )}
+              </div>
+
+              <div class="lg:col-span-8">
+                <div class="-mx-margin md:mx-0 overflow-x-auto">
+                  <table class="w-full min-w-[36rem] border-collapse text-left">
+                    <thead>
+                      <tr class="border-b-2 border-stone-300">
+                        {service.comparison.head.map((h) => (
+                          <th class="py-3 pr-4 font-mono-label text-mono-label uppercase tracking-widest text-stone-500 font-semibold align-bottom">
+                            {h}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {service.comparison.rows.map((row) => (
+                        <tr class="border-b border-stone-200 align-top">
+                          {row.map((cell, ci) => (
+                            <td
+                              class:list={[
+                                'py-3 pr-4 font-body-sm text-body-sm leading-relaxed',
+                                ci === 0 ? 'text-stone-900 font-semibold' : 'text-stone-700',
+                              ]}
+                            >
+                              {cell}
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <p class="font-body-xs text-body-xs text-stone-500 leading-relaxed mt-4">
+                  Цифры в таблице — рабочие ориентиры по опыту, а не оферта. Точные сроки и бюджет
+                  фиксируем после вводной: они зависят от вашей отрасли, конкуренции и объёма.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {service.sources && (
+            <div class="mt-14 border-t border-stone-200 pt-8">
+              <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-4">
+                [03.9 / ИСТОЧНИКИ]
+              </span>
+              <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+                {service.sources.map((s) => (
+                  <li class="font-body-sm text-body-sm leading-relaxed">
+                    <a
+                      href={s.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="text-stone-900 underline decoration-stone-300 underline-offset-2 hover:text-terracotta-600 hover:decoration-terracotta-600 transition-colors"
+                    >
+                      {s.title}
+                    </a>
+                    {s.note && <span class="text-stone-600"> — {s.note}</span>}
+                  </li>
+                ))}
+              </ul>
+              <p class="font-body-xs text-body-xs text-stone-500 leading-relaxed mt-4">
+                Ссылки ведут на официальную документацию платформ: проверяем утверждения по
+                первоисточникам, а не по пересказам.
+              </p>
+            </div>
+          )}
+
+          <!--
+            Автор — сигнал E-E-A-T: у материала есть человек, который отвечает
+            за написанное. Модели и оценщики качества считают страницу без
+            автора анонимной, а анонимное не цитируют.
+          -->
+          <div class="mt-10 flex items-center gap-4 rounded-2xl border border-stone-200 bg-stone-50 p-4 sm:p-6">
+            <img
+              src={IGOR_VASIN.photo}
+              srcset={`${IGOR_VASIN.photo} 1x, ${IGOR_VASIN.photo2x} 2x`}
+              width="56"
+              height="56"
+              loading="lazy"
+              alt={`${IGOR_VASIN.name} — ${IGOR_VASIN.role}`}
+              class="w-14 h-14 rounded-full object-cover shrink-0"
+            />
+            <div>
+              <a
+                href="/author/"
+                class="font-body-sm text-body-sm font-semibold text-stone-900 hover:text-terracotta-600 transition-colors"
+              >
+                {IGOR_VASIN.name}
+              </a>
+              <span class="font-body-sm text-body-sm text-stone-600"> — {IGOR_VASIN.role}</span>
+              <p class="font-body-xs text-body-xs text-stone-600 leading-relaxed mt-1">
+                Отвечает за содержание направления «{service.title}»: метод, сроки и отчётность.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    )
+  }
 
   <!-- Статьи блога по теме (перелинковка услуга ↔ блог, задача 2.7 ROADMAP) -->
   {

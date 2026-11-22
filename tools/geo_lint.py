@@ -60,6 +60,22 @@ ENTITIES = [
     "ai overviews", "ai mode", "google ai", "яндекс нейро", "нейро", "алиса",
     "chatgpt", "perplexity", "gemini", "copilot", "ahrefs", "semrush",
     "search console", "вебмастер", "serpstat", "similarweb",
+    # Рекламные и товарные площадки: страница услуги без имён каналов
+    # не отвечает на вопрос «где запускать». Список платформенный, не завязан
+    # на один проект (правка 22.11.2026: услуги падали по этому блоку, хотя
+    # Яндекс Директ и VK Реклама были в таблице сравнения по именам).
+    "яндекс директ", "директ", "vk реклама", "vk ads", "telegram ads",
+    "авито", "ozon", "wildberries", "яндекс маркет", "метрика",
+    "callibri", "roistat", "comagic", "коллтач",
+    # Веб-платформы и CMS: на странице «сайты и лендинги» без них нечего
+    # сравнивать.
+    "тильда", "tilda", "wordpress", "битрикс24", "1с-битрикс",
+    # Соцсети и видео: для страницы SMM это такие же названные площадки,
+    # как CRM для страницы автоматизации.
+    "вконтакте", "vk видео", "rutube", "дзен", "яндекс дзен", "youtube",
+    # Стеки и фреймворки: на странице «сайты и лендинги» это такие же
+    # названные системы, как CRM на странице автоматизации.
+    "astro", "next.js", "react", "tailwind",
 ]
 
 # Соцсети и мессенджеры не считаем источниками — это не первоисточник.
@@ -233,7 +249,11 @@ class Page(HTMLParser):
 
     def region_text(self) -> str:
         src = self.buf_art if self.saw_article else self.buf_main
-        return " ".join("".join(src).split())
+        # Текстовые узлы склеиваем ЧЕРЕЗ ПРОБЕЛ: без него соседние ячейки
+        # таблицы срастаются в «маржой.WildberriesСамый» и ломают и подсчёт
+        # слов, и поиск названных систем по границам слова (баг найден
+        # 22.11.2026 на страницах услуг: Wildberries не распознавался).
+        return " ".join(" ".join(src).split())
 
     def region_links(self):
         return [x for x in self.links if x[2]]
@@ -268,14 +288,28 @@ def analyse(html: str, query: str = "") -> dict:
             continue
         if href.startswith("/") or "ai-traffic-pro.ru" in href:
             internal.append((href, anchor))
-        elif not any(s in href for s in SOCIAL):
+        elif not any(s in href for s in SOCIAL) or re.search(
+            r"/(help|support|business|developers|docs|blog)", href
+        ):
+            # Официальная справка площадки — первоисточник, даже если домен
+            # в списке соцсетей. Профиль или пост первоисточником не считается.
             external.append((href, anchor))
 
     ld = " ".join(p.ldjson).lower()
-    has_post = bool(re.search(r'"blogposting"|"article"|"newsarticle"|"techarticle"', ld))
+    # Главная сущность страницы: статья ИЛИ услуга/товар. Требовать BlogPosting
+    # на странице услуги некорректно — там живёт Service, и это правильная
+    # разметка, а не пропуск (правка 22.11.2026 по итогам прогона: услуги
+    # получали 0 за разметку при корректных Service + FAQPage).
+    has_post = bool(
+        re.search(r'"blogposting"|"article"|"newsarticle"|"techarticle"', ld)
+        or re.search(r'"@type"\s*:\s*"(service|product)"', ld)
+    )
     has_faq = '"faqpage"' in ld
+    # Человек-автор: разметка Person в JSON-LD, meta author или живая подпись
+    # со ссылкой на страницу автора (страницы услуг подписываются так).
     person = bool(re.search(r'"author"\s*:\s*\{[^}]*"@type"\s*:\s*"(person|people)"', ld)) or \
-        bool(p.meta.get("author")) and p.meta.get("author", "").lower() not in ("", "admin")
+        bool(p.meta.get("author")) and p.meta.get("author", "").lower() not in ("", "admin") or \
+        any("/author/" in (href or "") for href, _anchor, _in in p.links)
 
     s = {}
 
@@ -334,7 +368,7 @@ def analyse(html: str, query: str = "") -> dict:
     if len(internal) < 2:
         fixes.append(f"Контекстных внутренних ссылок {len(internal)} (нужно ≥2) — в тело текста, а не карточками.")
     if not has_post:
-        fixes.append("Нет разметки BlogPosting/Article — добавить JSON-LD.")
+        fixes.append("Нет главной сущности страницы в JSON-LD — BlogPosting для статьи, Service для услуги.")
     if not has_faq:
         fixes.append("Нет FAQPage — добавить 3–5 вопросов с короткими ответами.")
     if not person:

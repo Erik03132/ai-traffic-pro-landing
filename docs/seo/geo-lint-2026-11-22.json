@@ -1,0 +1,1026 @@
+{
+  "generated_at": "2026-11-22T12:35:03+00:00",
+  "query": "",
+  "site": {},
+  "results": [
+    {
+      "url": "https://ai-traffic-pro.ru/blog/",
+      "words": 672,
+      "words_before_first_h2": 43,
+      "tables": 0,
+      "images": 1,
+      "numbers": 6,
+      "entities": [
+        "1с",
+        "ahrefs",
+        "ai overviews",
+        "amocrm",
+        "odoo",
+        "retailcrm",
+        "битрикс",
+        "битрикс24",
+        "мойсклад"
+      ],
+      "external_links": 0,
+      "internal_links": 14,
+      "h2": 13,
+      "h3": 0,
+      "comparative": false,
+      "score": 56,
+      "blocks": {
+        "answer": {
+          "label": "Ответ в начале",
+          "score": 12,
+          "max": 12
+        },
+        "depth": {
+          "label": "Объём",
+          "score": 2,
+          "max": 10
+        },
+        "table": {
+          "label": "Таблица сравнения",
+          "score": 0,
+          "max": 14
+        },
+        "numbers": {
+          "label": "Цифры с единицами",
+          "score": 14,
+          "max": 14
+        },
+        "entities": {
+          "label": "Названные системы",
+          "score": 14,
+          "max": 14
+        },
+        "sources": {
+          "label": "Внешние источники",
+          "score": 0,
+          "max": 10
+        },
+        "structure": {
+          "label": "Структура и перелинковка",
+          "score": 9,
+          "max": 12
+        },
+        "schema": {
+          "label": "Разметка и автор",
+          "score": 5,
+          "max": 14
+        }
+      },
+      "fixes": [
+        "Объём 672 слов — мало для конкуренции. Довести до 1200–1800, не разбавляя водой.",
+        "Добавить настоящую <table> сравнения (8–10 строк), а не список с галочками.",
+        "Внешних источников 0 (нужно ≥2): первоисточники по теме, ссылка в том же предложении.",
+        "H3 внутри H2: сейчас 0. Без подразделов страницу не выдёргивают по пассажу.",
+        "Нет FAQPage — добавить 3–5 вопросов с короткими ответами.",
+        "Автор — организация. Указать человека с одной строкой опыта: это E-E-A-T и доверие ИИ."
+      ],
+      "meta": {
+        "title": "Блог: SEO, GEO, реклама и соцсети | ai-traffic-pro",
+        "title_len": 50,
+        "description_len": 150,
+        "canonical": "https://ai-traffic-pro.ru/blog/",
+        "author": "",
+        "has_person": false,
+        "has_blogposting": true,
+        "has_faqpage": false
+      }
+    },
+    {
+      "url": "https://ai-traffic-pro.ru/blog/kak-vybrat-kanal-prodvizheniya/",
+      "words": 1812,
+      "words_before_first_h2": 0,
+      "tables": 1,
+      "images": 2,
+      "numbers": 23,
+      "entities": [
+        "1с",
+        "amocrm",
+        "hubspot",
+        "retailcrm",
+        "yclients",
+        "zoho",
+        "битрикс",
+        "битрикс24",
+        "мегаплан",
+        "мойсклад",
+        "планфикс"
+      ],
+      "external_links": 4,
+      "internal_links": 9,
+      "h2": 8,
+      "h3": 14,
+      "comparative": false,
+      "score": 100,
+      "blocks": {
+        "answer": {
+          "label": "Ответ в начале",
+          "score": 12,
+          "max": 12
+        },
+        "depth": {
+          "label": "Объём",
+          "score": 10,
+          "max": 10
+        },
+        "table": {
+          "label": "Таблица сравнения",
+          "score": 14,
+          "max": 14
+        },
+        "numbers": {
+          "label": "Цифры с единицами",
+          "score": 14,
+          "max": 14
+        },
+        "entities": {
+          "label": "Названные системы",
+          "score": 14,
+          "max": 14
+        },
+        "sources": {
+          "label": "Внешние источники",
+          "score": 10,
+          "max": 10
+        },
+        "structure": {
+          "label": "Структура и перелинковка",
+          "score": 12,
+          "max": 12
+        },
+        "schema": {
+          "label": "Разметка и автор",
+          "score": 14,
+          "max": 14
+        }
+      },
+      "fixes": [],
+      "meta": {
+        "title": "Как выбрать канал продвижения: 6 вопросов",
+        "title_len": 41,
+        "description_len": 174,
+        "canonical": "https://ai-traffic-pro.ru/blog/kak-vybrat-kanal-prodvizheniya/",
+        "author": "",
+        "has_person": true,
+        "has_blogposting": true,
+        "has_faqpage": true
+      }
+    },
+    {
+      "url": "https://ai-traffic-pro.ru/blog/kak-sostavit-brif-na-prodvizhenie/",
+      "words": 1513,
+      "words_before_first_h2": 0,
+      "tables": 1,
+      "images": 2,
+      "numbers": 14,
+      "entities": [
+        "1с",
+        "amocrm",
+        "odoo",
+        "retailcrm",
+        "yclients",
+        "аспро",
+        "битрикс",
+        "битрикс24",
+        "мегаплан",
+        "мойсклад",
+        "планфикс"
+      ],
+      "external_links": 4,
+      "internal_links": 10,
+      "h2": 9,
+      "h3": 7,
+      "comparative": false,
+      "score": 100,
+      "blocks": {
+        "answer": {
+          "label": "Ответ в начале",
+          "score": 12,
+          "max": 12
+        },
+        "depth": {
+          "label": "Объём",
+          "score": 10,
+          "max": 10
+        },
+        "table": {
+          "label": "Таблица сравнения",
+          "score": 14,
+          "max": 14
+        },
+        "numbers": {
+          "label": "Цифры с единицами",
+          "score": 14,
+          "max": 14
+        },
+        "entities": {
+          "label": "Названные системы",
+          "score": 14,
+          "max": 14
+        },
+        "sources": {
+          "label": "Внешние источники",
+          "score": 10,
+          "max": 10
+        },
+        "structure": {
+          "label": "Структура и перелинковка",
+          "score": 12,
+          "max": 12
+        },
+        "schema": {
+          "label": "Разметка и автор",
+          "score": 14,
+          "max": 14
+        }
+      },
+      "fixes": [],
+      "meta": {
+        "title": "Бриф на продвижение: структура и 14 вопросов",
+        "title_len": 44,
+        "description_len": 182,
+        "canonical": "https://ai-traffic-pro.ru/blog/kak-sostavit-brif-na-prodvizhenie/",
+        "author": "",
+        "has_person": true,
+        "has_blogposting": true,
+        "has_faqpage": true
+      }
+    },
+    {
+      "url": "https://ai-traffic-pro.ru/blog/kak-schitat-okupaemost-reklamy/",
+      "words": 1506,
+      "words_before_first_h2": 0,
+      "tables": 1,
+      "images": 2,
+      "numbers": 29,
+      "entities": [
+        "1с",
+        "amocrm",
+        "odoo",
+        "retailcrm",
+        "yclients",
+        "битрикс",
+        "битрикс24",
+        "мегаплан",
+        "мойсклад",
+        "планфикс"
+      ],
+      "external_links": 4,
+      "internal_links": 11,
+      "h2": 8,
+      "h3": 11,
+      "comparative": false,
+      "score": 100,
+      "blocks": {
+        "answer": {
+          "label": "Ответ в начале",
+          "score": 12,
+          "max": 12
+        },
+        "depth": {
+          "label": "Объём",
+          "score": 10,
+          "max": 10
+        },
+        "table": {
+          "label": "Таблица сравнения",
+          "score": 14,
+          "max": 14
+        },
+        "numbers": {
+          "label": "Цифры с единицами",
+          "score": 14,
+          "max": 14
+        },
+        "entities": {
+          "label": "Названные системы",
+          "score": 14,
+          "max": 14
+        },
+        "sources": {
+          "label": "Внешние источники",
+          "score": 10,
+          "max": 10
+        },
+        "structure": {
+          "label": "Структура и перелинковка",
+          "score": 12,
+          "max": 12
+        },
+        "schema": {
+          "label": "Разметка и автор",
+          "score": 14,
+          "max": 14
+        }
+      },
+      "fixes": [],
+      "meta": {
+        "title": "Как считать окупаемость рекламы: формулы и пример",
+        "title_len": 49,
+        "description_len": 165,
+        "canonical": "https://ai-traffic-pro.ru/blog/kak-schitat-okupaemost-reklamy/",
+        "author": "",
+        "has_person": true,
+        "has_blogposting": true,
+        "has_faqpage": true
+      }
+    },
+    {
+      "url": "https://ai-traffic-pro.ru/blog/geo-prodvizhenie-checklist/",
+      "words": 1384,
+      "words_before_first_h2": 0,
+      "tables": 1,
+      "images": 2,
+      "numbers": 3,
+      "entities": [
+        "chatgpt",
+        "gemini",
+        "perplexity",
+        "нейро",
+        "яндекс нейро"
+      ],
+      "external_links": 6,
+      "internal_links": 7,
+      "h2": 7,
+      "h3": 4,
+      "comparative": false,
+      "score": 94,
+      "blocks": {
+        "answer": {
+          "label": "Ответ в начале",
+          "score": 12,
+          "max": 12
+        },
+        "depth": {
+          "label": "Объём",
+          "score": 8,
+          "max": 10
+        },
+        "table": {
+          "label": "Таблица сравнения",
+          "score": 14,
+          "max": 14
+        },
+        "numbers": {
+          "label": "Цифры с единицами",
+          "score": 10,
+          "max": 14
+        },
+        "entities": {
+          "label": "Названные системы",
+          "score": 14,
+          "max": 14
+        },
+        "sources": {
+          "label": "Внешние источники",
+          "score": 10,
+          "max": 10
+        },
+        "structure": {
+          "label": "Структура и перелинковка",
+          "score": 12,
+          "max": 12
+        },
+        "schema": {
+          "label": "Разметка и автор",
+          "score": 14,
+          "max": 14
+        }
+      },
+      "fixes": [],
+      "meta": {
+        "title": "GEO-продвижение: чек-лист из 14 пунктов и наш аудит",
+        "title_len": 51,
+        "description_len": 269,
+        "canonical": "https://ai-traffic-pro.ru/blog/geo-prodvizhenie-checklist/",
+        "author": "",
+        "has_person": true,
+        "has_blogposting": true,
+        "has_faqpage": true
+      }
+    },
+    {
+      "url": "https://ai-traffic-pro.ru/blog/kontent-plan-dlya-sotssetey/",
+      "words": 1702,
+      "words_before_first_h2": 0,
+      "tables": 2,
+      "images": 2,
+      "numbers": 22,
+      "entities": [
+        "1с",
+        "amocrm",
+        "hubspot",
+        "yclients",
+        "аспро",
+        "битрикс",
+        "битрикс24",
+        "мегаплан",
+        "мойсклад",
+        "планфикс"
+      ],
+      "external_links": 4,
+      "internal_links": 10,
+      "h2": 9,
+      "h3": 10,
+      "comparative": false,
+      "score": 100,
+      "blocks": {
+        "answer": {
+          "label": "Ответ в начале",
+          "score": 12,
+          "max": 12
+        },
+        "depth": {
+          "label": "Объём",
+          "score": 10,
+          "max": 10
+        },
+        "table": {
+          "label": "Таблица сравнения",
+          "score": 14,
+          "max": 14
+        },
+        "numbers": {
+          "label": "Цифры с единицами",
+          "score": 14,
+          "max": 14
+        },
+        "entities": {
+          "label": "Названные системы",
+          "score": 14,
+          "max": 14
+        },
+        "sources": {
+          "label": "Внешние источники",
+          "score": 10,
+          "max": 10
+        },
+        "structure": {
+          "label": "Структура и перелинковка",
+          "score": 12,
+          "max": 12
+        },
+        "schema": {
+          "label": "Разметка и автор",
+          "score": 14,
+          "max": 14
+        }
+      },
+      "fixes": [],
+      "meta": {
+        "title": "Контент-план для соцсетей: как собрать за вечер",
+        "title_len": 47,
+        "description_len": 167,
+        "canonical": "https://ai-traffic-pro.ru/blog/kontent-plan-dlya-sotssetey/",
+        "author": "",
+        "has_person": true,
+        "has_blogposting": true,
+        "has_faqpage": true
+      }
+    },
+    {
+      "url": "https://ai-traffic-pro.ru/blog/lending-ili-sayt/",
+      "words": 1645,
+      "words_before_first_h2": 0,
+      "tables": 1,
+      "images": 2,
+      "numbers": 13,
+      "entities": [
+        "1с",
+        "amocrm",
+        "hubspot",
+        "retailcrm",
+        "аспро",
+        "битрикс",
+        "битрикс24"
+      ],
+      "external_links": 4,
+      "internal_links": 9,
+      "h2": 9,
+      "h3": 8,
+      "comparative": false,
+      "score": 100,
+      "blocks": {
+        "answer": {
+          "label": "Ответ в начале",
+          "score": 12,
+          "max": 12
+        },
+        "depth": {
+          "label": "Объём",
+          "score": 10,
+          "max": 10
+        },
+        "table": {
+          "label": "Таблица сравнения",
+          "score": 14,
+          "max": 14
+        },
+        "numbers": {
+          "label": "Цифры с единицами",
+          "score": 14,
+          "max": 14
+        },
+        "entities": {
+          "label": "Названные системы",
+          "score": 14,
+          "max": 14
+        },
+        "sources": {
+          "label": "Внешние источники",
+          "score": 10,
+          "max": 10
+        },
+        "structure": {
+          "label": "Структура и перелинковка",
+          "score": 12,
+          "max": 12
+        },
+        "schema": {
+          "label": "Разметка и автор",
+          "score": 14,
+          "max": 14
+        }
+      },
+      "fixes": [],
+      "meta": {
+        "title": "Лендинг или сайт: что выбрать и в чём разница",
+        "title_len": 45,
+        "description_len": 188,
+        "canonical": "https://ai-traffic-pro.ru/blog/lending-ili-sayt/",
+        "author": "",
+        "has_person": true,
+        "has_blogposting": true,
+        "has_faqpage": true
+      }
+    },
+    {
+      "url": "https://ai-traffic-pro.ru/blog/kak-nachat-prodavat-na-marketpleysah/",
+      "words": 1538,
+      "words_before_first_h2": 0,
+      "tables": 1,
+      "images": 2,
+      "numbers": 12,
+      "entities": [
+        "1с",
+        "amocrm",
+        "retailcrm",
+        "битрикс",
+        "битрикс24",
+        "мегаплан",
+        "мойсклад"
+      ],
+      "external_links": 6,
+      "internal_links": 9,
+      "h2": 13,
+      "h3": 12,
+      "comparative": false,
+      "score": 100,
+      "blocks": {
+        "answer": {
+          "label": "Ответ в начале",
+          "score": 12,
+          "max": 12
+        },
+        "depth": {
+          "label": "Объём",
+          "score": 10,
+          "max": 10
+        },
+        "table": {
+          "label": "Таблица сравнения",
+          "score": 14,
+          "max": 14
+        },
+        "numbers": {
+          "label": "Цифры с единицами",
+          "score": 14,
+          "max": 14
+        },
+        "entities": {
+          "label": "Названные системы",
+          "score": 14,
+          "max": 14
+        },
+        "sources": {
+          "label": "Внешние источники",
+          "score": 10,
+          "max": 10
+        },
+        "structure": {
+          "label": "Структура и перелинковка",
+          "score": 12,
+          "max": 12
+        },
+        "schema": {
+          "label": "Разметка и автор",
+          "score": 14,
+          "max": 14
+        }
+      },
+      "fixes": [],
+      "meta": {
+        "title": "Как начать продавать на маркетплейсах: порядок действий",
+        "title_len": 55,
+        "description_len": 229,
+        "canonical": "https://ai-traffic-pro.ru/blog/kak-nachat-prodavat-na-marketpleysah/",
+        "author": "",
+        "has_person": true,
+        "has_blogposting": true,
+        "has_faqpage": true
+      }
+    },
+    {
+      "url": "https://ai-traffic-pro.ru/blog/zayavki-teryayutsya/",
+      "words": 1514,
+      "words_before_first_h2": 0,
+      "tables": 1,
+      "images": 2,
+      "numbers": 23,
+      "entities": [
+        "1с",
+        "amocrm",
+        "hubspot",
+        "retailcrm",
+        "битрикс",
+        "битрикс24",
+        "мегаплан",
+        "планфикс"
+      ],
+      "external_links": 4,
+      "internal_links": 10,
+      "h2": 10,
+      "h3": 6,
+      "comparative": false,
+      "score": 100,
+      "blocks": {
+        "answer": {
+          "label": "Ответ в начале",
+          "score": 12,
+          "max": 12
+        },
+        "depth": {
+          "label": "Объём",
+          "score": 10,
+          "max": 10
+        },
+        "table": {
+          "label": "Таблица сравнения",
+          "score": 14,
+          "max": 14
+        },
+        "numbers": {
+          "label": "Цифры с единицами",
+          "score": 14,
+          "max": 14
+        },
+        "entities": {
+          "label": "Названные системы",
+          "score": 14,
+          "max": 14
+        },
+        "sources": {
+          "label": "Внешние источники",
+          "score": 10,
+          "max": 10
+        },
+        "structure": {
+          "label": "Структура и перелинковка",
+          "score": 12,
+          "max": 12
+        },
+        "schema": {
+          "label": "Разметка и автор",
+          "score": 14,
+          "max": 14
+        }
+      },
+      "fixes": [],
+      "meta": {
+        "title": "Заявки теряются: где именно и как это починить",
+        "title_len": 46,
+        "description_len": 201,
+        "canonical": "https://ai-traffic-pro.ru/blog/zayavki-teryayutsya/",
+        "author": "",
+        "has_person": true,
+        "has_blogposting": true,
+        "has_faqpage": true
+      }
+    },
+    {
+      "url": "https://ai-traffic-pro.ru/blog/crm-i-erp-raznica/",
+      "words": 1561,
+      "words_before_first_h2": 0,
+      "tables": 1,
+      "images": 2,
+      "numbers": 11,
+      "entities": [
+        "1c",
+        "1с",
+        "amocrm",
+        "odoo",
+        "sap",
+        "битрикс",
+        "битрикс24"
+      ],
+      "external_links": 6,
+      "internal_links": 7,
+      "h2": 9,
+      "h3": 8,
+      "comparative": false,
+      "score": 100,
+      "blocks": {
+        "answer": {
+          "label": "Ответ в начале",
+          "score": 12,
+          "max": 12
+        },
+        "depth": {
+          "label": "Объём",
+          "score": 10,
+          "max": 10
+        },
+        "table": {
+          "label": "Таблица сравнения",
+          "score": 14,
+          "max": 14
+        },
+        "numbers": {
+          "label": "Цифры с единицами",
+          "score": 14,
+          "max": 14
+        },
+        "entities": {
+          "label": "Названные системы",
+          "score": 14,
+          "max": 14
+        },
+        "sources": {
+          "label": "Внешние источники",
+          "score": 10,
+          "max": 10
+        },
+        "structure": {
+          "label": "Структура и перелинковка",
+          "score": 12,
+          "max": 12
+        },
+        "schema": {
+          "label": "Разметка и автор",
+          "score": 14,
+          "max": 14
+        }
+      },
+      "fixes": [],
+      "meta": {
+        "title": "CRM и ERP: в чём разница и что выбрать | ai-traffic-pro",
+        "title_len": 55,
+        "description_len": 156,
+        "canonical": "https://ai-traffic-pro.ru/blog/crm-i-erp-raznica/",
+        "author": "",
+        "has_person": true,
+        "has_blogposting": true,
+        "has_faqpage": true
+      }
+    },
+    {
+      "url": "https://ai-traffic-pro.ru/blog/mediaplan-i-kontent-plan-raznica/",
+      "words": 1515,
+      "words_before_first_h2": 0,
+      "tables": 1,
+      "images": 2,
+      "numbers": 16,
+      "entities": [
+        "1с",
+        "amocrm",
+        "hubspot",
+        "retailcrm",
+        "битрикс",
+        "битрикс24",
+        "мегаплан"
+      ],
+      "external_links": 3,
+      "internal_links": 10,
+      "h2": 10,
+      "h3": 6,
+      "comparative": false,
+      "score": 100,
+      "blocks": {
+        "answer": {
+          "label": "Ответ в начале",
+          "score": 12,
+          "max": 12
+        },
+        "depth": {
+          "label": "Объём",
+          "score": 10,
+          "max": 10
+        },
+        "table": {
+          "label": "Таблица сравнения",
+          "score": 14,
+          "max": 14
+        },
+        "numbers": {
+          "label": "Цифры с единицами",
+          "score": 14,
+          "max": 14
+        },
+        "entities": {
+          "label": "Названные системы",
+          "score": 14,
+          "max": 14
+        },
+        "sources": {
+          "label": "Внешние источники",
+          "score": 10,
+          "max": 10
+        },
+        "structure": {
+          "label": "Структура и перелинковка",
+          "score": 12,
+          "max": 12
+        },
+        "schema": {
+          "label": "Разметка и автор",
+          "score": 14,
+          "max": 14
+        }
+      },
+      "fixes": [],
+      "meta": {
+        "title": "Медиаплан и контент-план: в чём разница и порядок сборки",
+        "title_len": 56,
+        "description_len": 201,
+        "canonical": "https://ai-traffic-pro.ru/blog/mediaplan-i-kontent-plan-raznica/",
+        "author": "",
+        "has_person": true,
+        "has_blogposting": true,
+        "has_faqpage": true
+      }
+    },
+    {
+      "url": "https://ai-traffic-pro.ru/blog/voronka-prodazh-kak-postroit/",
+      "words": 1519,
+      "words_before_first_h2": 0,
+      "tables": 1,
+      "images": 2,
+      "numbers": 5,
+      "entities": [
+        "amocrm",
+        "hubspot",
+        "retailcrm",
+        "salesforce",
+        "yclients",
+        "битрикс",
+        "битрикс24",
+        "мегаплан",
+        "мойсклад"
+      ],
+      "external_links": 3,
+      "internal_links": 8,
+      "h2": 8,
+      "h3": 7,
+      "comparative": false,
+      "score": 100,
+      "blocks": {
+        "answer": {
+          "label": "Ответ в начале",
+          "score": 12,
+          "max": 12
+        },
+        "depth": {
+          "label": "Объём",
+          "score": 10,
+          "max": 10
+        },
+        "table": {
+          "label": "Таблица сравнения",
+          "score": 14,
+          "max": 14
+        },
+        "numbers": {
+          "label": "Цифры с единицами",
+          "score": 14,
+          "max": 14
+        },
+        "entities": {
+          "label": "Названные системы",
+          "score": 14,
+          "max": 14
+        },
+        "sources": {
+          "label": "Внешние источники",
+          "score": 10,
+          "max": 10
+        },
+        "structure": {
+          "label": "Структура и перелинковка",
+          "score": 12,
+          "max": 12
+        },
+        "schema": {
+          "label": "Разметка и автор",
+          "score": 14,
+          "max": 14
+        }
+      },
+      "fixes": [],
+      "meta": {
+        "title": "Как построить воронку продаж: этапы и метрики",
+        "title_len": 45,
+        "description_len": 147,
+        "canonical": "https://ai-traffic-pro.ru/blog/voronka-prodazh-kak-postroit/",
+        "author": "",
+        "has_person": true,
+        "has_blogposting": true,
+        "has_faqpage": true
+      }
+    },
+    {
+      "url": "https://ai-traffic-pro.ru/blog/skolko-klikov-dayut-ai-otvety/",
+      "words": 1375,
+      "words_before_first_h2": 0,
+      "tables": 1,
+      "images": 2,
+      "numbers": 10,
+      "entities": [
+        "ahrefs",
+        "ai mode",
+        "ai overviews",
+        "chatgpt",
+        "gemini",
+        "google ai",
+        "perplexity",
+        "search console",
+        "semrush",
+        "similarweb",
+        "алиса",
+        "вебмастер",
+        "нейро",
+        "яндекс нейро"
+      ],
+      "external_links": 4,
+      "internal_links": 5,
+      "h2": 9,
+      "h3": 3,
+      "comparative": false,
+      "score": 98,
+      "blocks": {
+        "answer": {
+          "label": "Ответ в начале",
+          "score": 12,
+          "max": 12
+        },
+        "depth": {
+          "label": "Объём",
+          "score": 8,
+          "max": 10
+        },
+        "table": {
+          "label": "Таблица сравнения",
+          "score": 14,
+          "max": 14
+        },
+        "numbers": {
+          "label": "Цифры с единицами",
+          "score": 14,
+          "max": 14
+        },
+        "entities": {
+          "label": "Названные системы",
+          "score": 14,
+          "max": 14
+        },
+        "sources": {
+          "label": "Внешние источники",
+          "score": 10,
+          "max": 10
+        },
+        "structure": {
+          "label": "Структура и перелинковка",
+          "score": 12,
+          "max": 12
+        },
+        "schema": {
+          "label": "Разметка и автор",
+          "score": 14,
+          "max": 14
+        }
+      },
+      "fixes": [],
+      "meta": {
+        "title": "Сколько кликов дают ответы ИИ: 0,9% против 58%",
+        "title_len": 46,
+        "description_len": 190,
+        "canonical": "https://ai-traffic-pro.ru/blog/skolko-klikov-dayut-ai-otvety/",
+        "author": "",
+        "has_person": true,
+        "has_blogposting": true,
+        "has_faqpage": true
+      }
+    }
+  ]
+}

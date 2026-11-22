@@ -3,11 +3,14 @@
 > Маркетинговое агентство полного цикла в России: реклама, SEO, GEO, SMM, сайты и e-commerce.
 > Считаем стоимость заявки, а не клики. Работаем по договору, ведём отчётность.
 > Стоимость — по запросу: считаем после короткой вводной и фиксируем в договоре.
+>
+> Расширенная версия (состав услуг, сроки этапов, вопросы, тезисы статей):
+> https://ai-traffic-pro.ru/llms-full.txt
 
 ## Контакты
 
 - Сайт: https://ai-traffic-pro.ru/
-- Telegram: https://t.me/aitraffic_publish_bot
+- Telegram: https://t.me/aitrafficpro
 - Дзен: https://dzen.ru/ai-traffic-pro.ru
 - VK: https://vk.ru/ai_traffic_pro
 - Исполнитель: ИП Марченко Дмитрий Николаевич

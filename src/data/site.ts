@@ -118,6 +118,19 @@ export const SITE = {
     /** Deep-link с предзаполненным сообщением — для кнопки «Задать вопрос». */
     askLink: 'https://t.me/erik03132',
   },
+  /**
+   * Публичные профили бренда — для `Organization.sameAs` в JSON-LD.
+   *
+   * Зачем: поиск и нейросети склеивают сущность по внешним ссылкам. Без
+   * `sameAs` «AI-TRAFFIC-PRO» на сайте и тот же бренд в Дзене/VK для модели
+   * разные организации. Список — из `docs/distribution/channels.md`
+   * (единый источник ссылок): службный бот публикации сюда не попадает.
+   */
+  social: [
+    'https://t.me/aitrafficpro',
+    'https://dzen.ru/ai-traffic-pro.ru',
+    'https://vk.ru/ai_traffic_pro',
+  ],
 } as const;
 
 /*

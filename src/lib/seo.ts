@@ -42,6 +42,16 @@ export function organizationLd() {
     description: SITE.description,
     areaServed: { '@type': 'Country', name: 'Россия' },
     knowsLanguage: 'ru-RU',
+    // Внешние профили бренда: склеивают сайт, Дзен, VK и Telegram в одну
+    // сущность. Список живёт в `SITE.social` (источник —
+    // `docs/distribution/channels.md`), второй копии нет.
+    sameAs: [...SITE.social],
+    // Логотип в разметке: без него карточка организации в выдаче без знака.
+    logo: {
+      '@type': 'ImageObject',
+      url: `${SITE_URL}/logo.svg`,
+      caption: SITE.name,
+    },
   };
 
   // Реквизиты исполнителя (ИП). Пустые поля в разметку не выносим.
