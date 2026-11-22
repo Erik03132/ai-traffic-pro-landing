@@ -89,7 +89,9 @@ def check_text(
         warnings.append("в тексте нет ссылки на статью")
 
     lines = text.split("\n")
-    if any(line.startswith("#") for line in lines):
+    # В VK решётка в начале строки — обычный хештег, он кликабелен. Ломается он
+    # только в Telegram: там `#` уезжает в текст поста как есть.
+    if channel != "vk" and any(line.startswith("#") for line in lines):
         warnings.append("строка начинается с `#` — площадка покажет решётку как есть")
     if "**" in text:
         warnings.append("`**` — markdown-жирный; Telegram-HTML его не понимает")

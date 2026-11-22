@@ -33,7 +33,7 @@
       "channel": "telegram",
       "status": "posted",
       "plannedAt": "2026-11-16",
-      "messageId": 5,
+      "messageId": null,
       "url": "https://t.me/aitrafficpro",
       "error": null,
       "legacyNote": "пересборка ленты 20.11.2026: пост опубликован заново с обложкой новой серии; id сообщения не сохранён (Bot API не отдаёт историю канала)"
@@ -57,7 +57,7 @@
       "channel": "telegram",
       "status": "posted",
       "plannedAt": "2026-11-19",
-      "messageId": 7,
+      "messageId": null,
       "url": "https://t.me/aitrafficpro",
       "error": null,
       "legacyNote": "пересборка ленты 20.11.2026: пост опубликован заново с обложкой новой серии; id сообщения не сохранён (Bot API не отдаёт историю канала)"
@@ -80,10 +80,10 @@
       "slug": "kak-nachat-prodavat-na-marketpleysah",
       "post": "post-1",
       "channel": "telegram",
-      "status": "queued",
+      "status": "posted",
       "plannedAt": "2026-11-21",
-      "messageId": null,
-      "url": null,
+      "messageId": 26,
+      "url": "https://t.me/aitrafficpro/26",
       "error": null
     },
     {
