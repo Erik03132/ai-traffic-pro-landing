@@ -14,15 +14,15 @@
 
 ## Порядок публикации
 
-График на 10:00 МСК. Статус на 18.11.2026: 1 пост вышел, 6 в очереди VK,
-5 декабрьских ждут планирования.
+График на 10:00 МСК. Статус на 22.11.2026: 4 поста вышли (`_1`, `_9`, `_12`, `_14`),
+7 в очереди, 5 декабрьских ждут планирования.
 
 | # | Дата | Пост | Текст | Обложка |
 | --- | --- | --- | --- | --- |
 | 1 | 18.11 ✔ | GEO-продвижение: 14 проверок | `geo-prodvizhenie-checklist.md` | `public/blog/dzen-geo-checklist.png` |
-| 2 | 19.11 ⏳ | CRM и ERP: в чём разница | `crm-i-erp-raznica.md` | `public/blog/crm-i-erp-raznica-cover.png` |
-| 3 | 21.11 ⏳ | Маркетплейсы: шесть шагов | `kak-nachat-prodavat-na-marketpleysah.md` | `public/blog/kak-nachat-prodavat-na-marketpleysah-cover.png` |
-| 4 | 24.11 ⏳ | Окупаемость: ROMI, CAC, LTV | `kak-schitat-okupaemost-reklamy.md` | `public/blog/kak-schitat-okupaemost-reklamy-cover.png` |
+| 2 | 19.11 ✔ | CRM и ERP: в чём разница | `crm-i-erp-raznica.md` | `public/blog/crm-i-erp-raznica-cover.png` |
+| 3 | 22.11 ✔ | Маркетплейсы: шесть шагов | `kak-nachat-prodavat-na-marketpleysah.md` | `public/blog/kak-nachat-prodavat-na-marketpleysah-cover.png` |
+| 4 | 22.11 ✔ | Окупаемость: ROMI, CAC, LTV | `kak-schitat-okupaemost-reklamy.md` | `public/blog/kak-schitat-okupaemost-reklamy-cover.png` |
 | 5 | 26.11 ⏳ | Бриф: семь блоков | `kak-sostavit-brif-na-prodvizhenie.md` | `public/blog/kak-sostavit-brif-na-prodvizhenie-cover.png` |
 | 6 | 28.11 ⏳ | Выбор канала: три проверки | `kak-vybrat-kanal-prodvizheniya.md` | `public/blog/kak-vybrat-kanal-prodvizheniya-cover.png` |
 | 7 | 30.11 ⏳ | Контент-план за вечер | `kontent-plan-dlya-sotssetey.md` | `public/blog/kontent-plan-dlya-sotssetey-cover.png` |

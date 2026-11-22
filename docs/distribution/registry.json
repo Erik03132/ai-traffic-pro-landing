@@ -91,10 +91,10 @@
       "slug": "kak-nachat-prodavat-na-marketpleysah",
       "post": "post-2",
       "channel": "vk",
-      "status": "queued",
+      "status": "posted",
       "plannedAt": "2026-11-21",
-      "messageId": null,
-      "url": null,
+      "messageId": 12,
+      "url": "https://vk.ru/wall-243475051_12",
       "error": null
     },
     {
@@ -102,10 +102,10 @@
       "slug": "kak-schitat-okupaemost-reklamy",
       "post": "post-2",
       "channel": "vk",
-      "status": "queued",
+      "status": "posted",
       "plannedAt": "2026-11-24",
-      "messageId": null,
-      "url": null,
+      "messageId": 14,
+      "url": "https://vk.ru/wall-243475051_14",
       "error": null
     },
     {
