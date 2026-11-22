@@ -4,7 +4,20 @@
  *
  * Всё, что ведёт в пустоту, на прод не выносим: ссылки без `href` до готовности.
  */
-import { SITE, SERVICES } from '../data/site';
+import { SITE, SERVICES, HOME } from '../data/site';
+import { ARTICLES } from '../data/blog';
+
+/**
+ * Ключевые статьи — ссылки в подвале на каждой странице.
+ * Список тот же, что в блоке «Материалы» на главной (`HOME.materials.items`):
+ * один источник истины, менять в `src/data/site.ts`.
+ */
+const keyArticles: Array<{ href: string; label: string }> = HOME.materials.items.flatMap(
+  (item) => {
+    const article = ARTICLES.find((a) => a.slug === item.slug);
+    return article ? [{ href: `/blog/${article.slug}/`, label: String(item.short) }] : [];
+  },
+);
 
 const legalLinks = [
   { label: 'Политика конфиденциальности', href: '/privacy/' },
@@ -69,6 +82,17 @@ const contacts = [
         >
           Блог: разборы и инструкции →
         </a>
+        {/* Ключевые материалы: ссылки со всех страниц сайта, не только с главной. */}
+        <div class="mt-2 flex flex-col space-y-1 border-l border-stone-200 pl-3">
+          {keyArticles.map((a) => (
+            <a
+              href={a.href}
+              class="font-body-sm text-body-sm text-stone-600 hover:text-terracotta-600 transition-colors"
+            >
+              {a.label}
+            </a>
+          ))}
+        </div>
       </div>
     </div>
 
