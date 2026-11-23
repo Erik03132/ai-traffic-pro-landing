@@ -1152,6 +1152,42 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
     )
   }
 
+  <!-- Инструмент: аудит страницы. Только на SEO/GEO — там он уместен как
+       следующий шаг разговора, а не рекламная вставка на каждой услуге. -->
+  {
+    (service.slug === 'seo' || service.slug === 'geo') && (
+      <section class="w-full border-t border-stone-200 bg-stone-900 text-white py-8 md:py-20" id="audit-cta">
+        <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-center">
+            <div class="lg:col-span-8">
+              <span class="font-mono-label text-mono-label uppercase text-terracotta-400 tracking-widest font-semibold block mb-3">
+                [ПРОВЕРКА]
+              </span>
+              <h2 class="text-3xl sm:text-4xl font-light tracking-tight leading-tight mb-4">
+                Сначала посмотрите, что не так —{' '}
+                <span class="accent-italic text-stone-300">потом решайте про подрядчика</span>
+              </h2>
+              <p class="text-stone-300 text-base leading-relaxed max-w-2xl">
+                Бесплатный AI-аудит покажет балл вашей страницы из 100 и список правок: где нет
+                прямого ответа, цифр, таблицы сравнения и разметки. Около 10 секунд, без
+                регистрации. Часто после отчёта становится понятно, что часть работы можно
+                сделать своими силами — так и честнее.
+              </p>
+            </div>
+            <div class="lg:col-span-4 lg:text-right">
+              <a
+                href="/audit/"
+                class="inline-flex items-center justify-center h-12 px-6 rounded-2xl bg-white text-stone-900 text-sm font-medium hover:bg-stone-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-terracotta-400 focus-visible:ring-offset-2 focus-visible:ring-offset-stone-900"
+              >
+                Проверить страницу
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
   <!-- Статьи блога по теме (перелинковка услуга ↔ блог, задача 2.7 ROADMAP) -->
   {
     relatedArticles.length > 0 && (
