@@ -1,0 +1,1059 @@
+{
+  "generated_at": "2026-11-23",
+  "sources": {
+    "semantics": "docs/semantics/page-map.json",
+    "frequency": "docs/semantics/wordstat-moscow-2026-11.json"
+  },
+  "regions": {
+    "yandex_lr": 213,
+    "gsc_country": "rus"
+  },
+  "core_min_freq": 200,
+  "clusters": [
+    "advertising",
+    "crm",
+    "ecommerce",
+    "geo-ai",
+    "landing",
+    "leadgen",
+    "seo",
+    "smm"
+  ],
+  "phrases": [
+    {
+      "phrase": "интернет-магазин",
+      "cluster": "ecommerce",
+      "page": "/services/ecommerce/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 1994303,
+      "variant": "base",
+      "lr": null,
+      "priority": 1
+    },
+    {
+      "phrase": "маркетплейс",
+      "cluster": "ecommerce",
+      "page": "/services/ecommerce/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 45984,
+      "variant": "base",
+      "lr": null,
+      "priority": 2
+    },
+    {
+      "phrase": "продвижение товаров",
+      "cluster": "ecommerce",
+      "page": "/services/ecommerce/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 2385,
+      "variant": "base",
+      "lr": null,
+      "priority": 3
+    },
+    {
+      "phrase": "продажи на маркетплейсах",
+      "cluster": "ecommerce",
+      "page": "/services/ecommerce/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 2218,
+      "variant": "base",
+      "lr": null,
+      "priority": 4
+    },
+    {
+      "phrase": "аналитика маркетплейсов",
+      "cluster": "ecommerce",
+      "page": "/services/ecommerce/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 1057,
+      "variant": "base",
+      "lr": null,
+      "priority": 5
+    },
+    {
+      "phrase": "продвижение на маркетплейсах",
+      "cluster": "ecommerce",
+      "page": "/services/ecommerce/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 1057,
+      "variant": "base",
+      "lr": null,
+      "priority": 6
+    },
+    {
+      "phrase": "выгрузка товаров",
+      "cluster": "ecommerce",
+      "page": "/services/ecommerce/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 909,
+      "variant": "base",
+      "lr": null,
+      "priority": 7
+    },
+    {
+      "phrase": "интернет-магазин под ключ",
+      "cluster": "ecommerce",
+      "page": "/services/ecommerce/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 293,
+      "variant": "base",
+      "lr": null,
+      "priority": 8
+    },
+    {
+      "phrase": "управление продажами",
+      "cluster": "crm",
+      "page": "/services/crm/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 2389,
+      "variant": "base",
+      "lr": null,
+      "priority": 9
+    },
+    {
+      "phrase": "crm система",
+      "cluster": "crm",
+      "page": "/services/crm/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 1566,
+      "variant": "base",
+      "lr": null,
+      "priority": 10
+    },
+    {
+      "phrase": "внедрение crm",
+      "cluster": "crm",
+      "page": "/services/crm/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 1102,
+      "variant": "base",
+      "lr": null,
+      "priority": 11
+    },
+    {
+      "phrase": "crm для продаж",
+      "cluster": "crm",
+      "page": "/services/crm/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 1040,
+      "variant": "base",
+      "lr": null,
+      "priority": 12
+    },
+    {
+      "phrase": "интеграция crm",
+      "cluster": "crm",
+      "page": "/services/crm/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 921,
+      "variant": "base",
+      "lr": null,
+      "priority": 13
+    },
+    {
+      "phrase": "автоматизация продаж",
+      "cluster": "crm",
+      "page": "/services/crm/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 850,
+      "variant": "base",
+      "lr": null,
+      "priority": 14
+    },
+    {
+      "phrase": "bitrix24",
+      "cluster": "crm",
+      "page": "/services/crm/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 217,
+      "variant": "base",
+      "lr": null,
+      "priority": 15
+    },
+    {
+      "phrase": "продвижение сайта",
+      "cluster": "seo",
+      "page": "/services/seo/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 20593,
+      "variant": "base",
+      "lr": null,
+      "priority": 16
+    },
+    {
+      "phrase": "продвижение сайта москва",
+      "cluster": "seo",
+      "page": "/services/seo/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 1235,
+      "variant": "geo:москва",
+      "lr": 213,
+      "region": "Москва",
+      "priority": 17
+    },
+    {
+      "phrase": "продвижение сайта цена",
+      "cluster": "seo",
+      "page": "/services/seo/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 492,
+      "variant": "commercial:цена",
+      "lr": null,
+      "priority": 18
+    },
+    {
+      "phrase": "продвижение сайта заказать",
+      "cluster": "seo",
+      "page": "/services/seo/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 1573,
+      "variant": "commercial:заказать",
+      "lr": null,
+      "priority": 19
+    },
+    {
+      "phrase": "продвижение в яндексе",
+      "cluster": "seo",
+      "page": "/services/seo/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 20593,
+      "variant": "base",
+      "lr": null,
+      "priority": 20
+    },
+    {
+      "phrase": "оптимизация сайта",
+      "cluster": "seo",
+      "page": "/services/seo/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 8942,
+      "variant": "base",
+      "lr": null,
+      "priority": 21
+    },
+    {
+      "phrase": "seo продвижение",
+      "cluster": "seo",
+      "page": "/services/seo/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 7617,
+      "variant": "base",
+      "lr": null,
+      "priority": 22
+    },
+    {
+      "phrase": "seo продвижение москва",
+      "cluster": "seo",
+      "page": "/services/seo/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 426,
+      "variant": "geo:москва",
+      "lr": 213,
+      "region": "Москва",
+      "priority": 23
+    },
+    {
+      "phrase": "seo продвижение цена",
+      "cluster": "seo",
+      "page": "/services/seo/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 297,
+      "variant": "commercial:цена",
+      "lr": null,
+      "priority": 24
+    },
+    {
+      "phrase": "техническое сео",
+      "cluster": "seo",
+      "page": "/services/seo/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 4871,
+      "variant": "base",
+      "lr": null,
+      "priority": 25
+    },
+    {
+      "phrase": "аудит сайта",
+      "cluster": "seo",
+      "page": "/services/seo/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 2956,
+      "variant": "base",
+      "lr": null,
+      "priority": 26
+    },
+    {
+      "phrase": "seo продвижение сайтов",
+      "cluster": "seo",
+      "page": "/services/seo/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 1041,
+      "variant": "base",
+      "lr": null,
+      "priority": 27
+    },
+    {
+      "phrase": "seo услуги",
+      "cluster": "seo",
+      "page": "/services/seo/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 733,
+      "variant": "base",
+      "lr": null,
+      "priority": 28
+    },
+    {
+      "phrase": "продвижение в google",
+      "cluster": "seo",
+      "page": "/services/seo/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 292,
+      "variant": "base",
+      "lr": null,
+      "priority": 29
+    },
+    {
+      "phrase": "geo продвижение",
+      "cluster": "geo-ai",
+      "page": "/services/geo/",
+      "engines": [
+        "yandex",
+        "google",
+        "ai-assistants"
+      ],
+      "freq_msk": 1296,
+      "variant": "base",
+      "lr": null,
+      "note": "Позиция в классической выдаче не показатель — нужен замер упоминаний в ИИ.",
+      "priority": 30
+    },
+    {
+      "phrase": "продвижение в нейросетях",
+      "cluster": "geo-ai",
+      "page": "/services/geo/",
+      "engines": [
+        "yandex",
+        "google",
+        "ai-assistants"
+      ],
+      "freq_msk": 446,
+      "variant": "base",
+      "lr": null,
+      "note": "Позиция в классической выдаче не показатель — нужен замер упоминаний в ИИ.",
+      "priority": 31
+    },
+    {
+      "phrase": "geo оптимизация",
+      "cluster": "geo-ai",
+      "page": "/services/geo/",
+      "engines": [
+        "yandex",
+        "google",
+        "ai-assistants"
+      ],
+      "freq_msk": 314,
+      "variant": "base",
+      "lr": null,
+      "note": "Позиция в классической выдаче не показатель — нужен замер упоминаний в ИИ.",
+      "priority": 32
+    },
+    {
+      "phrase": "лиды",
+      "cluster": "leadgen",
+      "page": "/services/leadgen/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 45984,
+      "variant": "base",
+      "lr": null,
+      "priority": 33
+    },
+    {
+      "phrase": "воронка продаж",
+      "cluster": "leadgen",
+      "page": "/services/leadgen/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 3846,
+      "variant": "base",
+      "lr": null,
+      "priority": 34
+    },
+    {
+      "phrase": "привлечение клиентов",
+      "cluster": "leadgen",
+      "page": "/services/leadgen/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 3271,
+      "variant": "base",
+      "lr": null,
+      "priority": 35
+    },
+    {
+      "phrase": "продвижение бизнеса",
+      "cluster": "leadgen",
+      "page": "/services/leadgen/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 2052,
+      "variant": "base",
+      "lr": null,
+      "priority": 36
+    },
+    {
+      "phrase": "холодные звонки",
+      "cluster": "leadgen",
+      "page": "/services/leadgen/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 2045,
+      "variant": "base",
+      "lr": null,
+      "priority": 37
+    },
+    {
+      "phrase": "лидогенерация",
+      "cluster": "leadgen",
+      "page": "/services/leadgen/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 1739,
+      "variant": "base",
+      "lr": null,
+      "priority": 38
+    },
+    {
+      "phrase": "обработка заявок",
+      "cluster": "leadgen",
+      "page": "/services/leadgen/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 1169,
+      "variant": "base",
+      "lr": null,
+      "priority": 39
+    },
+    {
+      "phrase": "скрипты продаж",
+      "cluster": "leadgen",
+      "page": "/services/leadgen/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 615,
+      "variant": "base",
+      "lr": null,
+      "priority": 40
+    },
+    {
+      "phrase": "заявки с сайта",
+      "cluster": "leadgen",
+      "page": "/services/leadgen/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 547,
+      "variant": "base",
+      "lr": null,
+      "priority": 41
+    },
+    {
+      "phrase": "контент план",
+      "cluster": "smm",
+      "page": "/services/smm/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 3119,
+      "variant": "base",
+      "lr": null,
+      "priority": 42
+    },
+    {
+      "phrase": "продвижение в соцсетях",
+      "cluster": "smm",
+      "page": "/services/smm/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 2729,
+      "variant": "base",
+      "lr": null,
+      "priority": 43
+    },
+    {
+      "phrase": "контент для соцсетей",
+      "cluster": "smm",
+      "page": "/services/smm/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 691,
+      "variant": "base",
+      "lr": null,
+      "priority": 44
+    },
+    {
+      "phrase": "smm продвижение",
+      "cluster": "smm",
+      "page": "/services/smm/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 530,
+      "variant": "base",
+      "lr": null,
+      "priority": 45
+    },
+    {
+      "phrase": "ведение соцсетей",
+      "cluster": "smm",
+      "page": "/services/smm/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 312,
+      "variant": "base",
+      "lr": null,
+      "priority": 46
+    },
+    {
+      "phrase": "smm услуги",
+      "cluster": "smm",
+      "page": "/services/smm/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 238,
+      "variant": "base",
+      "lr": null,
+      "priority": 47
+    },
+    {
+      "phrase": "съёмка контента",
+      "cluster": "smm",
+      "page": "/services/smm/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 217,
+      "variant": "base",
+      "lr": null,
+      "priority": 48
+    },
+    {
+      "phrase": "яндекс директ",
+      "cluster": "advertising",
+      "page": "/services/advertising/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 59920,
+      "variant": "base",
+      "lr": null,
+      "priority": 49
+    },
+    {
+      "phrase": "таргетированная реклама",
+      "cluster": "advertising",
+      "page": "/services/advertising/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 10172,
+      "variant": "base",
+      "lr": null,
+      "priority": 50
+    },
+    {
+      "phrase": "настройка яндекс директ",
+      "cluster": "advertising",
+      "page": "/services/advertising/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 5736,
+      "variant": "base",
+      "lr": null,
+      "priority": 51
+    },
+    {
+      "phrase": "реклама в вк",
+      "cluster": "advertising",
+      "page": "/services/advertising/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 5736,
+      "variant": "base",
+      "lr": null,
+      "priority": 52
+    },
+    {
+      "phrase": "настройка рекламы",
+      "cluster": "advertising",
+      "page": "/services/advertising/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 5293,
+      "variant": "base",
+      "lr": null,
+      "priority": 53
+    },
+    {
+      "phrase": "реклама в интернете",
+      "cluster": "advertising",
+      "page": "/services/advertising/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 3433,
+      "variant": "base",
+      "lr": null,
+      "priority": 54
+    },
+    {
+      "phrase": "реклама в telegram",
+      "cluster": "advertising",
+      "page": "/services/advertising/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 2800,
+      "variant": "base",
+      "lr": null,
+      "priority": 55
+    },
+    {
+      "phrase": "медиаплан",
+      "cluster": "advertising",
+      "page": "/services/advertising/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 1041,
+      "variant": "base",
+      "lr": null,
+      "priority": 56
+    },
+    {
+      "phrase": "контекстная реклама",
+      "cluster": "advertising",
+      "page": "/services/advertising/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 733,
+      "variant": "base",
+      "lr": null,
+      "priority": 57
+    },
+    {
+      "phrase": "контекстная реклама москва",
+      "cluster": "advertising",
+      "page": "/services/advertising/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 901,
+      "variant": "geo:москва",
+      "lr": 213,
+      "region": "Москва",
+      "priority": 58
+    },
+    {
+      "phrase": "разработка сайта",
+      "cluster": "landing",
+      "page": "/services/landing/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 22556,
+      "variant": "base",
+      "lr": null,
+      "priority": 59
+    },
+    {
+      "phrase": "разработка сайта цена",
+      "cluster": "landing",
+      "page": "/services/landing/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 319,
+      "variant": "commercial:цена",
+      "lr": null,
+      "priority": 60
+    },
+    {
+      "phrase": "дизайн сайта",
+      "cluster": "landing",
+      "page": "/services/landing/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 9797,
+      "variant": "base",
+      "lr": null,
+      "priority": 61
+    },
+    {
+      "phrase": "корпоративный сайт",
+      "cluster": "landing",
+      "page": "/services/landing/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 5736,
+      "variant": "base",
+      "lr": null,
+      "priority": 62
+    },
+    {
+      "phrase": "создание сайта",
+      "cluster": "landing",
+      "page": "/services/landing/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 3846,
+      "variant": "base",
+      "lr": null,
+      "priority": 63
+    },
+    {
+      "phrase": "создание сайта москва",
+      "cluster": "landing",
+      "page": "/services/landing/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 550,
+      "variant": "geo:москва",
+      "lr": 213,
+      "region": "Москва",
+      "priority": 64
+    },
+    {
+      "phrase": "сайт для бизнеса",
+      "cluster": "landing",
+      "page": "/services/landing/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 1548,
+      "variant": "base",
+      "lr": null,
+      "priority": 65
+    },
+    {
+      "phrase": "разработка лендинга",
+      "cluster": "landing",
+      "page": "/services/landing/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 362,
+      "variant": "base",
+      "lr": null,
+      "priority": 66
+    },
+    {
+      "phrase": "вёрстка сайта",
+      "cluster": "landing",
+      "page": "/services/landing/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 362,
+      "variant": "base",
+      "lr": null,
+      "priority": 67
+    },
+    {
+      "phrase": "прототип сайта",
+      "cluster": "landing",
+      "page": "/services/landing/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 326,
+      "variant": "base",
+      "lr": null,
+      "priority": 68
+    },
+    {
+      "phrase": "лендинг под ключ",
+      "cluster": "landing",
+      "page": "/services/landing/",
+      "engines": [
+        "yandex",
+        "google"
+      ],
+      "freq_msk": 238,
+      "variant": "base",
+      "lr": null,
+      "priority": 69
+    },
+    {
+      "phrase": "продвижение в ии",
+      "cluster": "geo-ai",
+      "page": "/services/geo/",
+      "engines": [
+        "yandex",
+        "google",
+        "ai-assistants"
+      ],
+      "freq_msk": 199,
+      "variant": "base",
+      "lr": null,
+      "note": "Позиция в классической выдаче не показатель — нужен замер упоминаний в ИИ.",
+      "watch_only": false,
+      "priority": 70
+    },
+    {
+      "phrase": "продвижение в chatgpt",
+      "cluster": "geo-ai",
+      "page": "/services/geo/",
+      "engines": [
+        "yandex",
+        "google",
+        "ai-assistants"
+      ],
+      "freq_msk": 11,
+      "variant": "base",
+      "lr": null,
+      "note": "Позиция в классической выдаче не показатель — нужен замер упоминаний в ИИ.",
+      "watch_only": false,
+      "priority": 71
+    },
+    {
+      "phrase": "продвижение в яндекс алисе",
+      "cluster": "geo-ai",
+      "page": "/services/geo/",
+      "engines": [
+        "yandex",
+        "google",
+        "ai-assistants"
+      ],
+      "freq_msk": 8,
+      "variant": "base",
+      "lr": null,
+      "note": "Позиция в классической выдаче не показатель — нужен замер упоминаний в ИИ.",
+      "watch_only": false,
+      "priority": 72
+    },
+    {
+      "phrase": "aio оптимизация",
+      "cluster": "geo-ai",
+      "page": "/services/geo/",
+      "engines": [
+        "yandex",
+        "google",
+        "ai-assistants"
+      ],
+      "freq_msk": null,
+      "variant": "base",
+      "lr": null,
+      "note": "Позиция в классической выдаче не показатель — нужен замер упоминаний в ИИ.",
+      "watch_only": true,
+      "priority": 73
+    },
+    {
+      "phrase": "видимость бренда в chatgpt",
+      "cluster": "geo-ai",
+      "page": "/services/geo/",
+      "engines": [
+        "yandex",
+        "google",
+        "ai-assistants"
+      ],
+      "freq_msk": null,
+      "variant": "base",
+      "lr": null,
+      "note": "Позиция в классической выдаче не показатель — нужен замер упоминаний в ИИ.",
+      "watch_only": true,
+      "priority": 74
+    },
+    {
+      "phrase": "продвижение в ai поиске",
+      "cluster": "geo-ai",
+      "page": "/services/geo/",
+      "engines": [
+        "yandex",
+        "google",
+        "ai-assistants"
+      ],
+      "freq_msk": null,
+      "variant": "base",
+      "lr": null,
+      "note": "Позиция в классической выдаче не показатель — нужен замер упоминаний в ИИ.",
+      "watch_only": true,
+      "priority": 75
+    },
+    {
+      "phrase": "видно ли бренд в нейросетях",
+      "cluster": "geo-ai",
+      "page": "/services/geo/",
+      "engines": [
+        "yandex",
+        "google",
+        "ai-assistants"
+      ],
+      "freq_msk": null,
+      "variant": "base",
+      "lr": null,
+      "note": "Позиция в классической выдаче не показатель — нужен замер упоминаний в ИИ.",
+      "watch_only": true,
+      "priority": 76
+    },
+    {
+      "phrase": "трафик аи",
+      "cluster": "geo-ai",
+      "page": "/services/geo/",
+      "engines": [
+        "yandex",
+        "google",
+        "ai-assistants"
+      ],
+      "freq_msk": null,
+      "variant": "base",
+      "lr": null,
+      "note": "Позиция в классической выдаче не показатель — нужен замер упоминаний в ИИ.",
+      "watch_only": true,
+      "priority": 77
+    }
+  ]
+}

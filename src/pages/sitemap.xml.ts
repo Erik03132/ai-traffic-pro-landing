@@ -52,6 +52,7 @@ const SERVICE_LASTMOD: Record<string, string> = {
   '/services/landing/': '2026-11-04',
   '/services/crm/': '2026-11-04',
   '/services/ecommerce/': '2026-11-09',
+  '/services/geo/': '2026-11-23',
 };
 
 /**

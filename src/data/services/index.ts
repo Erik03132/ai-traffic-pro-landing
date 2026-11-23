@@ -10,6 +10,7 @@ import type { Service } from '../types';
 
 import { leadgen } from './leadgen';
 import { seo } from './seo';
+import { geo } from './geo';
 import { smm } from './smm';
 import { advertising } from './advertising';
 import { landing } from './landing';
@@ -19,7 +20,11 @@ import { ecommerce } from './ecommerce';
 /** 6 направлений — канон из дизайна Stitch. Входят в карточки главной и футера. */
 export const SERVICES: Service[] = [leadgen, seo, smm, advertising, landing, crm];
 
-/** Все страницы услуг: 6 основных + ecommerce как дополнительное направление. */
-export const ALL_SERVICES: Service[] = [...SERVICES, ecommerce];
+/**
+ * Все страницы услуг: 6 основных + e-commerce и GEO как дополнительные
+ * направления (`num: '—'`, `inMain: false` — их нет на главной, но они есть
+ * в футере, сайте и sitemap.
+ */
+export const ALL_SERVICES: Service[] = [...SERVICES, ecommerce, geo];
 
 export type { Service };

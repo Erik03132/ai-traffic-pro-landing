@@ -8,7 +8,10 @@
       "автоматизация продаж": "crm",
       "управление продажами": "crm",
       "интернет-магазин": "ecommerce"
-    }
+    },
+    "notes": [
+      "2026-11-23: кластер geo-ai вынесен из seo в отдельную посадочную /services/geo/ — спрос измерим (geo продвижение — 1296 запросов/мес по Москве), но метрика другая."
+    ]
   },
   "pages": {
     "ecommerce": {
@@ -388,32 +391,8 @@
           "from_cluster": "seo"
         },
         {
-          "query": "продвижение в нейросетях",
-          "vacancies": 618,
-          "trendsAvg": 0.6,
-          "from_cluster": "seo"
-        },
-        {
-          "query": "оптимизация сайта под нейросети",
-          "vacancies": 60,
-          "trendsAvg": 0,
-          "from_cluster": "seo"
-        },
-        {
           "query": "техническое сео",
           "vacancies": 33,
-          "trendsAvg": null,
-          "from_cluster": "seo"
-        },
-        {
-          "query": "попасть в ответы нейросети",
-          "vacancies": 5,
-          "trendsAvg": null,
-          "from_cluster": "seo"
-        },
-        {
-          "query": "geo оптимизация",
-          "vacancies": 0,
           "trendsAvg": null,
           "from_cluster": "seo"
         }
@@ -422,7 +401,109 @@
         "seo"
       ],
       "cluster": "seo",
-      "total_roots": 13
+      "total_roots": 9
+    },
+    "geo-ai": {
+      "roots": [
+        {
+          "query": "продвижение в нейросетях",
+          "vacancies": 618,
+          "trendsAvg": 0.6,
+          "from_cluster": "seo",
+          "source": "wordstat-2026-11"
+        },
+        {
+          "query": "оптимизация сайта под нейросети",
+          "vacancies": 60,
+          "trendsAvg": 0,
+          "from_cluster": "seo",
+          "source": "wordstat-2026-11"
+        },
+        {
+          "query": "попасть в ответы нейросети",
+          "vacancies": 5,
+          "trendsAvg": null,
+          "from_cluster": "seo",
+          "source": "wordstat-2026-11"
+        },
+        {
+          "query": "geo оптимизация",
+          "vacancies": 0,
+          "trendsAvg": null,
+          "from_cluster": "seo",
+          "source": "wordstat-2026-11"
+        },
+        {
+          "query": "geo продвижение",
+          "vacancies": null,
+          "trendsAvg": null,
+          "from_cluster": "seo",
+          "source": "wordstat-2026-11"
+        },
+        {
+          "query": "продвижение в ии",
+          "vacancies": null,
+          "trendsAvg": null,
+          "from_cluster": "seo",
+          "source": "wordstat-2026-11"
+        },
+        {
+          "query": "продвижение в chatgpt",
+          "vacancies": null,
+          "trendsAvg": null,
+          "from_cluster": "seo",
+          "source": "wordstat-2026-11"
+        },
+        {
+          "query": "продвижение в яндекс алисе",
+          "vacancies": null,
+          "trendsAvg": null,
+          "from_cluster": "seo",
+          "source": "wordstat-2026-11"
+        },
+        {
+          "query": "aio оптимизация",
+          "vacancies": null,
+          "trendsAvg": null,
+          "from_cluster": "seo",
+          "source": "wordstat-2026-11"
+        },
+        {
+          "query": "видимость бренда в chatgpt",
+          "vacancies": null,
+          "trendsAvg": null,
+          "from_cluster": "seo",
+          "source": "wordstat-2026-11"
+        },
+        {
+          "query": "продвижение в ai поиске",
+          "vacancies": null,
+          "trendsAvg": null,
+          "from_cluster": "seo",
+          "source": "wordstat-2026-11"
+        },
+        {
+          "query": "видно ли бренд в нейросетях",
+          "vacancies": null,
+          "trendsAvg": null,
+          "from_cluster": "seo",
+          "source": "wordstat-2026-11"
+        },
+        {
+          "query": "трафик аи",
+          "vacancies": null,
+          "trendsAvg": null,
+          "from_cluster": "seo",
+          "source": "wordstat-2026-11"
+        }
+      ],
+      "contributors": [
+        "seo"
+      ],
+      "cluster": "geo-ai",
+      "total_roots": 13,
+      "landing": "/services/geo/",
+      "note": "Отдельный кластер: позиция в классической выдаче не показатель. Замер — доля упоминаний бренда в ответах ИИ по фиксированному набору вопросов."
     },
     "leadgen": {
       "roots": [

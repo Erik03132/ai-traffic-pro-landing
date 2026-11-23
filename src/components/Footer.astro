@@ -4,7 +4,7 @@
  *
  * Всё, что ведёт в пустоту, на прод не выносим: ссылки без `href` до готовности.
  */
-import { SITE, SERVICES, HOME } from '../data/site';
+import { SITE, ALL_SERVICES, HOME } from '../data/site';
 import { ARTICLES } from '../data/blog';
 
 /**
@@ -68,7 +68,7 @@ const contacts = [
         [01 / УСЛУГИ]
       </span>
       <div class="flex flex-col space-y-space-xs">
-        {SERVICES.map((s) => (
+        {ALL_SERVICES.map((s) => (
           <a
             href={`/services/${s.slug}/`}
             class="font-body-sm text-body-sm text-stone-700 hover:text-terracotta-600 transition-colors"
