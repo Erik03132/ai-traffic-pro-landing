@@ -174,6 +174,36 @@ CWV-план (PSI отдал 429 «Quota exceeded» — мерить позже 
 
 ## Ждут действия Игоря
 
+- [x] **СДЕЛАНО (24.11.2026) — статика переехала с GitHub Pages на Timeweb Cloud App Platform.**
+  Причина: коммерческое использование на GitHub Pages запрещено ToS, `_headers`
+  не применяются, юрисдикция США (152-ФЗ). Cloudflare Pages отпал 23.11
+  (обрезанный HTML на HTTP/2 через прокси).
+  Приложение: id `294905`, `ai-traffic-pro`, Astro + Node.js 24, регион Москва
+  (`ru-3`), IP `178.209.127.53`, тариф «frontend request preset MSK» —
+  1 ₽/мес + 4,95 ₽ / 10 000 входящих запросов, 2 ГБ NVMe.
+  Замеры прода 24.11: 6/6 запросов `curl --compressed` → 123 129 байт,
+  `</html>`, `mc.yandex.ru`, ссылка на автора; TLS — Let's Encrypt
+  (`CN=ai-traffic-pro.ru`, до 21.02.2027); `server: Caddy`.
+  Заголовки в панели: HSTS, CSP, `X-Frame-Options: DENY`,
+  `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`; gzip.
+  Редиректы: `www` → apex 301 (проверено), `/services/marketplace/` →
+  `/services/ecommerce/` 301 (проверено).
+  **Хвосты, которые остались:**
+  1. `api.ai-traffic-pro.ru` отдаёт **522** (Cloudflare не проксирует
+     `*.workers.dev` под своим доменом). Форма его не использует — в сборке
+     задан только `PUBLIC_API_BASE_URL`. Если резерв нужен — Worker Custom
+     Domain или второй Worker.
+  2. **Автодеплоя нет:** репозиторий подключён по URL, `is_allowed_webhook:
+     false`. Деплой — вручную: панель → приложение → «Деплой» →
+     «Запустить деплой» (или `POST /api/v1/apps/294905/deploy`).
+     `.github/workflows/deploy.yml` теперь только резерв (GitHub Pages).
+  3. `Cache-Control: immutable` для `/_astro/` не воспроизводится — на Timeweb
+     заголовок глобальный (принимаемая потеря).
+  4. Баланс: на момент переезда было 503 ₽ — при ~10 тыс. запросов/мес это
+     ~6 ₽, но пополнять по мере расхода.
+  Токен Timeweb для API: `ai-traffic-pro-deploy` (бессрочный, полные права —
+  хранить только в панели, не в репозитории).
+
 - [ ] **26.11.2026 — проверить модерацию карточки Яндекс Бизнеса** (A5.1).
   Напоминание стоит в Things: `Проверить модерацию карточки Яндекс Бизнеса…`
   (26.11.2026, Inbox). Смотреть журнал

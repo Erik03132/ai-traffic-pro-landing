@@ -215,83 +215,82 @@ node --test src/lib/feed.test.ts
 
 ## Деплой
 
-Схема размещения: **статика на Cloudflare Pages, API на Cloudflare Worker, VPS в резерве**.
+Схема размещения (фактическая на 24.11.2026): **статика на Timeweb Cloud
+App Platform (прод), API на Cloudflare Worker, DNS и почта на Cloudflare**.
 Решения зафиксированы в [ADR-001](docs/adr/ADR-001-api-on-cloudflare-worker.md) (API) и
 в задаче 0.8 `docs/ROADMAP.md` (статика).
 
-| Что                       | Где                                    | Адрес                                                        |
-| ------------------------- | -------------------------------------- | ------------------------------------------------------------ |
-| Статика (Astro → `dist/`) | Cloudflare Pages (**прод**)            | `https://ai-traffic-pro.ru`                                   |
-| Статика (резерв)          | GitHub Pages                           | сборка `deploy.yml` остаётся зелёной, но домен на неё не смотрит |
-| API (заявки, чат)         | Cloudflare Worker (основной)           | `https://ai-traffic-pro-api.erik03132.workers.dev`           |
-| API (заявки, чат)         | Node-сервер на VPS `217.149.23.113`    | `https://api.ai-traffic-pro.ru` (резерв, nginx/Ubuntu)        |
+| Что                       | Где                                        | Адрес                                                        |
+| ------------------------- | ------------------------------------------ | ------------------------------------------------------------ |
+| Статика (Astro → `dist/`) | **Timeweb Cloud App Platform** (прод)      | `https://ai-traffic-pro.ru`                                   |
+| Статика (резерв)          | GitHub Pages                               | `deploy.yml` остаётся зелёным, домен на него не смотрит       |
+| API (заявки, чат)         | Cloudflare Worker                          | `https://ai-traffic-pro-api.erik03132.workers.dev`            |
+| API (резерв)              | —                                          | нет: `api.ai-traffic-pro.ru` отдаёт 522 (см. ниже)            |
 
-DNS: NS зоны `ai-traffic-pro.ru` — `kolton.ns.cloudflare.com` и `daphne.ns.cloudflare.com`.
-`ai-traffic-pro.ru`, `www` и `api` отдаёт Cloudflare (A-записи `104.21.46.228`,
-`172.67.142.183`), сертификаты — на стороне Cloudflare.
+Приложение Timeweb: id `294905`, регион Москва (`ru-3`), IP `178.209.127.53`,
+тариф «frontend request preset MSK» — 1 ₽/мес + 4,95 ₽ за 10 000 входящих
+запросов, 2 ГБ NVMe. Домен-источник: `Erik03132/ai-traffic-pro-landing`,
+ветка `main`.
 
-**Что даёт Cloudflare Pages и почему туда переезжаем:** GitHub Pages не умеет
-`_headers` — security-заголовки и `Cache-Control: immutable` для `/_astro/` там
-недоступны (`max-age=600`). Pages даёт и то, и другое через `public/_headers`,
-плюс 301-редиректы в 1 хоп (`public/_redirects`), свой 404 без soft-404,
-бесплатный preview-деплой на каждый PR и bandwidth без тарификации.
+DNS: NS зоны `ai-traffic-pro.ru` — `kolton.ns.cloudflare.com` и
+`daphne.ns.cloudflare.com`. `ai-traffic-pro.ru` и `www` — A-запись
+`178.209.127.53`, DNS only (без прокси Cloudflare), сертификат Let's Encrypt
+выпускает и продлевает Timeweb.
 
-> **Переезд сделан.** NS домена перенесены на Cloudflare, поэтому кастомный домен
-> на Pages заработал: `ai-traffic-pro.ru` отдаёт сборку из Cloudflare Pages.
-> GitHub Pages остаётся резервным каналом (workflow `deploy.yml`), но прод —
-> на Pages.
+**Зачем переехали с GitHub Pages:** коммерческое использование на GitHub Pages
+запрещено ToS, `_headers` там не применяются (`max-age=600`, без HSTS/CSP), а
+юрисдикция — США. Timeweb: российский хостинг (152-ФЗ), заголовки и редиректы
+в панели, gzip на Edge, оплата по запросам.
 
-Статика собирается в CI: пуш в `main` → `.github/workflows/deploy.yml` → Astro build →
-артефакт `dist` → Pages. Адреса API подставляются на этапе сборки через GitHub
-Actions variables `PUBLIC_API_BASE_URL` и `PUBLIC_API_FALLBACK_URL`. Пустая
-переменная = API на том же домене (локальная сборка, nginx-проксирование).
+> **Cloudflare Pages не используется.** Попытка 23.11 провалилась: с прокси
+> Cloudflare отдавался **обрезанный HTML** (HTTP/2 — обрыв, нет `</html>`;
+> HTTP/1.1 — цело; `pages.dev` напрямую — всегда цело). DNS откатили, потом
+> переехали на Timeweb — там HTTP/2 отдаёт те же 123 129 байт, что и локальная
+> сборка (6/6 замеров). Workflow `deploy-pages.yml` оставлен, но домен на
+> Pages не смотрит.
 
-### Ручной деплой статики (когда CI не может)
+### Деплой статики
 
-CI-деплой в Cloudflare Pages требует секретов `CLOUDFLARE_API_TOKEN` и
-`CLOUDFLARE_ACCOUNT_ID`: без них шаг печатает заметку в summary и пропускается.
-Тогда статику выкладываем с машины (нужен `wrangler login`):
+Сборку и раздачу делает Timeweb: он забирает код из GitHub по URL, собирает
+(`npm run build`, Astro, Node.js 24) и публикует `/dist`. Переменные сборки
+заданы в настройках приложения (`PUBLIC_API_BASE_URL`, `PUBLIC_YM_COUNTER_ID`).
 
-```bash
-npm run build
-npx wrangler pages deploy dist --project-name ai-traffic-pro --branch main --commit-dirty=true
-```
+**Автодеплоя по пушу нет:** репозиторий подключён по URL, а не через OAuth,
+поэтому GitHub-webhook не выдаётся (`is_allowed_webhook: false`). Деплой —
+ручной: панель Timeweb → приложение `ai-traffic-pro` → «Деплой» →
+«Запустить деплой» (или API `POST /api/v1/apps/294905/deploy`).
 
-**Известный блокер: `fetch failed` / `write EPIPE` на `POST /pages/assets/upload`.**
-Причина не в сайте и не в токене — Node отправляет TLS ClientHello с пост-квантовым
-key share `X25519MLKEM768`, и на части каналов до `api.cloudflare.com` такой пакет
-не проходит (curl идёт с `X25519` и работает). Лечится форсированием классического
-ECDH для процесса wrangler:
+Пуш в `main` по-прежнему запускает `.github/workflows/deploy.yml` (GitHub
+Pages) — это резервный канал, прод он не обновляет.
 
-```bash
-cat > /tmp/force-x25519.cjs <<'JS'
-const tls = require('tls');
-if (!tls.__nomlkemPatched) {
-  tls.__nomlkemPatched = true;
-  const orig = tls.connect;
-  tls.connect = function (...args) {
-    if (args[0] && typeof args[0] === 'object') {
-      args[0] = Object.assign({ ecdhCurve: 'X25519:P-256' }, args[0]);
-    }
-    return orig.apply(this, args);
-  };
-}
-JS
-
-NODE_OPTIONS="--require /tmp/force-x25519.cjs" \
-  npx wrangler pages deploy dist --project-name ai-traffic-pro --branch main --commit-dirty=true
-```
-
-Проверка после деплоя (все три пункта обязательны):
+Проверка после деплоя:
 
 ```bash
-curl -sI https://ai-traffic-pro.ru/ | head -3                       # 200, server: cloudflare
-curl -s  https://ai-traffic-pro.ru/ | grep -o '<title>[^<]*'        # title из dist/index.html
-curl -s -o /dev/null -w "%{http_code}\n" https://ai-traffic-pro.ru/blog/   # 200
+curl -sI https://ai-traffic-pro.ru/ | grep -iE 'server|strict-transport|content-security'  # server: Caddy + заголовки
+curl -s https://ai-traffic-pro.ru/ | wc -c                                                # 123129
+curl -s -o /dev/null -w "%{http_code} %{redirect_url}\n" https://www.ai-traffic-pro.ru/   # 301 → apex
+curl -s -o /dev/null -w "%{http_code} %{redirect_url}\n" https://ai-traffic-pro.ru/services/marketplace/  # 301 → /services/ecommerce/
 ```
 
-Размер HTML с прода больше локального на ~243 байта — это вставка Cloudflare
-(авто-скрипт), не расхождение сборки.
+### Заголовки и редиректы (замена `_headers` / `_redirects`)
+
+`public/_headers` и `public/_redirects` — формат Cloudflare Pages; на Timeweb
+они не применяются (файлы уезжают в `dist`, но сервер их не читает). Источник
+истины теперь — панель: «Настройки веб-сервера».
+
+| Правило                                        | Значение                                                      |
+| ---------------------------------------------- | ------------------------------------------------------------- |
+| `X-Content-Type-Options` / `X-Frame-Options`   | `nosniff` / `DENY`                                            |
+| `Referrer-Policy` / `Permissions-Policy`       | `strict-origin-when-cross-origin` / см. `_headers`             |
+| `Strict-Transport-Security`                    | `max-age=31536000` (без `includeSubDomains`)                  |
+| `Content-Security-Policy`                      | как в `_headers` (Яндекс.Метрика, Google Fonts, Worker)        |
+| Редирект `www` → apex                          | host `www.ai-traffic-pro.ru` → `ai-traffic-pro.ru`, 301        |
+| Редирект `/services/marketplace/`              | → `/services/ecommerce/`, 301                                 |
+| Сжатие                                         | gzip                                                          |
+
+Ограничения Timeweb: 10 правил заголовков и 10 редиректов на приложение;
+`Cache-Control` задаётся глобально, поэтому `immutable` только для `/_astro/`
+(как в `_headers`) не воспроизводится.
 
 ### Адреса API и резерв
 
@@ -299,14 +298,21 @@ curl -s -o /dev/null -w "%{http_code}\n" https://ai-traffic-pro.ru/blog/   # 200
 
 | Переменная                | Где задана                              | Значение                                       |
 | ------------------------- | ---------------------------------------- | ---------------------------------------------- |
-| `PUBLIC_API_BASE_URL`     | Cloudflare Pages → production env_vars  | `https://ai-traffic-pro-api.erik03132.workers.dev` |
-| `PUBLIC_API_FALLBACK_URL` | Cloudflare Pages → production env_vars  | `https://api.ai-traffic-pro.ru`                |
+| `PUBLIC_API_BASE_URL`     | Timeweb → приложение → Переменные        | `https://ai-traffic-pro-api.erik03132.workers.dev` |
+| `PUBLIC_API_FALLBACK_URL` | не задана                                | пусто                                          |
 
 **Резерв срабатывает только при сетевой ошибке.** Если Worker недоступен по сети
-(троттлинг трафика из РФ, обрыв), запрос уходит на VPS. На 5xx повтора нет:
-сервер ответил — значит заявка могла уйти, повтор дал бы клиенту две заявки.
-Если не сработало ни то, ни другое, форма показывает ссылку в Telegram с уже
-готовым текстом заявки.
+(троттлинг трафика из РФ, обрыв), запрос уходит на резервный адрес.
+На 5xx повтора нет: сервер ответил — значит заявка могла уйти, повтор дал бы
+клиенту две заявки. Если не сработало ни то, ни другое, форма показывает ссылку
+в Telegram с уже готовым текстом заявки.
+
+> **Резерва у API сейчас нет.** VPS `217.149.23.113` выключен (отдаёт `000`),
+> `api.ai-traffic-pro.ru` — CNAME на Worker, но через прокси Cloudflare отдаёт
+> **522** (Cloudflare не проксирует `*.workers.dev` под своим доменом). Форма
+> этот адрес не использует: в сборке задан только `PUBLIC_API_BASE_URL`. Чтобы
+> резерв появился, нужен либо отдельный Worker, либо Worker Custom Domain
+> (`api.ai-traffic-pro.ru`) — второе требует токена с правами Workers.
 
 ### Аналитика (Яндекс.Метрика)
 
@@ -314,7 +320,7 @@ curl -s -o /dev/null -w "%{http_code}\n" https://ai-traffic-pro.ru/blog/   # 200
 
 | Переменная           | Где задана                                          |
 | -------------------- | --------------------------------------------------- |
-| `PUBLIC_YM_COUNTER_ID` | GitHub Actions → Variables (для `ci`, `deploy-pages`, `deploy`) |
+| `PUBLIC_YM_COUNTER_ID` | Timeweb → приложение → Переменные (`114006019`)      |
 
 Пустое значение = счётчика нет: `Analytics.astro` не рендерится, `reachGoal()`
 превращается в no-op. Так dev и превью не засоряют статистику.
@@ -376,7 +382,7 @@ CORS: `ALLOWED_ORIGINS` в `.env` — белый список origin'ов ста
 
 > Apex-сертификат на VPS (`ai-traffic-pro.ru`) оставлен для возможного отката,
 > но его автообновление **отключено** (`/etc/letsencrypt/renewal/ai-traffic-pro.ru.conf.disabled`):
-> после переключения DNS на GitHub Pages HTTP-01-челлендж до VPS не доходит и renew падал бы.
+> после переключения DNS на Timeweb HTTP-01-челлендж до VPS не доходит и renew падал бы.
 
 ### certbot на VPS: какой бинарник рабочий
 
@@ -408,7 +414,7 @@ urllib3, и старый `requests_toolbelt` падает с `ImportError`. Из
 - [x] токен Telegram-бота для приёма заявок
 - [x] решение по 6-й услуге (28.10.2026): 06 = e-commerce (интернет-магазин + WB/Ozon),
       CRM — дополнительное направление, `/services/marketplace/` → 301 на e-commerce
-- [x] HTTPS на домене (сертификат GitHub Pages, `https_enforced`), API — на поддомене
+- [x] HTTPS на домене (сертификат Let's Encrypt от Timeweb, прод — App Platform), API — на поддомене
 - [x] email для связи: `erik03132@gmail.com` (`SITE.legal.email`) — пока личная
       почта, не доменная; при заведении `@ai-traffic-pro.ru` обновить `src/data/site.ts`
 - [ ] мобильные экраны в Stitch (адаптив сейчас сделан на глаз)
