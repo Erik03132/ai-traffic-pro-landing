@@ -1,0 +1,225 @@
+---
+/**
+ * Публичный AI-аудит страницы — лид-магнит.
+ *
+ * Логика в `AuditWidget.astro` (клиент) и `worker/src/audit.js` (правила).
+ * Здесь — только сборка страницы: объяснение, сам инструмент, FAQ и форма
+ * заявки. Страница индексируется: она отвечает на запрос «проверить страницу
+ * на GEO / AI-видимость» и одновременно служит входом в услугу.
+ */
+import Base from '../layouts/Base.astro';
+import AuditWidget from '../components/AuditWidget.astro';
+import Faq from '../components/Faq.astro';
+import ContactSection from '../components/ContactSection.astro';
+import { faqLd } from '../lib/seo';
+
+const FAQ = [
+  {
+    q: 'Что именно проверяет аудит?',
+    a: 'Восемь блоков, по которым ИИ-поиск решает, брать ли страницу в ответ: прямой ответ в первом абзаце, объём, таблица сравнения, цифры с единицами, названные системы (1С, Битрикс24, amoCRM и другие), ссылки на первоисточники, структура H2/H3 с внутренними ссылками, разметка и автор-человек. Отдельно смотрим robots.txt, llms.txt и sitemap.xml.',
+  },
+  {
+    q: 'Чем это отличается от обычного SEO-аудита?',
+    a: 'SEO-аудит проверяет техническую доступность и ссылки. Этот — содержание: может ли страница стать источником ответа «что выбрать» и «сколько стоит». Разметка и скорость не спасут текст, в котором нет цифр, названных систем и прямого ответа.',
+  },
+  {
+    q: 'Это бесплатно и без регистрации?',
+    a: 'Да. Одна проверка занимает около десяти секунд, отчёт показывается сразу на странице. Данные не сохраняются: адрес и результат живут только в вашем браузере.',
+  },
+  {
+    q: 'Почему нельзя проверить закрытую или локальную страницу?',
+    a: 'Аудит ходит по публичному адресу и читает то же, что видит поисковик. Внутренние адреса, localhost и служебные сети закрыты намеренно — иначе сервис стал бы способом дотянуться до чужих внутренних систем.',
+  },
+  {
+    q: 'Что делать с отчётом дальше?',
+    a: 'Правки идут в порядке влияния: сначала вступление и таблица, потом цифры и названные системы, затем разметка и автор. Если правок много, разумнее переписать страницу целиком — покажем, в каком порядке и что это даст.',
+  },
+];
+
+const ld = [
+  faqLd(FAQ),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'AI-аудит страницы',
+    applicationCategory: 'SEO Tool',
+    operatingSystem: 'Web',
+    url: 'https://ai-traffic-pro.ru/audit/',
+    description:
+      'Проверка страницы по восьми признакам, которые решают, попадёт ли текст в ответы нейросетей.',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'RUB' },
+    provider: {
+      '@type': 'Organization',
+      name: 'AI-TRAFFIC-PRO',
+      url: 'https://ai-traffic-pro.ru',
+    },
+  },
+];
+---
+
+<Base
+  meta={{
+    title: 'AI-аудит страницы: проверка на GEO и AI-видимость | AI-TRAFFIC-PRO',
+    description:
+      'Бесплатный аудит страницы: балл 0–100 по восьми блокам, которые решают, попадёт ли текст в ответы нейросетей. Список правок по влиянию, проверка robots.txt, llms.txt и sitemap.xml.',
+    path: '/audit/',
+    image: '/og/services-seo.png',
+  }}
+  ld={ld as Record<string, unknown>[]}
+  localFaq={true}
+  localContact={true}
+>
+  <section class="max-w-7xl mx-auto px-margin md:px-margin-desktop pt-8 md:pt-16 pb-8 md:pb-12">
+    <AuditWidget ctaHref="#zayavka" />
+  </section>
+
+  <section class="max-w-7xl mx-auto px-margin md:px-margin-desktop pb-10 md:pb-16" id="blocks">
+    <p class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold mb-3">
+      [ПРАВИЛА]
+    </p>
+    <h2 class="font-headline-md text-headline-md text-stone-900 mb-3">
+      Восемь блоков и их вес в оценке
+    </h2>
+    <p class="font-body-md text-body-md text-stone-600 max-w-3xl mb-6">
+      Сумма весов — 100 баллов. Вес показывает цену провала: без таблицы сравнения страница
+      теряет 14 баллов, без ответа в первом абзаце — 12. Правки идут сверху вниз по таблице,
+      от дорогих блоков к дешёвым.
+    </p>
+    <div class="overflow-x-clip rounded-2xl border border-stone-200 bg-white">
+      <table class="w-full text-left border-collapse">
+        <caption class="sr-only">Блоки AI-аудита: вес и что проверяется</caption>
+        <thead>
+          <tr class="border-b border-stone-200 bg-stone-50">
+            <th scope="col" class="font-mono text-[11px] uppercase tracking-wider text-stone-500 px-4 py-3">Блок</th>
+            <th scope="col" class="font-mono text-[11px] uppercase tracking-wider text-stone-500 px-4 py-3">Вес</th>
+            <th scope="col" class="font-mono text-[11px] uppercase tracking-wider text-stone-500 px-4 py-3">Что проверяем</th>
+            <th scope="col" class="font-mono text-[11px] uppercase tracking-wider text-stone-500 px-4 py-3">Типичный провал</th>
+          </tr>
+        </thead>
+        <tbody class="font-body-sm text-body-sm text-stone-700">
+          <tr class="border-b border-stone-100">
+            <th scope="row" class="px-4 py-3 font-medium text-stone-900">Ответ в начале</th>
+            <td class="px-4 py-3 tabular-nums">12</td>
+            <td class="px-4 py-3">Сколько слов до первого H2 — нужен прямой ответ в первом абзаце</td>
+            <td class="px-4 py-3 text-stone-500">300 слов вступления «о важности SEO»</td>
+          </tr>
+          <tr class="border-b border-stone-100">
+            <th scope="row" class="px-4 py-3 font-medium text-stone-900">Объём</th>
+            <td class="px-4 py-3 tabular-nums">10</td>
+            <td class="px-4 py-3">Слов в теле: 1500 — потолок, 600 — ноль баллов</td>
+            <td class="px-4 py-3 text-stone-500">Лендинг на 400 слов без примеров</td>
+          </tr>
+          <tr class="border-b border-stone-100">
+            <th scope="row" class="px-4 py-3 font-medium text-stone-900">Таблица сравнения</th>
+            <td class="px-4 py-3 tabular-nums">14</td>
+            <td class="px-4 py-3">Настоящая <code>&lt;table&gt;</code>, а не список с галочками</td>
+            <td class="px-4 py-3 text-stone-500">Три карточки «преимущества» рядом</td>
+          </tr>
+          <tr class="border-b border-stone-100">
+            <th scope="row" class="px-4 py-3 font-medium text-stone-900">Цифры с единицами</th>
+            <td class="px-4 py-3 tabular-nums">14</td>
+            <td class="px-4 py-3">Проценты, рубли, сроки в днях и месяцах — от трёх разных</td>
+            <td class="px-4 py-3 text-stone-500">«Быстро», «недорого», «в короткие сроки»</td>
+          </tr>
+          <tr class="border-b border-stone-100">
+            <th scope="row" class="px-4 py-3 font-medium text-stone-900">Названные системы</th>
+            <td class="px-4 py-3 tabular-nums">14</td>
+            <td class="px-4 py-3">1С, Битрикс24, amoCRM, Odoo — по именам, от трёх</td>
+            <td class="px-4 py-3 text-stone-500">«Современные CRM-системы»</td>
+          </tr>
+          <tr class="border-b border-stone-100">
+            <th scope="row" class="px-4 py-3 font-medium text-stone-900">Внешние источники</th>
+            <td class="px-4 py-3 tabular-nums">10</td>
+            <td class="px-4 py-3">Ссылки на первоисточники, соцсети не считаются</td>
+            <td class="px-4 py-3 text-stone-500">Ссылки только на свой блог и Telegram</td>
+          </tr>
+          <tr class="border-b border-stone-100">
+            <th scope="row" class="px-4 py-3 font-medium text-stone-900">Структура и перелинковка</th>
+            <td class="px-4 py-3 tabular-nums">12</td>
+            <td class="px-4 py-3">H3 внутри H2 и контекстные ссылки в теле текста</td>
+            <td class="px-4 py-3 text-stone-500">Плоский текст, ссылки только в меню</td>
+          </tr>
+          <tr>
+            <th scope="row" class="px-4 py-3 font-medium text-stone-900">Разметка и автор</th>
+            <td class="px-4 py-3 tabular-nums">14</td>
+            <td class="px-4 py-3">JSON-LD (BlogPosting или Service), FAQPage, человек-автор</td>
+            <td class="px-4 py-3 text-stone-500">Автор — «компания», FAQ размечен текстом</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="font-body-sm text-body-sm text-stone-600 mt-4 max-w-3xl">
+      Правила блока «Разметка» собраны не на вкус: типы страниц описаны в
+      <a class="underline decoration-terracotta-400 underline-offset-2 hover:text-stone-900 rounded-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-terracotta-500 focus-visible:ring-offset-2" href="https://schema.org/BlogPosting" rel="noopener">schema.org/BlogPosting</a>,
+      манифест для нейросетей — в стандарте
+      <a class="underline decoration-terracotta-400 underline-offset-2 hover:text-stone-900 rounded-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-terracotta-500 focus-visible:ring-offset-2" href="https://llmstxt.org/" rel="noopener">llms.txt</a>,
+      а устройство AI-ответов и цитирования — в
+      <a class="underline decoration-terracotta-400 underline-offset-2 hover:text-stone-900 rounded-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-terracotta-500 focus-visible:ring-offset-2" href="https://developers.google.com/search/docs/appearance/ai-features" rel="noopener">документации Google</a>.
+    </p>
+  </section>
+
+  <section class="bg-stone-50 border-y border-stone-200 py-10 md:py-16">
+    <div class="max-w-7xl mx-auto px-margin md:px-margin-desktop">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
+        <div>
+          <p class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold mb-3">
+            [01 / ПОЧЕМУ ЭТО РАБОТАЕТ]
+          </p>
+          <h2 class="font-headline-sm text-headline-sm text-stone-900 mb-3">
+            Нейросеть цитирует то, что можно пересказать
+          </h2>
+          <p class="font-body-sm text-body-sm text-stone-600">
+            Модель берёт страницу, где ответ сформулирован прямо, подкреплён числом и названными
+            системами. Абзац «мы предлагаем комплексный подход» пересказать нечем — его не берут.
+          </p>
+          <h3 class="font-headline-sm text-headline-sm text-stone-900 mt-4 mb-2">Что даёт на практике</h3>
+          <p class="font-body-sm text-body-sm text-stone-600">
+            Наши страницы услуг до правок набирали 48–66 баллов из 100. После переписанного
+            вступления, таблицы сравнения и разметки — 100 на всех семи направлениях.
+          </p>
+        </div>
+        <div>
+          <p class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold mb-3">
+            [02 / ЧТО ЛОВИМ]
+          </p>
+          <h2 class="font-headline-sm text-headline-sm text-stone-900 mb-3">
+            Восемь блоков вместо «нужно больше контента»
+          </h2>
+          <p class="font-body-sm text-body-sm text-stone-600">
+            Каждый блок — измеримый признак с весом. Балл показывает, где провал: во вступлении,
+            в доказательствах или в разметке. Правка сформулирована так, чтобы её можно было
+            отдать редактору.
+          </p>
+          <h3 class="font-headline-sm text-headline-sm text-stone-900 mt-4 mb-2">Сколько занимает</h3>
+          <p class="font-body-sm text-body-sm text-stone-600">
+            Проверка страницы — около 10 секунд. Правки по отчёту — от 2 недель: вступление и
+            таблица закрываются за 3 дня, разметка и автор — ещё неделя.
+          </p>
+        </div>
+        <div>
+          <p class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold mb-3">
+            [03 / ЧТО ДАЛЬШЕ]
+          </p>
+          <h2 class="font-headline-sm text-headline-sm text-stone-900 mb-3">
+            Отчёт — диагноз, а не приговор
+          </h2>
+          <p class="font-body-sm text-body-sm text-stone-600">
+            Страницу с баллом 40 не обязательно выбрасывать: часто хватает переписать вступление,
+            собрать таблицу и назвать системы по именам. Что делать первым — написано в отчёте.
+          </p>
+          <h3 class="font-headline-sm text-headline-sm text-stone-900 mt-4 mb-2">Когда переписывать целиком</h3>
+          <p class="font-body-sm text-body-sm text-stone-600">
+            Если балл ниже 40 и страница меньше 600 слов, правки не спасут: нужен новый текст с
+            таблицей, цифрами и примерами — иначе править нечего.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Faq items={FAQ} eyebrow="[FAQ]" title="Вопросы об аудите" />
+
+  <section id="zayavka" class="max-w-7xl mx-auto px-margin md:px-margin-desktop py-10 md:py-16">
+    <ContactSection />
+  </section>
+</Base>

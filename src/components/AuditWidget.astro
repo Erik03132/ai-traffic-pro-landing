@@ -1,0 +1,333 @@
+---
+/**
+ * Публичный AI-аудит страницы.
+ *
+ * Клиент вводит адрес — получает 0–100 по восьми блокам и список правок.
+ * Считает Worker (`POST /api/audit`): браузер не может прочитать чужую
+ * страницу из-за CORS, поэтому запрос уходит на свой API.
+ *
+ * Правила рендера:
+ *   - всё, что пришло с чужого сайта (title, адреса), выводится через
+ *     textContent — innerHTML здесь запрещён, иначе чужой HTML станет нашим;
+ *   - ошибка всегда видна: молчаливого «ничего не произошло» не бывает.
+ */
+import { API } from '../data/site';
+
+interface Props {
+  /** Якорь формы заявки на этой же странице. */
+  ctaHref?: string;
+}
+
+const { ctaHref = '#zayavka' } = Astro.props;
+---
+
+<section class="relative" id="audit" aria-labelledby="audit-title" data-audit-endpoint={API.audit}>
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+    <div class="lg:col-span-5">
+      <p class="font-mono text-[11px] uppercase tracking-[0.14em] text-terracotta-600 mb-4">
+        Бесплатно · без регистрации
+      </p>
+      <h1
+        class="font-display-hero text-display-hero text-stone-900 mb-5 text-balance"
+        id="audit-title"
+      >
+        AI-аудит страницы: увидит&nbsp;ли её нейросеть
+      </h1>
+      <p class="font-body-lg text-body-lg text-stone-600 mb-6">
+        Проверяем страницу так, как её читает ИИ-поиск: есть ли прямой ответ в первом абзаце,
+        цифры, названные системы, таблица сравнения, разметка и автор. На выходе — балл 0–100
+        и конкретные правки, а не «нужно больше контента».
+      </p>
+      <p class="font-body-sm text-body-sm text-stone-500 mb-8">
+        Смотрим только публичные страницы. Внутренние адреса не проверяются, данные никуда
+        не сохраняются.
+      </p>
+
+      <form class="space-y-3" id="audit-form" novalidate>
+        <label
+          class="block font-mono text-[11px] uppercase tracking-wider text-stone-500 font-medium"
+          for="audit-url"
+        >
+          Адрес страницы
+        </label>
+        <div class="flex flex-col sm:flex-row gap-3">
+          <input
+            class="w-full h-12 px-4 rounded-2xl border border-stone-300 bg-white text-stone-900 hover:border-stone-400 placeholder:text-stone-400 font-body-sm text-body-sm focus:outline-none focus-visible:border-terracotta-500 focus-visible:ring-2 focus-visible:ring-terracotta-500/30"
+            id="audit-url"
+            name="url"
+            type="text"
+            inputmode="url"
+            autocomplete="url"
+            spellcheck="false"
+            placeholder="ai-traffic-pro.ru/blog/crm-i-erp/"
+            required
+            aria-describedby="audit-hint"
+          />
+          <button
+            class="h-12 px-6 rounded-2xl bg-stone-900 text-white font-body-sm text-body-sm font-medium hover:bg-stone-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-terracotta-500 focus-visible:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed whitespace-nowrap"
+            type="submit"
+            id="audit-submit"
+          >
+            Проверить
+          </button>
+        </div>
+        <p class="font-body-sm text-body-sm text-stone-500" id="audit-hint">
+          Можно без «https://» — добавим сами. Одна проверка ≈ 10 секунд.
+        </p>
+      </form>
+
+      <p
+        class="mt-4 font-body-sm text-body-sm text-stone-700 min-h-6"
+        id="audit-status"
+        role="status"
+        aria-live="polite"
+      >
+      </p>
+    </div>
+
+    <div class="lg:col-span-7 w-full">
+      {/* Пустое состояние: объясняем, что будет в отчёте, до нажатия кнопки. */}
+      <div
+        class="rounded-3xl border border-stone-200 bg-stone-50 p-6 sm:p-8"
+        id="audit-placeholder"
+      >
+        <p class="font-mono text-[11px] uppercase tracking-[0.14em] text-stone-500 mb-4">
+          Что в отчёте
+        </p>
+        <ul class="space-y-3 font-body-sm text-body-sm text-stone-700">
+          <li class="flex gap-3">
+            <span class="font-mono text-terracotta-600 shrink-0">01</span>
+            <span>Балл 0–100 и разбивка по восьми блокам: ответ, объём, таблица, цифры,
+              системы, источники, структура, разметка.</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="font-mono text-terracotta-600 shrink-0">02</span>
+            <span>Список правок в порядке влияния — что менять первым.</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="font-mono text-terracotta-600 shrink-0">03</span>
+            <span>robots.txt, llms.txt и sitemap.xml: пускают ли сайт к ИИ-ботам
+              и есть ли им что читать.</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="hidden" id="audit-result">
+        <div class="rounded-3xl border border-stone-200 bg-white p-6 sm:p-8">
+          <div class="flex flex-wrap items-baseline justify-between gap-4 mb-6">
+            <div>
+              <p class="font-mono text-[11px] uppercase tracking-[0.14em] text-stone-500 mb-2">
+                Оценка страницы
+              </p>
+              <p class="font-display-hero text-[3rem] leading-none text-stone-900">
+                <span id="audit-score">0</span><span class="text-stone-400 text-[1.5rem]">/100</span>
+              </p>
+            </div>
+            <p
+              class="font-body-sm text-body-sm text-stone-600 max-w-[18rem] text-right"
+              id="audit-verdict"
+            >
+            </p>
+          </div>
+
+          <p class="font-body-sm text-body-sm text-stone-500 mb-2 break-words" id="audit-target"></p>
+
+          <ul class="space-y-2 mt-6" id="audit-blocks"></ul>
+        </div>
+
+        <div class="rounded-3xl border border-stone-200 bg-white p-6 sm:p-8 mt-4">
+          <h2 class="font-headline-sm text-headline-sm text-stone-900 mb-4">Что исправить</h2>
+          <ul class="space-y-3 font-body-sm text-body-sm text-stone-700" id="audit-fixes"></ul>
+          <p class="hidden font-body-sm text-body-sm text-stone-600 mt-4" id="audit-fixes-empty">
+            Блоки закрыты — правок по содержанию нет.
+          </p>
+        </div>
+
+        <div class="rounded-3xl border border-stone-200 bg-white p-6 sm:p-8 mt-4" id="audit-site-box">
+          <h2 class="font-headline-sm text-headline-sm text-stone-900 mb-4">Сайт целиком</h2>
+          <ul class="space-y-2 font-body-sm text-body-sm text-stone-700" id="audit-site"></ul>
+          <ul class="space-y-2 font-body-sm text-body-sm text-stone-600 mt-3" id="audit-notes"></ul>
+        </div>
+
+        <div class="rounded-3xl bg-stone-900 text-white p-6 sm:p-8 mt-4">
+          <p class="font-headline-sm text-headline-sm mb-2">Отчёт — это диагноз, не лечение</p>
+          <p class="font-body-sm text-body-sm text-stone-300 mb-5">
+            Правки применять руками: переписать вступление, собрать таблицу, добавить разметку
+            и автора. Если проще отдать это нам — покажем план на своей стороне.
+          </p>
+          <a
+            class="inline-flex items-center h-12 px-6 rounded-2xl bg-white text-stone-900 font-body-sm text-body-sm font-medium hover:bg-stone-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-terracotta-500 focus-visible:ring-offset-2 focus-visible:ring-offset-stone-900"
+            href={ctaHref}
+            id="audit-cta"
+          >
+            Показать план правок
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const section = document.querySelector<HTMLElement>('#audit');
+  if (section) {
+    const endpoint = section.dataset.auditEndpoint || '/api/audit/';
+    const form = section.querySelector<HTMLFormElement>('#audit-form');
+    const input = section.querySelector<HTMLInputElement>('#audit-url');
+    const submit = section.querySelector<HTMLButtonElement>('#audit-submit');
+    const status = section.querySelector<HTMLElement>('#audit-status');
+    const placeholder = section.querySelector<HTMLElement>('#audit-placeholder');
+    const result = section.querySelector<HTMLElement>('#audit-result');
+    const scoreEl = section.querySelector<HTMLElement>('#audit-score');
+    const verdictEl = section.querySelector<HTMLElement>('#audit-verdict');
+    const targetEl = section.querySelector<HTMLElement>('#audit-target');
+    const blocksEl = section.querySelector<HTMLElement>('#audit-blocks');
+    const fixesEl = section.querySelector<HTMLElement>('#audit-fixes');
+    const fixesEmpty = section.querySelector<HTMLElement>('#audit-fixes-empty');
+    const siteEl = section.querySelector<HTMLElement>('#audit-site');
+    const notesEl = section.querySelector<HTMLElement>('#audit-notes');
+
+    type Block = { key: string; label: string; score: number; max: number };
+    type Report = {
+      url: string;
+      score: number;
+      blocks: Block[];
+      fixes: string[];
+      notes: string[];
+      site: null | {
+        robots: { found: boolean; blocks_ai_bots: boolean; declares_ai: boolean };
+        llms: { found: boolean; size: number };
+        sitemap: { found: boolean; urls: number; listed_in_robots: boolean };
+      };
+      metrics: { words: number; tables: number; h2: number; h3: number };
+    };
+
+    const clean = (node: HTMLElement | null) => {
+      if (node) node.replaceChildren();
+    };
+
+    const line = (parent: HTMLElement | null, text: string, tone = 'text-stone-700') => {
+      if (!parent) return;
+      const li = document.createElement('li');
+      li.className = `flex gap-2 ${tone}`;
+      const dot = document.createElement('span');
+      dot.className = 'shrink-0 text-terracotta-600 font-mono';
+      dot.textContent = '—';
+      const span = document.createElement('span');
+      // Чужой текст — только textContent: innerHTML здесь стал бы дырой.
+      span.textContent = text;
+      li.append(dot, span);
+      parent.append(li);
+    };
+
+    const verdict = (score: number) => {
+      if (score >= 80) return 'Сильная страница: есть чем цитировать. Дальше — точечные правки.';
+      if (score >= 60) return 'Основа есть, но ИИ-поиску не хватает опоры: цифры, таблица или разметка.';
+      if (score >= 40) return 'Страница читается, но цитировать её не за что — правки по содержанию.';
+      return 'Пока это текст без структуры: ИИ-поиск такую страницу почти не вытаскивает.';
+    };
+
+    const renderBlocks = (blocks: Block[]) => {
+      clean(blocksEl);
+      for (const b of blocks) {
+        const li = document.createElement('li');
+        li.className = 'grid grid-cols-[1fr_auto] items-center gap-3';
+        const label = document.createElement('span');
+        label.className = 'font-body-sm text-body-sm text-stone-700';
+        label.textContent = b.label;
+        const value = document.createElement('span');
+        value.className = 'font-mono text-[11px] text-stone-500 tabular-nums';
+        value.textContent = `${b.score}/${b.max}`;
+        const bar = document.createElement('div');
+        bar.className = 'col-span-2 h-1.5 rounded-full bg-stone-100 overflow-hidden';
+        const fill = document.createElement('div');
+        fill.className = 'h-full rounded-full bg-terracotta-500';
+        fill.style.width = `${b.max ? Math.round((b.score / b.max) * 100) : 0}%`;
+        bar.append(fill);
+        li.append(label, value, bar);
+        blocksEl?.append(li);
+      }
+    };
+
+    const renderSite = (report: Report) => {
+      clean(siteEl);
+      clean(notesEl);
+      if (!report.site) return;
+      const { robots, llms, sitemap } = report.site;
+      const yes = (ok: boolean, good: string, bad: string) => (ok ? `✓ ${good}` : `✗ ${bad}`);
+      line(siteEl, yes(robots.found, 'robots.txt есть', 'robots.txt не найден'));
+      if (robots.found) {
+        line(siteEl, yes(!robots.blocks_ai_bots, 'AI-боты не заблокированы', 'robots.txt закрывает AI-ботов'));
+        line(siteEl, yes(robots.declares_ai, 'AI-боты названы в robots.txt', 'AI-боты в robots.txt не названы'));
+      }
+      line(siteEl, yes(llms.found, 'llms.txt есть', 'llms.txt нет'));
+      line(
+        siteEl,
+        sitemap.found
+          ? `✓ sitemap.xml есть, адресов: ${sitemap.urls}`
+          : '✗ sitemap.xml не найден',
+      );
+      if (sitemap.found) {
+        line(siteEl, yes(sitemap.listed_in_robots, 'sitemap объявлен в robots.txt', 'sitemap не объявлен в robots.txt'));
+      }
+      for (const note of report.notes ?? []) line(notesEl, note, 'text-stone-600');
+    };
+
+    const showError = (message: string) => {
+      if (status) status.textContent = message;
+      if (status) status.className = 'mt-4 font-body-sm text-body-sm text-error min-h-6';
+    };
+
+    form?.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const value = (input?.value || '').trim();
+      if (!value) {
+        showError('Введите адрес страницы — например, ai-traffic-pro.ru/blog/crm-i-erp/');
+        input?.focus();
+        return;
+      }
+
+      showError('');
+      if (status) {
+        status.className = 'mt-4 font-body-sm text-body-sm text-stone-700 min-h-6';
+        status.textContent = 'Загружаем страницу и считаем баллы…';
+      }
+      if (submit) submit.disabled = true;
+
+      try {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url: value }),
+        });
+        const data = await res.json().catch(() => null);
+
+        if (!res.ok || !data?.ok) {
+          showError(data?.error || 'Не получилось проверить страницу. Попробуйте ещё раз.');
+          return;
+        }
+
+        const report = data.report as Report;
+        if (scoreEl) scoreEl.textContent = String(report.score);
+        if (verdictEl) verdictEl.textContent = verdict(report.score);
+        if (targetEl) {
+          targetEl.textContent = `${report.url} · ${report.metrics.words} слов, таблиц: ${report.metrics.tables}, H2/H3: ${report.metrics.h2}/${report.metrics.h3}`;
+        }
+        renderBlocks(report.blocks);
+        clean(fixesEl);
+        for (const fix of report.fixes ?? []) line(fixesEl, fix);
+        if (fixesEmpty) fixesEmpty.classList.toggle('hidden', (report.fixes ?? []).length > 0);
+        renderSite(report);
+
+        placeholder?.classList.add('hidden');
+        result?.classList.remove('hidden');
+        if (status) status.textContent = '';
+        result?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } catch {
+        showError('API недоступен: сеть или блокировка. Попробуйте через минуту.');
+      } finally {
+        if (submit) submit.disabled = false;
+      }
+    });
+  }
+</script>

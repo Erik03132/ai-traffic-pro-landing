@@ -36,6 +36,8 @@ export const API = {
   lead: `${API_BASE}/api/lead/`,
   chat: `${API_BASE}/api/chat/`,
   health: `${API_BASE}/api/health/`,
+  /** Публичный AI-аудит страницы (страница /audit/). */
+  audit: `${API_BASE}/api/audit/`,
   /** Резервный адрес формы; пустая строка — резерва нет. */
   leadFallback: API_FALLBACK_BASE ? `${API_FALLBACK_BASE}/api/lead/` : '',
   /** Резервный адрес чата; пустая строка — резерва нет. */
@@ -149,6 +151,7 @@ export const NAV = [
   { label: 'Услуги', href: '#services' },
   { label: 'Подход', href: '#approach' },
   { label: 'Процесс', href: '#process' },
+  { label: 'Аудит', href: '/audit/' },
   { label: 'Блог', href: '/blog/' },
   { label: 'FAQ', href: '#faq' },
 ] as const;

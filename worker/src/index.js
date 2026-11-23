@@ -40,6 +40,7 @@ import {
   renderPost,
   todayMsk,
 } from './publish.js';
+import { AuditError, auditUrl } from './audit.js';
 
 /* ──────────────────────────────────────────────────────────────────────────
  * Конфигурация
@@ -1381,6 +1382,58 @@ async function sendChatDigest(env, kv) {
 }
 
 /* ──────────────────────────────────────────────────────────────────────────
+ * Публичный AI-аудит страницы
+ * ────────────────────────────────────────────────────────────────────────── */
+
+/**
+ * POST /api/audit — оценка чужой страницы по 8 блокам (0–100).
+ *
+ * Worker ходит по внешнему URL, поэтому здесь три ограничителя: rate limit
+ * на отдельном баке, проверка адреса на приватные сети (в `audit.js`) и
+ * таймаут запроса. Без первого аудит становится бесплатным сканером чужих
+ * сайтов, без второго — способом дотянуться до внутренней сети.
+ *
+ * Ответ отдаётся клиенту и нигде не сохраняется: заявку человек оставляет
+ * отдельно, через `POST /api/lead`.
+ */
+async function handleAudit(request, env) {
+  const limiter = env.AUDIT_LIMITER;
+  if (limiter) {
+    const { success } = await limiter.limit({ key: `audit:${clientIp(request)}` });
+    if (!success) {
+      return json(
+        { ok: false, error: 'Слишком много проверок. Подождите минуту.' },
+        request,
+        env,
+        429,
+      );
+    }
+  }
+
+  let payload;
+  try {
+    payload = await request.json();
+  } catch {
+    return json({ ok: false, error: 'Некорректный запрос' }, request, env, 400);
+  }
+
+  const target = String(payload?.url ?? '').slice(0, 2048);
+  const query = String(payload?.query ?? '').slice(0, 200);
+
+  try {
+    const report = await auditUrl(target, { query });
+    return json({ ok: true, report }, request, env);
+  } catch (e) {
+    if (e instanceof AuditError) {
+      // Коды ошибок разбирает форма: подсказка важнее статуса.
+      return json({ ok: false, code: e.code, error: e.message }, request, env, 422);
+    }
+    console.error('❌ Аудит упал:', e.message);
+    return json({ ok: false, error: 'Не удалось проверить страницу' }, request, env, 500);
+  }
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
  * Вход
  * ────────────────────────────────────────────────────────────────────────── */
 
@@ -1446,6 +1499,10 @@ export default {
 
     if (request.method === 'POST' && pathname === '/api/dist/run') {
       return await handleDistRun(request, env, env.LEADS);
+    }
+
+    if (request.method === 'POST' && pathname === '/api/audit') {
+      return await handleAudit(request, env);
     }
 
     if (request.method !== 'POST' || (pathname !== '/api/chat' && pathname !== '/api/lead')) {

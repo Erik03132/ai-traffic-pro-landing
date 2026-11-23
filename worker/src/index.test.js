@@ -82,6 +82,7 @@ function makeEnv(opts = {}) {
     AI: opts.ai ?? mockAi(),
     CHAT_LIMITER: mockLimiter(opts.limiterOk ?? true),
     LEAD_LIMITER: mockLimiter(opts.limiterOk ?? true),
+    AUDIT_LIMITER: opts.auditLimiter === false ? undefined : mockLimiter(opts.limiterOk ?? true),
   };
 }
 
@@ -1465,4 +1466,41 @@ test('run?force=1 отправляет ближайший пост, не дож�
   } finally {
     mock.restore();
   }
+});
+
+/* ────────────────────────────── /api/audit ────────────────────────────── */
+
+test('POST /api/audit: приватный адрес отклоняется до запроса в сеть', async () => {
+  const res = await call('/api/audit/', post({ url: 'http://169.254.169.254/latest/meta-data/' }));
+
+  assert.equal(res.status, 422);
+  const data = await res.json();
+  assert.equal(data.ok, false);
+  assert.equal(data.code, 'PRIVATE_HOST');
+});
+
+test('POST /api/audit: пустой и битый запрос — понятная ошибка, не 500', async () => {
+  const empty = await call('/api/audit/', post({}));
+  assert.equal(empty.status, 422);
+  assert.equal((await empty.json()).code, 'EMPTY');
+
+  const broken = await call('/api/audit/', { method: 'POST', body: 'не json' });
+  assert.equal(broken.status, 400);
+  assert.equal((await broken.json()).ok, false);
+});
+
+test('POST /api/audit: лимит проверок возвращает 429', async () => {
+  const res = await call(
+    '/api/audit/',
+    post({ url: 'https://example.com/' }),
+    makeEnv({ limiterOk: false }),
+  );
+
+  assert.equal(res.status, 429);
+  assert.match((await res.json()).error, /Слишком много/);
+});
+
+test('GET /api/audit: только POST', async () => {
+  const res = await call('/api/audit/', {});
+  assert.equal(res.status, 404);
 });

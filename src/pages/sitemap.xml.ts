@@ -40,6 +40,7 @@ const CONTENT_LASTMOD: Record<string, string> = {
   '/': '2026-11-09',
   '/blog/': '2026-11-09',
   '/author/': '2026-11-16',
+  '/audit/': '2026-11-23',
   '/requisites/': '2026-11-09',
   '/privacy/': '2026-11-09',
 };
@@ -66,7 +67,14 @@ const buildEntries = (): Lastmod[] => {
     entries.push({
       path,
       lastmod,
-      priority: path === '/' ? '1.0' : path === '/requisites/' || path === '/privacy/' ? '0.3' : '0.6',
+      priority:
+        path === '/'
+          ? '1.0'
+          : path === '/audit/'
+            ? '0.8'
+            : path === '/requisites/' || path === '/privacy/'
+              ? '0.3'
+              : '0.6',
       changefreq: path === '/' ? 'weekly' : 'monthly',
     });
   }
