@@ -347,6 +347,18 @@
       "url": null,
       "error": null,
       "note": "текст и обложка 780x440 готовы 24.11; публикация владельцем 26.11 по правилу «Хабр → соцсети через 2 дня»"
+    },
+    {
+      "id": "kontent-plan-dlya-sotssetey:post-4:habr",
+      "slug": "kontent-plan-dlya-sotssetey",
+      "post": "post-4",
+      "channel": "habr",
+      "status": "queued",
+      "plannedAt": "2026-11-28",
+      "messageId": null,
+      "url": null,
+      "error": null,
+      "note": "текст и обложка 780x440 готовы 24.11; публикация владельцем 28.11, TG и VK — 30.11"
     }
   ]
 }

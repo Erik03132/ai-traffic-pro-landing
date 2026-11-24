@@ -776,9 +776,10 @@ CWV-план (PSI отдал 429 «Quota exceeded» — мерить позже 
   без цифр: `nevsky.agency` публикует 29 990/49 000/68 000, `vverh.digital` —
   86 000 ₽/мес за GEO и 39 000 ₽ за аудит. LLM не может нас процитировать по цене.
   Решение владельца: какие вилки публикуем.
-- [ ] **B3. Техника за 30 минут** — блок `User-agent` для AI-ботов в `robots.txt`,
-  `Offer` на страницах услуг, `Person` для автора. У `vverh.digital` Schema нет
-  вовсе — это наш дифференциатор, но `Offer`/`Person` пока тоже нет.
+- [x] **B3. Техника за 30 минут** — ✅ **Fixed и Verified 24.11.2026** в рамках C1:
+  10 AI-ботов по именам в `robots.txt`, `Offer` на страницах услуг и `founder: Person`
+  в `Organization` проверены на проде (`tools/competitor_scan.py`: 14 типов Schema).
+  Отдельной работы нет. У `vverh.digital` Schema нет вовсе — дифференциатор сохранён.
 - [ ] **B4. Share of Voice по трём конкурентам** — блокируется входом в ChatGPT
   и Perplexity (нужен Игорь). Запросы — из `ai-visibility-2026-11-22.md`.
 
