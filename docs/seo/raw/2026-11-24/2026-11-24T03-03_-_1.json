@@ -1,0 +1,9 @@
+{
+  "query": "маркетинговое агентство полного цикла Россия",
+  "run": 1,
+  "model": "openai/gpt-5-mini",
+  "at": "2026-11-24T03-03",
+  "text": "",
+  "citations": [],
+  "error": "HTTP 400: {\"detail\":\"Model not supported\"}"
+}

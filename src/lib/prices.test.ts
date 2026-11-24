@@ -61,7 +61,7 @@ test('Offer: собирается из данных и несёт период',
   }
   const audit = offers.find((o) => o.name === 'GEO-аудит');
   assert.ok(audit);
-  assert.equal(audit.price, 31_000);
+  assert.equal(audit.price, 29_000);
   assert.equal(audit.priceSpecification.unitText, 'разово');
 });
 
