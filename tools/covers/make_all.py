@@ -38,6 +38,7 @@ COVERS: dict[str, tuple[str, str]] = {
     "mediaplan-i-kontent-plan-raznica": ("Медиаплан и контент-план", "РЕКЛАМА"),
     "voronka-prodazh-kak-postroit": ("Воронка продаж", "ПРОДАЖИ"),
     "zayavki-teryayutsya": ("Заявки теряются", "CRM"),
+    "geo-optimizaciya-chto-eto": ("GEO-оптимизация: что это", "SEO И GEO"),
 }
 
 

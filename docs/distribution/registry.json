@@ -281,7 +281,7 @@
       "slug": "zamer-vidimosti-v-neyrosetyah",
       "post": "post-1",
       "channel": "telegram",
-      "status": "queued",
+      "status": "approved",
       "plannedAt": "2026-11-25",
       "messageId": null,
       "url": null,
@@ -311,6 +311,30 @@
       "url": null,
       "error": null,
       "note": "long-form версия для Яндекс Дзена; публикация 25.11.2026"
+    },
+    {
+      "id": "geo-optimizaciya-chto-eto:post-1:telegram",
+      "slug": "geo-optimizaciya-chto-eto",
+      "post": "post-1",
+      "channel": "telegram",
+      "status": "queued",
+      "plannedAt": "2026-11-26",
+      "messageId": null,
+      "url": null,
+      "error": null,
+      "note": "внеплановый выпуск под запрос «geo оптимизация»; VK и Дзен — отдельными постами"
+    },
+    {
+      "id": "zamer-vidimosti-v-neyrosetyah:post-4:habr",
+      "slug": "zamer-vidimosti-v-neyrosetyah",
+      "post": "post-4",
+      "channel": "habr",
+      "status": "queued",
+      "plannedAt": "2026-11-25",
+      "messageId": null,
+      "url": null,
+      "error": null,
+      "note": "ручная публикация на Хабре; текст docs/distribution/habr/zamer-vidimosti-v-neyrosetyah.md"
     }
   ]
 }

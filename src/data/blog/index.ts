@@ -20,6 +20,7 @@ import { mediaplanIKontentPlanRaznica } from './mediaplan-i-kontent-plan-raznica
 import { voronkaProdazhKakPostroit } from './voronka-prodazh-kak-postroit';
 import { skolkoKlikovDayutAiOtvety } from './skolko-klikov-dayut-ai-otvety';
 import { zamerVidimosti } from './zamer-vidimosti-v-neyrosetyah';
+import { geoOptimizaciyaChtoEto } from './geo-optimizaciya-chto-eto';
 
 export const ARTICLES: Article[] = [
   kakVybratKanal,
@@ -35,6 +36,7 @@ export const ARTICLES: Article[] = [
   voronkaProdazhKakPostroit,
   skolkoKlikovDayutAiOtvety,
   zamerVidimosti,
+  geoOptimizaciyaChtoEto,
 ];
 
 export type { Article };

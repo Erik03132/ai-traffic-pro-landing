@@ -73,7 +73,25 @@ test('посты статей: ссылка {{link}} есть, длина под
 });
 
 test('абзацы не свёрстаны вручную: перенос строки значит новый абзац или пункт', () => {
+  // Проверка про переносы в узких лентах (Telegram, VK). Для markdown-площадок
+  // (Хабр) перенос строки внутри таблицы и списка — часть разметки, и такой
+  // текст проверять на «столбик» бессмысленно: там ширина колонки задаёт всё.
+  const narrow = new Set(['telegram', 'vk', 'dzen']);
+  const byFile = new Map();
+  const registryPath = join(DIR, '..', 'registry.json');
+  const registry = JSON.parse(readFileSync(registryPath, 'utf8'));
+  for (const entry of registry.publications) {
+    const file = `${entry.slug}.${entry.post}.md`;
+    byFile.set(file, [...(byFile.get(file) ?? []), entry.channel]);
+  }
+  const wide = new Set(
+    [...byFile]
+      .filter(([, channels]) => !channels.some((c) => narrow.has(c)))
+      .map(([file]) => file),
+  );
+
   for (const f of files) {
+    if (wide.has(f)) continue;
     const text = body(join(DIR, f));
     for (const block of text.split(/\n{2,}/)) {
       const lines = block.split('\n');
