@@ -281,10 +281,10 @@
       "slug": "zamer-vidimosti-v-neyrosetyah",
       "post": "post-1",
       "channel": "telegram",
-      "status": "approved",
+      "status": "posted",
       "plannedAt": "2026-11-25",
-      "messageId": null,
-      "url": null,
+      "messageId": 27,
+      "url": "https://t.me/aitrafficpro/27",
       "error": null,
       "note": "короткая версия с обложкой; публикация 25.11.2026"
     },
@@ -335,30 +335,6 @@
       "url": null,
       "error": null,
       "note": "ручная публикация на Хабре; текст docs/distribution/habr/zamer-vidimosti-v-neyrosetyah.md"
-    },
-    {
-      "id": "geo-optimizaciya-chto-eto:post-2:vk",
-      "slug": "geo-optimizaciya-chto-eto",
-      "post": "post-2",
-      "channel": "vk",
-      "status": "queued",
-      "plannedAt": "2026-11-25",
-      "messageId": null,
-      "url": null,
-      "error": null,
-      "note": "версия для VK: замер, три вещи, что не обещаем"
-    },
-    {
-      "id": "geo-optimizaciya-chto-eto:post-3:dzen",
-      "slug": "geo-optimizaciya-chto-eto",
-      "post": "post-3",
-      "channel": "dzen",
-      "status": "queued",
-      "plannedAt": "2026-11-25",
-      "messageId": null,
-      "url": null,
-      "error": null,
-      "note": "long-form версия для Дзена, публикация руками"
     }
   ]
 }
