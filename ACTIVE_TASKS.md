@@ -812,6 +812,10 @@ CWV-план (PSI отдал 429 «Quota exceeded» — мерить позже 
   и `/audit/` → `/geo-audit/`, sitemap 0.9/0.7, цены и методика в `llms.txt`/`llms-full.txt`.
   Тест `src/lib/geo-audit.test.ts` 8/8. `geo_lint`: продукт 90/100, методика 91/100
   (951 слово — минус один балл, добивать водой не стал).
+  ✅ **Verified 24.11.2026** на проде (деплой `51d61feb`, 60 с): `/geo-audit/` и
+  `/geo-audit/methodology/` — 200, `Offer` 31 000 ₽ в разметке, og-карточки 200,
+  `llms.txt` 163 строки с ценой и методикой. Скан домена: 10 AI-ботов, 14 типов
+  Schema, цены из JSON-LD `Offer` — 16 000 / 31 000 / 32 000 / 56 000 / 69 000.
   Попутно: у `/services/geo/` не было og:image (404 на проде) — карточки `services-geo`
   и `geo-audit` сгенерированы `tools/publish/og_cards.py`.
 - [ ] **C4. Кейс №0** — свой сайт: 22.11 → правки → 22.12.
