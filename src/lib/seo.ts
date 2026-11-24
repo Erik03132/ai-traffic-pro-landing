@@ -5,6 +5,9 @@
  * (в старой версии canonical вёз на erik03132.github.io, который 301-редиректит).
  */
 import { SITE, SITE_URL, ALL_SERVICES, FAQ } from '../data/site';
+import type { Service } from '../data/types';
+import { IGOR_VASIN } from '../data/authors';
+import { offersLd } from './prices';
 
 export interface PageMeta {
   title: string;
@@ -30,6 +33,13 @@ export function absoluteUrl(path: string): string {
 export function canonicalOf(path: string): string {
   return absoluteUrl(path);
 }
+
+/**
+ * `Offer` по открытым ценам — логика в `./prices.ts` (чтобы проверялась тестом).
+ * Нет цен — нет и `Offer`: пустой Offer хуже отсутствующего, он выглядит как
+ * «бесплатно».
+ */
+
 
 /** Сборка JSON-LD: организация + сайт + услуги + FAQ. */
 export function organizationLd() {
@@ -78,6 +88,21 @@ export function organizationLd() {
     };
   }
 
+  /**
+   * Человек за брендом. Модели и поиску нужна именованная сущность, а не
+   * только ИП: иначе «кто автор материалов» и «кто отвечает за работу»
+   * остаются без ответа. Источник — `src/data/authors.ts`, второй копии нет.
+   */
+  org.founder = {
+    '@type': 'Person',
+    '@id': `${SITE_URL}/author/#person`,
+    name: IGOR_VASIN.name,
+    jobTitle: IGOR_VASIN.role,
+    url: `${SITE_URL}/author/`,
+    image: absoluteUrl(IGOR_VASIN.photo),
+    sameAs: [...IGOR_VASIN.sameAs],
+  };
+
   const website = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
@@ -90,18 +115,22 @@ export function organizationLd() {
 
   // ALL_SERVICES, а не SERVICES: CRM — дополнительное направление, но его
   // страница живёт и должна размечаться как Service (иначе теряет JSON-LD).
-  const services = ALL_SERVICES.map((s) => ({
-    '@context': 'https://schema.org',
-    '@type': 'Service',
-    '@id': `${SITE_URL}/services/${s.slug}/#service`,
-    name: s.title,
-    description: s.seoDescription,
-    url: `${SITE_URL}/services/${s.slug}/`,
-    serviceType: s.title,
-    provider: { '@id': `${SITE_URL}/#organization` },
-    areaServed: { '@type': 'Country', name: 'Россия' },
-    audience: { '@type': 'BusinessAudience', name: s.forWhom },
-  }));
+  const services = ALL_SERVICES.map((s) => {
+    const offers = offersLd(s, SITE_URL);
+    return {
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      '@id': `${SITE_URL}/services/${s.slug}/#service`,
+      name: s.title,
+      description: s.seoDescription,
+      url: `${SITE_URL}/services/${s.slug}/`,
+      serviceType: s.title,
+      provider: { '@id': `${SITE_URL}/#organization` },
+      areaServed: { '@type': 'Country', name: 'Россия' },
+      audience: { '@type': 'BusinessAudience', name: s.forWhom },
+      ...(offers.length ? { offers } : {}),
+    };
+  });
 
   const faq = {
     '@context': 'https://schema.org',
@@ -121,6 +150,7 @@ export function organizationLd() {
 export function serviceLd(slug: string) {
   const s = ALL_SERVICES.find((x) => x.slug === slug);
   if (!s) return null;
+  const offers = offersLd(s, SITE_URL);
   return {
     '@context': 'https://schema.org',
     '@type': 'Service',
@@ -132,6 +162,7 @@ export function serviceLd(slug: string) {
     provider: { '@id': `${SITE_URL}/#organization` },
     areaServed: { '@type': 'Country', name: 'Россия' },
     audience: { '@type': 'BusinessAudience', name: s.forWhom },
+    ...(offers.length ? { offers } : {}),
   };
 }
 

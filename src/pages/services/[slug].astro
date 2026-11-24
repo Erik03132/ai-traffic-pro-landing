@@ -53,6 +53,12 @@ const ld = [
 ].filter(Boolean);
 
 const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
+
+/**
+ * Цена для человека: 69 000 ₽, а не 69000. Неразрывные пробелы ставит
+ * `Intl`, поэтому «69 000 ₽» не разрывается по строке на мобильном.
+ */
+const fmtPrice = (n: number) => new Intl.NumberFormat('ru-RU').format(n);
 ---
 
 <Base
@@ -178,11 +184,40 @@ const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
               </ul>
             </div>
             <div class="border-t border-sage-200 pt-4">
-              <span class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
-                Стоимость:{' '}
-                <span class="font-semibold text-stone-900">по запросу</span>
-                — считаем после короткой вводной.
-              </span>
+              {service.prices?.length ? (
+                <div class="space-y-3">
+                  <span class="font-mono-label text-mono-label uppercase text-stone-400 block mb-1">
+                    Стоимость
+                  </span>
+                  {service.prices.map((p) => (
+                    <div>
+                      <div class="flex items-baseline gap-x-2 flex-wrap">
+                        <span class="font-body-md text-body-md font-semibold text-stone-900">
+                          от {fmtPrice(p.from)} ₽
+                        </span>
+                        <span class="font-body-sm text-body-sm text-stone-500">
+                          {p.unit === 'мес' ? 'в месяц' : 'разово'}
+                        </span>
+                      </div>
+                      <span class="font-body-sm text-body-sm text-stone-900 block">{p.label}</span>
+                      {p.note && (
+                        <span class="font-body-sm text-body-sm text-stone-700 leading-relaxed block">
+                          {p.note}
+                        </span>
+                      )}
+                    </div>
+                  ))}
+                  <span class="font-body-sm text-body-sm text-stone-700 leading-relaxed block">
+                    Нижняя граница вилки. Итог зависит от объёма и фиксируется в договоре.
+                  </span>
+                </div>
+              ) : (
+                <span class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
+                  Стоимость:{' '}
+                  <span class="font-semibold text-stone-900">по запросу</span>
+                  — считаем после короткой вводной.
+                </span>
+              )}
             </div>
           </div>
         </div>

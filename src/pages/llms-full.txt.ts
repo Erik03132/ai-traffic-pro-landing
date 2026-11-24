@@ -20,6 +20,8 @@ import { IGOR_VASIN } from '../data/authors';
 
 const line = (s = '') => s;
 
+const rur = (n: number) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+
 const servicesSection = () =>
   ALL_SERVICES.map((s) => {
     const url = `${SITE_URL}/services/${s.slug}/`;
@@ -29,6 +31,23 @@ const servicesSection = () =>
     const includes = s.includes.map((i) => `- ${i}`).join('\n');
     const outcomes = s.outcomes.map((o) => `- ${o}`).join('\n');
     const faq = s.faq.map((f) => `**${f.q}** ${f.a}`).join('\n\n');
+    /**
+     * Цены — из данных услуги, а не из этого файла: иначе модель читает одну
+     * цифру, а на странице стоит другая. Нет цен — «по запросу», без догадок.
+     */
+    const price = s.prices?.length
+      ? [
+          'Стоимость (нижняя граница, рубли):',
+          '',
+          ...s.prices.map(
+            (p) =>
+              `- ${p.label}: от ${rur(p.from)} ${p.unit === 'мес' ? 'в месяц' : 'разово'}` +
+              (p.note ? ` — ${p.note}` : ''),
+          ),
+          '',
+          'Итог зависит от объёма работ и фиксируется в договоре.',
+        ].join('\n')
+      : 'Стоимость: по запросу — считаем после короткой вводной, фиксируем в договоре.';
 
     return [
       `## ${s.num !== '—' ? `${s.num}. ` : ''}${s.title}`,
@@ -39,7 +58,7 @@ const servicesSection = () =>
       '',
       `Для кого: ${s.forWhom}`,
       `Метрика, за которую отвечаем: ${s.metric}`,
-      'Стоимость: по запросу — считаем после короткой вводной, фиксируем в договоре.',
+      price,
       '',
       '### Этапы и сроки',
       '',

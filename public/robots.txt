@@ -14,4 +14,23 @@ Disallow: /distribution/
 #   /privacy/ — индексируется, в sitemap (noindex снят 09.11, чтобы страница
 #               могла попасть в индекс как самостоятельный документ).
 
+# AI-краулеры: явное разрешение по именам.
+# Формально «User-agent: * / Allow: /» уже пускает всех, но явный блок снимает
+# вопрос в GEO-аудитах и оставляет намерение в файле, а не в голове: кого мы
+# пускаем — видно. Цитирование в ответах нейросетей для нас канал привлечения,
+# поэтому Disallow для них не ставим. Служебный манифест очереди публикаций
+# (/distribution/) закрыт и для них: он не про контент сайта.
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: anthropic-ai
+User-agent: PerplexityBot
+User-agent: Google-Extended
+User-agent: YandexAdditional
+User-agent: Amazonbot
+User-agent: CCBot
+Allow: /
+Disallow: /distribution/
+
 Sitemap: https://ai-traffic-pro.ru/sitemap.xml
