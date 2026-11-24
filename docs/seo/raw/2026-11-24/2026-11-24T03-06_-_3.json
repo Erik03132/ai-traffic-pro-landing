@@ -1,0 +1,21 @@
+{
+  "query": "маркетинговое агентство полного цикла Россия",
+  "run": 3,
+  "model": "gpt-5-mini",
+  "at": "2026-11-24T03-06",
+  "text": "Ниже — подборка известных российских маркетинговых (digital / full‑service) агентств полного цикла с официальными сайтами и краткой заметкой о специализации. Источники использованы при подборе (ссылки под каждой записью) — могу сделать более узкий подбор по городу, отрасли или бюджету.\n\n1) Demis Group — комплексный digital (SEO, performance, разработка, стратегия). Сайт: https://www.demis.ru/. ([demis.ru](https://www.demis.ru/?utm_source=openai))\n\n2) Kokoc Group — группа компаний с 360°-решениями (performance, маркетплейсы, affiliate, креатив). Сайт: https://kokocgroup.ru/. ([kokocgroup.ru](https://kokocgroup.ru/?utm_source=openai))\n\n3) iConText — digital‑агентство полного цикла, performance и аналитика. Сайт: https://www.icontext.ru/. ([icontext.ru](https://www.icontext.ru/?utm_source=openai))\n\n4) Ingate — digital/SEO/strategy, long‑time игрок рынка. Сайт: https://ingate.ru/. ([ingate.ru](https://ingate.ru/?utm_source=openai))\n\n5) Realweb — full‑service digital, разработка и продвижение. Сайт: https://realweb.ru/. ([realweb.ru](https://realweb.ru/?utm_source=openai))\n\n6) Ашманов и партнёры (Ashmanov & Partners) — поиск/SEO, интернет‑маркетинг и технологии. Сайт: https://www.ashmanov.com/. ([ashmanov.com](https://www.ashmanov.com/company/team/?utm_source=openai))\n\n7) TexTerra — брендформанс / контент‑маркетинг + комплексный интернет‑маркетинг. Сайт: https://texterra.ru/. ([texterra.ru](https://texterra.ru/about/?utm_source=openai))\n\n8) Smirnov.Marketing (Smirnov Marketing) — SEO и комплексный интернет‑маркетинг (бутиковый профиль). Сайт: https://smirnovmarketing.ru/. ([smirnovmarketing.ru](https://smirnovmarketing.ru/?utm_source=openai))\n\n9) MGCom — диджитал‑агентство полного цикла с data‑/performance‑фокусом. Сайт: https://mgcom.ru/. ([mgcom.ru](https://mgcom.ru/?utm_source=openai))\n\n10) MediaNation — digital‑агентство полного цикла (performance, SEO, креатив). Сайт: https://medianation.ru/. ([medianation.ru](https://medianation.ru/?utm_source=openai))\n\n11) Leaders Factory — «отдел маркетинга под ключ», комплексное сопровождение (онлайн по всей России). Сайт: https://leaders-factory.ru/. ([leaders-factory.ru](https://leaders-factory.ru/uslugi/?utm_source=openai))\n\nГотовы сделать следующее — скажите, что удобно:\n- Подобрать 3–5 подрядчиков под ваш бюджет/регион/нишe и прислать сравнение по услугам и прайсу;\n- Запросить примерное коммерческое предложение/прайс‑лист у выбранных агентств;\n- Оставить контакты (телефон/email) и я помогу подготовить краткий бриф для рассылки подрядчикам.\n\nКакой вариант предпочитаете?",
+  "citations": [
+    "https://www.demis.ru/?utm_source=openai",
+    "https://kokocgroup.ru/?utm_source=openai",
+    "https://www.icontext.ru/?utm_source=openai",
+    "https://ingate.ru/?utm_source=openai",
+    "https://realweb.ru/?utm_source=openai",
+    "https://www.ashmanov.com/company/team/?utm_source=openai",
+    "https://texterra.ru/about/?utm_source=openai",
+    "https://smirnovmarketing.ru/?utm_source=openai",
+    "https://mgcom.ru/?utm_source=openai",
+    "https://medianation.ru/?utm_source=openai",
+    "https://leaders-factory.ru/uslugi/?utm_source=openai"
+  ],
+  "error": null
+}

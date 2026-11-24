@@ -1,0 +1,21 @@
+{
+  "query": "маркетинговое агентство полного цикла Россия",
+  "run": 2,
+  "model": "gpt-5-mini",
+  "at": "2026-11-24T03-06",
+  "text": "Ниже — подборка заметных маркетинговых агентств полного цикла в России (коротко про профиль и ссылка на сайт). Основано на актуальных онлайн-источниках — ссылки указаны в каждой карточке. Могу сузить подбор по бюджету, городу или отрасли и проверить контакты/прайсы — напишите параметры.\n\n1) Realweb — крупное digital‑агентство полного цикла: performance, programmatic, таргет, контекст, SMM, e‑commerce, креатив и сквозная аналитика. ([realweb.ru](https://realweb.ru/?utm_source=openai))\n\n2) iConText / iConText Group — большая digital‑группа с агентством iConText: omni‑/performance‑маркетинг, аналитика, медиа‑байинг, SEO и прочее. ([icontext.ru](https://www.icontext.ru/?utm_source=openai))\n\n3) Demis Group — digital‑агентство с фокусом на комплексном интернет‑маркетинге, SEO, performance и сопровождении продаж. ([demis.ru](https://www.demis.ru/?utm_source=openai))\n\n4) Kokoc Group — группа компаний для 360° digital: SEO, performance, маркетплейсы, контент, creative и платформенные решения. ([kokocgroup.ru](https://kokocgroup.ru/?utm_source=openai))\n\n5) TexTerra — брендформанс / контент‑ориентированное агентство: контент‑маркетинг, SEO, SMM, аналитика и разработка. ([texterra.ru](https://texterra.ru/about/?utm_source=openai))\n\n6) Ingate — крупное digital‑ и SEO‑агентство с performance‑подходом, SMM, контентом и аналитикой. ([ingate.ru](https://ingate.ru/?utm_source=openai))\n\n7) Facecom — агентство полного цикла (бренд, digital, SMM, SEO, веб‑разработка, продакшн, PR и event). ([facecom.ru](https://facecom.ru/?utm_source=openai))\n\n8) Global Communication (Санкт‑Петербург) — коммуникационное/маркетинговое агентство полного цикла, креатив и digital. ([globalcommunication.ru](https://globalcommunication.ru/?utm_source=openai))\n\n9) AKG (рекламная группа AKG, Москва) — рекламно‑коммуникационное агентство полного цикла (стратегия, креатив, медиа, PR). ([akgmoscow.ru](https://www.akgmoscow.ru/?utm_source=openai))\n\n10) 4 Пикселя — digital‑агентство полного цикла: SEO, контекст, SMM, разработка сайтов, сквозная аналитика; входит в отраслевые рейтинги. ([4px.ru](https://4px.ru/?utm_source=openai))\n\n11) Affect — креативное коммуникационное агентство, оказывает услуги полного цикла: стратегический креатив, digital, SMM и PR. ([affect.ru](https://affect.ru/ru/?utm_source=openai))\n\nКороткие рекомендации по выбору агентства\n- Уточните цель (бренд/лиды/маркетплейсы/выход в регион) — от этого зависят нужные компетенции.  \n- Смотрите кейсы в вашей нише и метрики результатов (CAC, LTV, рост продаж/заявок).  \n- Запрашивайте предложенные KPI и схему отчётности (сквозная аналитика, доступы).  \n- Сверяйте бюджет и минимальный чек агентства (многие полные циклы работают от определённого месячного бюджета).\n\nЧто я могу сделать дальше\n- Сформировать short‑лист 3 агентств по вашему бюджету/региону/нишe.  \n- Найти контакты, локальные офисы и примерные цены/минимальные чеки.  \n- Подготовить шаблон RFP (запроса предложений) для отправки выбранным агентствам.\n\nНапишите, пожалуйста: какой у вас бюджет (в рублях/долларах), город работы (или удалённо) и цель кампании — и я подберу 3–5 подходящих подрядчиков и пришлю контакты и сравнительную таблицу.",
+  "citations": [
+    "https://realweb.ru/?utm_source=openai",
+    "https://www.icontext.ru/?utm_source=openai",
+    "https://www.demis.ru/?utm_source=openai",
+    "https://kokocgroup.ru/?utm_source=openai",
+    "https://texterra.ru/about/?utm_source=openai",
+    "https://ingate.ru/?utm_source=openai",
+    "https://facecom.ru/?utm_source=openai",
+    "https://globalcommunication.ru/?utm_source=openai",
+    "https://www.akgmoscow.ru/?utm_source=openai",
+    "https://4px.ru/?utm_source=openai",
+    "https://affect.ru/ru/?utm_source=openai"
+  ],
+  "error": null
+}

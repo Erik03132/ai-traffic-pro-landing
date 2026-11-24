@@ -60,6 +60,20 @@ COMPETITORS = [
     ("trafficpro.agency", r"trafficpro"),
 ]
 
+# Похожие имена: домены и бренды, которые модель называет вместо нас. Это не
+# конкуренты по услуге, а утечка сущности бренда — отдельный показатель, потому
+# что лечится не контентом, а разметкой, упоминаниями и разграничением имён.
+# Проверено замером 24.11.2026: по брендовому запросу модель приносила
+# aitraffic.pro, aitraffic.cc, alltrafficpro.com, trafficprolead.ru.
+LOOKALIKES = [
+    ("aitraffic.pro", r"aitraffic\.pro"),
+    ("aitraffic.cc", r"aitraffic\.cc"),
+    ("aitrafficwhale.com", r"aitrafficwhale"),
+    ("alltrafficpro.com", r"alltrafficpro"),
+    ("trafficpro.agency", r"trafficpro\.agency"),
+    ("trafficprolead.ru", r"trafficprolead"),
+]
+
 # Фиксированный набор: меняется только осознанно, иначе динамика несравнима.
 DEFAULT_QUERIES = [
     "AI-TRAFFIC-PRO маркетинговое агентство",
@@ -144,11 +158,116 @@ def analyse(res: dict) -> dict:
     for name, pattern in COMPETITORS:
         if re.search(pattern, low) or any(host(u) == name for u in res["citations"]):
             comps.append(name)
-    return {"brand": brand, "our_cites": our_cites, "competitors": comps}
+    look = []
+    for name, pattern in LOOKALIKES:
+        if any(host(u) == name for u in res["citations"]) or re.search(pattern, low):
+            look.append(name)
+    return {"brand": brand, "our_cites": our_cites, "competitors": comps, "lookalikes": look}
 
 
 def pct(part: int, total: int) -> str:
     return f"{round(100 * part / total)}%" if total else "—"
+
+
+def report(rows: list[dict], model: str, stamp: str) -> None:
+    """Печать таблицы. Отдельно от прогона: те же цифры считаются из сырых файлов.
+
+    Зачем: отчёт клиенту пересобирается из сохранённых ответов (`--from-raw`)
+    без повторных запросов. Иначе «перепроверьте» стоит денег, а проверяемость —
+    то, чем мы отличаемся от конкурентов с процентами из воздуха.
+    """
+    total_ok = sum(r["ok"] for r in rows)
+    total_runs = sum(r["runs"] for r in rows)
+    print(f"\n### Замер: {model} · {stamp} · прогонов ок {total_ok}/{total_runs}\n")
+    print("| № | Запрос | Citation Rate | Brand Mention | Кто в ответе |")
+    print("|---|---|---|---|---|")
+    for i, r in enumerate(rows, 1):
+        who = ", ".join(r["competitors"]) if r["competitors"] else "—"
+        print(f"| {i} | {r['query']} | {pct(r['cite'], r['ok'])} | {pct(r['mention'], r['ok'])} | {who} |")
+
+    mentions = sum(r["mention"] for r in rows)
+    comp_hits = sum(len(r["competitors"]) for r in rows)
+    print(
+        f"\nИтого: Citation Rate {pct(sum(r['cite'] for r in rows), total_ok)} · "
+        f"Brand Mention {pct(mentions, total_ok)}"
+    )
+
+    look = sorted({x for r in rows for x in r.get("lookalikes", [])})
+    if look:
+        print(f"Похожие имена вместо нас: {', '.join(look)} — модель нашла их, а не {DOMAIN}")
+
+    # Share of Voice честен только на большой выборке: при двух упоминаниях
+    # против двух «50%» — это шум, и публиковать его как метрику нельзя.
+    if mentions + comp_hits == 0:
+        print("Share of Voice — считать не из чего: ни нас, ни конкурентов в ответах не было")
+    elif min(mentions, comp_hits) < 5:
+        print(
+            f"Share of Voice {pct(mentions, mentions + comp_hits)} — "
+            f"выборка мала ({mentions} наших против {comp_hits} у конкурентов), это шум, не метрика"
+        )
+    else:
+        print(
+            f"Share of Voice {pct(mentions, mentions + comp_hits)} "
+            f"(наши упоминания ÷ все компании из списка)"
+        )
+
+
+def report_from_raw(raw_dir: Path) -> int:
+    """Пересчёт отчёта по сохранённым ответам. Денег не тратит, сеть не трогает.
+
+    Файлы группируются по времени запуска (`at`): в одном каталоге может лежать
+    неудачная попытка (например, неверное имя модели) рядом с рабочей. Считаем
+    самый полный запуск, остальные называем, а не подмешиваем в проценты —
+    иначе 15 рабочих прогонов делятся на 30 файлов и цифры врут вниз.
+    """
+    if not raw_dir.is_dir():
+        print(f"нет каталога {raw_dir}", file=sys.stderr)
+        return 4
+
+    batches: dict[str, dict] = {}
+    for f in sorted(raw_dir.glob("*.json")):
+        d = json.loads(f.read_text(encoding="utf-8"))
+        batch = batches.setdefault(d.get("at", "—"), {"model": d.get("model", "—"), "ok": {}, "bad": 0})
+        res = {"text": d.get("text") or "", "citations": d.get("citations") or [], "error": d.get("error")}
+        if res["error"] or not res["text"].strip():
+            batch["bad"] += 1
+            continue
+        batch["ok"].setdefault(d["query"], []).append(analyse(res))
+
+    if not batches:
+        print(f"в {raw_dir} нет файлов", file=sys.stderr)
+        return 1
+
+    stamp, best = max(batches.items(), key=lambda kv: sum(len(v) for v in kv[1]["ok"].values()))
+    if not best["ok"]:
+        print(f"в {raw_dir} нет ни одного успешного прогона", file=sys.stderr)
+        return 1
+
+    order = {q: i for i, q in enumerate(DEFAULT_QUERIES)}
+    queries = sorted(best["ok"], key=lambda q: order.get(q, len(order)))
+
+    out = []
+    for q in queries:
+        runs = best["ok"][q]
+        missed = best["bad"] if len(queries) == 1 else 0
+        out.append(
+            {
+                "query": q,
+                "runs": len(runs) + missed,
+                "ok": len(runs),
+                "cite": sum(1 for r in runs if r["our_cites"]),
+                "mention": sum(1 for r in runs if r["brand"]),
+                "competitors": sorted({c for r in runs for c in r["competitors"]}),
+                "lookalikes": sorted({c for r in runs for c in r["lookalikes"]}),
+            }
+        )
+
+    print(f"источник: {raw_dir} · запуск {stamp} · пустых/упавших прогонов в нём: {best['bad']}")
+    skipped = [k for k in batches if k != stamp]
+    if skipped:
+        print(f"не вошли в отчёт (другие запуски): {', '.join(sorted(skipped))}")
+    report(out, api_model(best["model"]), stamp)
+    return 0
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -162,7 +281,11 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--out", default="", help="каталог для сырых ответов (JSON)")
     ap.add_argument("--timeout", type=int, default=180, help="таймаут одного прогона, с")
     ap.add_argument("--dry-run", action="store_true", help="показать план, не тратить деньги")
+    ap.add_argument("--from-raw", default="", help="пересчитать отчёт из каталога с JSON, без запросов")
     args = ap.parse_args(argv)
+
+    if args.from_raw:
+        return report_from_raw(Path(args.from_raw))
 
     queries = args.query or DEFAULT_QUERIES
     if args.runs < 1:
@@ -216,24 +339,11 @@ def main(argv: list[str] | None = None) -> int:
                 "cite": sum(1 for r in ok if r["our_cites"]),
                 "mention": sum(1 for r in ok if r["brand"]),
                 "competitors": sorted({c for r in ok for c in r["competitors"]}),
+                "lookalikes": sorted({c for r in ok for c in r["lookalikes"]}),
             }
         )
 
-    total_ok = sum(r["ok"] for r in rows)
-    print(f"\n### Замер: {api_model(args.model)} · {stamp} · прогонов ок {total_ok}/{sum(r['runs'] for r in rows)}\n")
-    print("| № | Запрос | Citation Rate | Brand Mention | Кто в ответе |")
-    print("|---|---|---|---|---|")
-    for i, r in enumerate(rows, 1):
-        who = ", ".join(r["competitors"]) if r["competitors"] else "—"
-        print(f"| {i} | {r['query']} | {pct(r['cite'], r['ok'])} | {pct(r['mention'], r['ok'])} | {who} |")
-
-    mentions = sum(r["mention"] for r in rows)
-    comp_hits = sum(len(r["competitors"]) for r in rows)
-    print(
-        f"\nИтого: Citation Rate {pct(sum(r['cite'] for r in rows), total_ok)} · "
-        f"Brand Mention {pct(mentions, total_ok)} · "
-        f"Share of Voice {pct(mentions, mentions + comp_hits)} (наши упоминания ÷ все компании из списка)"
-    )
+    report(rows, api_model(args.model), stamp)
     return 1 if failures else 0
 
 
