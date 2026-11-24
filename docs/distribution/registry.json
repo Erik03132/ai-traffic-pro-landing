@@ -294,11 +294,11 @@
       "post": "post-2",
       "channel": "vk",
       "status": "queued",
-      "plannedAt": "2026-11-25",
+      "plannedAt": "2026-11-26",
       "messageId": null,
       "url": null,
       "error": null,
-      "note": "версия для VK с цифрами и выводами; публикация 25.11.2026"
+      "note": "версия для VK с цифрами и выводами; публикация 25.11.2026 сдвинуто на 26.11: Хабр 24.11 + 2 дня"
     },
     {
       "id": "zamer-vidimosti-v-neyrosetyah:post-3:dzen",
@@ -306,11 +306,11 @@
       "post": "post-3",
       "channel": "dzen",
       "status": "queued",
-      "plannedAt": "2026-11-25",
+      "plannedAt": "2026-11-26",
       "messageId": null,
       "url": null,
       "error": null,
-      "note": "long-form версия для Яндекс Дзена; публикация 25.11.2026"
+      "note": "long-form версия для Яндекс Дзена; публикация 25.11.2026 сдвинуто на 26.11: Хабр 24.11 + 2 дня"
     },
     {
       "id": "geo-optimizaciya-chto-eto:post-1:telegram",
@@ -329,12 +329,12 @@
       "slug": "zamer-vidimosti-v-neyrosetyah",
       "post": "post-4",
       "channel": "habr",
-      "status": "queued",
+      "status": "posted",
       "plannedAt": "2026-11-25",
-      "messageId": null,
-      "url": null,
+      "messageId": 316522,
+      "url": "https://habr.com/ru/sandbox/316522/",
       "error": null,
-      "note": "ручная публикация на Хабре; текст docs/distribution/habr/zamer-vidimosti-v-neyrosetyah.md"
+      "note": "опубликовано вручную 24.11.2026, песочница Хабра; внешняя проверка 403 (антибот/песочница)"
     }
   ]
 }

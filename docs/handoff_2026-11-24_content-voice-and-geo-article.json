@@ -1,0 +1,40 @@
+{
+  "project": "AI-Traffic PRO (ai-marketing)",
+  "date": "2026-11-24",
+  "task": "Новый голос бренда для контента (интервью → voice-samples → переписанный Шекспир), замер 5 моделей подписки, линтер content_lint.py, план на декабрь, внеплановая статья «GEO-оптимизация: что это» + пост в Telegram, ручной деплой на Timeweb",
+  "status": "Verified: статья и обложки на проде (200 после деплоя e764aa4c, success), пост отправлен черновиком в личку с ботом (ждёт кнопки «Опубликовать»). Гейты зелёные: astro check 0 ошибок, build 32 страницы, dist:check 0 ошибок на 28 публикациях, tests/posts.test.js 3/3, content_lint чист по статье и посту.",
+  "context": "1) ГОЛОС. Интервью с Игорем в 5 раундов (юмор и раздражение → ритм и каркас → фактура → площадки → образец). Итог в ~/.config/opencode/skills/agents/shakespeare/references/voice-samples.md: тезис в первой строке, «вы»/«мы», «заказчик» вместо «клиента», компания — маркетинговое агентство (не «студия»), юмор про себя в начале или в конце и дозированно, жаргон только с расшифровкой по-русски, цифры усреднённые можно, чужие кейсы как ориентир, обещания чудес — табу (формулировка: отвечаем за системную работу, результат зависит от продукта и цен, что сделали — видно в отчётах), опыт через «у нас был клиент», свои ошибки писать можно и нужно, шкала площадок Telegram 10 / Дзен 5 / ВК 1, бан-лист «что бесит» (а как вы думаете, делитесь в комментариях, эмодзи в заголовке и т. п.). SKILL.md Шекспира переписан с 59 строк в полный плейбук: голос, бан-лист фраз и конструкций, 6 проходов правки по классам, 6 пар «слабо → сильно», структура статьи с AEO-блоком, правила проверки фактов, выбор модели под задачу, протокол выдачи RT-2/RT-3, чеклист перед сдачей. 2) ЗАМЕР МОДЕЛЕЙ. Один бриф, 5 моделей подписки через шлюз с обязательным префиксом no-think/ (без него reasoning-модели отдают пустой content: 0 слов против 242, finish_reason=length). gpt-6-luna 4,8 с / 281 сл, qwen4-max 9,2 с / 255, glm-5.3 9,8 с / 292, grok-4.7 14,2 с / 255, kimi-k3.1-pro 21,9 с / 297. Штампов 0 у всех — разница в конкретике, не в «AI-шности». Выбор владельца: grok-4.7 (сцена с цифрами внутри текста). 3) ЛИНТЕР. ~/freelance-2026/tools/ops/content_lint.py: бан-фразы, средняя длина предложения, доля длинных, 3+ запятые в предложении, эмодзи, вопрос-хук в первом абзаце, финальная мораль, повторы значимых слов (чаще 4 раз и >0,8% текста), абстракции вместо имени инструмента («понятные площадки», «спокойные настройки», «эффективные решения», «грамотный подход»). Exit 1 при находках. 4) ПЛАН. docs/distribution/CONTENT_PLAN_2026-12.md — 8 новых постов вт/пт на новом голосе (04.12 заявка дороже, 08.12 четыре цифры, 11.12 бюджет 2027, 15.12 цитируют ли ИИ-поиски, 18.12 сайт перед запуском рекламы, 22.12 что мы не обещаем, 25.12 первый месяц работы, 29.12 что отключить на праздники). Ноябрьские статьи не трогаются: 1, 3, 6, 8, 10.12 выходят как есть. 5) ВНЕПЛАНОВАЯ СТАТЬЯ. Из соседнего окна (сессия «Мониторинг позиций по 20 фразам»): домену 25 дней, позиций ноль, ссылочного бюджета нет, «seo услуги» (733 запроса/мес) не отыграть — точка входа GEO-кластер. Wordstat Москва 13.10–11.11.2026: geo продвижение 1 296, продвижение в нейросетях 446, geo оптимизация 314; в page-map.json у «geo оптимизация что это» высший приоритет среди информационных SEO-тем, статьи не было. Написано src/data/blog/geo-optimizaciya-chto-eto.ts (949 слов, 8 минут): ответ в первом абзаце, таблица SEO vs GEO, шесть правок на странице, цифры спроса, раздел «где не работает», FAQ из 3 вопросов, 4 источника с датой проверки, перелинковка на /blog/geo-prodvizhenie-checklist/, /blog/zamer-vidimosti-v-neyrosetyah/ и /services/geo/. Обложки public/blog/geo-optimizaciya-chto-eto.jpg и -square.jpg (шаблон accent, tools/covers/make_all.py). Пост docs/distribution/posts/geo-optimizaciya-chto-eto.post-1.md — 800 знаков, линтер чист, реестр queued на 26.11 (28 публикаций, 0 ошибок). 6) ДЕПЛОЙ. Прод — Timeweb Cloud App Platform (178.209.127.53, server: Caddy), автодеплоя по пушу нет: GitHub-webhook не выдаётся (is_allowed_webhook false), Cloudflare Pages — только зелёный резерв, домен на него не смотрит. Отсюда грабли: push в main даёт зелёные Pages, но домен отдаёт старый контент и 404 на новой статье — проверено, что 8681ccb4.ai-traffic-pro.pages.dev отдаёт 200, а ai-traffic-pro.ru 404 со старым last-modified. Правильный путь: bash tools/deploy.sh --wait --timeout 900 (TOKEN в .env, id приложения 294905) → deploy id e764aa4c, статус success за 31 с, после этого /blog/geo-optimizaciya-chto-eto/ и обе обложки отдают 200. Черновик поста отправлен через tools/tg-publish/send.py --slug geo-optimizaciya-chto-eto --text-file docs/distribution/posts/geo-optimizaciya-chto-eto.post-1.md --content post-1 — у владельца в личке кнопки «Опубликовать в канал» / «Отклонить». Коммит 9bc5934 уже в origin/main (сделала параллельная сессия, вместе со статьёй о замере видимости).",
+  "files": [
+    "SESSION_LATEST.md",
+    "docs/handoff_2026-11-24_content-voice-and-geo-article.json",
+    "docs/distribution/CONTENT_PLAN_2026-12.md",
+    "docs/distribution/posts/geo-optimizaciya-chto-eto.post-1.md",
+    "docs/distribution/posts/dekabr-zayavka-dorozhe.post-1.md",
+    "docs/distribution/registry.json",
+    "src/data/blog/geo-optimizaciya-chto-eto.ts",
+    "src/data/blog/index.ts",
+    "public/blog/geo-optimizaciya-chto-eto.jpg",
+    "public/blog/geo-optimizaciya-chto-eto-square.jpg",
+    "tools/covers/make_all.py",
+    "tools/deploy.sh",
+    "/Users/igorvasin/.config/opencode/skills/agents/shakespeare/SKILL.md",
+    "/Users/igorvasin/.config/opencode/skills/agents/shakespeare/references/voice-samples.md",
+    "/Users/igorvasin/freelance-2026/tools/ops/content_lint.py"
+  ],
+  "skills": [
+    "action-first",
+    "agents/shakespeare",
+    "brand-voice",
+    "workflow"
+  ],
+  "next_steps": [
+    "1. Нажать «Опубликовать в канал» в личке с ботом — пост про GEO-оптимизацию (945/1024 знака с ссылкой). После публикации сдвинуть реестр: python3 tools/publish/render.py --id geo-optimizaciya-chto-eto:post-1:telegram --mark posted --message-id <N> --url <ссылка>.",
+    "2. Подтвердить план на декабрь (docs/distribution/CONTENT_PLAN_2026-12.md) — темы можно заменить; по этой теме уже есть готовый пост «декабрь: почему заявка дороже», ему не хватает статьи в src/data/blog/, без неё dist:check падает.",
+    "3. Написать VK и Дзен версии поста про GEO-оптимизацию (формат другой, копипаст одного текста площадки наказывают) и добавить в реестр.",
+    "4. Решить, публикуем ли реальные цифры по кампаниям — без них пост про бюджет 2027 останется теорией.",
+    "5. Прогнать eval-прогон голоса: 3 новые статьи по плану, сверить с voice-samples, поправить бан-лист линтера по фактическим находкам.",
+    "6. Отдельно: правило деплоя. Push в main НЕ обновляет прод (Timeweb, ручной деплой tools/deploy.sh). Стоит зафиксировать это в AGENTS/README проекта, чтобы параллельная сессия не ждала прод-обновления после push."
+  ],
+  "escalation": false,
+  "deadline": "2026-11-26T12:00:00+03:00"
+}
