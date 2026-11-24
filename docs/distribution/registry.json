@@ -317,10 +317,10 @@
       "slug": "geo-optimizaciya-chto-eto",
       "post": "post-1",
       "channel": "telegram",
-      "status": "queued",
+      "status": "posted",
       "plannedAt": "2026-11-26",
-      "messageId": null,
-      "url": null,
+      "messageId": 28,
+      "url": "https://t.me/aitrafficpro/28",
       "error": null,
       "note": "внеплановый выпуск под запрос «geo оптимизация»; VK и Дзен — отдельными постами"
     },
@@ -335,6 +335,30 @@
       "url": null,
       "error": null,
       "note": "ручная публикация на Хабре; текст docs/distribution/habr/zamer-vidimosti-v-neyrosetyah.md"
+    },
+    {
+      "id": "geo-optimizaciya-chto-eto:post-2:vk",
+      "slug": "geo-optimizaciya-chto-eto",
+      "post": "post-2",
+      "channel": "vk",
+      "status": "queued",
+      "plannedAt": "2026-11-25",
+      "messageId": null,
+      "url": null,
+      "error": null,
+      "note": "версия для VK: замер, три вещи, что не обещаем"
+    },
+    {
+      "id": "geo-optimizaciya-chto-eto:post-3:dzen",
+      "slug": "geo-optimizaciya-chto-eto",
+      "post": "post-3",
+      "channel": "dzen",
+      "status": "queued",
+      "plannedAt": "2026-11-25",
+      "messageId": null,
+      "url": null,
+      "error": null,
+      "note": "long-form версия для Дзена, публикация руками"
     }
   ]
 }
