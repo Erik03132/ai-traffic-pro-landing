@@ -11,7 +11,7 @@ export const geoOptimizaciyaChtoEto: Article = {
   lead: 'GEO-оптимизация — это работа с тремя вещами: доступ роботов к странице, ясность фактов на ней и подтверждение источника. Позиции в обычной выдаче она не заменяет. Ниже — что конкретно меняют на сайте, как считать результат и в каких случаях метод не даёт ничего.',
   date: '2026-11-26',
   readingTime: 8,
-  image: '/blog/geo-optimizaciya-chto-eto.jpg',
+  image: '/blog/geo-optimizaciya-chto-eto-cover.png',
   tag: 'SEO И GEO',
   author: {
     name: IGOR_VASIN.name,
