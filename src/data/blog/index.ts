@@ -19,6 +19,7 @@ import { crmIErpRaznica } from './crm-i-erp-raznica';
 import { mediaplanIKontentPlanRaznica } from './mediaplan-i-kontent-plan-raznica';
 import { voronkaProdazhKakPostroit } from './voronka-prodazh-kak-postroit';
 import { skolkoKlikovDayutAiOtvety } from './skolko-klikov-dayut-ai-otvety';
+import { zamerVidimosti } from './zamer-vidimosti-v-neyrosetyah';
 
 export const ARTICLES: Article[] = [
   kakVybratKanal,
@@ -33,6 +34,7 @@ export const ARTICLES: Article[] = [
   mediaplanIKontentPlanRaznica,
   voronkaProdazhKakPostroit,
   skolkoKlikovDayutAiOtvety,
+  zamerVidimosti,
 ];
 
 export type { Article };

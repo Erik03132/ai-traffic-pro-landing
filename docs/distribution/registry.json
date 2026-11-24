@@ -275,6 +275,42 @@
       "url": "https://t.me/aitrafficpro",
       "legacyNote": "пересборка ленты 20.11.2026: пост опубликован заново с обложкой новой серии; id сообщения не сохранён (Bot API не отдаёт историю канала)",
       "error": null
+    },
+    {
+      "id": "zamer-vidimosti-v-neyrosetyah:post-1:telegram",
+      "slug": "zamer-vidimosti-v-neyrosetyah",
+      "post": "post-1",
+      "channel": "telegram",
+      "status": "queued",
+      "plannedAt": "2026-11-25",
+      "messageId": null,
+      "url": null,
+      "error": null,
+      "note": "короткая версия с обложкой; публикация 25.11.2026"
+    },
+    {
+      "id": "zamer-vidimosti-v-neyrosetyah:post-2:vk",
+      "slug": "zamer-vidimosti-v-neyrosetyah",
+      "post": "post-2",
+      "channel": "vk",
+      "status": "queued",
+      "plannedAt": "2026-11-25",
+      "messageId": null,
+      "url": null,
+      "error": null,
+      "note": "версия для VK с цифрами и выводами; публикация 25.11.2026"
+    },
+    {
+      "id": "zamer-vidimosti-v-neyrosetyah:post-3:dzen",
+      "slug": "zamer-vidimosti-v-neyrosetyah",
+      "post": "post-3",
+      "channel": "dzen",
+      "status": "queued",
+      "plannedAt": "2026-11-25",
+      "messageId": null,
+      "url": null,
+      "error": null,
+      "note": "long-form версия для Яндекс Дзена; публикация 25.11.2026"
     }
   ]
 }
