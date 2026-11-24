@@ -39,6 +39,7 @@ UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/131.0 Safari/537.36")
 AI_BOTS = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "anthropic-ai",
            "PerplexityBot", "Google-Extended", "YandexAdditional", "Amazonbot", "CCBot"]
+price_pages = 8
 PRICE_RE = re.compile(r"(?:от\s*)?(\d[\d\s\u00a0]{2,7})\s*(?:₽|руб|р\.|рублей)", re.I)
 
 
@@ -82,6 +83,32 @@ def ld_types(html: str) -> list[str]:
     return sorted(set(found))
 
 
+def ld_offers(html: str) -> list[int]:
+    """Цены из JSON-LD (`Offer.price`) — то, что модель читает без разбора текста."""
+    out: list[int] = []
+    for m in re.finditer(r"(?s)<script[^>]+application/ld\+json[^>]*>(.*?)</script>", html):
+        try:
+            data = json.loads(m.group(1).strip())
+        except Exception:  # noqa: BLE001
+            continue
+        stack = [data]
+        while stack:
+            cur = stack.pop()
+            if isinstance(cur, dict):
+                t = cur.get("@type")
+                types = t if isinstance(t, list) else [t]
+                if "Offer" in types:
+                    price = cur.get("price")
+                    if isinstance(price, (int, float)):
+                        out.append(int(price))
+                    elif isinstance(price, str) and price.isdigit():
+                        out.append(int(price))
+                stack.extend(cur.values())
+            elif isinstance(cur, list):
+                stack.extend(cur)
+    return out
+
+
 def headings(html: str, limit: int = 8) -> list[str]:
     out = []
     for lvl, body in re.findall(r"(?is)<h([12])[^>]*>(.*?)</h\1>", html):
@@ -89,6 +116,43 @@ def headings(html: str, limit: int = 8) -> list[str]:
         if text:
             out.append(text[:110])
     return out[:limit]
+
+
+def _price_key(v: str) -> int:
+    """Сортировка цен по числу, а не по строке: 39 000 раньше 86 000."""
+    return int(re.sub(r"\D", "", v) or 0)
+
+
+def _sitemap_urls(domain: str, limit: int) -> list[str]:
+    """Адреса страниц из sitemap.xml; ошибки сети — пустой список, не падение."""
+    status, xml = fetch(f"https://{domain}/sitemap.xml")
+    if status != 200:
+        return []
+    urls = re.findall(r"<loc>\s*([^<\s]+)\s*</loc>", xml)
+    inner = [u for u in urls if u.endswith(".xml")]
+    for sitemap in inner[:2]:  # индекс sitemap: разворачиваем на один уровень
+        st, sub = fetch(sitemap)
+        if st == 200:
+            urls += re.findall(r"<loc>\s*([^<\s]+)\s*</loc>", sub)
+    pages = [u for u in urls if not u.endswith(".xml") and domain in u]
+    return pages[:limit]
+
+
+def _prices_on_site(domain: str, home_html: str, limit: int) -> list[str]:
+    """Цены сайта: сначала страницы услуг, потом остальные.
+
+    Порядок важен: в блоге цифры встречаются как примеры расчёта
+    («бюджет 60 000 ₽»), и если мешать их с прайсом, сканер показывает
+    чужой пример вместо цены услуги. Прайс — это `/services/`.
+    """
+    service_prices: list[str] = []
+    other_prices: list[str] = []
+    pages = [(f"https://{domain}/", home_html)] + [(u, fetch(u)[1]) for u in _sitemap_urls(domain, limit)]
+    for url, html in pages:
+        plain = re.sub(r"(?s)<!--.*?-->", "", html or "")
+        bucket = service_prices if "/services/" in url else other_prices
+        bucket += [m.strip() for m in PRICE_RE.findall(plain)]
+    return service_prices or other_prices
 
 
 def scan(domain: str) -> dict:
@@ -106,8 +170,23 @@ def scan(domain: str) -> dict:
     rec["faq_schema"] = "FAQPage" in rec["schema"]
     rec["offer_schema"] = "Offer" in rec["schema"] or "OfferCatalog" in rec["schema"]
     rec["author_schema"] = "Person" in rec["schema"]
-    prices = [p.strip() for p in PRICE_RE.findall(html)]
-    rec["prices"] = sorted(set(prices), key=lambda x: x)[:10]
+    # Комментарии Astro/фреймворков вставляются между текстовыми узлами
+    # («от <!-- -->69 000<!-- --> ₽») и рвут совпадение с ценой — без этой
+    # чистки сканер пишет «цены не опубликованы» на странице, где они есть.
+    # Цены живут не на главной, а на страницах услуг: обходим дочерние
+    # страницы из sitemap (ограниченно) и собираем цифры там. Иначе сканер
+    # пишет «цены не опубликованы» про сайт, где прайс открыт.
+    # Цены: сначала машинно-читаемые (`Offer` в JSON-LD), иначе — текст
+    # страниц услуг. Разница важна: Offer модель цитирует как факт, а цифру
+    # в абзаце может не заметить. Текст блога не подмешиваем — там примеры
+    # расчёта, а не прайс.
+    offers = sorted(set(ld_offers(html)))
+    if offers:
+        rec["prices"] = [f"{n:,}".replace(",", " ") for n in offers][:10]
+        rec["price_source"] = "JSON-LD Offer"
+    else:
+        rec["prices"] = sorted(set(_prices_on_site(domain, html, limit=price_pages)), key=_price_key)[:10]
+        rec["price_source"] = "текст страниц услуг" if rec["prices"] else "нет"
     rec["heads"] = headings(html)
     rec["lang_ua"] = bool(re.search(r"(?i)\b(ми|ваш|послуги|кейси)\b", html[:20000]))
     rec["ai_mentions"] = len(re.findall(r"(?i)нейросет|chatgpt|perplexity|яндекс\s*нейро|llm|\bgeo\b|\baeo\b", html))
@@ -143,7 +222,8 @@ def card(rec: dict) -> str:
         + (" (User-agent: * Allow: /)" if rec["blocks_all"] else ""),
         f"- **Schema:** {', '.join(rec['schema']) if rec['schema'] else 'нет разметки'}",
         f"- **Пробелы разметки:** FAQPage {yn(rec['faq_schema'])} · Offer {yn(rec['offer_schema'])} · Person {yn(rec['author_schema'])}",
-        f"- **Цены в HTML:** {', '.join(rec['prices']) if rec['prices'] else 'не опубликованы'}",
+        f"- **Цены:** {', '.join(rec['prices']) if rec['prices'] else 'не опубликованы'}"
+        + (f" (источник: {rec['price_source']})" if rec.get('price_source') else ""),
         f"- **Упоминаний AI/GEO в коде страницы:** {rec['ai_mentions']}",
         f"- **Первый экран:** {' · '.join(rec['heads'][:4]) if rec['heads'] else '—'}",
         "",
@@ -177,7 +257,11 @@ def main() -> int:
     ap.add_argument("--out", help="куда писать markdown; без флага — только stdout")
     ap.add_argument("--label", default="", help="подпись замера, напр. 'конкуренты ai-traffic-pro.ru'")
     ap.add_argument("--dry-run", action="store_true", help="показать домены и выйти, ничего не запрашивая")
+    ap.add_argument("--price-pages", type=int, default=8,
+                    help="сколько страниц из sitemap проверять на цены (по умолчанию 8)")
     args = ap.parse_args()
+    global price_pages
+    price_pages = max(0, args.price_pages)
 
     domains = [d.strip().removeprefix("https://").removeprefix("http://").strip("/")
                for d in args.domains.split(",") if d.strip()]
