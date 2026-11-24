@@ -2,7 +2,7 @@
 
 Статья: `/blog/geo-optimizaciya-chto-eto/`
 Обложка: public/blog/geo-optimizaciya-chto-eto-cover.png
-Статус: черновик 24.11.2026, версия для VK. Telegram — post-1, Дзен — post-3.
+Статус: НЕ публикуется — решение владельца 24.11.2026 (GEO вышло только в Telegram).
 
 ---
 

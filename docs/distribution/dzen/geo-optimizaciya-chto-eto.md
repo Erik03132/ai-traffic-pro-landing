@@ -2,7 +2,7 @@
 
 Статья: `/blog/geo-optimizaciya-chto-eto/`
 Обложка: public/blog/geo-optimizaciya-chto-eto-cover.png
-Статус: черновик 24.11.2026, версия для Дзена (long-form). Telegram — post-1, VK — post-2.
+Статус: НЕ публикуется — решение владельца 24.11.2026 (GEO вышло только в Telegram).
 Подзаголовки вынесены отдельными строками — в редакторе Дзена ставить как «Заголовок».
 
 ---
