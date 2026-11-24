@@ -12,6 +12,7 @@ import AuditWidget from '../components/AuditWidget.astro';
 import Faq from '../components/Faq.astro';
 import ContactSection from '../components/ContactSection.astro';
 import { faqLd } from '../lib/seo';
+import { GEO_AUDIT_CALLOUT, GEO_AUDIT_OFFER } from '../data/geo-audit';
 
 const FAQ = [
   {
@@ -219,6 +220,31 @@ const ld = [
             таблицей, цифрами и примерами — иначе править нечего.
           </p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  {/* Бесплатный аудит одной страницы — вход в продукт. Без этого блока
+      лид-магнит заканчивается отчётом и никуда не ведёт. */}
+  <section class="bg-stone-100 border-y border-stone-200 py-10 md:py-14">
+    <div class="max-w-7xl mx-auto px-margin md:px-margin-desktop">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        <div>
+          <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
+            [{GEO_AUDIT_CALLOUT.eyebrow}]
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-light text-stone-900 tracking-tight mb-2">
+            {GEO_AUDIT_CALLOUT.title}
+          </h2>
+          <p class="font-body-md text-body-md text-stone-700 max-w-2xl">{GEO_AUDIT_CALLOUT.text}</p>
+        </div>
+        <a
+          href={GEO_AUDIT_CALLOUT.href}
+          class="inline-flex shrink-0 items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-stone-900 text-on-primary font-body-sm text-body-sm font-semibold hover:bg-stone-800 transition-colors duration-150"
+        >
+          {GEO_AUDIT_CALLOUT.cta} · {new Intl.NumberFormat('ru-RU').format(GEO_AUDIT_OFFER.price)} ₽
+          <span class="material-symbols-outlined text-base align-middle">arrow_outward</span>
+        </a>
       </div>
     </div>
   </section>

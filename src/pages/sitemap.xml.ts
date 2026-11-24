@@ -41,6 +41,9 @@ const CONTENT_LASTMOD: Record<string, string> = {
   '/blog/': '2026-11-09',
   '/author/': '2026-11-16',
   '/audit/': '2026-11-23',
+  // Продукт GEO-аудита: страница и открытая методика (24.11.2026).
+  '/geo-audit/': '2026-11-24',
+  '/geo-audit/methodology/': '2026-11-24',
   '/requisites/': '2026-11-09',
   '/privacy/': '2026-11-09',
 };
@@ -72,9 +75,13 @@ const buildEntries = (): Lastmod[] => {
           ? '1.0'
           : path === '/audit/'
             ? '0.8'
-            : path === '/requisites/' || path === '/privacy/'
-              ? '0.3'
-              : '0.6',
+            : path === '/geo-audit/'
+              ? '0.9'
+              : path === '/geo-audit/methodology/'
+                ? '0.7'
+                : path === '/requisites/' || path === '/privacy/'
+                  ? '0.3'
+                  : '0.6',
       changefreq: path === '/' ? 'weekly' : 'monthly',
     });
   }

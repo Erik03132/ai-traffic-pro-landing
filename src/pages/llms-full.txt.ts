@@ -17,6 +17,18 @@ import type { APIRoute } from 'astro';
 import { ALL_SERVICES, SITE, SITE_URL, FAQ } from '../data/site';
 import { ARTICLES } from '../data/blog';
 import { IGOR_VASIN } from '../data/authors';
+import {
+  GEO_AUDIT_FAQ,
+  GEO_AUDIT_INCLUDES,
+  GEO_AUDIT_LIMITS,
+  GEO_AUDIT_OFFER,
+  GEO_AUDIT_RUNS_TOTAL,
+  GEO_AUDIT_STEPS,
+  GEO_METRICS,
+  GEO_METHOD_FAQ,
+  GEO_SIGNALS,
+  GEO_SYSTEMS,
+} from '../data/geo-audit';
 
 const line = (s = '') => s;
 
@@ -79,6 +91,55 @@ const servicesSection = () =>
     ].join('\n');
   }).join('\n');
 
+/**
+ * GEO-аудит — отдельный продукт, не подписка: цена, срок и объём берутся из
+ * `src/data/geo-audit.ts`, поэтому страница и этот файл не могут разойтись.
+ */
+const geoAuditSection = () =>
+  [
+    '## GEO-аудит сайта',
+    '',
+    `${SITE_URL}/geo-audit/`,
+    '',
+    `Разовый продукт: ${rur(GEO_AUDIT_OFFER.price)} ₽, ` +
+      `${GEO_AUDIT_OFFER.days} рабочих дней, ${GEO_AUDIT_OFFER.queries} запросов × ` +
+      `${GEO_AUDIT_OFFER.runs} прогона × ${GEO_AUDIT_OFFER.systems} систем = ${GEO_AUDIT_RUNS_TOTAL} прогонов.`,
+    'Отчёт остаётся у клиента; обязательного договора на внедрение нет.',
+    '',
+    '### Шесть сигналов и что проверяем',
+    '',
+    ...GEO_SIGNALS.map((s) => `- ${s.num} ${s.title}: ${s.what} Зачем: ${s.why} Провал: ${s.fail}`),
+    '',
+    '### Этапы и сроки',
+    '',
+    ...GEO_AUDIT_STEPS.map((s, i) => `${i + 1}. ${s.title} — ${s.period}. ${s.text}`),
+    '',
+    '### Что входит в цену',
+    '',
+    ...GEO_AUDIT_INCLUDES.map((i) => `- ${i}`),
+    '',
+    '### Что не делает',
+    '',
+    ...GEO_AUDIT_LIMITS.map((i) => `- ${i}`),
+    '',
+    '### Методика замера',
+    '',
+    `${SITE_URL}/geo-audit/methodology/`,
+    '',
+    `Системы: ${GEO_SYSTEMS.map((s) => s.name).join(', ')}.`,
+    '',
+    ...GEO_METRICS.map((m) => `- ${m.name} = ${m.formula}. ${m.means} Пример: ${m.example}`),
+    '',
+    '### Вопросы об аудите',
+    '',
+    ...GEO_AUDIT_FAQ.map((f) => `**${f.q}**\n\n${f.a}`),
+    '',
+    '### Вопросы о методике',
+    '',
+    ...GEO_METHOD_FAQ.map((f) => `**${f.q}**\n\n${f.a}`),
+    '',
+  ].join('\n');
+
 const articlesSection = () =>
   ARTICLES.map(
     (a) =>
@@ -126,6 +187,7 @@ export const GET: APIRoute = () => {
     '## Услуги',
     '',
     servicesSection(),
+    geoAuditSection(),
     '## Блог',
     '',
     'Разборы с расчётами и примерами. Все статьи написаны нами, без чужих',

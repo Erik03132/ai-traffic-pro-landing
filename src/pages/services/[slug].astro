@@ -15,6 +15,7 @@ import { ALL_SERVICES, SERVICES, type Service } from '../../data/site';
 import { ARTICLES } from '../../data/blog';
 import { IGOR_VASIN } from '../../data/authors';
 import { organizationLd, serviceLd, faqLd, serviceBreadcrumbLd, howToLd } from '../../lib/seo';
+import { GEO_AUDIT_CALLOUT, GEO_AUDIT_OFFER } from '../../data/geo-audit';
 
 export const getStaticPaths = (() =>
   ALL_SERVICES.map((service) => ({
@@ -224,6 +225,33 @@ const fmtPrice = (n: number) => new Intl.NumberFormat('ru-RU').format(n);
       </div>
     </div>
   </section>
+
+  {/* GEO-аудит — отдельный продукт: переход со страницы услуги на страницу аудита.
+      Показываем только на GEO: на остальных направлениях это нерелевантная ссылка. */}
+  {service.slug === 'geo' && (
+    <section class="w-full border-b border-stone-200 bg-stone-100 py-8 md:py-12">
+      <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+          <div>
+            <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
+              [{GEO_AUDIT_CALLOUT.eyebrow}]
+            </span>
+            <h2 class="text-2xl sm:text-3xl font-light text-stone-900 tracking-tight mb-2">
+              {GEO_AUDIT_CALLOUT.title}
+            </h2>
+            <p class="font-body-md text-body-md text-stone-700 max-w-2xl">{GEO_AUDIT_CALLOUT.text}</p>
+          </div>
+          <a
+            href={GEO_AUDIT_CALLOUT.href}
+            class="inline-flex shrink-0 items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-stone-900 text-on-primary font-body-sm text-body-sm font-semibold hover:bg-stone-800 transition-colors duration-150"
+          >
+            {GEO_AUDIT_CALLOUT.cta} · {new Intl.NumberFormat('ru-RU').format(GEO_AUDIT_OFFER.price)} ₽
+            <span class="material-symbols-outlined text-base align-middle">arrow_outward</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  )}
 
   <!-- С какой проблемой приходят -->
   <section class="w-full border-b border-stone-200 bg-stone-50 py-8 md:py-28">

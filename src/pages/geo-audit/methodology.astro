@@ -1,0 +1,301 @@
+---
+/**
+ * `/geo-audit/methodology/` — методика замера.
+ *
+ * Зачем отдельная страница: аудит продаётся обещанием «цифры проверяемы».
+ * Пока формулы не опубликованы, это обещание ничем не подкреплено, и клиент
+ * сравнивает нас с конкурентами по словам. Здесь — системы, формулы, число
+ * прогонов, границы метода и первоисточники: по ним методику можно проверить
+ * до покупки.
+ *
+ * Тексты — в `src/data/geo-audit.ts`. Цена здесь не повторяется: она живёт
+ * на `/geo-audit/` и в прайсе GEO-услуги.
+ */
+import Base from '../../layouts/Base.astro';
+import Faq from '../../components/Faq.astro';
+import ContactSection from '../../components/ContactSection.astro';
+
+import {
+  GEO_METHOD_FAQ,
+  GEO_METHOD_LIMITS,
+  GEO_METRICS,
+  GEO_RUNS_REASON,
+  GEO_SELF_MEASURE,
+  GEO_SOURCES,
+  GEO_SYSTEMS,
+} from '../../data/geo-audit';
+import { SITE_URL } from '../../data/site';
+import { faqLd } from '../../lib/seo';
+
+const ld = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'TechArticle',
+    '@id': `${SITE_URL}/geo-audit/methodology/#article`,
+    headline: 'Методика GEO-аудита: как считаем Citation Rate и Share of Voice',
+    description:
+      'Шесть систем замера, три метрики с формулами, обоснование трёх прогонов, границы метода и первоисточники. Методика открыта до покупки аудита.',
+    url: `${SITE_URL}/geo-audit/methodology/`,
+    mainEntityOfPage: `${SITE_URL}/geo-audit/methodology/`,
+    author: { '@id': `${SITE_URL}/author/#person` },
+    publisher: { '@id': `${SITE_URL}/#organization` },
+    datePublished: '2026-11-24',
+    dateModified: '2026-11-24',
+    inLanguage: 'ru-RU',
+    proficiencyLevel: 'Expert',
+    about: { '@type': 'Thing', name: 'GEO — видимость бренда в ответах нейросетей' },
+    isPartOf: { '@id': `${SITE_URL}/geo-audit/#service` },
+  },
+  faqLd(GEO_METHOD_FAQ),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Главная', item: `${SITE_URL}/` },
+      { '@type': 'ListItem', position: 2, name: 'GEO-аудит сайта', item: `${SITE_URL}/geo-audit/` },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Методика',
+        item: `${SITE_URL}/geo-audit/methodology/`,
+      },
+    ],
+  },
+];
+---
+
+<Base
+  meta={{
+    title: 'Методика GEO-аудита: формулы, системы, границы | AI-TRAFFIC-PRO',
+    description:
+      'Как мы считаем видимость в ответах нейросетей: шесть систем, Citation Rate, Share of Voice и Brand Mention Rate с формулами, зачем три прогона, чего метод не показывает и на каких первоисточниках он стоит.',
+    path: '/geo-audit/methodology/',
+    image: '/og/geo-audit.png',
+    type: 'article',
+  }}
+  ld={ld as Record<string, unknown>[]}
+  localFaq
+  localContact
+>
+  <nav aria-label="Хлебные крошки" class="bg-white border-b border-stone-200">
+    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop py-4">
+      <ol class="flex flex-wrap items-center gap-2 font-mono-index text-mono-index text-stone-700">
+        <li><a href="/" class="hover:text-terracotta-600 transition-colors">Главная</a></li>
+        <li aria-hidden="true" class="text-stone-400">/</li>
+        <li><a href="/geo-audit/" class="hover:text-terracotta-600 transition-colors">GEO-аудит</a></li>
+        <li aria-hidden="true" class="text-stone-400">/</li>
+        <li class="text-stone-900" aria-current="page">Методика</li>
+      </ol>
+    </div>
+  </nav>
+
+  <section class="w-full border-b border-stone-200 bg-white">
+    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop py-10 md:py-20">
+      <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-3">
+        [МЕТОДИКА]
+      </span>
+      <h1 class="text-4xl sm:text-5xl font-light text-stone-900 tracking-tight leading-[1.08] max-w-4xl mb-5">
+        Как мы считаем видимость
+        <span class="accent-italic block">в ответах нейросетей</span>
+      </h1>
+      <p class="font-body-lg text-body-lg text-stone-700 max-w-3xl leading-relaxed">
+        Методика открыта до покупки: системы, формулы, число прогонов и границы метода.
+        Любую цифру из отчёта можно пересчитать вручную — сырые ответы прикладываем.
+      </p>
+      <p class="font-body-sm text-body-sm text-stone-500 mt-4">
+        Обновлено: 24.11.2026
+      </p>
+    </div>
+  </section>
+
+  <!-- Системы -->
+  <section class="w-full border-b border-stone-200 bg-stone-50 py-8 md:py-24">
+    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+      <div class="mb-10">
+        <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
+          [01 / ГДЕ СЧИТАЕМ]
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight mb-4">
+          Шесть систем&nbsp;<span class="accent-italic">и почему они</span>
+        </h2>
+        <p class="font-body-md text-body-md text-stone-700 max-w-3xl">
+          Список не случайный: это входы, через которые B2B-аудитория в России ищет
+          подрядчика. Разные системы цитируют разные источники — поэтому «нас нет»
+          в одной не значит «нас нет» везде.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+        {GEO_SYSTEMS.map((s, i) => (
+          <div class="rounded-2xl border border-stone-200 bg-white p-4 sm:p-6">
+            <span class="font-mono text-[11px] uppercase tracking-wider text-terracotta-600 block mb-2">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <h3 class="text-lg font-medium text-stone-900 mb-2">{s.name}</h3>
+            <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">{s.why}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Метрики -->
+  <section class="w-full border-b border-stone-200 bg-white py-8 md:py-24">
+    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+      <div class="mb-10">
+        <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
+          [02 / ТРИ МЕТРИКИ]
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight mb-4">
+          Формулы, по которым&nbsp;<span class="accent-italic">считается отчёт</span>
+        </h2>
+      </div>
+
+      <div class="overflow-x-clip rounded-2xl border border-stone-200 bg-white">
+        <table class="w-full text-left border-collapse">
+          <caption class="sr-only">Метрики GEO-аудита: формула, смысл и пример расчёта</caption>
+          <thead>
+            <tr class="border-b border-stone-200 bg-stone-50">
+              <th scope="col" class="font-mono text-[11px] uppercase tracking-wider text-stone-500 px-4 py-3">Метрика</th>
+              <th scope="col" class="font-mono text-[11px] uppercase tracking-wider text-stone-500 px-4 py-3">Формула</th>
+              <th scope="col" class="font-mono text-[11px] uppercase tracking-wider text-stone-500 px-4 py-3">Что означает</th>
+              <th scope="col" class="font-mono text-[11px] uppercase tracking-wider text-stone-500 px-4 py-3">Пример</th>
+            </tr>
+          </thead>
+          <tbody class="font-body-sm text-body-sm text-stone-700">
+            {GEO_METRICS.map((m) => (
+              <tr class="border-b border-stone-100 last:border-0 align-top">
+                <th scope="row" class="px-4 py-4 font-medium text-stone-900">{m.name}</th>
+                <td class="px-4 py-4 font-mono text-[12px] text-stone-900">{m.formula}</td>
+                <td class="px-4 py-4">{m.means}</td>
+                <td class="px-4 py-4 text-stone-500">{m.example}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Почему три прогона -->
+  <section class="w-full border-b border-stone-200 bg-stone-50 py-8 md:py-24">
+    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12">
+        <div class="md:col-span-4">
+          <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
+            [03 / ПОВТОРЫ]
+          </span>
+          <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight">
+            Почему три прогона,<br />
+            <span class="accent-italic">а не один</span>
+          </h2>
+        </div>
+        <div class="md:col-span-8">
+          <ul class="space-y-4">
+            {GEO_RUNS_REASON.map((r) => (
+              <li class="flex items-start gap-3">
+                <span class="material-symbols-outlined text-sage-600 text-base mt-0.5 shrink-0">
+                  check_circle
+                </span>
+                <span class="font-body-md text-body-md text-stone-700 leading-relaxed">{r}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Границы -->
+  <section class="w-full border-b border-stone-200 bg-white py-8 md:py-24">
+    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+      <div class="mb-8">
+        <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
+          [04 / ГРАНИЦЫ МЕТОДА]
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight mb-4">
+          Чего замер&nbsp;<span class="accent-italic">не показывает</span>
+        </h2>
+      </div>
+      <ul class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        {GEO_METHOD_LIMITS.map((l) => (
+          <li class="flex items-start gap-2.5 rounded-2xl border border-stone-200 p-4">
+            <span class="material-symbols-outlined text-stone-400 text-base mt-0.5 shrink-0">
+              remove_circle
+            </span>
+            <span class="font-body-sm text-body-sm text-stone-700 leading-relaxed">{l}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Свой замер -->
+  <section class="w-full border-b border-stone-200 bg-stone-50 py-8 md:py-24">
+    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+      <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
+        [05 / СВОЯ БАЗА]
+      </span>
+      <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight mb-4">
+        Наш замер — точка&nbsp;<span class="accent-italic">отсчёта</span>
+      </h2>
+      <p class="font-body-md text-body-md text-stone-700 max-w-3xl leading-relaxed">
+        {GEO_SELF_MEASURE.date}, {GEO_SELF_MEASURE.queries} запроса, {GEO_SELF_MEASURE.systems}.
+        {' '}{GEO_SELF_MEASURE.result}
+      </p>
+      <p class="font-body-sm text-body-sm text-stone-600 max-w-3xl leading-relaxed mt-4">
+        {GEO_SELF_MEASURE.why} {GEO_SELF_MEASURE.next}
+      </p>
+    </div>
+  </section>
+
+  <!-- Источники -->
+  <section class="w-full border-b border-stone-200 bg-white py-8 md:py-24">
+    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+      <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
+        [06 / ПЕРВОИСТОЧНИКИ]
+      </span>
+      <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight mb-6">
+        По чему это можно&nbsp;<span class="accent-italic">проверить</span>
+      </h2>
+      <ul class="space-y-3">
+        {GEO_SOURCES.map((s) => (
+          <li class="font-body-sm text-body-sm text-stone-700">
+            <a
+              class="underline decoration-terracotta-400 underline-offset-2 hover:text-stone-900 font-medium rounded-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-terracotta-500 focus-visible:ring-offset-2"
+              href={s.url}
+              rel="noopener"
+            >{s.title}</a>
+            {' — '}{s.note}.
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <Faq items={GEO_METHOD_FAQ} eyebrow="[FAQ]" title="Вопросы о методике" />
+
+  <section class="max-w-7xl mx-auto px-margin md:px-margin-desktop py-10 md:py-16">
+    <div class="rounded-2xl border border-stone-200 bg-stone-100 p-6 sm:p-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+      <div>
+        <h2 class="text-2xl sm:text-3xl font-light text-stone-900 tracking-tight mb-2">
+          Методика понятна — остался замер
+        </h2>
+        <p class="font-body-md text-body-md text-stone-700">
+          Шесть сигналов, 90 прогонов, пять рабочих дней. Цена и состав — на странице аудита.
+        </p>
+      </div>
+      <a
+        href="/geo-audit/#zayavka"
+        class="inline-flex shrink-0 items-center justify-center gap-2 px-7 py-3.5 rounded-2xl bg-stone-900 text-on-primary font-body-sm text-body-sm font-semibold hover:bg-stone-800 transition-colors duration-150"
+      >
+        К аудиту
+        <span class="material-symbols-outlined text-base align-middle">arrow_outward</span>
+      </a>
+    </div>
+  </section>
+
+  <section id="zayavka" class="max-w-7xl mx-auto px-margin md:px-margin-desktop pb-16">
+    <ContactSection />
+  </section>
+</Base>
