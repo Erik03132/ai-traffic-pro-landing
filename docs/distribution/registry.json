@@ -335,6 +335,18 @@
       "url": "https://habr.com/ru/sandbox/316522/",
       "error": null,
       "note": "опубликовано вручную 24.11.2026, песочница Хабра; внешняя проверка 403 (антибот/песочница)"
+    },
+    {
+      "id": "kak-vybrat-kanal-prodvizheniya:post-4:habr",
+      "slug": "kak-vybrat-kanal-prodvizheniya",
+      "post": "post-4",
+      "channel": "habr",
+      "status": "queued",
+      "plannedAt": "2026-11-26",
+      "messageId": null,
+      "url": null,
+      "error": null,
+      "note": "текст и обложка 780x440 готовы 24.11; публикация владельцем 26.11 по правилу «Хабр → соцсети через 2 дня»"
     }
   ]
 }
