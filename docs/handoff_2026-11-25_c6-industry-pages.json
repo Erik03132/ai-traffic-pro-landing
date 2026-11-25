@@ -1,0 +1,61 @@
+{
+  "project": "AI-Traffic PRO (ai-marketing)",
+  "date": "2026-11-25",
+  "task": "C6: три отраслевые посадочные (B2B, медицина, e-commerce) и деплой на прод",
+  "status": "Verified: все три страницы на проде, HTTP 200, деплой 736496b9-b3b2-403a-bc41-52e5f2236d78 success. astro check 0 ошибок, build 35 страниц, npm test 243 проверки, geo_lint 98/95/100.",
+  "context": "Отраслевые страницы — не новые услуги, а второй вход на те же услуги через язык отрасли. Список услуг не изменился (6 основных + e-commerce и GEO). Общий шаблон src/pages/industries/[slug].astro собирает страницы из src/data/industries/{b2b,medicine,ecommerce}.ts; у каждой свой оффер и 3 типа запроса, 4 боли, 6 работ, таблица 3 ролей покупателя, 4 шага, 4 метрики, 8 FAQ, 5-6 источников, 3 статьи и форма. Цена одна на все: старт 29 000 RUB / 5 рабочих дней, 5 запросов x 3 прогона x 6 систем = 90 прогонов, берётся из GEO_AUDIT_OFFER (второй копии прайса нет). Медицина: аудит включает проверку формулировок по требованиям к рекламе мед услуг (38-ФЗ, лицензия); обещаний излечения нет, медутверждения согласует врач, финальную оценку даёт юрист клиники. Интеграция: sitemap (0.8, lastmod из данных), раздел «Отрасли» в /llms-full.txt и public/llms.txt, футер, OG 1200x630, JSON-LD Service+Offer(29000)+FAQPage(8)+Breadcrumb без дублей Organization/FAQ главной. Тест tests/industries.test.js (16 проверок) подключён в npm test. Прод обновлён вручную: push в main НЕ обновляет сайт (Timeweb, нет webhook), нужен bash tools/deploy.sh --commit <sha> --wait.",
+  "files": [
+    "src/data/industries/b2b.ts",
+    "src/data/industries/medicine.ts",
+    "src/data/industries/ecommerce.ts",
+    "src/data/industries/index.ts",
+    "src/data/types.ts",
+    "src/pages/industries/[slug].astro",
+    "src/pages/sitemap.xml.ts",
+    "src/pages/llms-full.txt.ts",
+    "public/llms.txt",
+    "src/components/Footer.astro",
+    "tools/publish/og_cards.py",
+    "public/og/industries-b2b.png",
+    "public/og/industries-medicine.png",
+    "public/og/industries-ecommerce.png",
+    "tests/industries.test.js",
+    "package.json",
+    "ACTIVE_TASKS.md",
+    "SESSION_LATEST.md"
+  ],
+  "metrics": {
+    "pages": "/industries/b2b/, /industries/medicine/, /industries/ecommerce/",
+    "price_rub": 29000,
+    "days": 5,
+    "runs": "5 запросов × 3 прогона × 6 систем = 90",
+    "astro_check_errors": 0,
+    "pages_built": 35,
+    "tests_pass": 243,
+    "geo_lint": "b2b 98/100, medicine 95/100, ecommerce 100/100",
+    "commits": ["d8cef738", "209a8e6"],
+    "deploy_id": "736496b9-b3b2-403a-bc41-52e5f2236d78",
+    "prod": "https://ai-traffic-pro.ru"
+  },
+  "constraints": [
+    "Вторую статью на Хабре не отправлять до решения модератора по 316522 (https://habr.com/ru/sandbox/316522/); прямой curl даёт 403, проверять только в браузере.",
+    "Отложенные публикации переводить в posted только после подтверждения факта выхода, с messageId и URL.",
+    "VPS и AI-бюро не трогать. Публикации и деплой — только с разрешения владельца.",
+    "Посторонние незакоммиченные файлы (docs/seo/proxyapi-2026-11-24.md, docs/audit/*, docs/roadmap/*, tools/ask_fable_once.py) не трогать."
+  ],
+  "open_items": [
+    "«Замер» в VK/Дзене: решение владельца 25.11 — ставим на 26.11 (VK 10:00 МСК, Дзен по Студии), не ждём модератора Хабра; на 25.11 в «Отложенных» нет, нужна ручная постановка.",
+    "Дзен «Окупаемость» 26.11 06:00 и VK «Бриф» 26.11 10:00 — статусы пока queued, факт выхода не подтверждён.",
+    "Хабр 316522 — ожидает модерации.",
+    "B1 (написания бренда) — повторный замер эффекта 22.12."
+  ],
+  "next_steps": [
+    "1. 26.11 после 10:00 МСК проверить в браузере выход Дзена «Окупаемость» и «Замер», VK «Бриф» и «Замер»; при факте перевести записи в posted через tools/publish/render.py с messageId и URL.",
+    "2. Поставить «Замер» в «Отложенные» VK и Дзен на 26.11 (решение владельца уже есть), после выхода перевести в posted с messageId и URL.",
+    "3. Повторно проверить модерацию Хабра 316522 в браузере; без решения модератора вторую статью не отправлять.",
+    "4. 22.12 провести повторный замер B1 и сравнить с замером 22.11."
+  ],
+  "skills": ["action-first", "geo-strategy"],
+  "escalation": false,
+  "deadline": "2026-11-26T12:00:00+03:00"
+}
