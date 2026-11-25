@@ -9,6 +9,25 @@
 
 ---
 
+## Каноничный репозиторий сайта (SSoT, 25.11.2026)
+
+**`Erik03132/ai-traffic-pro-landing`**, ветка `main` — единственный исходник
+прода `https://ai-traffic-pro.ru/`. Рабочая копия — `~/freelance-2026/projects/ai-marketing`.
+
+Доказательства (проверено 25.11.2026): `origin` рабочей копии указывает на этот
+репозиторий; `git ls-remote` и локальный `HEAD` совпадают (`9693818`); в
+`astro.config.mjs` задано `site: 'https://ai-traffic-pro.ru'`, `CNAME` =
+`ai-traffic-pro.ru`; workflow'ы `ci.yml` / `deploy.yml` / `deploy-pages.yml`
+работают от `main`; `https://erik03132.github.io/ai-traffic-pro-landing/` отдаёт
+301 на `https://ai-traffic-pro.ru/`; в API репозитория — деплои `main`.
+
+**Не источники:** `AI-Traffic-PRO-liendingh` (старый Replit-прототип этого же
+сайта, отправлен в архив 25.11), `ai-traffic-dashboard` (аналитика, не сайт).
+Репозитории `ai-bureau-website`, `ai-bureau-new`, `ai-bureau-web-finish` и
+локальный `ai-bureau-site/` относятся к **другому проекту AI-бюро** — в этой
+сессии не трогаются. Новые правки `ai-traffic-pro.ru` — только в
+`ai-traffic-pro-landing`.
+
 ## Сайт и стандарт страниц
 
 | Термин | Определение |

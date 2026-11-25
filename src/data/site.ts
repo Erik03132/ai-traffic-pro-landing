@@ -133,6 +133,8 @@ export const SITE = {
     'https://t.me/aitrafficpro',
     'https://dzen.ru/ai-traffic-pro.ru',
     'https://vk.ru/ai_traffic_pro',
+    // Карточка в Яндекс Бизнесе: публичный URL проверен 25.11.2026 (HTTP 200)
+    'https://yandex.ru/maps/org/14450419937/',
   ],
 } as const;
 

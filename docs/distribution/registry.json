@@ -113,10 +113,10 @@
       "slug": "kak-sostavit-brif-na-prodvizhenie",
       "post": "post-1",
       "channel": "telegram",
-      "status": "queued",
+      "status": "posted",
       "plannedAt": "2026-11-26",
-      "messageId": null,
-      "url": null,
+      "messageId": 29,
+      "url": "https://t.me/aitrafficpro/29",
       "error": null
     },
     {
@@ -330,11 +330,11 @@
       "post": "post-4",
       "channel": "habr",
       "status": "posted",
-      "plannedAt": "2026-11-25",
+      "plannedAt": "2026-11-24",
       "messageId": 316522,
       "url": "https://habr.com/ru/sandbox/316522/",
       "error": null,
-      "note": "опубликовано вручную 24.11.2026, песочница Хабра; внешняя проверка 403 (антибот/песочница)"
+      "note": "отправлено вручную 24.11.2026; проверено в браузере 25.11.2026: статья жива, в Песочнице, статус «Ожидает модерации». Прямой HTTP-запрос отдаёт 403 (антибот), в браузере страница открывается"
     },
     {
       "id": "kak-vybrat-kanal-prodvizheniya:post-4:habr",
