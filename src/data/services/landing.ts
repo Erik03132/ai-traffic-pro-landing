@@ -271,6 +271,20 @@ export const landing: Service = {
       ],
     ],
   },
+  facts: [
+    {
+      claim: 'Лендинг собирается за 1,5–2 недели, сайт услуг — за 3–5 недель.',
+      source: 'FAQ на странице услуги «Сайты и лендинги»',
+      url: '/services/landing/',
+      checkedAt: '2026-11-25',
+    },
+    {
+      claim: 'В работу входят прототип, дизайн, вёрстка, тексты, интеграция форм и аналитика.',
+      source: 'Описание услуги на странице',
+      url: '/services/landing/',
+      checkedAt: '2026-11-25',
+    },
+  ],
   sources: [
     {
       title: 'web.dev — Core Web Vitals',

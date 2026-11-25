@@ -245,6 +245,26 @@ export const geo: Service = {
       ],
     ],
   },
+  facts: [
+    {
+      claim: 'Методика GEO-аудита: 5 запросов × 3 прогона × 6 систем — 90 прогонов; срок 5 рабочих дней.',
+      source: 'Открытая методика GEO-аудита',
+      url: '/geo-audit/methodology/',
+      checkedAt: '2026-11-25',
+    },
+    {
+      claim: 'Старт GEO-аудита — 29 000 ₽ разово, GEO-продвижение — от 69 000 ₽/мес.',
+      source: 'Условия и цены GEO-аудита',
+      url: '/geo-audit/',
+      checkedAt: '2026-11-25',
+    },
+    {
+      claim: 'Спецификация llms.txt опубликована открыто — формат файла можно проверить у автора.',
+      source: 'llmstxt.org — спецификация',
+      url: 'https://llmstxt.org/',
+      checkedAt: '2026-11-25',
+    },
+  ],
   sources: [
     {
       title: 'llms.txt — спецификация',

@@ -45,6 +45,22 @@ const servicesSection = () =>
     const outcomes = s.outcomes.map((o) => `- ${o}`).join('\n');
     const faq = s.faq.map((f) => `**${f.q}** ${f.a}`).join('\n\n');
     /**
+     * Проверяемые факты (3.3 ROADMAP) — те же утверждения, что и на странице
+     * услуги, с абсолютной ссылкой на источник и датой проверки. Иначе модель
+     * видит цифру на странице, но не видит, чем её подтвердить.
+     */
+    const facts = s.facts?.length
+      ? [
+          '### Проверяемые факты',
+          '',
+          ...s.facts.map((f) => {
+            const sourceUrl = f.url.startsWith('/') ? `${SITE_URL}${f.url}` : f.url;
+            return `- ${f.claim} — ${f.source}: ${sourceUrl} (проверено ${f.checkedAt}).`;
+          }),
+          '',
+        ].join('\n')
+      : '';
+    /**
      * Цены — из данных услуги, а не из этого файла: иначе модель читает одну
      * цифру, а на странице стоит другая. Нет цен — «по запросу», без догадок.
      */
@@ -89,6 +105,7 @@ const servicesSection = () =>
       '',
       faq,
       '',
+      facts,
     ].join('\n');
   }).join('\n');
 

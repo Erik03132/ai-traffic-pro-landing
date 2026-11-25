@@ -279,6 +279,20 @@ export const ecommerce: Service = {
       ],
     ],
   },
+  facts: [
+    {
+      claim: 'Каталог по одному бренду — 1–3 недели, интернет-магазин — от 4–6 недель; сроки зависят от объёма ассортимента.',
+      source: 'FAQ на странице услуги e-commerce',
+      url: '/services/ecommerce/',
+      checkedAt: '2026-11-25',
+    },
+    {
+      claim: 'Разбор запуска продаж на маркетплейсах с расчётом и схемами FBO/FBS опубликован 16.11.2026.',
+      source: 'Статья «Как начать продавать на маркетплейсах»',
+      url: '/blog/kak-nachat-prodavat-na-marketpleysah/',
+      checkedAt: '2026-11-25',
+    },
+  ],
   sources: [
     {
       title: 'Ozon Seller — база знаний',
