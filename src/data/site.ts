@@ -136,6 +136,19 @@ export const SITE = {
     // Карточка в Яндекс Бизнесе: публичный URL проверен 25.11.2026 (HTTP 200)
     'https://yandex.ru/maps/org/14450419937/',
   ],
+  /**
+   * Варианты написания бренда — для `Organization.alternateName`.
+   *
+   * Только наши написания. «Трафик Про» и «Traffic Pro» сюда НЕ входят: так
+   * подписывается чужая агенция (`trafficpro.agency`), и включать её имя в
+   * свою сущность — значит помогать подмене (замер 24.11.2026, B1/C7).
+   */
+  alternateNames: [
+    'AI Traffic PRO',
+    'AI-Traffic PRO',
+    'AI-Traffic ПРО',
+    'Ай-Трафик Про',
+  ],
 } as const;
 
 /*

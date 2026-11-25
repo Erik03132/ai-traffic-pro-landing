@@ -50,6 +50,11 @@ export function organizationLd() {
     name: SITE.name,
     url: SITE_URL,
     description: SITE.description,
+    // Написания бренда и граница сущности: модель должна отличать нас от
+    // одноимённых доменов, которые она цитирует вместо нас (замер 24.11.2026).
+    alternateName: [...SITE.alternateNames],
+    disambiguatingDescription:
+      'Российское маркетинговое агентство AI-TRAFFIC-PRO. Официальный сайт один — ai-traffic-pro.ru; компании и сайты с похожими названиями на других доменах с нами не связаны.',
     areaServed: { '@type': 'Country', name: 'Россия' },
     knowsLanguage: 'ru-RU',
     // Внешние профили бренда: склеивают сайт, Дзен, VK и Telegram в одну
