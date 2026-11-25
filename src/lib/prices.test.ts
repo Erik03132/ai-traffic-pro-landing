@@ -14,10 +14,12 @@ import test from 'node:test';
 import { geo } from '../data/services/geo.ts';
 import { seo } from '../data/services/seo.ts';
 import { smm } from '../data/services/smm.ts';
+import { advertising } from '../data/services/advertising.ts';
+import { landing } from '../data/services/landing.ts';
 import type { Service } from '../data/types.ts';
 import { offersLd } from './prices.ts';
 
-const ALL: Service[] = [geo, seo, smm];
+const ALL: Service[] = [geo, seo, smm, advertising, landing];
 
 test('цены: только целые рубли и только «мес» / «разово»', () => {
   for (const s of ALL) {
@@ -36,6 +38,8 @@ test('цены: вилка ниже публичного рыночного ор
   const market: Record<string, Record<string, number>> = {
     seo: { 'SEO-продвижение, база': 40_000, 'SEO-продвижение, расширенный': 70_000 },
     geo: { 'GEO-продвижение': 86_000, 'GEO-аудит': 39_000, 'GEO-консультация': 20_000 },
+    advertising: { 'Настройка и ведение рекламы': 29_990 },
+    landing: { 'Лендинг под ключ': 30_000, 'Сайт компании': 30_000 },
   };
 
   for (const [slug, prices] of Object.entries(market)) {
