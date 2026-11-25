@@ -876,7 +876,11 @@ CWV-план (PSI отдал 429 «Quota exceeded» — мерить позже 
     бренда / Сайт один» собран из `SITE.alternateNames` и `SITE.social`.
     Проверено в сборке: `dist/index.html` — 11 блоков JSON-LD, `alternateName` 4,
     `sameAs` 4 профиля; `dist/llms-full.txt` — 3 новые строки. `astro check`
-    0 ошибок, `npm test` — 227 проверок, exit 0. **Не задеплоено** — ждёт разрешения.
+    0 ошибок, `npm test` — 227 проверок, exit 0. ✅ **Verified на проде 25.11.2026**:
+    commit `2e2baae` → деплой `d300d882-1477-40fa-b370-1e5c97c32af6` success;
+    на живом домене `alternateName` (4 значения), `disambiguatingDescription`
+    и 3 бренд-строки в `/llms-full.txt`, HTTP 200. Осталось: проверка эффекта —
+    брендовый запрос должен отдавать наш домен (повторный замер 22.12).
 - [ ] **B2. Цены-вилки в `llms.txt` и на страницах услуг** — единственные на рынке
   без цифр: `nevsky.agency` публикует 29 990/49 000/68 000, `vverh.digital` —
   86 000 ₽/мес за GEO и 39 000 ₽ за аудит. LLM не может нас процитировать по цене.
