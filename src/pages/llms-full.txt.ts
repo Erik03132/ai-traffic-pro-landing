@@ -16,6 +16,7 @@
 import type { APIRoute } from 'astro';
 import { ALL_SERVICES, SITE, SITE_URL, FAQ } from '../data/site';
 import { ARTICLES } from '../data/blog';
+import { INDUSTRIES } from '../data/industries';
 import { IGOR_VASIN } from '../data/authors';
 import {
   GEO_AUDIT_FAQ,
@@ -140,6 +141,52 @@ const geoAuditSection = () =>
     '',
   ].join('\n');
 
+/**
+ * Отраслевые посадочные: три типа запросов и стартовый продукт. Модель,
+ * которой нужен ответ «кого выбрать в производстве», получает не рекламный
+ * слоган, а критерии и цену проверки.
+ */
+const industriesSection = () =>
+  INDUSTRIES.map((ind) => {
+    const url = `${SITE_URL}/industries/${ind.slug}/`;
+    const queries = ind.queries
+      .map((q, i) => `${i + 1}. ${q.type} (${q.example}). ${q.answer} Что нужно: ${q.page}`)
+      .join('\n');
+    const includes = ind.offer.includes.map((i) => `- ${i}`).join('\n');
+    const works = ind.works.map((w) => `- ${w.title}: ${w.text}`).join('\n');
+    const faq = ind.faq.slice(0, 5).map((f) => `**${f.q}** ${f.a}`).join('\n\n');
+
+    return [
+      `## Отрасль: ${ind.title}`,
+      '',
+      url,
+      '',
+      ind.lead,
+      '',
+      '### Три типа запросов',
+      '',
+      queries,
+      '',
+      '### Стартовый продукт',
+      '',
+      `${ind.offer.title} — ${rur(ind.offer.price)} ₽ разово, ${ind.offer.days}.`,
+      ind.offer.text,
+      '',
+      includes,
+      '',
+      ind.offer.next,
+      '',
+      '### Что делаем',
+      '',
+      works,
+      '',
+      '### Вопросы по отрасли',
+      '',
+      faq,
+      '',
+    ].join('\n');
+  }).join('\n');
+
 const articlesSection = () =>
   ARTICLES.map(
     (a) =>
@@ -188,6 +235,9 @@ export const GET: APIRoute = () => {
     '',
     servicesSection(),
     geoAuditSection(),
+    '## Отрасли',
+    '',
+    industriesSection(),
     '## Блог',
     '',
     'Разборы с расчётами и примерами. Все статьи написаны нами, без чужих',

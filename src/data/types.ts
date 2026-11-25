@@ -135,6 +135,53 @@ export interface Service {
   sources?: { title: string; url: string; note?: string }[];
 }
 
+/**
+ * Отраслевая посадочная страница (C6, 25.11.2026).
+ *
+ * Три запроса — три типа намерения, а не три ключевых слова. У каждого своя
+ * страница и свой ответ, поэтому `queries` описывает не только фразу, но и
+ * что именно должно быть на сайте, чтобы её закрыть.
+ */
+export interface Industry {
+  /** slug в URL: `/industries/<slug>/`. */
+  slug: string;
+  title: string;
+  shortTitle: string;
+  badge: string;
+  /** Дата правки содержимого — для sitemap, а не дата сборки. */
+  updated: string;
+  /** H1: две строки через `|`, вторая — акцентная. */
+  h1: string;
+  seoTitle: string;
+  seoDescription: string;
+  /** Первый абзац: прямой ответ, который может цитировать модель. */
+  lead: string;
+  queries: {
+    type: string;
+    example: string;
+    answer: string;
+    page: string;
+  }[];
+  pains: { title: string; text: string }[];
+  offer: {
+    title: string;
+    text: string;
+    price: number;
+    days: string;
+    includes: string[];
+    next: string;
+    cta: string;
+  };
+  works: { title: string; text: string; icon: string }[];
+  roles: { role: string; question: string; answer: string }[];
+  steps: { title: string; text: string; period: string }[];
+  metrics: { name: string; formula: string; means: string }[];
+  faq: { q: string; a: string }[];
+  sources: { title: string; url: string; note?: string }[];
+  /** Slug статей блога для перелинковки. */
+  relatedArticles: string[];
+}
+
 /** Блок статьи: раздел с заголовком и одним из видов содержимого. */
 export interface ArticleBlock {
   /** Заголовок раздела (h2). */

@@ -1,0 +1,577 @@
+---
+/**
+ * Отраслевая посадочная (C6).
+ *
+ * Один шаблон на все отрасли: содержимое — в `src/data/industries/<slug>.ts`.
+ * Здесь нет ни одной цифры, которой нет в источнике: цена и срок аудита
+ * приходят из `GEO_AUDIT_OFFER`, статьи — из `src/data/blog`.
+ *
+ * Зачем страница вообще: на запрос «производитель [продукт]» поиск и
+ * нейросеть сравнивают страницы, а не компании. Если у завода нет страницы
+ * с параметрами, партией и сроком, он не попадает в короткий список — даже
+ * если производство сильнее конкурента.
+ */
+import type { GetStaticPaths } from 'astro';
+
+import Base from '../../layouts/Base.astro';
+import Faq from '../../components/Faq.astro';
+import LeadForm from '../../components/LeadForm.astro';
+
+import { INDUSTRIES } from '../../data/industries';
+import type { Industry } from '../../data/types';
+import { ARTICLES } from '../../data/blog';
+import { IGOR_VASIN } from '../../data/authors';
+import { SITE_URL } from '../../data/site';
+import { organizationLd, faqLd } from '../../lib/seo';
+
+export const getStaticPaths = (() =>
+  INDUSTRIES.map((industry) => ({
+    params: { slug: industry.slug },
+    props: { industry },
+  }))) satisfies GetStaticPaths;
+
+interface Props {
+  industry: Industry;
+}
+
+const { industry } = Astro.props;
+const path = `/industries/${industry.slug}/`;
+const fmtPrice = (n: number) => new Intl.NumberFormat('ru-RU').format(n);
+
+const relatedArticles = industry.relatedArticles
+  .map((slug) => ARTICLES.find((a) => a.slug === slug))
+  .filter((a): a is (typeof ARTICLES)[number] => Boolean(a));
+
+const serviceLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  '@id': `${SITE_URL}${path}#service`,
+  name: industry.offer.title,
+  description: industry.offer.text,
+  serviceType: `Продвижение в поиске и нейросетях для отрасли «${industry.title}»`,
+  provider: { '@id': `${SITE_URL}/#organization` },
+  areaServed: { '@type': 'Country', name: 'Россия' },
+  offers: {
+    '@type': 'Offer',
+    price: industry.offer.price,
+    priceCurrency: 'RUB',
+    url: `${SITE_URL}${path}`,
+    availability: 'https://schema.org/InStock',
+  },
+};
+
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Главная', item: `${SITE_URL}/` },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: industry.title,
+      item: `${SITE_URL}${path}`,
+    },
+  ],
+};
+
+const ld = [
+  ...organizationLd().filter((o) => o['@type'] !== 'Service' && o['@type'] !== 'FAQPage'),
+  serviceLd,
+  faqLd(industry.faq),
+  breadcrumbLd,
+];
+---
+
+<Base
+  meta={{
+    title: industry.seoTitle,
+    description: industry.seoDescription,
+    path,
+    type: 'website',
+    image: `/og/industries-${industry.slug}.png`,
+  }}
+  ld={ld as Record<string, unknown>[]}
+  localFaq
+  localContact
+>
+  <!-- Хлебные крошки -->
+  <nav aria-label="Хлебные крошки" class="bg-white border-b border-stone-200">
+    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop py-4">
+      <ol class="flex flex-wrap items-center gap-2 font-mono-index text-mono-index text-stone-700">
+        <li>
+          <a href="/" class="hover:text-terracotta-600 transition-colors">Главная</a>
+        </li>
+        <li aria-hidden="true" class="text-stone-400">/</li>
+        <li class="text-stone-900" aria-current="page">{industry.title}</li>
+      </ol>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="w-full border-b border-stone-200 bg-white">
+    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop py-8 md:py-24">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        <div class="lg:col-span-8">
+          <span class="inline-flex items-center px-2.5 py-0.5 rounded border border-[#BFDBFE] bg-[#EFF6FF] text-terracotta-600 font-mono-label text-mono-label font-semibold tracking-wider uppercase mb-6">
+            [ОТРАСЛЬ / {industry.badge}]
+          </span>
+
+          <h1 class="text-4xl sm:text-5xl xl:text-6xl font-light text-stone-900 tracking-tight leading-[1.06] mb-5">
+            {industry.h1.split('|').map((line, i) => (
+              <span class="block" style={{ display: 'block' }}>
+                {i === 0 ? line : <span class="accent-italic">{line}</span>}
+              </span>
+            ))}
+          </h1>
+
+          <p class="font-body-lg text-body-lg text-stone-700 max-w-3xl leading-relaxed">
+            {industry.lead}
+          </p>
+
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a
+              href="#lead"
+              class="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-2xl bg-stone-900 text-on-primary font-body-sm text-body-sm font-semibold hover:bg-stone-800 transition-all duration-150 text-center active:scale-[0.99]"
+            >
+              {industry.offer.cta}
+              <span class="material-symbols-outlined text-base align-middle">arrow_outward</span>
+            </a>
+            <a
+              href="#works"
+              class="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-2xl border border-stone-300 bg-white text-stone-900 font-body-sm text-body-sm font-semibold hover:border-stone-400 transition-colors duration-150"
+            >
+              Что делаем
+            </a>
+          </div>
+        </div>
+
+        <div class="lg:col-span-4">
+          <div class="rounded-2xl border border-stone-200 bg-stone-100 p-4 sm:p-6 space-y-5">
+            <div>
+              <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
+                [СТАРТ]
+              </span>
+              <h2 class="text-xl sm:text-2xl font-light text-stone-900 tracking-tight mb-2">
+                {industry.offer.title}
+              </h2>
+              <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
+                {industry.offer.text}
+              </p>
+            </div>
+
+            <div class="border-t border-sage-200 pt-4">
+              <div class="flex items-baseline gap-x-2 flex-wrap">
+                <span class="font-body-lg text-body-lg font-semibold text-stone-900">
+                  {fmtPrice(industry.offer.price)} ₽
+                </span>
+                <span class="font-body-sm text-body-sm text-stone-500">разово</span>
+              </div>
+              <span class="font-body-sm text-body-sm text-stone-700 block">
+                {industry.offer.days}
+              </span>
+            </div>
+
+            <div class="border-t border-sage-200 pt-4">
+              <ul class="space-y-3">
+                {industry.offer.includes.slice(0, 3).map((item) => (
+                  <li class="flex items-start gap-2.5">
+                    <span class="material-symbols-outlined text-sage-600 text-base mt-0.5 shrink-0">
+                      check_circle
+                    </span>
+                    <span class="font-body-sm text-body-sm text-stone-900 leading-relaxed">
+                      {item}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div class="border-t border-sage-200 pt-4">
+              <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">
+                {industry.offer.next}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Три запроса -->
+  <section class="w-full border-b border-stone-200 bg-stone-50 py-8 md:py-28">
+    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+      <div class="mb-14">
+        <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
+          [01 / ТРИ ЗАПРОСА]
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight">
+          Один продукт —&nbsp;<span class="accent-italic">три разных вопроса</span>
+        </h2>
+        <p class="font-body-md text-body-md text-stone-700 leading-relaxed mt-3 max-w-3xl">
+          Снабженец, технолог и заказчик контрактного производства ищут по-разному. Одна
+          страница «о компании» не отвечает ни одному из них — поэтому под каждый тип
+          запроса нужна своя страница с прямым ответом.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+        {industry.queries.map((q, i) => (
+          <div class="rounded-2xl border border-stone-200 bg-white p-4 sm:p-8 flex flex-col">
+            <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-4">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <h3 class="text-xl sm:text-2xl font-light text-stone-900 tracking-tight mb-2">
+              {q.type}
+            </h3>
+            <p class="font-mono-label text-mono-label text-stone-500 mb-4">{q.example}</p>
+            <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed flex-1">
+              {q.answer}
+            </p>
+            <div class="mt-5 pt-4 border-t border-stone-200">
+              <span class="font-mono-label text-mono-label uppercase text-stone-400 block mb-1">
+                Что нужно на сайте
+              </span>
+              <span class="font-body-sm text-body-sm text-stone-900 leading-relaxed">
+                {q.page}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Почему не находят -->
+  <section class="w-full border-b border-stone-200 bg-white py-8 md:py-28">
+    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+      <div class="mb-14">
+        <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
+          [02 / ПОЧЕМУ НЕ НАХОДЯТ]
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight">
+          Сильное производство&nbsp;<span class="accent-italic">проигрывает в поиске</span>
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+        {industry.pains.map((p) => (
+          <div class="rounded-2xl border border-stone-200 bg-stone-50 p-4 sm:p-8">
+            <span class="material-symbols-outlined text-terracotta-600 text-2xl mb-4">
+              report_problem
+            </span>
+            <h3 class="text-xl sm:text-2xl font-light text-stone-900 tracking-tight mb-3">
+              {p.title}
+            </h3>
+            <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">{p.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Что делаем -->
+  <section class="w-full border-b border-stone-200 bg-stone-50 py-8 md:py-28" id="works">
+    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+      <div class="mb-14">
+        <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
+          [03 / ЧТО ДЕЛАЕМ]
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight">
+          От каталога&nbsp;<span class="accent-italic">до заявки в CRM</span>
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+        {industry.works.map((w) => (
+          <div class="rounded-2xl border border-stone-200 bg-white p-4 sm:p-8">
+            <span class="material-symbols-outlined text-terracotta-600 text-2xl mb-4">
+              {w.icon}
+            </span>
+            <h3 class="text-xl sm:text-2xl font-light text-stone-900 tracking-tight mb-3">
+              {w.title}
+            </h3>
+            <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">{w.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Как выбирают поставщика -->
+  <section class="w-full border-b border-stone-200 bg-white py-8 md:py-28">
+    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-16">
+        <div class="lg:col-span-5">
+          <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
+            [04 / КАК ВЫБИРАЮТ]
+          </span>
+          <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight">
+            Три роли —&nbsp;<span class="accent-italic">три разных вопроса</span>
+          </h2>
+          <p class="font-body-md text-body-md text-stone-700 leading-relaxed mt-3">
+            В B2B решение принимает не один человек. Снабженец отвечает за условия,
+            технолог — за соответствие, директор — за риск. Страница должна дать ответ
+            каждому, иначе разговор заканчивается на первом письме.
+          </p>
+        </div>
+
+        <div class="lg:col-span-7">
+          <div class="overflow-x-auto -mx-margin md:mx-0">
+            <table class="w-full min-w-[36rem] border-collapse text-left">
+              <thead>
+                <tr class="border-b-2 border-stone-300">
+                  <th class="py-3 pr-4 font-mono-label text-mono-label uppercase tracking-widest text-stone-500 font-semibold align-bottom">
+                    Роль
+                  </th>
+                  <th class="py-3 pr-4 font-mono-label text-mono-label uppercase tracking-widest text-stone-500 font-semibold align-bottom">
+                    Вопрос
+                  </th>
+                  <th class="py-3 pr-4 font-mono-label text-mono-label uppercase tracking-widest text-stone-500 font-semibold align-bottom">
+                    Что нужно на сайте
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {industry.roles.map((r) => (
+                  <tr class="border-b border-stone-200 align-top">
+                    <td class="py-3 pr-4 font-body-sm text-body-sm font-semibold text-stone-900">
+                      {r.role}
+                    </td>
+                    <td class="py-3 pr-4 font-body-sm text-body-sm text-stone-900 leading-relaxed">
+                      {r.question}
+                    </td>
+                    <td class="py-3 pr-4 font-body-sm text-body-sm text-stone-700 leading-relaxed">
+                      {r.answer}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p class="font-body-sm text-body-sm text-stone-500 leading-relaxed mt-4">
+            Таблица — не «портрет ЦА», а карта вопросов, на которые страница обязана
+            ответить до звонка. Если ответа нет, клиент не звонит — он уходит к тому,
+            у кого он есть.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Как работаем -->
+  <section class="w-full border-b border-stone-200 bg-stone-50 py-8 md:py-28">
+    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+      <div class="mb-14">
+        <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
+          [05 / КАК РАБОТАЕМ]
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight">
+          Четыре шага&nbsp;<span class="accent-italic">до измеримого результата</span>
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        {industry.steps.map((s, i) => (
+          <div class="rounded-2xl border border-stone-200 bg-white p-4 sm:p-6 flex flex-col">
+            <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-3">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <h3 class="text-lg sm:text-xl font-medium text-stone-900 tracking-tight mb-2">
+              {s.title}
+            </h3>
+            <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed flex-1">{s.text}</p>
+            <div class="mt-4 pt-4 border-t border-stone-200">
+              <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-sage-200 bg-sage-50 font-mono-label text-mono-label uppercase tracking-wider text-sage-700">
+                <span class="material-symbols-outlined text-base text-sage-600">schedule</span>
+                {s.period}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Что считаем -->
+  <section class="w-full border-b border-stone-200 bg-white py-8 md:py-28">
+    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+      <div class="mb-14">
+        <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
+          [06 / ЧТО СЧИТАЕМ]
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight">
+          Метрики, которые&nbsp;<span class="accent-italic">не врут</span>
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+        {industry.metrics.map((m) => (
+          <div class="rounded-2xl border border-stone-200 bg-stone-50 p-4 sm:p-8">
+            <h3 class="text-xl sm:text-2xl font-light text-stone-900 tracking-tight mb-2">
+              {m.name}
+            </h3>
+            <p class="font-mono-label text-mono-label text-terracotta-600 mb-3">{m.formula}</p>
+            <p class="font-body-sm text-body-sm text-stone-700 leading-relaxed">{m.means}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Источники -->
+  <section class="w-full border-b border-stone-200 bg-stone-50 py-8 md:py-16">
+    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="lg:col-span-5">
+          <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-2">
+            [07 / ИСТОЧНИКИ]
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-light text-stone-900 tracking-tight">
+            На что опираемся
+          </h2>
+          <p class="font-body-md text-body-md text-stone-700 leading-relaxed mt-3">
+            Ссылки ведут на официальную документацию: проверяем утверждения по
+            первоисточникам, а не по пересказам.
+          </p>
+        </div>
+        <div class="lg:col-span-7">
+          <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {industry.sources.map((s) => (
+              <li class="font-body-sm text-body-sm leading-relaxed">
+                <a
+                  href={s.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-stone-900 underline decoration-stone-300 underline-offset-2 hover:text-terracotta-600 hover:decoration-terracotta-600 transition-colors"
+                >
+                  {s.title}
+                </a>
+                {s.note && <span class="text-stone-600"> — {s.note}</span>}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-10 flex items-center gap-4 rounded-2xl border border-stone-200 bg-white p-4 sm:p-6">
+        <img
+          src={IGOR_VASIN.photo}
+          srcset={`${IGOR_VASIN.photo} 1x, ${IGOR_VASIN.photo2x} 2x`}
+          width="56"
+          height="56"
+          loading="lazy"
+          alt={`${IGOR_VASIN.name} — ${IGOR_VASIN.role}`}
+          class="w-14 h-14 rounded-full object-cover shrink-0"
+        />
+        <div>
+          <a
+            href="/author/"
+            class="font-body-sm text-body-sm font-semibold text-stone-900 hover:text-terracotta-600 transition-colors"
+          >
+            {IGOR_VASIN.name}
+          </a>
+          <span class="font-body-sm text-body-sm text-stone-600"> — {IGOR_VASIN.role}</span>
+          <p class="font-body-sm text-body-sm text-stone-600 leading-relaxed mt-1">
+            Отвечает за содержание страницы: метод, сроки и отчётность.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Материалы по теме -->
+  {relatedArticles.length > 0 && (
+    <section class="w-full border-b border-stone-200 bg-white py-8 md:py-28">
+      <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+        <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-3">
+          [08 / МАТЕРИАЛЫ]
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight mb-6">
+          Разборы по теме — <span class="accent-italic">без «успешных кейсов»</span>
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-6">
+          {relatedArticles.map((a) => (
+            <a
+              href={`/blog/${a.slug}/`}
+              class="group flex flex-col justify-between gap-4 p-5 sm:p-6 rounded-2xl border border-stone-200 bg-stone-50 hover:border-stone-300 hover:bg-white transition-colors"
+            >
+              <div>
+                <div class="font-mono text-[11px] uppercase tracking-wider text-stone-500 mb-2">
+                  {a.tag} · {a.readingTime} мин
+                </div>
+                <h3 class="text-lg font-light text-stone-900 leading-snug mb-3 group-hover:text-terracotta-600 transition-colors">
+                  {a.title}
+                </h3>
+                <p class="text-sm text-stone-600 leading-relaxed">{a.lead.slice(0, 150)}…</p>
+              </div>
+              <span class="font-mono text-[11px] uppercase tracking-wider text-terracotta-600">
+                Читать →
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- FAQ -->
+  <Faq
+    items={industry.faq}
+    eyebrow="[09 / ВОПРОСЫ И ОТВЕТЫ]"
+    title={`Вопросы по продвижению в отрасли «${industry.title}»`}
+    id="faq"
+  />
+
+  <!-- Форма заявки -->
+  <section class="w-full border-t border-stone-200 bg-stone-100 py-8 md:py-28" id="lead">
+    <div class="max-w-[1280px] mx-auto px-margin md:px-margin-desktop">
+      <div class="border border-stone-200 bg-white rounded-2xl p-4 sm:p-8 md:p-14">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+          <div class="lg:col-span-5">
+            <span class="font-mono-label text-mono-label uppercase text-terracotta-600 tracking-widest font-semibold block mb-3">
+              [10 / ЗАЯВКА]
+            </span>
+            <h2 class="text-3xl sm:text-4xl font-light text-stone-900 tracking-tight leading-tight mb-6">
+              Покажем, где вас&nbsp;<span class="accent-italic">не находят</span>
+            </h2>
+            <p class="font-body-md text-body-md text-stone-700 leading-relaxed mb-8">
+              Расскажите, что производите и кому продаёте. Вернёмся с планом проверки
+              и списком запросов — без обязательств.
+            </p>
+
+            <div class="p-4 sm:p-6 rounded-2xl border border-stone-200 bg-stone-100 space-y-4">
+              <div class="flex items-start gap-3">
+                <span class="material-symbols-outlined text-sage-600 text-xl mt-0.5">
+                  check_circle
+                </span>
+                <span class="font-body-sm text-body-sm text-stone-900">
+                  Отвечаем в течение рабочего дня
+                </span>
+              </div>
+              <div class="flex items-start gap-3">
+                <span class="material-symbols-outlined text-sage-600 text-xl mt-0.5">
+                  check_circle
+                </span>
+                <span class="font-body-sm text-body-sm text-stone-900">
+                  Сначала диагностика, потом работы
+                </span>
+              </div>
+              <div class="flex items-start gap-3">
+                <span class="material-symbols-outlined text-sage-600 text-xl mt-0.5">
+                  check_circle
+                </span>
+                <span class="font-body-sm text-body-sm text-stone-900">
+                  Без пакета «всё сразу»
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-7">
+            <LeadForm id="industry-form" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

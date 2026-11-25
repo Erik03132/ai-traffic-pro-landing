@@ -21,6 +21,7 @@
 import type { APIRoute } from 'astro';
 import { ALL_SERVICES, SITE_URL } from '../data/site';
 import { ARTICLES } from '../data/blog';
+import { INDUSTRIES } from '../data/industries';
 
 /** Дата последнего изменения содержимого страницы (ISO, YYYY-MM-DD). */
 interface Lastmod {
@@ -88,6 +89,16 @@ const buildEntries = (): Lastmod[] => {
 
   for (const [path, lastmod] of Object.entries(SERVICE_LASTMOD)) {
     entries.push({ path, lastmod, priority: '0.8', changefreq: 'monthly' });
+  }
+
+  // Отраслевые посадочные: дата — из данных отрасли, а не из сборки.
+  for (const industry of INDUSTRIES) {
+    entries.push({
+      path: `/industries/${industry.slug}/`,
+      lastmod: industry.updated,
+      priority: '0.8',
+      changefreq: 'monthly',
+    });
   }
 
   for (const article of ARTICLES) {

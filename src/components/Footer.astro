@@ -6,6 +6,7 @@
  */
 import { SITE, ALL_SERVICES, HOME } from '../data/site';
 import { ARTICLES } from '../data/blog';
+import { INDUSTRIES } from '../data/industries';
 import { IGOR_VASIN } from '../data/authors';
 
 /**
@@ -75,6 +76,14 @@ const contacts = [
             class="font-body-sm text-body-sm text-stone-700 hover:text-terracotta-600 transition-colors"
           >
             {s.title}
+          </a>
+        ))}
+        {INDUSTRIES.map((ind) => (
+          <a
+            href={`/industries/${ind.slug}/`}
+            class="font-body-sm text-body-sm text-stone-700 hover:text-terracotta-600 transition-colors"
+          >
+            Отрасль: {ind.shortTitle}
           </a>
         ))}
         <a
