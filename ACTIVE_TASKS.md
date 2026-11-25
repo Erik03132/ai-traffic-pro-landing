@@ -89,8 +89,10 @@ llms.txt, sitemap, robots, 7 страниц услуг, блог, GSC, Метр�
     `https://ai-traffic-pro.ru/`, телефон и рубрики заполнены. Публичный URL
     жив: `https://yandex.ru/maps/org/14450419937/` → HTTP 200, заголовок
     «Ai-traffic-pro, маркетинговые услуги» (старый `/sprav/…` — 404); добавлен
-    в `SITE.social` (`src/data/site.ts`) и `public/llms.txt` — **Fixed, не
-    задеплоено**. **Переименование отправлено повторно 25.11.2026 по решению
+    в `SITE.social` (`src/data/site.ts`) и `public/llms.txt` — **Fixed + Verified
+    на проде 25.11.2026**: commit `73cc8de`, деплой Timeweb
+    `00f6afa8-fabc-4314-bac4-a21d401acaa8` → success; `https://ai-traffic-pro.ru/llms.txt`
+    содержит maps-URL, JSON-LD главной тоже. **Переименование отправлено повторно 25.11.2026 по решению
     Игоря:** в кабинете введено `AI-TRAFFIC-PRO`, запрос на
     `/sprav/api/update-company` ушёл с `names[0].value = "AI-TRAFFIC-PRO"`
     (перехвачен из сети), но сервер нормализовал имя в `Ai-traffic-pro` — в
