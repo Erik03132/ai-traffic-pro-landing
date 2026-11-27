@@ -61,6 +61,9 @@
   `ai-traffic-pro`, SSoT — `src/data/authors.ts`). Фото разрешено использовать везде,
   где нужен автор: `public/author/igor-vasin@2x.jpg` (800×800) встроен в макет
   `docs/roadmap/stitch/final/author.html`. Профили `sameAs` — по отдельному разрешению.
+- [x] **AB-CONTENT-1 (Fixed + Verified):** план 9 статей и голос Шекспир v2 согласованы
+  Игорем 27.11.2026. Статья 1 написана: `docs/articles/2026-12-01-ai-agent-ili-chat-bot.md`,
+  `content_lint` — 0 предупреждений, 656 слов. 8 статей и публикации — впереди.
 
 ## План на 22.11.2026 (ответ на внешний аудит Hermes)
 
