@@ -64,6 +64,10 @@
 - [x] **AB-CONTENT-1 (Fixed + Verified):** план 9 статей и голос Шекспир v2 согласованы
   Игорем 27.11.2026. Статья 1 написана: `docs/articles/2026-12-01-ai-agent-ili-chat-bot.md`,
   `content_lint` — 0 предупреждений, 656 слов. 8 статей и публикации — впереди.
+- [x] **AB-BLOG-1 (Fixed, не задеплоено):** каркас блога собран в
+  `docs/roadmap/blog-patch/`: `/blog/`, статья, `/author/`, `sitemap.xml`, `llms.txt`,
+  `rss.xml`, `404.html`, фото автора. Канон — ai-bureau.online; публикации на площадки
+  идут после сайта по `distribution.json`. Деплой ждёт отдельного разрешения.
 
 ## План на 22.11.2026 (ответ на внешний аудит Hermes)
 
